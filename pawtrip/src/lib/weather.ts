@@ -1,6 +1,5 @@
-// Weather + sunrise/sunset from Open-Meteo (free, no key).
-// Dates within the 16-day forecast use the real forecast. Further dates use the same dates one year earlier
-// ("typical weather", flagged so the UI can say it is not a forecast). Values are stored in °F.
+// Weather + sunrise/sunset from Open-Meteo (free, no key). Values are in °F.
+// Real forecasts only exist ~16 days ahead; beyond that the UI shows a 5-year average and says so.
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -18,12 +17,17 @@ export type DayWx = {
   /** minutes after midnight, in the trip's time zone */
   rise: number | null;
   set: number | null;
+  /** forecast: chance of rain/snow; climate: share of past years' days that had rain or snow */
   rainPct: number | null;
-  /** true when this is last year's weather, not a forecast */
+  /** true when this is the average of past years, not a forecast or a recorded value */
   typical: boolean;
+  /** typical days only: the date from which a real forecast exists for this day */
+  forecastFrom: string | null;
 };
 
-const FORECAST_DAYS = 15; // today + 15
+const FORECAST_DAYS = 15; // the forecast covers today .. today + 15
+const PAST_MAX = 92; // how far back the forecast API can return recent days
+const YEARS = 5; // years averaged for typical weather
 
 function iconOf(code: number): WxIcon {
   if (code === 0) return 'sun';
@@ -34,6 +38,7 @@ function iconOf(code: number): WxIcon {
   if (code >= 95) return 'storm';
   return 'rain';
 }
+const wet = (i: WxIcon) => i === 'rain' || i === 'snow' || i === 'storm';
 
 const minOf = (s?: string | null) => {
   if (!s) return null;
@@ -41,10 +46,10 @@ const minOf = (s?: string | null) => {
   return m ? Number(m[1]) * 60 + Number(m[2]) : null;
 };
 
-/** Same calendar date one year earlier (Feb 29 -> Feb 28). */
-function yearAgo(iso: string) {
+/** The same calendar date `n` years earlier (Feb 29 -> Feb 28). */
+function yearsAgo(iso: string, n: number) {
   const [y, m, d] = iso.split('-').map(Number);
-  const dt = new Date(y - 1, m - 1, d);
+  const dt = new Date(y - n, m - 1, d);
   if (dt.getMonth() !== m - 1) dt.setDate(0);
   return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
 }
@@ -58,57 +63,104 @@ type Daily = {
   sunset: string[];
   precipitation_probability_max?: (number | null)[];
 };
+type Rec = { icon: WxIcon; hi: number; lo: number; rise: number | null; set: number | null; rain: number | null };
 
-async function fetchDaily(base: string, lat: number, lon: number, tz: string, start: string, end: string, withRain: boolean): Promise<Daily | null> {
-  const fields = ['weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', ...(withRain ? ['precipitation_probability_max'] : [])].join(',');
-  const url = `${base}?latitude=${lat}&longitude=${lon}&daily=${fields}&temperature_unit=fahrenheit&timezone=${encodeURIComponent(tz)}&start_date=${start}&end_date=${end}`;
+const FIELDS = (rain: boolean) =>
+  ['weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', ...(rain ? ['precipitation_probability_max'] : [])].join(',');
+
+async function getDaily(url: string): Promise<Record<string, Rec>> {
   const res = await fetch(url);
-  if (!res.ok) return null;
-  const json = await res.json();
-  return json.daily ?? null;
-}
-
-export async function loadWeather(lat: number, lon: number, tz: string, days: string[]): Promise<Record<string, DayWx>> {
-  const today = todayIso();
-  const last = addDaysIso(today, FORECAST_DAYS);
-  const live = days.filter((d) => d >= today && d <= last);
-  const typical = days.filter((d) => !live.includes(d));
-  const out: Record<string, DayWx> = {};
-
-  const put = (iso: string, d: Daily, i: number, isTypical: boolean) => {
+  if (!res.ok) return {};
+  const d: Daily | undefined = (await res.json()).daily;
+  const out: Record<string, Rec> = {};
+  d?.time.forEach((iso, i) => {
     if (d.temperature_2m_max?.[i] == null || d.weather_code?.[i] == null) return;
     out[iso] = {
-      iso,
       icon: iconOf(d.weather_code[i]),
       hi: Math.round(d.temperature_2m_max[i]),
       lo: Math.round(d.temperature_2m_min[i]),
       rise: minOf(d.sunrise?.[i]),
       set: minOf(d.sunset?.[i]),
-      rainPct: isTypical ? null : (d.precipitation_probability_max?.[i] ?? null),
-      typical: isTypical,
+      rain: d.precipitation_probability_max?.[i] ?? null,
     };
+  });
+  return out;
+}
+
+const base = (lat: number, lon: number, tz: string) => `latitude=${lat}&longitude=${lon}&temperature_unit=fahrenheit&timezone=${encodeURIComponent(tz)}`;
+
+/**
+ * Weather for each trip day:
+ *  - today .. +15 days (and up to 92 days back): the forecast API, real forecast or recorded values;
+ *  - older: recorded values from the archive;
+ *  - further ahead: no forecast exists yet, so the average of the same dates over the last 5 years ("typical").
+ */
+export async function loadWeather(lat: number, lon: number, tz: string, days: string[]): Promise<Record<string, DayWx>> {
+  const today = todayIso();
+  const lastLive = addDaysIso(today, FORECAST_DAYS);
+  const firstRecent = addDaysIso(today, -PAST_MAX);
+  const recent = days.filter((d) => d >= firstRecent && d <= lastLive);
+  const old = days.filter((d) => d < firstRecent);
+  const future = days.filter((d) => d > lastLive);
+  const out: Record<string, DayWx> = {};
+
+  const put = (iso: string, r: Rec) => {
+    out[iso] = { iso, icon: r.icon, hi: r.hi, lo: r.lo, rise: r.rise, set: r.set, rainPct: r.rain, typical: false, forecastFrom: null };
   };
 
   const jobs: Promise<void>[] = [];
-  if (live.length) {
+
+  if (recent.length) {
+    const back = Math.min(PAST_MAX, Math.max(0, Math.round((Date.parse(today) - Date.parse(recent[0])) / 86_400_000)));
     jobs.push(
-      fetchDaily('https://api.open-meteo.com/v1/forecast', lat, lon, tz, live[0], live[live.length - 1], true).then((d) => {
-        if (d) d.time.forEach((iso, i) => put(iso, d, i, false));
-      }),
+      getDaily(`https://api.open-meteo.com/v1/forecast?${base(lat, lon, tz)}&daily=${FIELDS(true)}&past_days=${back}&forecast_days=${FORECAST_DAYS + 1}`).then((m) =>
+        recent.forEach((d) => m[d] && put(d, m[d])),
+      ),
     );
   }
-  if (typical.length) {
-    const ago = typical.map(yearAgo);
+
+  if (old.length) {
     jobs.push(
-      fetchDaily('https://archive-api.open-meteo.com/v1/archive', lat, lon, tz, [...ago].sort()[0], [...ago].sort()[ago.length - 1], false).then((d) => {
-        if (!d) return;
-        typical.forEach((iso) => {
-          const i = d.time.indexOf(yearAgo(iso));
-          if (i >= 0) put(iso, d, i, true);
+      getDaily(`https://archive-api.open-meteo.com/v1/archive?${base(lat, lon, tz)}&daily=${FIELDS(false)}&start_date=${old[0]}&end_date=${old[old.length - 1]}`).then((m) =>
+        old.forEach((d) => m[d] && put(d, m[d])),
+      ),
+    );
+  }
+
+  if (future.length) {
+    const from = addDaysIso(future[0], -1);
+    const to = addDaysIso(future[future.length - 1], 1);
+    // one archive request per past year, covering the trip dates +/- 1 day
+    const years = Array.from({ length: YEARS }, (_, k) => k + 1);
+    jobs.push(
+      Promise.all(years.map((n) => getDaily(`https://archive-api.open-meteo.com/v1/archive?${base(lat, lon, tz)}&daily=${FIELDS(false)}&start_date=${yearsAgo(from, n)}&end_date=${yearsAgo(to, n)}`))).then((perYear) => {
+        future.forEach((d) => {
+          const sample: Rec[] = [];
+          years.forEach((n, i) => [-1, 0, 1].forEach((off) => perYear[i][yearsAgo(addDaysIso(d, off), n)] && sample.push(perYear[i][yearsAgo(addDaysIso(d, off), n)])));
+          if (!sample.length) return;
+          const avg = (f: (r: Rec) => number | null) => {
+            const v = sample.map(f).filter((x): x is number => x != null);
+            return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null;
+          };
+          const counts: Partial<Record<WxIcon, number>> = {};
+          sample.forEach((r) => (counts[r.icon] = (counts[r.icon] ?? 0) + 1));
+          const icon = (Object.entries(counts).sort((a, b) => b[1]! - a[1]!)[0][0] as WxIcon) ?? 'partly';
+          out[d] = {
+            iso: d,
+            icon,
+            hi: avg((r) => r.hi) ?? 0,
+            lo: avg((r) => r.lo) ?? 0,
+            rise: avg((r) => r.rise),
+            set: avg((r) => r.set),
+            rainPct: Math.round((sample.filter((r) => wet(r.icon)).length / sample.length) * 100),
+            typical: true,
+            forecastFrom: addDaysIso(d, -FORECAST_DAYS),
+          };
         });
       }),
     );
   }
+
   await Promise.all(jobs);
   return out;
 }

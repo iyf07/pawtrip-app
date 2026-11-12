@@ -6,6 +6,7 @@ export const zhExtra = {
   'dog.scaleHint': '点一下选择，再点一下取消，都是可选的',
 
   'settings.unit': '体重单位',
+  'wx.noteWhen': '近 5 年同期的平均天气，不是预报。{date}起会自动换成真实预报。',
   'pf.name': '用户名',
   'pf.nameHint': '对外展示，朋友在行程里看到的就是它，可以重复。',
   'pf.handle': '唯一 ID',
@@ -144,6 +145,7 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'dog.scaleHint': 'Tap to choose, tap again to clear. All optional.',
 
   'settings.unit': 'Weight unit',
+  'wx.noteWhen': 'Average of the last 5 years for these dates, not a forecast. A real forecast appears from {date}.',
   'pf.name': 'Username',
   'pf.nameHint': 'Shown to others on trips. It can be the same as someone else’s.',
   'pf.handle': 'Unique ID',

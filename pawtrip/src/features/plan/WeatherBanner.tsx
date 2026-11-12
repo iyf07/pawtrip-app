@@ -3,13 +3,14 @@ import { View } from 'react-native';
 import { Meta, Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { datesLabel } from '@/lib/dates';
 import { WX_EMOJI, tempOut, type DayWx } from '@/lib/weather';
 
 import type { TripDog } from '../trip/TripContext';
 
 /** Day weather with dog-aware tips: heat-sensitive dogs on hot days, cold-sensitive dogs on cold days. */
 export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; unit: 'F' | 'C' }) {
-  const { t } = useT();
+  const { t, locale } = useT();
   const th = useTheme();
   const tips = dogs.flatMap((d) => {
     const out: string[] = [];
@@ -31,7 +32,7 @@ export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; 
             {tip}
           </Text>
         ))}
-        {wx.typical ? <Meta>{t('wx.note')}</Meta> : null}
+        {wx.typical && wx.forecastFrom ? <Meta>{t('wx.noteWhen', { date: datesLabel(wx.forecastFrom, wx.forecastFrom, locale) })}</Meta> : null}
       </View>
     </View>
   );

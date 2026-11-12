@@ -1,4 +1,4 @@
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -16,6 +16,7 @@ import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
+import { goBack } from '@/lib/nav';
 
 const LB_PER_KG = 2.20462;
 const round1 = (x: number) => Math.round(x * 10) / 10;
@@ -73,7 +74,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
       });
       if (dog.photo_url && dog.photo_url !== photo) await deletePhotoByUrl(dog.photo_url);
       toast(t('toast.saved'));
-      router.back();
+      goBack();
     } catch {
       toast(t('common.saveFailed'));
     }
@@ -83,7 +84,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
     try {
       await del.mutateAsync(id);
       setAskDelete(false);
-      router.back();
+      goBack();
     } catch {
       toast(t('common.saveFailed'));
     }
@@ -94,7 +95,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
       top={
         <Header
           title={t('dog.edit')}
-          left={<Button label={t('nav.cancel')} variant="text" onPress={() => router.back()} />}
+          left={<Button label={t('nav.cancel')} variant="text" onPress={goBack} />}
         />
       }>
       <View style={{ marginTop: 4 }}>

@@ -1,5 +1,4 @@
 import * as Clipboard from 'expo-clipboard';
-import { router } from 'expo-router';
 import { View } from 'react-native';
 
 import { useMyFeedback } from '@/api/feedback';
@@ -13,6 +12,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key, type Lang } from '@/i18n';
+import { goBack } from '@/lib/nav';
 
 /** App settings: display preferences and the account (its ID and sign-in methods). */
 export default function Settings() {
@@ -35,7 +35,7 @@ export default function Settings() {
   );
 
   return (
-    <Screen top={<Header title={t('set.title')} left={<Button label={t('nav.back')} variant="text" onPress={() => router.back()} />} />}>
+    <Screen top={<Header title={t('set.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} />}>
       <SectionTitle>{t('set.display')}</SectionTitle>
 
       {row(

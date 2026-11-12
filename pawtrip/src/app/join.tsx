@@ -12,6 +12,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
+import { goBack } from '@/lib/nav';
 
 /** Join a trip, one question at a time: invite code, is this the trip, which dogs. Also opened from an invite link (/join?code=...). */
 export default function Join() {
@@ -138,5 +139,5 @@ export default function Join() {
     }
   }
 
-  return <Wizard steps={steps} onFinish={finish} finishLabel={t('join.join')} onClose={() => router.back()} />;
+  return <Wizard steps={steps} onFinish={finish} finishLabel={t('join.join')} onClose={goBack} />;
 }

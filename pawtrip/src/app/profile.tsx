@@ -19,6 +19,7 @@ import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/con
 import type { Profile as ProfileRow } from '@/api/types';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
+import { goBack } from '@/lib/nav';
 
 export default function ProfileRoute() {
   const me = useMyProfile();
@@ -55,7 +56,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   }
 
   return (
-    <Screen top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={() => router.back()} />} />}>
+    <Screen top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} />}>
       <View style={{ marginTop: 4 }}>
         <PhotoField
           kind="avatar"

@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -13,6 +12,7 @@ import { Field } from '@/components/ui/Field';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT, type Key } from '@/i18n';
+import { goBack } from '@/lib/nav';
 
 const LB_PER_KG = 2.20462;
 const round1 = (x: number) => Math.round(x * 10) / 10;
@@ -122,11 +122,11 @@ export function DogWizard() {
         recall,
       });
       toast(t('toast.saved'));
-      router.back();
+      goBack();
     } catch {
       toast(t('common.saveFailed'));
     }
   }
 
-  return <Wizard steps={steps} onFinish={finish} finishLabel={t('dw.save')} onClose={() => router.back()} />;
+  return <Wizard steps={steps} onFinish={finish} finishLabel={t('dw.save')} onClose={goBack} />;
 }

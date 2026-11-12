@@ -1,4 +1,4 @@
-import { router, Tabs, useLocalSearchParams } from 'expo-router';
+import { Tabs, useLocalSearchParams } from 'expo-router';
 import type { ComponentProps } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -14,6 +14,7 @@ import { ItemDetailSheet } from '@/features/plan/ItemDetailSheet';
 import { TripProvider } from '@/features/trip/TripContext';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { goBack } from '@/lib/nav';
 
 type BarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
@@ -58,7 +59,7 @@ export default function TripLayout() {
   useTripRealtime(id);
   const q = useTrip(id);
 
-  const back = <Button label={t('nav.backTrips')} variant="text" onPress={() => (router.canGoBack() ? router.back() : router.replace('/'))} />;
+  const back = <Button label={t('nav.backTrips')} variant="text" onPress={goBack} />;
 
   if (q.isPending) {
     return (

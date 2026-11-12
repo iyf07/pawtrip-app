@@ -17,6 +17,7 @@ import { TRIP_INTERESTS } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
 import { daysBetween, datesLabel } from '@/lib/dates';
 import type { PlaceHit } from '@/lib/mapbox';
+import { goBack } from '@/lib/nav';
 
 /** New trip, one question at a time: name, destination, dates, interests, dogs. */
 export default function NewTrip() {
@@ -169,5 +170,5 @@ export default function NewTrip() {
     }
   }
 
-  return <Wizard steps={steps} onFinish={finish} finishLabel={t('new.create')} onClose={() => router.back()} />;
+  return <Wizard steps={steps} onFinish={finish} finishLabel={t('new.create')} onClose={goBack} />;
 }

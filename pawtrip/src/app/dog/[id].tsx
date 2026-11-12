@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { DOG_SCALES, useDeleteDog, useDog, useSaveDog, type DogScale } from '@/api/dogs';
 import type { Dog } from '@/api/types';
+import { PhotoField } from '@/components/PhotoField';
 import { ScaleInput } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
@@ -13,6 +14,7 @@ import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT } from '@/i18n';
+import { deletePhotoByUrl } from '@/lib/photos';
 
 const LB_PER_KG = 2.20462;
 const round1 = (x: number) => Math.round(x * 10) / 10;
@@ -23,7 +25,7 @@ export default function DogEditorRoute() {
   const dog = useDog(id);
   // Mount the form only once the dog is loaded, so its fields start from the saved values.
   if (!isNew && !dog.data) return <Screen scroll={false}>{null}</Screen>;
-  return <DogForm key={dog.data?.updated_at ?? 'new'} id={id} dog={dog.data ?? null} />;
+  return <DogForm key={dog.data?.id ?? 'new'} id={id} dog={dog.data ?? null} />;
 }
 
 function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
@@ -33,6 +35,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
   const save = useSaveDog();
   const del = useDeleteDog();
 
+  const [photo, setPhoto] = useState<string | null>(dog?.photo_url ?? null);
   const [name, setName] = useState(dog?.name ?? '');
   const [unit, setUnit] = useState<'lb' | 'kg'>((dog?.weight_unit as 'lb' | 'kg') ?? 'lb');
   const [weight, setWeight] = useState(
@@ -61,11 +64,13 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
       await save.mutateAsync({
         id: isNew ? undefined : id,
         name: name.trim(),
+        photo_url: photo,
         weight_unit: unit,
         weight_lb: round1(unit === 'kg' ? w * LB_PER_KG : w),
         ...scales,
         recall,
       });
+      if (dog?.photo_url && dog.photo_url !== photo) await deletePhotoByUrl(dog.photo_url);
       toast(t('toast.saved'));
       router.back();
     } catch {
@@ -91,6 +96,9 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
           left={<Button label={t('nav.cancel')} variant="text" onPress={() => router.back()} />}
         />
       }>
+      <View style={{ marginTop: 4 }}>
+        <PhotoField kind="dog" url={photo} onChange={setPhoto} />
+      </View>
       <Field label={t('dog.name')} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} />
 
       <Text weight={800} size={13} style={{ marginTop: 14, marginBottom: 6 }}>

@@ -6,7 +6,8 @@ import { useMyDogs } from '@/api/dogs';
 import { saveLangSetting, useMyProfile, useSetTempUnit, useSettings, useUpdateProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { ScaleInput } from '@/components/ScaleInput';
-import { Avatar, DogAvatar } from '@/components/ui/Avatar';
+import { PhotoField } from '@/components/PhotoField';
+import { DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Chip, Segmented } from '@/components/ui/Chip';
@@ -17,12 +18,13 @@ import { useToast } from '@/components/ui/Toast';
 import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/constants/options';
 import type { Profile as ProfileRow } from '@/api/types';
 import { useT, type Key, type Lang } from '@/i18n';
+import { deletePhotoByUrl } from '@/lib/photos';
 
 export default function ProfileRoute() {
   const me = useMyProfile();
   // Mount the form once the profile is loaded so its fields start from the saved values.
   if (!me.data) return <Screen scroll={false}>{null}</Screen>;
-  return <ProfileForm key={me.data.updated_at} profile={me.data} />;
+  return <ProfileForm key={me.data.id} profile={me.data} />;
 }
 
 function ProfileForm({ profile }: { profile: ProfileRow }) {
@@ -61,8 +63,21 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   return (
     <Screen top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={() => router.back()} />} />}>
-      <View style={{ alignItems: 'center', marginTop: 4 }}>
-        <Avatar id={userId ?? 'me'} name={name} url={profile.avatar_url} size={72} />
+      <View style={{ marginTop: 4 }}>
+        <PhotoField
+          kind="avatar"
+          name={name}
+          url={profile.avatar_url}
+          onChange={async (url) => {
+            const old = profile.avatar_url;
+            try {
+              await update.mutateAsync({ avatar_url: url });
+              await deletePhotoByUrl(old);
+            } catch {
+              toast(t('common.saveFailed'));
+            }
+          }}
+        />
         <Meta style={{ marginTop: 8 }}>{t('profile.signedIn', { name: email ?? '' })}</Meta>
       </View>
 

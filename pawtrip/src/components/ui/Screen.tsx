@@ -11,6 +11,8 @@ type ScreenProps = {
   children: ReactNode;
   /** fixed content above the scroll area (headers, date strips) */
   top?: ReactNode;
+  /** fixed content below the scroll area (e.g. a save bar) */
+  bottom?: ReactNode;
   /** scroll the body (default). Use false for full-height layouts. */
   scroll?: boolean;
   /** extra bottom padding, e.g. to clear a tab bar */
@@ -21,7 +23,7 @@ type ScreenProps = {
 };
 
 /** Page shell: themed background, centred phone-width column on wide screens, safe areas. */
-export function Screen({ children, top, scroll = true, bottomPad = 40, noTopInset, contentStyle }: ScreenProps) {
+export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle }: ScreenProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   return (
@@ -39,6 +41,7 @@ export function Screen({ children, top, scroll = true, bottomPad = 40, noTopInse
         ) : (
           <View style={[{ flex: 1, paddingHorizontal: 16 }, contentStyle]}>{children}</View>
         )}
+        {bottom}
       </View>
     </View>
   );

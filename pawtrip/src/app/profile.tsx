@@ -22,6 +22,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/constants/options';
 import { useTheme } from '@/hooks/use-theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useT, type Key } from '@/i18n';
 import { goBack } from '@/lib/nav';
 import { deletePhotoByUrl } from '@/lib/photos';
@@ -36,6 +37,7 @@ export default function ProfileRoute() {
 function ProfileForm({ profile }: { profile: ProfileRow }) {
   const { t } = useT();
   const th = useTheme();
+  const insets = useSafeAreaInsets();
   const toast = useToast();
   const { userId, email, signOut } = useAuth();
   const dogs = useMyDogs();
@@ -56,6 +58,22 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   const handleChanged = handle !== profile.handle;
   const canSave = name.trim().length > 0 && (!handleChanged || handleOk);
+  const same = (a: string[], b: string[]) => a.slice().sort().join() === b.slice().sort().join();
+  const dirty =
+    name.trim() !== profile.display_name ||
+    handleChanged ||
+    !same(interests, profile.interests) ||
+    !same(diet, profile.diet) ||
+    PERSON_SCALES.some((f) => scales[f] !== profile[f]);
+
+  function discard() {
+    setName(profile.display_name);
+    setHandle(profile.handle);
+    setHandleOk(true);
+    setInterests(profile.interests);
+    setDiet(profile.diet);
+    setScales({ walking: profile.walking, noise: profile.noise, morning: profile.morning });
+  }
 
   async function save() {
     try {
@@ -78,7 +96,16 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   }
 
   return (
-    <Screen top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} right={<HeaderActions avatar={false} />} />}>
+    <Screen
+      top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} right={<HeaderActions avatar={false} />} />}
+      bottom={
+        dirty ? (
+          <View style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: 10 + insets.bottom, backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, gap: 4 }}>
+            <Button label={t('pf.save')} block loading={update.isPending} disabled={!canSave} onPress={save} />
+            <Button label={t('pf.discard')} variant="text" block disabled={update.isPending} onPress={discard} />
+          </View>
+        ) : null
+      }>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 4 }}>
         <AvatarEditor name={profile.display_name} url={profile.avatar_url} onChange={changeAvatar} />
         <View style={{ flex: 1 }}>
@@ -138,8 +165,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           <Chip key={d} label={t(`diet.${d}` as Key)} on={diet.includes(d)} onPress={() => setDiet((c) => toggle(c, d))} />
         ))}
       </View>
-
-      <Button label={t('profile.save')} block loading={update.isPending} disabled={!canSave} onPress={save} style={{ marginTop: 24 }} />
 
       <SectionTitle>{t('pf.account')}</SectionTitle>
       <Card>

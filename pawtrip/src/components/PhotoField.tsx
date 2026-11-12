@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useAuth } from '@/auth/AuthProvider';
+import { PhotoCropper } from '@/components/PhotoCropper';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Meta } from '@/components/ui/Text';
 import { useT } from '@/i18n';
-import { pickSquarePhoto, uploadPhoto } from '@/lib/photos';
+import { pickPhoto, renderSquare, uploadPhoto, type CropRect, type PickedPhoto } from '@/lib/photos';
 
 type Props =
   | { kind: 'avatar'; url: string | null; name: string; onChange: (url: string | null) => void | Promise<void> }
@@ -19,14 +20,30 @@ export function PhotoField(props: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [pending, setPending] = useState<PickedPhoto | null>(null);
+
+  /** crop (if given) -> 512 px JPEG -> upload -> report the public URL */
+  async function finish(photo: PickedPhoto, crop?: CropRect) {
+    setBusy(true);
+    try {
+      const local = await renderSquare(photo, crop);
+      const url = await uploadPhoto(userId!, props.kind, local);
+      await props.onChange(url);
+    } catch {
+      setError(t('dog.photoErr'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function choose() {
     setError(null);
     setBusy(true);
     try {
-      const local = await pickSquarePhoto();
-      if (!local) return;
-      const url = await uploadPhoto(userId!, props.kind, local);
-      await props.onChange(url);
+      const picked = await pickPhoto();
+      if (!picked) return;
+      if (picked.needsCrop) setPending(picked); // web: frame it first
+      else await finish(picked);
     } catch {
       setError(t('dog.photoErr'));
     } finally {
@@ -44,6 +61,15 @@ export function PhotoField(props: Props) {
         </View>
         {error ? <Meta color="danger">{error}</Meta> : null}
       </View>
+      <PhotoCropper
+        photo={pending}
+        onCancel={() => setPending(null)}
+        onDone={(rect) => {
+          const photo = pending;
+          setPending(null);
+          if (photo) finish(photo, rect);
+        }}
+      />
     </View>
   );
 }

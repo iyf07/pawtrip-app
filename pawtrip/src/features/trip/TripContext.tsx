@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useItems } from '@/api/items';
 import type { TripDetail } from '@/api/trips';
 import { useAuth } from '@/auth/AuthProvider';
+import { RefreshScroll } from '@/components/ui/RefreshScroll';
 import type { ItemView } from '@/features/plan/model';
 import { buildDays, todayIso } from '@/lib/dates';
 
@@ -96,13 +97,13 @@ export function useTripCtx() {
 export function TabBody({ children, innerRef, max }: { children: ReactNode; innerRef?: Ref<ComponentRef<typeof ScrollView>>; max?: number }) {
   const insets = useSafeAreaInsets();
   return (
-    <ScrollView
+    <RefreshScroll
       ref={innerRef}
       style={{ flex: 1 }}
       contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 + insets.bottom, ...(max ? { maxWidth: max, width: '100%', alignSelf: 'center' as const } : null) }}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}>
       {children}
-    </ScrollView>
+    </RefreshScroll>
   );
 }

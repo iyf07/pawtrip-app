@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
-import { ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
+import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { COLUMN, type ColumnSize } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
+import { RefreshScroll } from './RefreshScroll';
 import { Text } from './Text';
 
 type ScreenProps = {
@@ -33,13 +34,13 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
       <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset ? 0 : insets.top }}>
         {top}
         {scroll ? (
-          <ScrollView
+          <RefreshScroll
             style={{ flex: 1 }}
             contentContainerStyle={[{ paddingHorizontal: 16, paddingBottom: bottomPad + insets.bottom }, contentStyle]}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}>
             {children}
-          </ScrollView>
+          </RefreshScroll>
         ) : (
           <View style={[{ flex: 1, paddingHorizontal: 16 }, contentStyle]}>{children}</View>
         )}

@@ -157,7 +157,16 @@ export default function Plan() {
               <Pressable
                 accessibilityLabel={t('plan.addAt', { time: '' })}
                 onPress={(e) => {
-                  const start = Math.min(Math.floor(((e.nativeEvent.locationY / PX) * 60) / 30) * 30, 23 * 60);
+                  // locationY is missing on some touch events; fall back to the pointer position, then to 10 AM
+                  const ne = e.nativeEvent as unknown as { locationY?: number; clientY?: number; touches?: { clientY: number }[]; changedTouches?: { clientY: number }[] };
+                  let y = ne.locationY;
+                  if (!Number.isFinite(y)) {
+                    const rect = (e.currentTarget as unknown as { getBoundingClientRect?: () => { top: number } }).getBoundingClientRect?.();
+                    const cy = ne.clientY ?? ne.touches?.[0]?.clientY ?? ne.changedTouches?.[0]?.clientY;
+                    y = rect && Number.isFinite(cy) ? (cy as number) - rect.top : 10 * PX;
+                  }
+                  const raw = Math.floor((((y as number) / PX) * 60) / 30) * 30;
+                  const start = Math.max(0, Math.min(Number.isFinite(raw) ? raw : 600, 23 * 60));
                   addItem({ origin: 'plan', day, start, end: Math.min(start + 60, 1440) });
                 }}
                 style={{ position: 'absolute', left: GUTTER, right: 0, top: 0, bottom: 0 }}

@@ -2,6 +2,11 @@ import tzlookup from 'tz-lookup';
 
 const TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN;
 
+// PawTrip covers the United States for now: search only there, and always return English names/addresses
+// (US street addresses are English whatever the app language is).
+const COUNTRY = 'us';
+const LANGUAGE = 'en';
+
 export type PlaceHit = {
   id: string;
   name: string;
@@ -13,12 +18,12 @@ export type PlaceHit = {
 };
 
 /** Destination typeahead (cities, towns, ZIP/postal codes) via the Mapbox Geocoding API. */
-export async function searchPlaces(query: string, lang: string, signal?: AbortSignal): Promise<PlaceHit[]> {
+export async function searchPlaces(query: string, _lang: string, signal?: AbortSignal): Promise<PlaceHit[]> {
   const q = query.trim();
   if (q.length < 2 || !TOKEN) return [];
   const url =
     `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}` +
-    `&types=place,locality,postcode&autocomplete=true&limit=6&language=${lang === 'zh' ? 'zh-Hans' : lang}&access_token=${TOKEN}`;
+    `&types=place,locality,postcode&autocomplete=true&limit=6&country=${COUNTRY}&language=${LANGUAGE}&access_token=${TOKEN}`;
   const res = await fetch(url, { signal });
   if (!res.ok) throw new Error(`geocode ${res.status}`);
   const json = await res.json();
@@ -51,7 +56,7 @@ export type AddressHit = { id: string; name: string; label: string; lat: number;
 type Near = { lat: number | null; lon: number | null };
 
 /** Address / place typeahead for plan items, biased to the trip destination. */
-export async function searchAddresses(query: string, near: Near, lang: string, signal?: AbortSignal): Promise<AddressHit[]> {
+export async function searchAddresses(query: string, near: Near, _lang: string, signal?: AbortSignal): Promise<AddressHit[]> {
   const q = query.trim();
   if (q.length < 3 || !TOKEN) return [];
   const prox = near.lat != null && near.lon != null ? `&proximity=${near.lon},${near.lat}` : '';
@@ -68,7 +73,7 @@ export async function searchAddresses(query: string, near: Near, lang: string, s
   // 1. Search Box: places (restaurants, trails, sights) and addresses
   const sb =
     `https://api.mapbox.com/search/searchbox/v1/forward?q=${encodeURIComponent(q)}&limit=5&autocomplete=true${prox}` +
-    `&language=${lang === 'zh' ? 'zh' : lang}&access_token=${TOKEN}`;
+    `&country=${COUNTRY}&language=${LANGUAGE}&access_token=${TOKEN}`;
   const res = await fetch(sb, { signal });
   if (res.ok) {
     const json = await res.json();
@@ -78,7 +83,7 @@ export async function searchAddresses(query: string, near: Near, lang: string, s
   // 2. Geocoding: street addresses and towns (long free-text addresses that Search Box does not match)
   const gc =
     `https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&types=address,street,place,locality,postcode` +
-    `&limit=5${prox}&language=${lang === 'zh' ? 'zh-Hans' : lang}&access_token=${TOKEN}`;
+    `&limit=5${prox}&country=${COUNTRY}&language=${LANGUAGE}&access_token=${TOKEN}`;
   const res2 = await fetch(gc, { signal });
   if (!res2.ok) throw new Error(`geocode ${res2.status}`);
   const json2 = await res2.json();

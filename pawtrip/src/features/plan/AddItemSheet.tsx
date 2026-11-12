@@ -43,7 +43,7 @@ function AddForm({ req }: { req: AddRequest }) {
   const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [notes, setNotes] = useState('');
   const [timed, setTimed] = useState(fromPlan);
-  const [when, setWhen] = useState<When>({ day: req.day ?? day, start: req.start ?? 600, end: req.end ?? 660, stayTo: Math.min((req.day ?? day) + 1, days.length - 1) });
+  const [when, setWhen] = useState<When>({ day: req.day ?? day, start: Number.isFinite(req.start) ? req.start! : 600, end: Number.isFinite(req.end) ? req.end! : 660, stayTo: Math.min((req.day ?? day) + 1, days.length - 1) });
   const [errs, setErrs] = useState<{ cat?: string; title?: string; time?: string }>({});
 
   const stay = cat === 'stay';

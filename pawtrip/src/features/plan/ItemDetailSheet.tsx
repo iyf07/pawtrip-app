@@ -275,10 +275,10 @@ function Detail({ item }: { item: ItemView }) {
                 <Text weight={700} style={{ flex: 1, minWidth: 80 }} numberOfLines={1}>
                   {m.id === userId ? t('group.meTag', { name: m.name }) : m.name}
                 </Text>
-                {m.id === userId ? (
+                {m.id === userId || isLeader ? (
                   <Segmented<Rsvp | ''>
                     value={r ?? ''}
-                    onChange={(v) => rsvp.mutate({ itemId: item.id, rsvp: v === '' || v === r ? null : v })}
+                    onChange={(v) => rsvp.mutate({ itemId: item.id, rsvp: v === '' || v === r ? null : v, as: m.id })}
                     options={(['going', 'no', 'maybe'] as const).map((v) => ({ value: v, label: t(`rsvp.${v}` as Key) }))}
                   />
                 ) : (

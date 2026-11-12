@@ -79,10 +79,11 @@ export const useSetDeleted = (tripId: string | undefined) =>
 
 export const useSetRsvp = (tripId: string | undefined) => {
   const { userId } = useAuth();
-  return useItemMutation(tripId, async ({ itemId, rsvp }: { itemId: string; rsvp: Rsvp | null }) => {
+  // `as` = vote for another member (leader-only testing aid; the database enforces who may)
+  return useItemMutation(tripId, async ({ itemId, rsvp, as }: { itemId: string; rsvp: Rsvp | null; as?: string }) => {
     const { error } = await supabase
       .from('reactions')
-      .upsert({ item_id: itemId, trip_id: tripId!, user_id: userId!, rsvp }, { onConflict: 'item_id,user_id' });
+      .upsert({ item_id: itemId, trip_id: tripId!, user_id: as ?? userId!, rsvp }, { onConflict: 'item_id,user_id' });
     if (error) throw error;
   });
 };

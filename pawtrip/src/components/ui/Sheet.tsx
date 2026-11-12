@@ -3,6 +3,7 @@ import { Modal, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MAX_WIDTH } from '@/constants/theme';
+import { useLayout } from '@/hooks/use-layout';
 import { useT } from '@/i18n';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -15,19 +16,22 @@ type SheetProps = { visible: boolean; onClose: () => void; children: ReactNode }
 export function Sheet({ visible, onClose, children }: SheetProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
+  const { medium } = useLayout();
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose} statusBarTranslucent>
-      <Pressable onPress={onClose} style={{ flex: 1, backgroundColor: t.scrim, justifyContent: 'flex-end' }} accessibilityLabel="Close">
+      <Pressable onPress={onClose} style={{ flex: 1, backgroundColor: t.scrim, justifyContent: medium ? 'center' : 'flex-end', paddingHorizontal: medium ? 24 : 0 }} accessibilityLabel="Close">
         <Pressable
           onPress={(e) => e.stopPropagation()}
           style={{
             width: '100%',
             maxWidth: MAX_WIDTH,
             alignSelf: 'center',
-            maxHeight: '88%',
+            maxHeight: medium ? '90%' : '88%',
             backgroundColor: t.bg,
             borderTopLeftRadius: 24,
             borderTopRightRadius: 24,
+            borderBottomLeftRadius: medium ? 24 : 0,
+            borderBottomRightRadius: medium ? 24 : 0,
             paddingTop: 10,
           }}>
           <View style={{ width: 44, height: 5, borderRadius: 3, backgroundColor: t.line, alignSelf: 'center', marginBottom: 14 }} />

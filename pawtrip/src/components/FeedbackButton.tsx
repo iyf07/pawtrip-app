@@ -11,6 +11,7 @@ import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { MAX_WIDTH } from '@/constants/theme';
+import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { pickScreenshot } from '@/lib/photos';
@@ -23,12 +24,13 @@ export function FeedbackButton() {
   const th = useTheme();
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
+  const { wide } = useLayout();
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: insets.bottom + 176, alignItems: 'center' }}>
-        <View pointerEvents="box-none" style={{ width: '100%', maxWidth: MAX_WIDTH, alignItems: 'flex-end' }}>
+      <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: wide ? 24 : insets.bottom + 176, alignItems: 'center' }}>
+        <View pointerEvents="box-none" style={{ width: '100%', maxWidth: wide ? undefined : MAX_WIDTH, alignItems: 'flex-end', paddingRight: wide ? 20 : 0 }}>
           <Pressable
             onPress={() => setOpen(true)}
             accessibilityRole="button"

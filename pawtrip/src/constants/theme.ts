@@ -63,8 +63,11 @@ export const Colors = { light, dark } as const;
 export type Theme = typeof light;
 export type ThemeColor = keyof Theme;
 
-/** Max width of the app column on wide screens (the prototype is a phone-sized column). */
-export const MAX_WIDTH = 480;
+/** Max width of the app column. Phone-sized forms stay narrow; list pages and the trip view use more room on desktops. */
+export const COLUMN = { narrow: 560, wide: 1120, full: 1440 } as const;
+export type ColumnSize = keyof typeof COLUMN;
+/** Narrow column; kept for dialogs and overlays. */
+export const MAX_WIDTH = COLUMN.narrow;
 
 /** Avatar background colours, picked by hashing the user id. */
 export const AVATAR_COLORS = ['#F2A65A', '#8CC7B2', '#C3A6E0', '#F29C9C', '#A9C5F2', '#E8D27A'];

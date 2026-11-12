@@ -8,6 +8,15 @@ import type { ItemView } from './model';
 
 type Near = { lat: number | null; lon: number | null };
 
+/** Geocoded places further than this from the trip destination are almost certainly a wrong match (km). */
+const MAX_KM_FROM_TRIP = 300;
+
+function km(a: { lat: number; lon: number }, b: { lat: number; lon: number }) {
+  const rad = (d: number) => (d * Math.PI) / 180;
+  const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lon - a.lon) / 2) ** 2;
+  return 6371 * 2 * Math.asin(Math.sqrt(h));
+}
+
 /**
  * Coordinates for a set of items: saved lat/lon when there is one, otherwise the address is geocoded
  * (cached in memory), so items typed without picking a suggestion still land on the map.
@@ -29,7 +38,8 @@ export function useItemCoords(items: ItemView[], near: Near) {
     });
     missing.forEach((i, k) => {
       const r = results[k]?.data;
-      if (r) m[i.id] = r;
+      const far = r && near.lat != null && near.lon != null && km({ lat: near.lat, lon: near.lon }, r) > MAX_KM_FROM_TRIP;
+      if (r && !far) m[i.id] = r;
     });
     return m;
     // eslint-disable-next-line react-hooks/exhaustive-deps

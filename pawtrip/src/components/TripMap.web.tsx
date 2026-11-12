@@ -110,5 +110,10 @@ export function TripMap({ pins, line, center, dark, onPin, height }: TripMapProp
     fit();
   }, [map, pins, line, center]);
 
-  return <div ref={box} style={{ width: '100%', height: typeof height === 'number' ? height : '100%', borderRadius: 14, overflow: 'hidden' }} />;
+  // a fixed height, or "fill the parent" (the parent must be position: relative)
+  const style: React.CSSProperties =
+    typeof height === 'number'
+      ? { width: '100%', height, borderRadius: 14, overflow: 'hidden' }
+      : { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'hidden' };
+  return <div ref={box} style={style} />;
 }

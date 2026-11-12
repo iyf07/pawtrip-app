@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { MAX_WIDTH } from '@/constants/theme';
+import { COLUMN, type ColumnSize } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 import { Text } from './Text';
@@ -20,15 +20,17 @@ type ScreenProps = {
   /** skip the top safe-area inset (when a parent already applied it) */
   noTopInset?: boolean;
   contentStyle?: StyleProp<ViewStyle>;
+  /** column width on large screens: narrow (forms), wide (lists), full (trip view) */
+  size?: ColumnSize;
 };
 
 /** Page shell: themed background, centred phone-width column on wide screens, safe areas. */
-export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle }: ScreenProps) {
+export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle, size = 'narrow' }: ScreenProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
-      <View style={{ flex: 1, width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center', paddingTop: noTopInset ? 0 : insets.top }}>
+      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset ? 0 : insets.top }}>
         {top}
         {scroll ? (
           <ScrollView

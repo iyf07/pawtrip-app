@@ -9,6 +9,8 @@ import { Card } from '@/components/ui/Card';
 import { DogIllo } from '@/components/ui/DogIllo';
 import { Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
+import { COLUMN } from '@/constants/theme';
+import { useColumns } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
@@ -17,6 +19,7 @@ export default function Trips() {
   const { t } = useT();
   const th = useTheme();
   const trips = useTrips();
+  const grid = useColumns(COLUMN.wide);
 
   const header = (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12, backgroundColor: th.bg }}>
@@ -48,7 +51,7 @@ export default function Trips() {
   );
 
   return (
-    <Screen top={header} noTopInset={false}>
+    <Screen top={header} noTopInset={false} size="wide">
       {trips.isPending ? (
         <View style={{ alignItems: 'center', paddingTop: 60 }}>
           <ActivityIndicator color={th.muted} />
@@ -75,11 +78,13 @@ export default function Trips() {
           <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
         </View>
       ) : (
-        <View style={{ gap: 14, marginTop: 4 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: grid.gap, marginTop: 4 }}>
           {trips.data.map((trip) => (
-            <TripCard key={trip.id} trip={trip} />
+            <View key={trip.id} style={{ width: grid.cardWidth }}>
+              <TripCard trip={trip} />
+            </View>
           ))}
-          {joinButton}
+          <View style={{ width: grid.cardWidth, justifyContent: 'center' }}>{joinButton}</View>
         </View>
       )}
     </Screen>

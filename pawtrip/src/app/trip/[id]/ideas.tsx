@@ -8,6 +8,7 @@ import { DogIllo } from '@/components/ui/DogIllo';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTimeFmt } from '@/hooks/use-prefs';
+import { useColumns } from '@/hooks/use-layout';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
 import { hasTime, isIdea, isLive, type ItemView } from '@/features/plan/model';
@@ -24,6 +25,7 @@ export default function Ideas() {
   const { trip, items, itemsLoading, itemsError, refetchItems, addItem } = useTripCtx();
   const setDeleted = useSetDeleted(trip.id);
   const [deletedOpen, setDeletedOpen] = useState(false);
+  const grid = useColumns(1100);
 
   const ideas = items.filter((i) => isLive(i) && isIdea(i));
   const deleted = items.filter((i) => !isLive(i)).sort((a, b) => (b.deletedAt ?? 0) - (a.deletedAt ?? 0));
@@ -38,7 +40,7 @@ export default function Ideas() {
   }
 
   return (
-    <TabBody>
+    <TabBody max={1100}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 16 }}>
         <Text weight={800} size={20}>
           {t('ideas.thisTrip')}
@@ -66,9 +68,11 @@ export default function Ideas() {
           </Text>
         </View>
       ) : (
-        <View style={{ gap: 12, marginTop: 12 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: grid.gap, marginTop: 12 }}>
           {ideas.map((i) => (
-            <IdeaCard key={i.id} item={i} />
+            <View key={i.id} style={{ width: grid.cardWidth }}>
+              <IdeaCard item={i} />
+            </View>
           ))}
         </View>
       )}

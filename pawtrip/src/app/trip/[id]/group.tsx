@@ -23,6 +23,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { TRIP_INTERESTS } from '@/constants/options';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
+import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { datesLabel, todayIso } from '@/lib/dates';
@@ -30,6 +31,7 @@ import { datesLabel, todayIso } from '@/lib/dates';
 export default function Group() {
   const { t, locale } = useT();
   const th = useTheme();
+  const { wide } = useLayout();
   const toast = useToast();
   const { trip, userId, isLeader } = useTripCtx();
   const myDogs = useMyDogs();
@@ -97,8 +99,8 @@ export default function Group() {
 
   const interestsChanged = interests.slice().sort().join() !== trip.interests.slice().sort().join();
 
-  return (
-    <TabBody>
+  const membersBlock = (
+    <>
       <SectionTitle>{t('group.members')}</SectionTitle>
       <Card style={{ paddingVertical: 4 }}>
         {trip.trip_members.map((m, i) => {
@@ -127,7 +129,11 @@ export default function Group() {
           );
         })}
       </Card>
+    </>
+  );
 
+  const dogsBlock = (
+    <>
       <SectionTitle>{t('group.dogs')}</SectionTitle>
       <View style={{ gap: 10 }}>
         {trip.trip_dogs.length === 0 ? <Meta>{t('group.noDogs')}</Meta> : null}
@@ -173,7 +179,11 @@ export default function Group() {
           </Text>
         </Card>
       </View>
+    </>
+  );
 
+  const inviteBlock = (
+    <>
       <SectionTitle>{t('group.invite')}</SectionTitle>
       <Card>
         <Meta>{t('group.code')}</Meta>
@@ -189,7 +199,11 @@ export default function Group() {
           {isLeader ? <Button label={t('group.newCode')} small variant="ghost" loading={rotate.isPending} onPress={() => run(rotate.mutateAsync(trip.id), t('toast.newCode'))} /> : null}
         </View>
       </Card>
+    </>
+  );
 
+  const settingsBlock = (
+    <>
       {isLeader ? (
         <>
           <SectionTitle>{t('group.settings')}</SectionTitle>
@@ -232,7 +246,11 @@ export default function Group() {
           ) : null}
         </>
       ) : null}
+    </>
+  );
 
+  const dangerBlock = (
+    <>
       <View style={{ marginTop: 28 }}>
         {isLeader ? (
           <Button label={`🗑️ ${t('group.delete')}`} variant="danger" block onPress={() => setConfirm('delete')} />
@@ -240,6 +258,33 @@ export default function Group() {
           <Button label={t('group.leave')} variant="danger" block onPress={() => setConfirm('leave')} />
         )}
       </View>
+    </>
+  );
+
+  return (
+    <TabBody max={1100}>
+      {wide ? (
+        // desktop: people and dogs on the left, inviting and settings on the right
+        <View style={{ flexDirection: 'row', gap: 32, alignItems: 'flex-start' }}>
+          <View style={{ flex: 1 }}>
+            {membersBlock}
+            {dogsBlock}
+          </View>
+          <View style={{ flex: 1 }}>
+            {inviteBlock}
+            {settingsBlock}
+            {dangerBlock}
+          </View>
+        </View>
+      ) : (
+        <>
+          {membersBlock}
+          {dogsBlock}
+          {inviteBlock}
+          {settingsBlock}
+          {dangerBlock}
+        </>
+      )}
 
       <ConfirmSheet
         visible={confirm !== null}

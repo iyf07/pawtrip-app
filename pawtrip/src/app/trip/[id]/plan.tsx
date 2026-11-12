@@ -2,10 +2,13 @@ import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
 
 import { useSettings } from '@/api/profile';
+import { TripMap } from '@/components/TripMap';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Segmented } from '@/components/ui/Chip';
 import { Meta, Text } from '@/components/ui/Text';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useLayout } from '@/hooks/use-layout';
 import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
@@ -23,6 +26,8 @@ const GUTTER = 46;
 
 export default function Plan() {
   const { t, locale } = useT();
+  const { wide } = useLayout();
+  const dark = useColorScheme() === 'dark';
   const { fmtMin, hourLabel } = useTimeFmt();
   const th = useTheme();
   const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem } = useTripCtx();
@@ -61,7 +66,7 @@ export default function Plan() {
     return () => clearTimeout(id);
   }, [day, firstStart, itemsLoading]);
 
-  return (
+  const timeline = (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 16 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -16, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 }}>
@@ -107,13 +112,15 @@ export default function Plan() {
         </View>
 
         {wx ? <WeatherBanner wx={wx} dogs={dogs} unit={unit} /> : null}
-        <PlanMap
-          pins={pins}
-          line={line}
-          center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null}
-          stops={stops.length}
-          onPin={openItem}
-        />
+        {wide ? null : (
+          <PlanMap
+            pins={pins}
+            line={line}
+            center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null}
+            stops={stops.length}
+            onPin={openItem}
+          />
+        )}
         {!itemsLoading && !itemsError ? stays.map((s) => <StayStrip key={s.id} item={s} />) : null}
       </View>
       <TabBody innerRef={scroller}>
@@ -201,6 +208,25 @@ export default function Plan() {
           +
         </Text>
       </Pressable>
+    </View>
+  );
+
+  if (!wide) return timeline;
+
+  // desktop: timeline column (same width as on a phone, so entries stay readable) + a map that fills the rest
+  return (
+    <View style={{ flex: 1, flexDirection: 'row', gap: 16, paddingRight: 16, paddingBottom: 16 }}>
+      <View style={{ width: 560 }}>{timeline}</View>
+      <View style={{ flex: 1, position: 'relative', borderRadius: 18, overflow: 'hidden', borderWidth: 2, borderColor: th.line }}>
+        <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
+        {pins.length === 0 ? (
+          <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
+            <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
+              <Meta>{t('map.empty.body')}</Meta>
+            </View>
+          </View>
+        ) : null}
+      </View>
     </View>
   );
 }

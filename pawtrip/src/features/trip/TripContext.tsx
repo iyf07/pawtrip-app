@@ -93,13 +93,13 @@ export function useTripCtx() {
 }
 
 /** Scroll area for a trip tab (the shell supplies header and tab bar). */
-export function TabBody({ children, innerRef }: { children: ReactNode; innerRef?: Ref<ComponentRef<typeof ScrollView>> }) {
+export function TabBody({ children, innerRef, max }: { children: ReactNode; innerRef?: Ref<ComponentRef<typeof ScrollView>>; max?: number }) {
   const insets = useSafeAreaInsets();
   return (
     <ScrollView
       ref={innerRef}
       style={{ flex: 1 }}
-      contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 + insets.bottom }}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 + insets.bottom, ...(max ? { maxWidth: max, width: '100%', alignSelf: 'center' as const } : null) }}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}>
       {children}

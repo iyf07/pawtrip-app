@@ -11,6 +11,7 @@ import { Card } from '@/components/ui/Card';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { MAX_WIDTH } from '@/constants/theme';
+import { useLayout } from '@/hooks/use-layout';
 import { AddItemSheet } from '@/features/plan/AddItemSheet';
 import { ItemDetailSheet } from '@/features/plan/ItemDetailSheet';
 import { TripProvider } from '@/features/trip/TripContext';
@@ -26,6 +27,36 @@ function TripTabBar({ state, navigateToTab }: BarProps) {
   const th = useTheme();
   const { t } = useT();
   const insets = useSafeAreaInsets();
+  const { wide } = useLayout();
+
+  // desktop: compact pills at the top, under the header
+  if (wide) {
+    return (
+      <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingTop: 4, paddingBottom: 10 }}>
+        {state.routes.map((route, i) => {
+          const on = state.index === i;
+          return (
+            <Pressable
+              key={route.key}
+              onPress={() => {
+                if (!on) navigateToTab(route.key);
+              }}
+              accessibilityRole="tab"
+              accessibilityState={{ selected: on }}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, paddingHorizontal: 18, borderRadius: 20, backgroundColor: on ? th.gold : th.card, borderWidth: 2, borderColor: on ? th.gold : th.line }}>
+              <Text size={16} style={{ lineHeight: 20 }}>
+                {TAB_ICON[route.name] ?? '•'}
+              </Text>
+              <Text weight={800} size={14} color={on ? 'onGold' : 'text'}>
+                {t(`tab.${route.name}` as 'tab.plan')}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
+    );
+  }
+
   return (
     <View style={{ backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', width: '100%', maxWidth: MAX_WIDTH, gap: 4, paddingHorizontal: 8, paddingTop: 8, paddingBottom: 8 + insets.bottom }}>
@@ -58,6 +89,7 @@ export default function TripLayout() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useT();
   const th = useTheme();
+  const { wide } = useLayout();
   useTripRealtime(id);
   const q = useTrip(id);
 
@@ -91,6 +123,7 @@ export default function TripLayout() {
     <TripProvider trip={trip}>
       <Screen
         scroll={false}
+        size="full"
         contentStyle={{ paddingHorizontal: 0 }}
         top={
           <Header
@@ -100,7 +133,7 @@ export default function TripLayout() {
             subtitleNode={<TripFaces trip={trip} />}
           />
         }>
-        <Tabs tabBar={(props) => <TripTabBar {...props} />} screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: th.bg } }}>
+        <Tabs tabBar={(props) => <TripTabBar {...props} />} screenOptions={{ headerShown: false, tabBarPosition: wide ? 'top' : 'bottom', sceneStyle: { backgroundColor: th.bg } }}>
           <Tabs.Screen name="plan" />
           <Tabs.Screen name="ideas" />
           <Tabs.Screen name="group" />

@@ -128,22 +128,6 @@ export default function Group() {
         })}
       </Card>
 
-      <SectionTitle>{t('group.invite')}</SectionTitle>
-      <Card>
-        <Meta>{t('group.code')}</Meta>
-        <Text weight={800} size={22} selectable style={{ marginTop: 4, marginBottom: 10, letterSpacing: 0.5 }}>
-          {trip.invite_code}
-        </Text>
-        <Meta color={expired ? 'danger' : 'muted'}>
-          {expired ? t('group.expired') : t('group.expires', { date: datesLabel(trip.invite_expires, trip.invite_expires, locale) })}
-        </Meta>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
-          <Button label={t('group.share')} small onPress={shareInvite} />
-          <Button label={t('group.copy')} small variant="ghost" onPress={copyCode} />
-          {isLeader ? <Button label={t('group.newCode')} small variant="ghost" loading={rotate.isPending} onPress={() => run(rotate.mutateAsync(trip.id), t('toast.newCode'))} /> : null}
-        </View>
-      </Card>
-
       <SectionTitle>{t('group.dogs')}</SectionTitle>
       <View style={{ gap: 10 }}>
         {trip.trip_dogs.length === 0 ? <Meta>{t('group.noDogs')}</Meta> : null}
@@ -189,6 +173,22 @@ export default function Group() {
           </Text>
         </Card>
       </View>
+
+      <SectionTitle>{t('group.invite')}</SectionTitle>
+      <Card>
+        <Meta>{t('group.code')}</Meta>
+        <Text weight={800} size={22} selectable style={{ marginTop: 4, marginBottom: 10, letterSpacing: 0.5 }}>
+          {trip.invite_code}
+        </Text>
+        <Meta color={expired ? 'danger' : 'muted'}>
+          {expired ? t('group.expired') : t('group.expires', { date: datesLabel(trip.invite_expires, trip.invite_expires, locale) })}
+        </Meta>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
+          <Button label={t('group.share')} small onPress={shareInvite} />
+          <Button label={t('group.copy')} small variant="ghost" onPress={copyCode} />
+          {isLeader ? <Button label={t('group.newCode')} small variant="ghost" loading={rotate.isPending} onPress={() => run(rotate.mutateAsync(trip.id), t('toast.newCode'))} /> : null}
+        </View>
+      </Card>
 
       {isLeader ? (
         <>

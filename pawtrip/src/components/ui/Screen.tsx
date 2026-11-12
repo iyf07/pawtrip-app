@@ -47,12 +47,14 @@ export function Screen({ children, top, scroll = true, bottomPad = 40, noTopInse
 type HeaderProps = {
   title?: string;
   subtitle?: string;
+  /** replaces the subtitle text (e.g. a row of avatars) */
+  subtitleNode?: ReactNode;
   left?: ReactNode;
   right?: ReactNode;
 };
 
 /** 3-column header: left action, centred title, right action. */
-export function Header({ title, subtitle, left, right }: HeaderProps) {
+export function Header({ title, subtitle, subtitleNode, left, right }: HeaderProps) {
   const t = useTheme();
   return (
     <View
@@ -70,11 +72,12 @@ export function Header({ title, subtitle, left, right }: HeaderProps) {
             {title}
           </Text>
         ) : null}
-        {subtitle ? (
-          <Text size={13} color="muted" numberOfLines={1}>
-            {subtitle}
-          </Text>
-        ) : null}
+        {subtitleNode ??
+          (subtitle ? (
+            <Text size={13} color="muted" numberOfLines={1}>
+              {subtitle}
+            </Text>
+          ) : null)}
       </View>
       <View style={{ minWidth: 80, alignItems: 'flex-end' }}>{right}</View>
     </View>

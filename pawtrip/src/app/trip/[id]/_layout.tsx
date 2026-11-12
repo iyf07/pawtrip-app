@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTrip, useTripRealtime } from '@/api/trips';
 import { HeaderActions } from '@/components/HeaderActions';
+import { TripFaces } from '@/components/TripFaces';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header, Screen } from '@/components/ui/Screen';
@@ -96,7 +97,7 @@ export default function TripLayout() {
             left={back}
             right={<HeaderActions size={34} />}
             title={trip.name}
-            subtitle={`${t('people', { n: trip.trip_members.length })} · ${t('dogs', { n: trip.trip_dogs.length })}`}
+            subtitleNode={<TripFaces trip={trip} />}
           />
         }>
         <Tabs tabBar={(props) => <TripTabBar {...props} />} screenOptions={{ headerShown: false, sceneStyle: { backgroundColor: th.bg } }}>

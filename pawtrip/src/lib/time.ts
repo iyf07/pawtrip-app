@@ -1,14 +1,14 @@
 // Times are minutes after midnight.
 
-export const fmtMin = (min: number) => {
+export const fmtMin = (min: number, is24 = false) => {
   const h = Math.floor(min / 60) % 24;
-  const m = min % 60;
-  return `${h % 12 || 12}:${String(m).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
+  const m = String(min % 60).padStart(2, '0');
+  return is24 ? `${h}:${m}` : `${h % 12 || 12}:${m} ${h >= 12 ? 'PM' : 'AM'}`;
 };
 
-export const fmtRange = (a: number, b: number) => `${fmtMin(a)} – ${fmtMin(b)}`;
+export const fmtRange = (a: number, b: number, is24 = false) => `${fmtMin(a, is24)} – ${fmtMin(b, is24)}`;
 
-export const hourLabel = (h: number) => `${(h + 11) % 12 + 1} ${h % 24 >= 12 ? 'PM' : 'AM'}`;
+export const hourLabel = (h: number, is24 = false) => (is24 ? `${h % 24}:00` : `${(h + 11) % 12 + 1} ${h % 24 >= 12 ? 'PM' : 'AM'}`);
 
 /** Current date and minute-of-day in an IANA time zone (the trip's), e.g. to know whether an activity has ended. */
 export function nowIn(tz: string, now = new Date()) {

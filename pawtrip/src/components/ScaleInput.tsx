@@ -13,10 +13,12 @@ type Props = {
   field: string;
   value: number | null;
   onChange: (v: number | null) => void;
+  /** the surrounding screen already shows the question (wizard) */
+  hideTitle?: boolean;
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Unset until tapped. */
-export function ScaleInput({ field, value, onChange }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
@@ -31,9 +33,11 @@ export function ScaleInput({ field, value, onChange }: Props) {
         borderRadius: 18,
       }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
-        <Text weight={800} size={14} style={{ flex: 1 }}>
-          {t(`scale.${stem}` as Key)}
-        </Text>
+        {hideTitle ? <View style={{ flex: 1 }} /> : (
+          <Text weight={800} size={14} style={{ flex: 1 }}>
+            {t(`scale.${stem}` as Key)}
+          </Text>
+        )}
         <Text weight={800} size={14} color={value ? 'link' : 'muted'}>
           {value ? t(`scale.${stem}.${value}` as Key) : t('dog.unset')}
         </Text>

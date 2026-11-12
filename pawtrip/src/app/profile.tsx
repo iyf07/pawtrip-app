@@ -3,21 +3,21 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
-import { saveLangSetting, useMyProfile, useSetTempUnit, useSettings, useUpdateProfile } from '@/api/profile';
+import { useMyProfile, useUpdateProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { ScaleInput } from '@/components/ScaleInput';
 import { PhotoField } from '@/components/PhotoField';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Chip, Segmented } from '@/components/ui/Chip';
+import { Chip } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
 import { Header, Screen, SectionTitle } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/constants/options';
 import type { Profile as ProfileRow } from '@/api/types';
-import { useT, type Key, type Lang } from '@/i18n';
+import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 
 export default function ProfileRoute() {
@@ -28,13 +28,11 @@ export default function ProfileRoute() {
 }
 
 function ProfileForm({ profile }: { profile: ProfileRow }) {
-  const { t, lang, setLang } = useT();
+  const { t } = useT();
   const toast = useToast();
-  const { userId, email, signOut } = useAuth();
+  const { email } = useAuth();
   const dogs = useMyDogs();
   const update = useUpdateProfile();
-  const settings = useSettings();
-  const setTemp = useSetTempUnit();
 
   const [name, setName] = useState(profile.display_name);
   const [interests, setInterests] = useState<string[]>(profile.interests);
@@ -54,11 +52,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     } catch {
       toast(t('common.saveFailed'));
     }
-  }
-
-  function pickLang(l: Lang) {
-    setLang(l);
-    if (userId) saveLangSetting(userId, l).catch(() => {});
   }
 
   return (
@@ -82,30 +75,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       </View>
 
       <Field label={t('profile.me')} value={name} onChangeText={setName} maxLength={60} />
-
-      <Text weight={800} size={13} style={{ marginTop: 18, marginBottom: 8 }}>
-        {t('profile.lang')}
-      </Text>
-      <Segmented
-        value={lang}
-        onChange={pickLang}
-        options={[
-          { value: 'zh', label: '中文' },
-          { value: 'en', label: 'English' },
-        ]}
-      />
-
-      <Text weight={800} size={13} style={{ marginTop: 18, marginBottom: 8 }}>
-        {t('settings.temp')}
-      </Text>
-      <Segmented
-        value={settings.data?.temp_unit === 'C' ? 'C' : 'F'}
-        onChange={(u) => setTemp.mutate(u)}
-        options={[
-          { value: 'F', label: '°F' },
-          { value: 'C', label: '°C' },
-        ]}
-      />
 
       <SectionTitle>{t('profile.myDogs')}</SectionTitle>
       <View style={{ gap: 10 }}>
@@ -151,7 +120,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       </View>
 
       <Button label={t('profile.save')} block loading={update.isPending} onPress={save} style={{ marginTop: 24 }} />
-      <Button label={t('profile.signout')} variant="danger" block onPress={() => signOut()} style={{ marginTop: 12 }} />
     </Screen>
   );
 }

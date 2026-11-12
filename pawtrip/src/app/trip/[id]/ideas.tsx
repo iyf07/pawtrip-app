@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card';
 import { DogIllo } from '@/components/ui/DogIllo';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
+import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
 import { hasTime, isIdea, isLive, type ItemView } from '@/features/plan/model';
@@ -14,7 +15,6 @@ import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT, type Key } from '@/i18n';
 import { weekdayShort } from '@/lib/dates';
 import { relTime } from '@/lib/format';
-import { fmtMin } from '@/lib/time';
 
 /** Ideas the group is still deciding on. The leader puts them in the plan from the item detail. */
 export default function Ideas() {
@@ -104,6 +104,7 @@ export default function Ideas() {
 
 function IdeaCard({ item }: { item: ItemView }) {
   const { t, locale } = useT();
+  const { fmtMin } = useTimeFmt();
   const c = useCatColors(item.cat);
   const { days, openItem } = useTripCtx();
   const when = !hasTime(item)

@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { DOG_SCALES, useDeleteDog, useDog, useSaveDog, type DogScale } from '@/api/dogs';
 import type { Dog } from '@/api/types';
 import { PhotoField } from '@/components/PhotoField';
+import { DogWizard } from '@/features/dog/DogWizard';
 import { ScaleInput } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
@@ -21,35 +22,35 @@ const round1 = (x: number) => Math.round(x * 10) / 10;
 
 export default function DogEditorRoute() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const isNew = id === 'new';
   const dog = useDog(id);
+  // A new dog is created through the one-question-at-a-time wizard; an existing dog is edited on one page.
+  if (id === 'new') return <DogWizard />;
   // Mount the form only once the dog is loaded, so its fields start from the saved values.
-  if (!isNew && !dog.data) return <Screen scroll={false}>{null}</Screen>;
-  return <DogForm key={dog.data?.id ?? 'new'} id={id} dog={dog.data ?? null} />;
+  if (!dog.data) return <Screen scroll={false}>{null}</Screen>;
+  return <DogForm key={dog.data.id} id={id} dog={dog.data} />;
 }
 
-function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
+function DogForm({ id, dog }: { id: string; dog: Dog }) {
   const { t } = useT();
   const toast = useToast();
-  const isNew = id === 'new';
   const save = useSaveDog();
   const del = useDeleteDog();
 
-  const [photo, setPhoto] = useState<string | null>(dog?.photo_url ?? null);
-  const [name, setName] = useState(dog?.name ?? '');
-  const [unit, setUnit] = useState<'lb' | 'kg'>((dog?.weight_unit as 'lb' | 'kg') ?? 'lb');
+  const [photo, setPhoto] = useState<string | null>(dog.photo_url ?? null);
+  const [name, setName] = useState(dog.name ?? '');
+  const [unit, setUnit] = useState<'lb' | 'kg'>((dog.weight_unit as 'lb' | 'kg') ?? 'lb');
   const [weight, setWeight] = useState(
-    dog?.weight_lb != null ? String(dog.weight_unit === 'kg' ? round1(Number(dog.weight_lb) / LB_PER_KG) : Number(dog.weight_lb)) : '',
+    dog.weight_lb != null ? String(dog.weight_unit === 'kg' ? round1(Number(dog.weight_lb) / LB_PER_KG) : Number(dog.weight_lb)) : '',
   );
   const [scales, setScales] = useState<Record<DogScale, number | null>>({
-    energy: dog?.energy ?? null,
-    temp: dog?.temp ?? null,
-    with_dogs: dog?.with_dogs ?? null,
-    with_people: dog?.with_people ?? null,
-    alone: dog?.alone ?? null,
-    car: dog?.car ?? null,
+    energy: dog.energy ?? null,
+    temp: dog.temp ?? null,
+    with_dogs: dog.with_dogs ?? null,
+    with_people: dog.with_people ?? null,
+    alone: dog.alone ?? null,
+    car: dog.car ?? null,
   });
-  const [recall, setRecall] = useState<'runner' | 'comes' | null>((dog?.recall as 'runner' | 'comes' | null) ?? null);
+  const [recall, setRecall] = useState<'runner' | 'comes' | null>((dog.recall as 'runner' | 'comes' | null) ?? null);
   const [errs, setErrs] = useState<{ name?: string; weight?: string }>({});
   const [askDelete, setAskDelete] = useState(false);
 
@@ -62,7 +63,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
     if (e.name || e.weight) return;
     try {
       await save.mutateAsync({
-        id: isNew ? undefined : id,
+        id,
         name: name.trim(),
         photo_url: photo,
         weight_unit: unit,
@@ -70,7 +71,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
         ...scales,
         recall,
       });
-      if (dog?.photo_url && dog.photo_url !== photo) await deletePhotoByUrl(dog.photo_url);
+      if (dog.photo_url && dog.photo_url !== photo) await deletePhotoByUrl(dog.photo_url);
       toast(t('toast.saved'));
       router.back();
     } catch {
@@ -92,7 +93,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
     <Screen
       top={
         <Header
-          title={t(isNew ? 'dog.add' : 'dog.edit')}
+          title={t('dog.edit')}
           left={<Button label={t('nav.cancel')} variant="text" onPress={() => router.back()} />}
         />
       }>
@@ -140,7 +141,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog | null }) {
         {t('dog.req')}
       </Text>
       <Button label={t('nav.save')} block loading={save.isPending} onPress={submit} style={{ marginTop: 16 }} />
-      {!isNew ? <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} /> : null}
+      <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} />
 
       <ConfirmSheet
         visible={askDelete}

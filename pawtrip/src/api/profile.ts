@@ -22,7 +22,7 @@ export function useUpdateProfile() {
   const { userId } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (patch: Partial<Pick<Profile, 'display_name' | 'avatar_url' | 'interests' | 'diet' | 'walking' | 'noise' | 'morning'>>) => {
+    mutationFn: async (patch: Partial<Pick<Profile, 'display_name' | 'avatar_url' | 'interests' | 'diet' | 'walking' | 'noise' | 'morning' | 'onboarded_at'>>) => {
       const { error } = await supabase.from('profiles').update(patch).eq('id', userId!);
       if (error) throw error;
     },
@@ -51,14 +51,21 @@ export function useSettings() {
   });
 }
 
-export function useSetTempUnit() {
+type SettingsPatch = Partial<{ lang: 'zh' | 'en'; temp_unit: TempUnit; time_format: '12' | '24'; theme: 'system' | 'light' | 'dark'; weight_unit: 'lb' | 'kg' }>;
+
+export function useUpdateSettings() {
   const { userId } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (unit: TempUnit) => {
-      const { error } = await supabase.from('user_settings').update({ temp_unit: unit }).eq('id', userId!);
+    mutationFn: async (patch: SettingsPatch) => {
+      const { error } = await supabase.from('user_settings').update(patch).eq('id', userId!);
       if (error) throw error;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['settings', userId] }),
+    // show the change immediately, then confirm with the server
+    onMutate: async (patch) => {
+      await qc.cancelQueries({ queryKey: ['settings', userId] });
+      qc.setQueryData(['settings', userId], (old: Record<string, unknown> | undefined) => (old ? { ...old, ...patch } : old));
+    },
+    onSettled: () => qc.invalidateQueries({ queryKey: ['settings', userId] }),
   });
 }

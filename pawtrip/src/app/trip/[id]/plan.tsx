@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Segmented } from '@/components/ui/Chip';
 import { Meta, Text } from '@/components/ui/Text';
+import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
 import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, type ItemView } from '@/features/plan/model';
@@ -15,7 +16,6 @@ import { WeatherBanner } from '@/features/plan/WeatherBanner';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
-import { fmtMin, fmtRange, hourLabel } from '@/lib/time';
 import { useWeather } from '@/lib/weather';
 
 const PX = 96; // pixels per hour: the whole day, opened scrolled to the morning
@@ -23,6 +23,7 @@ const GUTTER = 46;
 
 export default function Plan() {
   const { t, locale } = useT();
+  const { fmtMin, hourLabel } = useTimeFmt();
   const th = useTheme();
   const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem } = useTripCtx();
   const [show, setShow] = useState<'all' | 'confirmed'>('all');
@@ -241,6 +242,7 @@ function StayStrip({ item }: { item: ItemView }) {
 
 function Block({ item, col, n, travel }: { item: ItemView; col: number; n: number; travel?: number }) {
   const { t } = useT();
+  const { fmtMin, fmtRange } = useTimeFmt();
   const th = useTheme();
   const c = useCatColors(item.cat);
   const { items, dogs, openItem } = useTripCtx();

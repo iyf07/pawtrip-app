@@ -117,14 +117,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "avatar_url": string | null,"created_at": string,"diet": (string)[],"display_name": string,"id": string,"interests": (string)[],"morning": number | null,"noise": number | null,"updated_at": string,"walking": number | null
+                    "avatar_url": string | null,"created_at": string,"diet": (string)[],"display_name": string,"id": string,"interests": (string)[],"morning": number | null,"noise": number | null,"onboarded_at": string | null,"updated_at": string,"walking": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"id": string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"updated_at"?: string,"walking"?: number | null
+                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"id": string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"onboarded_at"?: string | null,"updated_at"?: string,"walking"?: number | null
                   }
                   Update: {
-                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"id"?: string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"updated_at"?: string,"walking"?: number | null
+                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"id"?: string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"onboarded_at"?: string | null,"updated_at"?: string,"walking"?: number | null
                   }
                   Relationships: [
                     
@@ -229,14 +229,14 @@ isOneToOne: false
                   ]
                 },"user_settings": {
                   Row: {
-                    "id": string,"lang": string,"last_budget": string | null,"last_pace": string | null,"temp_unit": string,"theme": string,"time_format": string,"updated_at": string
+                    "id": string,"lang": string,"last_budget": string | null,"last_pace": string | null,"temp_unit": string,"theme": string,"time_format": string,"updated_at": string,"weight_unit": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "id": string,"lang"?: string,"last_budget"?: string | null,"last_pace"?: string | null,"temp_unit"?: string,"theme"?: string,"time_format"?: string,"updated_at"?: string
+                    "id": string,"lang"?: string,"last_budget"?: string | null,"last_pace"?: string | null,"temp_unit"?: string,"theme"?: string,"time_format"?: string,"updated_at"?: string,"weight_unit"?: string
                   }
                   Update: {
-                    "id"?: string,"lang"?: string,"last_budget"?: string | null,"last_pace"?: string | null,"temp_unit"?: string,"theme"?: string,"time_format"?: string,"updated_at"?: string
+                    "id"?: string,"lang"?: string,"last_budget"?: string | null,"last_pace"?: string | null,"temp_unit"?: string,"theme"?: string,"time_format"?: string,"updated_at"?: string,"weight_unit"?: string
                   }
                   Relationships: [
                     

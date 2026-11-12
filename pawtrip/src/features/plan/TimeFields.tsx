@@ -7,11 +7,13 @@ import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
-import { HALF_HOURS, fmtMin } from '@/lib/time';
+import { useTimeFmt } from '@/hooks/use-prefs';
+import { HALF_HOURS } from '@/lib/time';
 
 /** One time of day; tap to pick from half-hour steps. */
 export function TimeField({ label, value, onChange, disabled }: { label: string; value: number; onChange: (min: number) => void; disabled?: boolean }) {
   const th = useTheme();
+  const { fmtMin } = useTimeFmt();
   const [open, setOpen] = useState(false);
   return (
     <View style={{ flex: 1 }}>

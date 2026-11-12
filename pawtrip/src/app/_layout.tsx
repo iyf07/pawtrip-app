@@ -11,10 +11,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { useMyProfile } from '@/api/profile';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { PrefsProvider } from '@/hooks/use-prefs';
 import { I18nProvider } from '@/i18n';
 
 SplashScreen.preventAutoHideAsync();
@@ -30,9 +32,11 @@ export default function RootLayout() {
       <I18nProvider>
         <SafeAreaProvider>
           <AuthProvider>
-            <ToastProvider>
-              <Gate fontsLoaded={fontsLoaded} />
-            </ToastProvider>
+            <PrefsProvider>
+              <ToastProvider>
+                <Gate fontsLoaded={fontsLoaded} />
+              </ToastProvider>
+            </PrefsProvider>
           </AuthProvider>
         </SafeAreaProvider>
       </I18nProvider>
@@ -43,6 +47,7 @@ export default function RootLayout() {
 /** Routes: signed-out users only see /sign-in, signed-in users only see the app. */
 function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   const { session, ready } = useAuth();
+  const me = useMyProfile();
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
   const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
@@ -51,7 +56,9 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
     if (fontsLoaded && ready) SplashScreen.hideAsync();
   }, [fontsLoaded, ready]);
 
-  if (!fontsLoaded || !ready) return null;
+  // wait for the profile too, so a new user lands on onboarding instead of flashing the app
+  if (!fontsLoaded || !ready || (!!session && me.isPending)) return null;
+  const needsOnboarding = !!session && !!me.data && !me.data.onboarded_at;
 
   return (
     <ThemeProvider value={{ ...base, colors: { ...base.colors, background: colors.bg, card: colors.bg, text: colors.text, border: colors.line } }}>
@@ -59,8 +66,12 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
         <Stack.Protected guard={!session}>
           <Stack.Screen name="sign-in" />
         </Stack.Protected>
-        <Stack.Protected guard={!!session}>
+        <Stack.Protected guard={needsOnboarding}>
+          <Stack.Screen name="onboarding" />
+        </Stack.Protected>
+        <Stack.Protected guard={!!session && !needsOnboarding}>
           <Stack.Screen name="index" />
+          <Stack.Screen name="settings" />
           <Stack.Screen name="new-trip" options={{ presentation: 'modal' }} />
           <Stack.Screen name="join" options={{ presentation: 'modal' }} />
           <Stack.Screen name="profile" />

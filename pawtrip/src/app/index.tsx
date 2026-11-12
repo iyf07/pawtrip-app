@@ -35,6 +35,12 @@ export default function Trips() {
             +
           </Text>
         </Pressable>
+        <Pressable
+          onPress={() => router.push('/settings')}
+          accessibilityLabel={t('trips.settings')}
+          style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center', justifyContent: 'center' }}>
+          <Text size={20}>⚙️</Text>
+        </Pressable>
         <Pressable onPress={() => router.push('/profile')} accessibilityLabel={t('profile.title')}>
           <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
         </Pressable>

@@ -4,16 +4,17 @@ import { View } from 'react-native';
 import { useAuth } from '@/auth/AuthProvider';
 import { Button } from '@/components/ui/Button';
 import { DogIllo } from '@/components/ui/DogIllo';
+import { Segmented } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
-import { useT } from '@/i18n';
+import { useT, type Lang } from '@/i18n';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const COOLDOWN = 60;
 
 export default function SignIn() {
-  const { t } = useT();
+  const { t, lang, setLang } = useT();
   const { sendCode, verifyCode } = useAuth();
   const [stage, setStage] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
@@ -59,8 +60,18 @@ export default function SignIn() {
   }
 
   return (
-    <Screen contentStyle={{ paddingTop: 48, flexGrow: 1 }}>
-      <View style={{ alignItems: 'center' }}>
+    <Screen contentStyle={{ paddingTop: 16, flexGrow: 1 }}>
+      <View style={{ alignItems: 'flex-end' }}>
+        <Segmented<Lang>
+          value={lang}
+          onChange={setLang}
+          options={[
+            { value: 'zh', label: '中文' },
+            { value: 'en', label: 'English' },
+          ]}
+        />
+      </View>
+      <View style={{ alignItems: 'center', marginTop: 24 }}>
         <Text weight={800} size={38}>
           PawTrip
         </Text>

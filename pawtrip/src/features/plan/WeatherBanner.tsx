@@ -4,7 +4,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
-import { WX_EMOJI, tempOut, type DayWx } from '@/lib/weather';
+import { FORECAST_DAYS, WX_EMOJI, tempOut, type DayWx } from '@/lib/weather';
 
 import type { TripDog } from '../trip/TripContext';
 
@@ -32,7 +32,7 @@ export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; 
             {tip}
           </Text>
         ))}
-        {wx.typical && wx.forecastFrom ? <Meta>{t('wx.noteWhen', { date: datesLabel(wx.forecastFrom, wx.forecastFrom, locale) })}</Meta> : null}
+        {wx.typical && wx.forecastFrom ? <Meta>{t('wx.noteWhen', { days: FORECAST_DAYS, date: datesLabel(wx.forecastFrom, wx.forecastFrom, locale) })}</Meta> : null}
       </View>
     </View>
   );

@@ -25,7 +25,8 @@ export type DayWx = {
   forecastFrom: string | null;
 };
 
-const FORECAST_DAYS = 15; // the forecast covers today .. today + 15
+/** A real forecast exists for a day only when it is at most this many days away. */
+export const FORECAST_DAYS = 15;
 const PAST_MAX = 92; // how far back the forecast API can return recent days
 const YEARS = 5; // years averaged for typical weather
 

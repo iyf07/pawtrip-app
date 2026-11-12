@@ -1,12 +1,13 @@
 import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 
+import type { ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 import { Text } from './Text';
 
-type ChipProps = { label: string; on?: boolean; onPress?: () => void; style?: StyleProp<ViewStyle> };
+type ChipProps = { label: string; on?: boolean; onPress?: () => void; style?: StyleProp<ViewStyle>; /** label colour when `style` replaces the selected background */ textColor?: ThemeColor };
 
-export function Chip({ label, on, onPress, style }: ChipProps) {
+export function Chip({ label, on, onPress, style, textColor }: ChipProps) {
   const t = useTheme();
   return (
     <Pressable
@@ -26,7 +27,7 @@ export function Chip({ label, on, onPress, style }: ChipProps) {
         },
         style,
       ]}>
-      <Text weight={700} size={14} color={on ? 'onGold' : 'text'}>
+      <Text weight={700} size={14} color={textColor ?? (on ? 'onGold' : 'text')}>
         {label}
       </Text>
     </Pressable>

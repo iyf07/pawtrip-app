@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Linking, View } from 'react-native';
 
@@ -56,7 +57,7 @@ function Detail({ item }: { item: ItemView }) {
   const toast = useToast();
   const scheme = useColorScheme();
   const colors = CAT_COLORS[scheme === 'dark' ? 'dark' : 'light'];
-  const { trip, days, day, items, members, dogs, userId, isLeader, person, openItem } = useTripCtx();
+  const { trip, days, day, items, members, dogs, userId, isLeader, person, openItem, setDay } = useTripCtx();
 
   const patch = usePatchItem(trip.id);
   const del = useSetDeleted(trip.id);
@@ -115,6 +116,12 @@ function Detail({ item }: { item: ItemView }) {
     try {
       await patch.mutateAsync({ id: item.id, patch: { confirmed: value } });
       toast(value ? t('toast.confirmed', { name: item.title }) : t('toast.toIdea'));
+      if (value) {
+        // an idea became a plan item: show it on the plan, on its day
+        if (item.day != null) setDay(item.day);
+        openItem(null);
+        router.navigate({ pathname: '/trip/[id]/plan', params: { id: trip.id } });
+      }
     } catch {
       toast(t('common.saveFailed'));
     }
@@ -185,6 +192,7 @@ function Detail({ item }: { item: ItemView }) {
             label={`${emoji} ${t(`cat.${c}` as Key)}`}
             on={item.cat === c}
             onPress={locked ? undefined : () => changeCat(c)}
+            textColor="text"
             style={item.cat === c ? { backgroundColor: colors[c].tint, borderColor: colors[c].c } : { borderLeftWidth: 5, borderLeftColor: colors[c].c, opacity: locked ? 0.6 : 1 }}
           />
         ))}

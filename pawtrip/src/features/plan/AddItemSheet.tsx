@@ -97,6 +97,7 @@ function AddForm({ req }: { req: AddRequest }) {
             label={`${emoji} ${t(`cat.${c}` as Key)}`}
             on={cat === c}
             onPress={() => setCat(c)}
+            textColor="text"
             style={cat === c ? { backgroundColor: colors[c].tint, borderColor: colors[c].c } : { borderLeftWidth: 5, borderLeftColor: colors[c].c }}
           />
         ))}

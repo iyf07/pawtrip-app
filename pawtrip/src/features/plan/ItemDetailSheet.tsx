@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Linking, View } from 'react-native';
 
 import { useAddComment, usePatchItem, useSetDeleted, useSetDogMode, useSetMood, useSetRsvp } from '@/api/items';
+import { AddressField } from '@/components/AddressField';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
@@ -241,14 +242,15 @@ function Detail({ item }: { item: ItemView }) {
         '📍',
         t('add.addr'),
         <View>
-          <Field
+          <AddressField
             value={addr}
             onChangeText={setAddr}
             editable={!locked}
+            near={{ lat: trip.lat, lon: trip.lon }}
             placeholder={t('add.addrPh')}
-            maxLength={160}
-            onBlur={() => addr.trim() !== item.addr && save({ addr: addr.trim() })}
-            style={{ marginTop: -14 }}
+            flush
+            onPick={(h) => save({ addr: h.label, lat: h.lat, lon: h.lon })}
+            onBlur={() => addr.trim() !== item.addr && save({ addr: addr.trim(), lat: null, lon: null })}
           />
           {item.addr ? (
             <Button

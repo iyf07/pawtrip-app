@@ -51,6 +51,8 @@ export type ItemRow = {
   addr: string;
   notes: string;
   travel_min: number | null;
+  lat: number | null;
+  lon: number | null;
   deleted_at: string | null;
   deleted_by: string | null;
   created_by: string | null;
@@ -78,6 +80,8 @@ export type ItemView = {
   addr: string;
   notes: string;
   travel: number | null;
+  lat: number | null;
+  lon: number | null;
   dogs: Record<string, DogMode>;
   mood: Record<string, Mood>;
   rsvp: Record<string, Rsvp>;
@@ -116,6 +120,8 @@ export function buildItems(rows: ItemRow[], days: string[]): ItemView[] {
         addr: r.addr,
         notes: r.notes,
         travel: r.travel_min,
+        lat: r.lat,
+        lon: r.lon,
         dogs: Object.fromEntries(r.item_dogs.map((d) => [d.dog_id, d.mode as DogMode])),
         mood: Object.fromEntries(r.item_dogs.filter((d) => d.mood).map((d) => [d.dog_id, d.mood as Mood])),
         rsvp: Object.fromEntries(r.reactions.filter((x) => x.rsvp).map((x) => [x.user_id, x.rsvp as Rsvp])),

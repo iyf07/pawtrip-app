@@ -39,6 +39,8 @@ export type NewItem = {
   end_min?: number | null;
   stay_from?: string | null;
   stay_to?: string | null;
+  lat?: number | null;
+  lon?: number | null;
 };
 
 type ItemPatch = Partial<Omit<NewItem, 'trip_id'>> & {

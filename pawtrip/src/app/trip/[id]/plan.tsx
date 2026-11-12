@@ -1,17 +1,22 @@
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
 
+import { useSettings } from '@/api/profile';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Segmented } from '@/components/ui/Chip';
 import { Meta, Text } from '@/components/ui/Text';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
-import { aloneIssues, conflictsOf, dayItems, dogMode, isLive, layoutDay, type ItemView } from '@/features/plan/model';
+import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, type ItemView } from '@/features/plan/model';
+import { PlanMap } from '@/features/plan/PlanMap';
+import { buildPins, useDayRoute, useItemCoords } from '@/features/plan/useDayGeo';
+import { WeatherBanner } from '@/features/plan/WeatherBanner';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
 import { fmtMin, fmtRange, hourLabel } from '@/lib/time';
+import { useWeather } from '@/lib/weather';
 
 const PX = 96; // pixels per hour: the whole day, opened scrolled to the morning
 const GUTTER = 46;
@@ -19,13 +24,34 @@ const GUTTER = 46;
 export default function Plan() {
   const { t, locale } = useT();
   const th = useTheme();
-  const { days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem } = useTripCtx();
+  const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem } = useTripCtx();
   const [show, setShow] = useState<'all' | 'confirmed'>('all');
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
 
   const dayList = dayItems(items, day).filter((i) => show === 'all' || i.confirmed);
   const stays = items.filter((i) => isLive(i) && i.type === 'stay' && i.stayFrom != null && day >= i.stayFrom && day <= (i.stayTo ?? i.stayFrom) && (show === 'all' || i.confirmed));
   const layout = layoutDay(dayList);
+
+  // weather + sun for the selected day
+  const settings = useSettings();
+  const unit = settings.data?.temp_unit === 'C' ? 'C' : 'F';
+  const weather = useWeather(trip, days);
+  const wx = weather.data?.[days[day]];
+
+  // map: today's stops in time order, loose ideas and the stay as extra pins, route + drive times between stops
+  const near = { lat: trip.lat, lon: trip.lon };
+  const looseIdeas = items.filter((i) => isLive(i) && isIdea(i) && !hasTime(i));
+  const coords = useItemCoords([...dayList, ...looseIdeas, ...stays], near);
+  const stops = [...dayList]
+    .sort((a, b) => a.start! - b.start!)
+    .filter((i) => coords[i.id])
+    .map((i) => ({ id: i.id, ...coords[i.id] }));
+  const { line, travelTo } = useDayRoute(stops);
+  const pins = buildPins(
+    stops,
+    looseIdeas.filter((i) => coords[i.id]).map((i) => ({ id: i.id, ...coords[i.id] })),
+    stays.filter((i) => coords[i.id]).map((i) => ({ id: i.id, ...coords[i.id] })),
+  );
 
   // open scrolled to the first item of the day (or 7 AM)
   const firstStart = dayList.length ? Math.min(...dayList.map((i) => i.start!)) : 7 * 60;
@@ -79,6 +105,14 @@ export default function Plan() {
           />
         </View>
 
+        {wx ? <WeatherBanner wx={wx} dogs={dogs} unit={unit} /> : null}
+        <PlanMap
+          pins={pins}
+          line={line}
+          center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null}
+          stops={stops.length}
+          onPin={openItem}
+        />
         {!itemsLoading && !itemsError ? stays.map((s) => <StayStrip key={s.id} item={s} />) : null}
       </View>
       <TabBody innerRef={scroller}>
@@ -120,9 +154,24 @@ export default function Plan() {
                 }}
                 style={{ position: 'absolute', left: GUTTER, right: 0, top: 0, bottom: 0 }}
               />
+              {wx?.rise != null && wx?.set != null ? (
+                <>
+                  <View pointerEvents="none" style={{ position: 'absolute', left: GUTTER, right: 0, top: 0, height: wx.rise * (PX / 60), backgroundColor: th.night, borderRadius: 6 }} />
+                  <View pointerEvents="none" style={{ position: 'absolute', left: GUTTER, right: 0, top: wx.set * (PX / 60), bottom: 0, backgroundColor: th.night, borderRadius: 6 }} />
+                  {([['rise', wx.rise, th.sun, '☀︎'], ['set', wx.set, th.sunset, '☾']] as const).map(([k, m, color, icon]) => (
+                    <View key={k} pointerEvents="none" style={{ position: 'absolute', left: GUTTER, right: 0, top: m * (PX / 60), height: 0, borderTopWidth: 1.5, borderColor: color }}>
+                      <View style={{ position: 'absolute', left: 6, top: -10, paddingHorizontal: 8, height: 20, justifyContent: 'center', borderRadius: 10, backgroundColor: th.bg, borderWidth: 1.5, borderColor: color }}>
+                        <Text size={11} weight={700} style={{ color, lineHeight: 14 }}>
+                          {icon} {t(`sun.${k}`)} {fmtMin(m)}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+                </>
+              ) : null}
               <View pointerEvents="box-none" style={{ position: 'absolute', left: GUTTER, right: 0, top: 0, bottom: 0 }}>
                 {dayList.map((it) => (
-                  <Block key={it.id} item={it} col={layout[it.id].col} n={layout[it.id].n} />
+                  <Block key={it.id} item={it} col={layout[it.id].col} n={layout[it.id].n} travel={travelTo[it.id]} />
                 ))}
               </View>
             </View>
@@ -190,7 +239,7 @@ function StayStrip({ item }: { item: ItemView }) {
   );
 }
 
-function Block({ item, col, n }: { item: ItemView; col: number; n: number }) {
+function Block({ item, col, n, travel }: { item: ItemView; col: number; n: number; travel?: number }) {
   const { t } = useT();
   const th = useTheme();
   const c = useCatColors(item.cat);
@@ -239,6 +288,7 @@ function Block({ item, col, n }: { item: ItemView; col: number; n: number }) {
         </Text>
         <Text size={13} weight={700} color="muted" numberOfLines={1}>
           {short ? fmtMin(item.start!) : fmtRange(item.start!, item.end!)}
+          {travel ? ` · ${t('travel', { n: travel })}` : ''}
         </Text>
         {!short ? <FacePile item={item} size={18} /> : null}
         <View style={{ position: 'absolute', top: 4, right: 4, flexDirection: 'row', gap: 4 }}>

@@ -9,7 +9,7 @@ import type { ItemView } from '@/features/plan/model';
 import { buildDays, todayIso } from '@/lib/dates';
 
 export type Person = { id: string; name: string; url: string | null };
-export type TripDog = { id: string; name: string; photo: string | null; alone: number | null; ownerId: string };
+export type TripDog = { id: string; name: string; photo: string | null; alone: number | null; temp: number | null; ownerId: string };
 
 /** What the "add" sheet should start with. */
 export type AddRequest = { origin: 'plan' | 'idea'; day?: number; start?: number; end?: number };
@@ -55,7 +55,7 @@ export function TripProvider({ trip, children }: { trip: TripDetail; children: R
   const dogs = useMemo<TripDog[]>(
     () =>
       trip.trip_dogs.flatMap((d) =>
-        d.dogs ? [{ id: d.dogs.id, name: d.dogs.name, photo: d.dogs.photo_url, alone: d.dogs.alone, ownerId: d.dogs.owner_id }] : [],
+        d.dogs ? [{ id: d.dogs.id, name: d.dogs.name, photo: d.dogs.photo_url, alone: d.dogs.alone, temp: d.dogs.temp, ownerId: d.dogs.owner_id }] : [],
       ),
     [trip.trip_dogs],
   );

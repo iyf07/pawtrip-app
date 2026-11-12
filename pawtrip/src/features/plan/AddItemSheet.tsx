@@ -4,6 +4,7 @@ import { View } from 'react-native';
 import { useCreateItem } from '@/api/items';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
+import { AddressField } from '@/components/AddressField';
 import { Field } from '@/components/ui/Field';
 import { Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
@@ -39,6 +40,7 @@ function AddForm({ req }: { req: AddRequest }) {
   const [cat, setCat] = useState<CatKey | null>(null);
   const [title, setTitle] = useState('');
   const [addr, setAddr] = useState('');
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(null);
   const [notes, setNotes] = useState('');
   const [timed, setTimed] = useState(fromPlan);
   const [when, setWhen] = useState<When>({ day: req.day ?? day, start: req.start ?? 600, end: req.end ?? 660, stayTo: Math.min((req.day ?? day) + 1, days.length - 1) });
@@ -61,6 +63,7 @@ function AddForm({ req }: { req: AddRequest }) {
       title: title.trim().slice(0, 120),
       emoji: catEmoji(cat),
       addr: addr.trim().slice(0, 160),
+      ...(coords ? { lat: coords.lat, lon: coords.lon } : {}),
       notes: notes.trim().slice(0, 2000),
       ...(timed && when.day != null
         ? stay
@@ -105,7 +108,17 @@ function AddForm({ req }: { req: AddRequest }) {
       ) : null}
 
       <Field label={t('add.fTitle')} value={title} onChangeText={setTitle} maxLength={120} error={errs.title} />
-      <Field label={`${t('add.addr')} ${t('add.addrOpt')}`} value={addr} onChangeText={setAddr} placeholder={t('add.addrPh')} autoComplete="street-address" />
+      <AddressField
+        label={`${t('add.addr')} ${t('add.addrOpt')}`}
+        value={addr}
+        onChangeText={(v) => {
+          setAddr(v);
+          setCoords(null);
+        }}
+        onPick={(h) => setCoords({ lat: h.lat, lon: h.lon })}
+        near={{ lat: trip.lat, lon: trip.lon }}
+        placeholder={t('add.addrPh')}
+      />
 
       <View style={{ marginTop: 16 }}>
         {!fromPlan ? (

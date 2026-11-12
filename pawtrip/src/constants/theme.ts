@@ -25,6 +25,9 @@ const light = {
   scrim: 'rgba(74,54,40,0.38)',
   toastBg: '#5B4636',
   toastText: '#FFFDF7',
+  night: 'rgba(70,80,140,0.07)',
+  sun: '#D9962B',
+  sunset: '#C96A3A',
 };
 
 const dark: typeof light = {
@@ -51,6 +54,9 @@ const dark: typeof light = {
   scrim: 'rgba(0,0,0,0.55)',
   toastBg: '#F1E2CC',
   toastText: '#231B15',
+  night: 'rgba(0,0,0,0.22)',
+  sun: '#E8B65A',
+  sunset: '#E8915F',
 };
 
 export const Colors = { light, dark } as const;

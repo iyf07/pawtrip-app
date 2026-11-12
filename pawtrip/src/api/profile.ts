@@ -34,3 +34,31 @@ export function useUpdateProfile() {
 export async function saveLangSetting(userId: string, lang: 'zh' | 'en') {
   await supabase.from('user_settings').update({ lang }).eq('id', userId);
 }
+
+export type TempUnit = 'F' | 'C';
+
+/** Private display settings (temperature unit, ...). */
+export function useSettings() {
+  const { userId } = useAuth();
+  return useQuery({
+    queryKey: ['settings', userId],
+    enabled: !!userId,
+    queryFn: async () => {
+      const { data, error } = await supabase.from('user_settings').select('*').eq('id', userId!).single();
+      if (error) throw error;
+      return data;
+    },
+  });
+}
+
+export function useSetTempUnit() {
+  const { userId } = useAuth();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (unit: TempUnit) => {
+      const { error } = await supabase.from('user_settings').update({ temp_unit: unit }).eq('id', userId!);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['settings', userId] }),
+  });
+}

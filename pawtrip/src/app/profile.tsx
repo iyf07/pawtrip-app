@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
-import { saveLangSetting, useMyProfile, useUpdateProfile } from '@/api/profile';
+import { saveLangSetting, useMyProfile, useSetTempUnit, useSettings, useUpdateProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { ScaleInput } from '@/components/ScaleInput';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
@@ -31,6 +31,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const { userId, email, signOut } = useAuth();
   const dogs = useMyDogs();
   const update = useUpdateProfile();
+  const settings = useSettings();
+  const setTemp = useSetTempUnit();
 
   const [name, setName] = useState(profile.display_name);
   const [interests, setInterests] = useState<string[]>(profile.interests);
@@ -75,6 +77,18 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         options={[
           { value: 'zh', label: '中文' },
           { value: 'en', label: 'English' },
+        ]}
+      />
+
+      <Text weight={800} size={13} style={{ marginTop: 18, marginBottom: 8 }}>
+        {t('settings.temp')}
+      </Text>
+      <Segmented
+        value={settings.data?.temp_unit === 'C' ? 'C' : 'F'}
+        onChange={(u) => setTemp.mutate(u)}
+        options={[
+          { value: 'F', label: '°F' },
+          { value: 'C', label: '°C' },
         ]}
       />
 

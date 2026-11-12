@@ -68,3 +68,15 @@ export async function deletePhotoByUrl(url: string | null | undefined) {
   if (i < 0) return;
   await supabase.storage.from(BUCKET).remove([decodeURIComponent(url.slice(i + marker.length))]).catch(() => {});
 }
+
+/** Pick any picture (e.g. a screenshot) and shrink it to at most 1280 px wide. Returns a local JPEG URI, or null if cancelled. */
+export async function pickScreenshot(): Promise<string | null> {
+  const res = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], allowsEditing: false, quality: 1 });
+  if (res.canceled || !res.assets[0]) return null;
+  const a = res.assets[0];
+  const ctx = ImageManipulator.manipulate(a.uri);
+  if (a.width > 1280) ctx.resize({ width: 1280 });
+  const rendered = await ctx.renderAsync();
+  const out = await rendered.saveAsync({ format: SaveFormat.JPEG, compress: 0.8 });
+  return out.uri;
+}

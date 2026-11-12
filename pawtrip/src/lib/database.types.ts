@@ -69,6 +69,20 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"feedback": {
+                  Row: {
+                    "app_version": string | null,"created_at": string,"fixed_in": string | null,"handled_at": string | null,"id": string,"kind": string,"lang": string | null,"message": string,"platform": string | null,"resolution": string | null,"route": string | null,"screenshot_path": string | null,"status": string,"updated_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "app_version"?: string | null,"created_at"?: string,"fixed_in"?: string | null,"handled_at"?: string | null,"id"?: string,"kind": string,"lang"?: string | null,"message": string,"platform"?: string | null,"resolution"?: string | null,"route"?: string | null,"screenshot_path"?: string | null,"status"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Update: {
+                    "app_version"?: string | null,"created_at"?: string,"fixed_in"?: string | null,"handled_at"?: string | null,"id"?: string,"kind"?: string,"lang"?: string | null,"message"?: string,"platform"?: string | null,"resolution"?: string | null,"route"?: string | null,"screenshot_path"?: string | null,"status"?: string,"updated_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
                 },"item_dogs": {
                   Row: {
                     "dog_id": string,"item_id": string,"mode": string,"mood": string | null,"trip_id": string

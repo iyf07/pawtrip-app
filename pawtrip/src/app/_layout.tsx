@@ -13,6 +13,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useMyProfile } from '@/api/profile';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
+import { FeedbackButton } from '@/components/FeedbackButton';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -79,6 +80,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="trip/[id]" />
         </Stack.Protected>
       </Stack>
+      {session ? <FeedbackButton /> : null}
     </ThemeProvider>
   );
 }

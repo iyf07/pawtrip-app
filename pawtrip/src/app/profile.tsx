@@ -1,12 +1,17 @@
+import * as Clipboard from 'expo-clipboard';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
+import { useMyFeedback } from '@/api/feedback';
 import { useMyProfile, useUpdateProfile } from '@/api/profile';
+import type { Profile as ProfileRow } from '@/api/types';
 import { useAuth } from '@/auth/AuthProvider';
+import { AvatarEditor } from '@/components/AvatarEditor';
+import { HandleField } from '@/components/HandleField';
+import { HeaderActions } from '@/components/HeaderActions';
 import { ScaleInput } from '@/components/ScaleInput';
-import { PhotoField } from '@/components/PhotoField';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -16,10 +21,10 @@ import { Header, Screen, SectionTitle } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/constants/options';
-import type { Profile as ProfileRow } from '@/api/types';
+import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
-import { deletePhotoByUrl } from '@/lib/photos';
 import { goBack } from '@/lib/nav';
+import { deletePhotoByUrl } from '@/lib/photos';
 
 export default function ProfileRoute() {
   const me = useMyProfile();
@@ -30,12 +35,16 @@ export default function ProfileRoute() {
 
 function ProfileForm({ profile }: { profile: ProfileRow }) {
   const { t } = useT();
+  const th = useTheme();
   const toast = useToast();
-  const { email } = useAuth();
+  const { userId, email, signOut } = useAuth();
   const dogs = useMyDogs();
+  const feedback = useMyFeedback();
   const update = useUpdateProfile();
 
   const [name, setName] = useState(profile.display_name);
+  const [handle, setHandle] = useState(profile.handle);
+  const [handleOk, setHandleOk] = useState(true);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
   const [scales, setScales] = useState<Record<PersonScale, number | null>>({
@@ -45,37 +54,47 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   });
 
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
+  const handleChanged = handle !== profile.handle;
+  const canSave = name.trim().length > 0 && (!handleChanged || handleOk);
 
   async function save() {
     try {
-      await update.mutateAsync({ display_name: name.trim() || (email?.split('@')[0] ?? ''), interests, diet, ...scales });
+      await update.mutateAsync({ display_name: name.trim(), ...(handleChanged ? { handle } : {}), interests, diet, ...scales });
       toast(t('toast.saved'));
+    } catch (e) {
+      const code = (e as { code?: string })?.code;
+      toast(code === '23505' ? t('pf.handle.taken') : t('common.saveFailed')); // someone took it a moment ago
+    }
+  }
+
+  async function changeAvatar(url: string | null) {
+    const old = profile.avatar_url;
+    try {
+      await update.mutateAsync({ avatar_url: url });
+      await deletePhotoByUrl(old);
     } catch {
       toast(t('common.saveFailed'));
     }
   }
 
   return (
-    <Screen top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} />}>
-      <View style={{ marginTop: 4 }}>
-        <PhotoField
-          kind="avatar"
-          name={name}
-          url={profile.avatar_url}
-          onChange={async (url) => {
-            const old = profile.avatar_url;
-            try {
-              await update.mutateAsync({ avatar_url: url });
-              await deletePhotoByUrl(old);
-            } catch {
-              toast(t('common.saveFailed'));
-            }
-          }}
-        />
-        <Meta style={{ marginTop: 8 }}>{t('profile.signedIn', { name: email ?? '' })}</Meta>
+    <Screen top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} right={<HeaderActions avatar={false} />} />}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 4 }}>
+        <AvatarEditor name={profile.display_name} url={profile.avatar_url} onChange={changeAvatar} />
+        <View style={{ flex: 1 }}>
+          <Text weight={800} size={22} numberOfLines={1}>
+            {profile.display_name}
+          </Text>
+          <Text weight={700} size={15} color="muted" numberOfLines={1}>
+            @{profile.handle}
+          </Text>
+        </View>
       </View>
 
-      <Field label={t('profile.me')} value={name} onChangeText={setName} maxLength={60} />
+      <Field label={t('pf.name')} hint={t('pf.nameHint')} value={name} onChangeText={setName} maxLength={60} />
+      <View style={{ marginTop: 4 }}>
+        <HandleField label={t('pf.handle')} hint={t('pf.handleHint')} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
+      </View>
 
       <SectionTitle>{t('profile.myDogs')}</SectionTitle>
       <View style={{ gap: 10 }}>
@@ -120,7 +139,74 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         ))}
       </View>
 
-      <Button label={t('profile.save')} block loading={update.isPending} onPress={save} style={{ marginTop: 24 }} />
+      <Button label={t('profile.save')} block loading={update.isPending} disabled={!canSave} onPress={save} style={{ marginTop: 24 }} />
+
+      <SectionTitle>{t('pf.account')}</SectionTitle>
+      <Card>
+        <Meta>{t('set.accountId')}</Meta>
+        <Text selectable weight={700} size={14} style={{ marginTop: 4 }}>
+          {userId}
+        </Text>
+        <Meta style={{ marginTop: 6 }}>{t('set.accountIdHint')}</Meta>
+        <View style={{ marginTop: 8 }}>
+          <Button
+            label={t('set.copyId')}
+            small
+            variant="ghost"
+            onPress={async () => {
+              await Clipboard.setStringAsync(userId ?? '');
+              toast(t('group.copied'));
+            }}
+          />
+        </View>
+      </Card>
+
+      <Text weight={800} size={13} style={{ marginTop: 20, marginBottom: 8 }}>
+        {t('set.methods')}
+      </Text>
+      <Card>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+          <Text size={20}>✉️</Text>
+          <View style={{ flex: 1 }}>
+            <Text weight={800}>{t('set.methodEmail')}</Text>
+            <Meta numberOfLines={1}>{email}</Meta>
+          </View>
+        </View>
+      </Card>
+      <Meta style={{ marginTop: 8 }}>{t('set.methodsMore')}</Meta>
+
+      {(feedback.data ?? []).length > 0 ? (
+        <>
+          <SectionTitle>{t('fdbk.mine')}</SectionTitle>
+          <View style={{ gap: 10 }}>
+            {(feedback.data ?? []).map((f) => {
+              const tone = f.status === 'fixed' ? { bg: th.okBg, fg: th.ok } : f.status === 'wontfix' ? { bg: th.line, fg: th.muted } : f.status === 'triaged' ? { bg: th.blueBg, fg: th.text } : { bg: th.goldBg, fg: th.link };
+              return (
+                <Card key={f.id}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+                    <Text size={16}>{f.kind === 'bug' ? '🐞' : f.kind === 'idea' ? '💡' : '💬'}</Text>
+                    <View style={{ backgroundColor: tone.bg, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 12 }}>
+                      <Text weight={800} size={11} style={{ color: tone.fg }}>
+                        {t(`fdbk.st.${f.status}` as Key)}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text numberOfLines={3} style={{ marginTop: 6 }}>
+                    {f.message}
+                  </Text>
+                  {f.resolution ? (
+                    <Meta style={{ marginTop: 6 }} weight={700}>
+                      ↳ {f.resolution}
+                    </Meta>
+                  ) : null}
+                </Card>
+              );
+            })}
+          </View>
+        </>
+      ) : null}
+
+      <Button label={t('profile.signout')} variant="danger" block onPress={() => signOut()} style={{ marginTop: 28 }} />
     </Screen>
   );
 }

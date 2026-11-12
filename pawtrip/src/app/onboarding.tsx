@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { saveLangSetting, useMyProfile, useUpdateProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
+import { HandleField } from '@/components/HandleField';
 import { PhotoField } from '@/components/PhotoField';
 import { ScaleInput } from '@/components/ScaleInput';
 import { Wizard, type WizardStep } from '@/components/Wizard';
@@ -31,6 +32,8 @@ function Onboarding({ profile }: { profile: Profile }) {
   const update = useUpdateProfile();
 
   const [name, setName] = useState(profile.display_name || (email?.split('@')[0] ?? ''));
+  const [handle, setHandle] = useState(profile.handle);
+  const [handleOk, setHandleOk] = useState(true);
   const [photo, setPhoto] = useState<string | null>(profile.avatar_url);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
@@ -55,6 +58,16 @@ function Onboarding({ profile }: { profile: Profile }) {
       onNext: () => save({ display_name: name.trim() }),
       content: ({ next }) => (
         <Field value={name} onChangeText={setName} maxLength={60} autoFocus returnKeyType="next" onSubmitEditing={() => name.trim() && next()} style={{ fontSize: 22 }} />
+      ),
+    },
+    {
+      key: 'handle',
+      title: t('ob.handle.q'),
+      hint: t('ob.handle.hint'),
+      canContinue: handleOk && handle.length >= 3,
+      onNext: () => (handle === profile.handle ? undefined : save({ handle })),
+      content: ({ next }) => (
+        <HandleField value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} autoFocus onSubmit={() => handleOk && next()} />
       ),
     },
     {

@@ -1,10 +1,9 @@
 import { router } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
-import { useMyProfile } from '@/api/profile';
 import { useTrips, type TripListItem } from '@/api/trips';
-import { useAuth } from '@/auth/AuthProvider';
-import { Avatar, AvatarStack } from '@/components/ui/Avatar';
+import { HeaderActions } from '@/components/HeaderActions';
+import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { DogIllo } from '@/components/ui/DogIllo';
@@ -17,8 +16,6 @@ import { datesLabel } from '@/lib/dates';
 export default function Trips() {
   const { t } = useT();
   const th = useTheme();
-  const { userId } = useAuth();
-  const me = useMyProfile();
   const trips = useTrips();
 
   const header = (
@@ -26,25 +23,19 @@ export default function Trips() {
       <Text weight={800} size={28}>
         {t('trips.title')}
       </Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-        <Pressable
-          onPress={() => router.push('/new-trip')}
-          accessibilityLabel={t('trips.new')}
-          style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: th.gold, borderWidth: 4, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
-          <Text size={26} weight={800} color="onGold" style={{ lineHeight: 30 }}>
-            +
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => router.push('/settings')}
-          accessibilityLabel={t('trips.settings')}
-          style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center', justifyContent: 'center' }}>
-          <Text size={20}>⚙️</Text>
-        </Pressable>
-        <Pressable onPress={() => router.push('/profile')} accessibilityLabel={t('profile.title')}>
-          <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
-        </Pressable>
-      </View>
+      <HeaderActions
+        size={44}
+        before={
+          <Pressable
+            onPress={() => router.push('/new-trip')}
+            accessibilityLabel={t('trips.new')}
+            style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: th.gold, borderWidth: 4, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
+            <Text size={26} weight={800} color="onGold" style={{ lineHeight: 30 }}>
+              +
+            </Text>
+          </Pressable>
+        }
+      />
     </View>
   );
 

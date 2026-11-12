@@ -108,9 +108,14 @@ export default function Group() {
               key={m.user_id}
               style={{ flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 56, borderTopWidth: i === 0 ? 0 : 1.5, borderStyle: 'dashed', borderColor: th.line }}>
               <Avatar id={m.user_id} name={name} url={m.profiles?.avatar_url} size={36} />
-              <Text weight={700} style={{ flex: 1 }} numberOfLines={1}>
-                {m.user_id === userId ? t('group.meTag', { name }) : name}
-              </Text>
+              <View style={{ flex: 1 }}>
+                <Text weight={700} numberOfLines={1}>
+                  {m.user_id === userId ? t('group.meTag', { name }) : name}
+                </Text>
+                {m.profiles?.handle ? (
+                  <Meta numberOfLines={1}>@{m.profiles.handle}</Meta>
+                ) : null}
+              </View>
               {m.user_id === trip.creator_id ? (
                 <View style={{ backgroundColor: th.blueBg, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 12 }}>
                   <Text weight={800} size={11}>

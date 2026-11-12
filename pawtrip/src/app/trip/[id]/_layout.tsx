@@ -4,6 +4,7 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTrip, useTripRealtime } from '@/api/trips';
+import { HeaderActions } from '@/components/HeaderActions';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header, Screen } from '@/components/ui/Screen';
@@ -93,6 +94,7 @@ export default function TripLayout() {
         top={
           <Header
             left={back}
+            right={<HeaderActions size={34} />}
             title={trip.name}
             subtitle={`${t('people', { n: trip.trip_members.length })} · ${t('dogs', { n: trip.trip_dogs.length })}`}
           />

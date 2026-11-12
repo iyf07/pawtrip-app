@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 
 import type { Dog, Trip } from './types';
 
-type PersonLite = { display_name: string; avatar_url: string | null };
+type PersonLite = { display_name: string; avatar_url: string | null; handle?: string };
 
 export type TripListItem = Trip & {
   trip_members: { user_id: string; profiles: PersonLite | null }[];
@@ -44,7 +44,7 @@ export function useTrip(id: string | undefined) {
     queryFn: async (): Promise<TripDetail> => {
       const { data, error } = await supabase
         .from('trips')
-        .select('*, trip_members(user_id, joined_at, profiles(display_name, avatar_url)), trip_dogs(dog_id, added_by, dogs(*, profiles(display_name, avatar_url)))')
+        .select('*, trip_members(user_id, joined_at, profiles(display_name, avatar_url, handle)), trip_dogs(dog_id, added_by, dogs(*, profiles(display_name, avatar_url)))')
         .eq('id', id!)
         .single();
       if (error) throw error;

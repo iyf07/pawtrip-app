@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactElement } from 'react';
 import { View } from 'react-native';
 
 import { useAuth } from '@/auth/AuthProvider';
@@ -9,26 +9,23 @@ import { Meta } from '@/components/ui/Text';
 import { useT } from '@/i18n';
 import { pickPhoto, renderSquare, uploadPhoto, type CropRect, type PickedPhoto } from '@/lib/photos';
 
-type Props =
-  | { kind: 'avatar'; url: string | null; name: string; onChange: (url: string | null) => void | Promise<void> }
-  | { kind: 'dog'; url: string | null; onChange: (url: string | null) => void | Promise<void> };
-
-/** Photo preview with add / change / remove. Uploads right away and reports the new public URL. */
-export function PhotoField(props: Props) {
+/**
+ * Pick -> (web) crop -> 512 px JPEG -> upload -> report the public URL.
+ * `cropper` must be rendered somewhere in the screen; `choose()` starts the flow.
+ */
+export function usePhotoUpload(kind: 'avatar' | 'dog', onChange: (url: string) => void | Promise<void>) {
   const { t } = useT();
   const { userId } = useAuth();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const [pending, setPending] = useState<PickedPhoto | null>(null);
 
-  /** crop (if given) -> 512 px JPEG -> upload -> report the public URL */
   async function finish(photo: PickedPhoto, crop?: CropRect) {
     setBusy(true);
     try {
       const local = await renderSquare(photo, crop);
-      const url = await uploadPhoto(userId!, props.kind, local);
-      await props.onChange(url);
+      const url = await uploadPhoto(userId!, kind, local);
+      await onChange(url);
     } catch {
       setError(t('dog.photoErr'));
     } finally {
@@ -51,6 +48,31 @@ export function PhotoField(props: Props) {
     }
   }
 
+  const cropper: ReactElement = (
+    <PhotoCropper
+      photo={pending}
+      onCancel={() => setPending(null)}
+      onDone={(rect) => {
+        const photo = pending;
+        setPending(null);
+        if (photo) finish(photo, rect);
+      }}
+    />
+  );
+
+  return { choose, busy, error, cropper };
+}
+
+type Props =
+  | { kind: 'avatar'; url: string | null; name: string; onChange: (url: string | null) => void | Promise<void> }
+  | { kind: 'dog'; url: string | null; onChange: (url: string | null) => void | Promise<void> };
+
+/** Photo preview with add / change / remove. Uploads right away and reports the new public URL. */
+export function PhotoField(props: Props) {
+  const { t } = useT();
+  const { userId } = useAuth();
+  const { choose, busy, error, cropper } = usePhotoUpload(props.kind, props.onChange);
+
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
       {props.kind === 'avatar' ? <Avatar id={userId ?? 'me'} name={props.name} url={props.url} size={72} /> : <DogAvatar url={props.url} size={72} />}
@@ -61,15 +83,7 @@ export function PhotoField(props: Props) {
         </View>
         {error ? <Meta color="danger">{error}</Meta> : null}
       </View>
-      <PhotoCropper
-        photo={pending}
-        onCancel={() => setPending(null)}
-        onDone={(rect) => {
-          const photo = pending;
-          setPending(null);
-          if (photo) finish(photo, rect);
-        }}
-      />
+      {cropper}
     </View>
   );
 }

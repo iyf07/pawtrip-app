@@ -22,7 +22,7 @@ export function useUpdateProfile() {
   const { userId } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (patch: Partial<Pick<Profile, 'display_name' | 'avatar_url' | 'interests' | 'diet' | 'walking' | 'noise' | 'morning' | 'onboarded_at'>>) => {
+    mutationFn: async (patch: Partial<Pick<Profile, 'display_name' | 'handle' | 'avatar_url' | 'interests' | 'diet' | 'walking' | 'noise' | 'morning' | 'onboarded_at'>>) => {
       const { error } = await supabase.from('profiles').update(patch).eq('id', userId!);
       if (error) throw error;
     },

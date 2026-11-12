@@ -76,7 +76,7 @@ export function Header({ title, subtitle, left, right }: HeaderProps) {
           </Text>
         ) : null}
       </View>
-      <View style={{ width: 80, alignItems: 'flex-end' }}>{right}</View>
+      <View style={{ minWidth: 80, alignItems: 'flex-end' }}>{right}</View>
     </View>
   );
 }

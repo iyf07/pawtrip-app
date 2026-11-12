@@ -9,10 +9,12 @@ type Props = TextInputProps & {
   label?: string;
   hint?: string;
   error?: string | null;
+  /** red border without a message (the caller shows its own) */
+  invalid?: boolean;
 };
 
 /** Labelled text input with an inline error line. */
-export function Field({ label, hint, error, style, onFocus, onBlur, ...rest }: Props) {
+export function Field({ label, hint, error, invalid, style, onFocus, onBlur, ...rest }: Props) {
   const t = useTheme();
   const [focus, setFocus] = useState(false);
   return (
@@ -40,7 +42,7 @@ export function Field({ label, hint, error, style, onFocus, onBlur, ...rest }: P
             paddingVertical: 10,
             borderRadius: 10,
             borderWidth: 2,
-            borderColor: error ? t.danger : focus ? t.blue : t.line,
+            borderColor: error || invalid ? t.danger : focus ? t.blue : t.line,
             backgroundColor: t.card,
             color: t.text,
             fontSize: 16,

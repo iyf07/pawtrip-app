@@ -27,7 +27,7 @@ export function FeedbackButton() {
 
   return (
     <>
-      <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: insets.bottom + 96, alignItems: 'center' }}>
+      <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, bottom: insets.bottom + 176, alignItems: 'center' }}>
         <View pointerEvents="box-none" style={{ width: '100%', maxWidth: MAX_WIDTH, alignItems: 'flex-end' }}>
           <Pressable
             onPress={() => setOpen(true)}

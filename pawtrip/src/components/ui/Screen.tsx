@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
-import { View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { NavBar } from '@/components/NavBar';
 import { COLUMN, type ColumnSize } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -23,15 +24,18 @@ type ScreenProps = {
   contentStyle?: StyleProp<ViewStyle>;
   /** column width on large screens: narrow (forms), wide (lists), full (trip view) */
   size?: ColumnSize;
+  /** show the app navigation bar (logo + profile) above everything */
+  nav?: boolean;
 };
 
 /** Page shell: themed background, centred phone-width column on wide screens, safe areas. */
-export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle, size = 'narrow' }: ScreenProps) {
+export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle, size = 'narrow', nav }: ScreenProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
-      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset ? 0 : insets.top }}>
+      {nav ? <NavBar /> : null}
+      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav ? 0 : insets.top }}>
         {top}
         {scroll ? (
           <RefreshScroll
@@ -67,11 +71,12 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
       style={{
         flexDirection: 'row',
         alignItems: 'center',
-        minHeight: 56,
+        minHeight: 52,
         paddingHorizontal: 16,
+        paddingVertical: 4,
         backgroundColor: t.bg,
       }}>
-      <View style={{ minWidth: 80, alignItems: 'flex-start' }}>{left}</View>
+      <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
           <Text weight={800} size={18} numberOfLines={1}>
@@ -85,7 +90,7 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
             </Text>
           ) : null)}
       </View>
-      <View style={{ minWidth: 80, alignItems: 'flex-end' }}>{right}</View>
+      <View style={{ minWidth: 64, alignItems: 'flex-end' }}>{right}</View>
     </View>
   );
 }
@@ -100,5 +105,16 @@ export function SectionTitle({ children }: { children: string }) {
       </Text>
       <View style={{ flex: 1, borderTopWidth: 2, borderStyle: 'dashed', borderColor: t.line }} />
     </View>
+  );
+}
+
+/** Back / cancel link for the left of a Header: compact, with its text flush to the page's left edge. */
+export function BackButton({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable onPress={onPress} accessibilityRole="button" hitSlop={{ top: 8, bottom: 8, right: 8 }} style={{ minHeight: 40, justifyContent: 'center' }}>
+      <Text weight={800} color="link" numberOfLines={1}>
+        {label}
+      </Text>
+    </Pressable>
   );
 }

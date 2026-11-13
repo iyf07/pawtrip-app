@@ -32,18 +32,19 @@ export function AvatarEditor({ name, url, size = 84, onChange }: Props) {
         <View
           style={{
             position: 'absolute',
-            right: -2,
-            bottom: -2,
-            width: 28,
-            height: 28,
-            borderRadius: 14,
-            backgroundColor: th.gold,
-            borderWidth: 3,
-            borderColor: th.bg,
+            right: -4,
+            bottom: -4,
+            width: 32,
+            height: 32,
+            borderRadius: 16,
+            backgroundColor: th.card,
+            borderWidth: 2,
+            borderColor: th.line,
             alignItems: 'center',
             justifyContent: 'center',
+            boxShadow: `0 2px 6px -1px ${th.shadow}`,
           }}>
-          {busy ? <ActivityIndicator size="small" color={th.onGold} /> : <Text size={12} style={{ lineHeight: 14 }}>✏️</Text>}
+          {busy ? <ActivityIndicator size="small" color={th.link} /> : <Text size={15} style={{ lineHeight: 18 }}>📷</Text>}
         </View>
       </Pressable>
 

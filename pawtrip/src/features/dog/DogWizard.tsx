@@ -29,7 +29,7 @@ export function DogWizard() {
   const [weight, setWeight] = useState('');
   const [unitPick, setUnitPick] = useState<'lb' | 'kg' | null>(null);
   const unit = unitPick ?? (settings.data?.weight_unit === 'kg' ? 'kg' : 'lb');
-  const [scales, setScales] = useState<Record<DogScale, number | null>>({ energy: null, temp: null, with_dogs: null, with_people: null, alone: null, car: null });
+  const [scales, setScales] = useState<Record<DogScale, number | null>>({ energy: 3, temp: 3, with_dogs: 3, with_people: 3, alone: 3, car: 3 });
   const [recall, setRecall] = useState<'runner' | 'comes' | null>(null);
 
   const w = Number(weight);

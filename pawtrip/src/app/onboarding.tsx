@@ -11,9 +11,10 @@ import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
 import { DogIllo } from '@/components/ui/DogIllo';
+import { InterestPicker } from '@/components/InterestPicker';
 import { Field } from '@/components/ui/Field';
 import { useToast } from '@/components/ui/Toast';
-import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/constants/options';
+import { DIETS, PERSON_SCALES, type PersonScale } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 import type { Profile } from '@/api/types';
@@ -37,7 +38,7 @@ function Onboarding({ profile }: { profile: Profile }) {
   const [photo, setPhoto] = useState<string | null>(profile.avatar_url);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
-  const [scales, setScales] = useState<Record<PersonScale, number | null>>({ walking: profile.walking, noise: profile.noise, morning: profile.morning });
+  const [scales, setScales] = useState<Record<PersonScale, number | null>>({ walking: profile.walking ?? 3, noise: profile.noise ?? 3, morning: profile.morning ?? 3 });
 
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   const save = async (patch: Parameters<typeof update.mutateAsync>[0]) => {
@@ -100,11 +101,7 @@ function Onboarding({ profile }: { profile: Profile }) {
       optional: true,
       onNext: () => save({ interests }),
       content: (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-          {PROFILE_INTERESTS.map((i) => (
-            <Chip key={i} label={t(`int.${i}` as Key)} on={interests.includes(i)} onPress={() => setInterests((c) => toggle(c, i))} />
-          ))}
-        </View>
+        <InterestPicker value={interests} onToggle={(i) => setInterests((c) => toggle(c, i))} />
       ),
     },
     {

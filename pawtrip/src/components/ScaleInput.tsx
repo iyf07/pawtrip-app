@@ -12,16 +12,17 @@ type Props = {
   /** DB column / profile field, e.g. 'energy', 'with_dogs', 'walking' */
   field: string;
   value: number | null;
-  onChange: (v: number | null) => void;
+  onChange: (v: number) => void;
   /** the surrounding screen already shows the question (wizard) */
   hideTitle?: boolean;
 };
 
-/** One 1-5 personality scale: question, five steps, and the label of the chosen step. Unset until tapped. */
+/** One 1-5 personality scale: question, five steps, and the label of the chosen step. Starts in the middle (3). */
 export function ScaleInput({ field, value, onChange, hideTitle }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
+  const v = value ?? 3;
   return (
     <View
       style={{
@@ -38,40 +39,33 @@ export function ScaleInput({ field, value, onChange, hideTitle }: Props) {
             {t(`scale.${stem}` as Key)}
           </Text>
         )}
-        <Text weight={800} size={14} color={value ? 'link' : 'muted'}>
-          {value ? t(`scale.${stem}.${value}` as Key) : t('dog.unset')}
+        <Text weight={800} size={14} color="link">
+          {t(`scale.${stem}.${v}` as Key)}
         </Text>
       </View>
       <View style={{ flexDirection: 'row', gap: 8, marginTop: 12 }}>
         {[1, 2, 3, 4, 5].map((n) => {
-          const on = value !== null && n <= value;
+          const on = n <= v;
           return (
             <Pressable
               key={n}
-              onPress={() => onChange(value === n ? null : n)}
+              onPress={() => onChange(n)}
               accessibilityRole="button"
               accessibilityLabel={`${t(`scale.${stem}` as Key)} ${n}`}
-              accessibilityState={{ selected: value === n }}
+              accessibilityState={{ selected: v === n }}
               style={{
                 flex: 1,
                 height: 34,
                 borderRadius: 17,
                 backgroundColor: on ? th.gold : th.line,
-                borderWidth: value === n ? 4 : 0,
+                borderWidth: v === n ? 4 : 0,
                 borderColor: th.sticker,
-                boxShadow: value === n ? `0 2px 6px -1px ${th.shadow}` : undefined,
+                boxShadow: v === n ? `0 2px 6px -1px ${th.shadow}` : undefined,
               }}
             />
           );
         })}
       </View>
-      {value ? (
-        <Pressable onPress={() => onChange(null)} style={{ alignSelf: 'flex-end', marginTop: 6, minHeight: 28, justifyContent: 'center' }}>
-          <Text size={12} weight={700} color="muted" style={{ textDecorationLine: 'underline' }}>
-            {t('dog.clear')}
-          </Text>
-        </Pressable>
-      ) : null}
     </View>
   );
 }

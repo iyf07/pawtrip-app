@@ -4,11 +4,10 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTrip, useTripRealtime } from '@/api/trips';
-import { HeaderActions } from '@/components/HeaderActions';
 import { TripFaces } from '@/components/TripFaces';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Header, Screen } from '@/components/ui/Screen';
+import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { MAX_WIDTH } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
@@ -94,11 +93,11 @@ export default function TripLayout() {
   const q = useTrip(id);
 
   // the long label would squeeze the trip name on a phone
-  const back = <Button label={t(medium ? 'nav.backTrips' : 'nav.backTripsShort')} variant="text" onPress={goBack} />;
+  const back = <BackButton label={t(medium ? 'nav.backTrips' : 'nav.backTripsShort')} onPress={goBack} />;
 
   if (q.isPending) {
     return (
-      <Screen scroll={false} top={<Header left={back} />}>
+      <Screen nav scroll={false} top={<Header left={back} />}>
         <View style={{ alignItems: 'center', paddingTop: 60 }}>
           <ActivityIndicator color={th.muted} />
         </View>
@@ -107,7 +106,7 @@ export default function TripLayout() {
   }
   if (q.isError) {
     return (
-      <Screen scroll={false} top={<Header left={back} />}>
+      <Screen nav scroll={false} top={<Header left={back} />}>
         <Card style={{ alignItems: 'center', marginTop: 24 }}>
           <Text size={36}>📡</Text>
           <Text weight={800} size={18}>
@@ -123,13 +122,13 @@ export default function TripLayout() {
   return (
     <TripProvider trip={trip}>
       <Screen
+        nav
         scroll={false}
         size="full"
         contentStyle={{ paddingHorizontal: 0 }}
         top={
           <Header
             left={back}
-            right={<HeaderActions size={34} />}
             title={trip.name}
             subtitleNode={<TripFaces trip={trip} />}
           />

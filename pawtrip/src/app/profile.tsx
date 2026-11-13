@@ -9,18 +9,19 @@ import { useMyProfile, useUpdateProfile } from '@/api/profile';
 import type { Profile as ProfileRow } from '@/api/types';
 import { useAuth } from '@/auth/AuthProvider';
 import { AvatarEditor } from '@/components/AvatarEditor';
+import { InterestPicker } from '@/components/InterestPicker';
 import { HandleField } from '@/components/HandleField';
-import { HeaderActions } from '@/components/HeaderActions';
+import { GearButton } from '@/components/NavBar';
 import { ScaleInput } from '@/components/ScaleInput';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
-import { Header, Screen, SectionTitle } from '@/components/ui/Screen';
+import { BackButton, Header, Screen, SectionTitle } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
-import { DIETS, PERSON_SCALES, PROFILE_INTERESTS, type PersonScale } from '@/constants/options';
+import { DIETS, PERSON_SCALES, type PersonScale } from '@/constants/options';
 import { useTheme } from '@/hooks/use-theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useT, type Key } from '@/i18n';
@@ -50,9 +51,9 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
   const [scales, setScales] = useState<Record<PersonScale, number | null>>({
-    walking: profile.walking,
-    noise: profile.noise,
-    morning: profile.morning,
+    walking: profile.walking ?? 3,
+    noise: profile.noise ?? 3,
+    morning: profile.morning ?? 3,
   });
 
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
@@ -64,7 +65,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     handleChanged ||
     !same(interests, profile.interests) ||
     !same(diet, profile.diet) ||
-    PERSON_SCALES.some((f) => scales[f] !== profile[f]);
+    PERSON_SCALES.some((f) => scales[f] !== (profile[f] ?? 3));
 
   function discard() {
     setName(profile.display_name);
@@ -72,7 +73,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     setHandleOk(true);
     setInterests(profile.interests);
     setDiet(profile.diet);
-    setScales({ walking: profile.walking, noise: profile.noise, morning: profile.morning });
+    setScales({ walking: profile.walking ?? 3, noise: profile.noise ?? 3, morning: profile.morning ?? 3 });
   }
 
   async function save() {
@@ -97,7 +98,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   return (
     <Screen
-      top={<Header title={t('profile.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} right={<HeaderActions avatar={false} />} />}
+      nav
+      top={<Header title={t('profile.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} right={<GearButton />} />}
       bottom={
         dirty ? (
           <View style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: 10 + insets.bottom, backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, gap: 4 }}>
@@ -118,9 +120,9 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         </View>
       </View>
 
-      <Field label={t('pf.name')} hint={t('pf.nameHint')} value={name} onChangeText={setName} maxLength={60} />
+      <Field label={t('pf.name')} value={name} onChangeText={setName} maxLength={60} />
       <View style={{ marginTop: 4 }}>
-        <HandleField label={t('pf.handle')} hint={t('pf.handleHint')} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
+        <HandleField label={t('pf.handle')} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
       </View>
 
       <SectionTitle>{t('profile.myDogs')}</SectionTitle>
@@ -151,10 +153,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       <Text weight={800} size={13} style={{ marginTop: 20 }}>
         {t('profile.interests')}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 }}>
-        {PROFILE_INTERESTS.map((i) => (
-          <Chip key={i} label={t(`int.${i}` as Key)} on={interests.includes(i)} onPress={() => setInterests((c) => toggle(c, i))} />
-        ))}
+      <View style={{ marginTop: 8 }}>
+        <InterestPicker value={interests} onToggle={(i) => setInterests((c) => toggle(c, i))} />
       </View>
 
       <Text weight={800} size={13} style={{ marginTop: 18 }}>
@@ -172,7 +172,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         <Text selectable weight={700} size={14} style={{ marginTop: 4 }}>
           {userId}
         </Text>
-        <Meta style={{ marginTop: 6 }}>{t('set.accountIdHint')}</Meta>
         <View style={{ marginTop: 8 }}>
           <Button
             label={t('set.copyId')}
@@ -198,7 +197,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </View>
         </View>
       </Card>
-      <Meta style={{ marginTop: 8 }}>{t('set.methodsMore')}</Meta>
 
       {(feedback.data ?? []).length > 0 ? (
         <>

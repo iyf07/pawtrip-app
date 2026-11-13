@@ -1,9 +1,8 @@
 import { View } from 'react-native';
 
 import { useSettings, useUpdateSettings } from '@/api/profile';
-import { Button } from '@/components/ui/Button';
 import { Segmented } from '@/components/ui/Chip';
-import { Header, Screen, SectionTitle } from '@/components/ui/Screen';
+import { BackButton, Header, Screen, SectionTitle } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useT, type Lang } from '@/i18n';
 import { goBack } from '@/lib/nav';
@@ -25,7 +24,7 @@ export default function Settings() {
   );
 
   return (
-    <Screen top={<Header title={t('set.title')} left={<Button label={t('nav.back')} variant="text" onPress={goBack} />} />}>
+    <Screen nav top={<Header title={t('set.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
       <SectionTitle>{t('set.display')}</SectionTitle>
 
       {row(

@@ -10,7 +10,7 @@ import { ScaleInput } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
-import { Header, Screen } from '@/components/ui/Screen';
+import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -44,12 +44,12 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
     dog.weight_lb != null ? String(dog.weight_unit === 'kg' ? round1(Number(dog.weight_lb) / LB_PER_KG) : Number(dog.weight_lb)) : '',
   );
   const [scales, setScales] = useState<Record<DogScale, number | null>>({
-    energy: dog.energy ?? null,
-    temp: dog.temp ?? null,
-    with_dogs: dog.with_dogs ?? null,
-    with_people: dog.with_people ?? null,
-    alone: dog.alone ?? null,
-    car: dog.car ?? null,
+    energy: dog.energy ?? 3,
+    temp: dog.temp ?? 3,
+    with_dogs: dog.with_dogs ?? 3,
+    with_people: dog.with_people ?? 3,
+    alone: dog.alone ?? 3,
+    car: dog.car ?? 3,
   });
   const [recall, setRecall] = useState<'runner' | 'comes' | null>((dog.recall as 'runner' | 'comes' | null) ?? null);
   const [errs, setErrs] = useState<{ name?: string; weight?: string }>({});
@@ -92,10 +92,11 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
 
   return (
     <Screen
+      nav
       top={
         <Header
           title={t('dog.edit')}
-          left={<Button label={t('nav.cancel')} variant="text" onPress={goBack} />}
+          left={<BackButton label={t('nav.cancel')} onPress={goBack} />}
         />
       }>
       <View style={{ marginTop: 4 }}>

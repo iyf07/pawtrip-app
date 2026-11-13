@@ -17,6 +17,13 @@ export const PROFILE_INTERESTS = [
   'viewpoints',
 ] as const;
 
+/** The same interests, grouped for display. */
+export const INTEREST_GROUPS: { key: 'outdoors' | 'food' | 'town'; items: (typeof PROFILE_INTERESTS)[number][] }[] = [
+  { key: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'viewpoints'] },
+  { key: 'food', items: ['restaurants', 'cafes', 'breweries'] },
+  { key: 'town', items: ['museums', 'shopping'] },
+];
+
 export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutallergy', 'halal', 'kosher'] as const;
 
 /** Person travel-style scales (profile columns, 1-5). */

@@ -2,12 +2,11 @@ import { router } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useTrips, type TripListItem } from '@/api/trips';
-import { HeaderActions } from '@/components/HeaderActions';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { DogIllo } from '@/components/ui/DogIllo';
-import { Screen } from '@/components/ui/Screen';
+import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { COLUMN } from '@/constants/theme';
 import { useColumns } from '@/hooks/use-layout';
@@ -22,29 +21,19 @@ export default function Trips() {
   const grid = useColumns(COLUMN.wide);
 
   const header = (
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12, backgroundColor: th.bg }}>
-      <View>
-        <Text weight={800} size={26}>
-          🐾 PawTrip
-        </Text>
-        <Text weight={700} size={14} color="muted">
-          {t('trips.title')}
-        </Text>
-      </View>
-      <HeaderActions
-        size={44}
-        before={
-          <Pressable
-            onPress={() => router.push('/new-trip')}
-            accessibilityLabel={t('trips.new')}
-            style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: th.gold, borderWidth: 4, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
-            <Text size={26} weight={800} color="onGold" style={{ lineHeight: 30 }}>
-              +
-            </Text>
-          </Pressable>
-        }
-      />
-    </View>
+    <Header
+      title={t('trips.title')}
+      right={
+        <Pressable
+          onPress={() => router.push('/new-trip')}
+          accessibilityLabel={t('trips.new')}
+          style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: th.gold, borderWidth: 3, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
+          <Text size={24} weight={800} color="onGold" style={{ lineHeight: 28 }}>
+            +
+          </Text>
+        </Pressable>
+      }
+    />
   );
 
   const joinButton = (
@@ -56,7 +45,7 @@ export default function Trips() {
   );
 
   return (
-    <Screen top={header} noTopInset={false} size="wide">
+    <Screen nav top={header} size="wide">
       {trips.isPending ? (
         <View style={{ alignItems: 'center', paddingTop: 60 }}>
           <ActivityIndicator color={th.muted} />

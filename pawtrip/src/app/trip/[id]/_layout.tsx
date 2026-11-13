@@ -28,33 +28,8 @@ function TripTabBar({ state, navigateToTab }: BarProps) {
   const insets = useSafeAreaInsets();
   const { wide } = useLayout();
 
-  // desktop: compact pills at the top, under the header
-  if (wide) {
-    return (
-      <View style={{ flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingTop: 4, paddingBottom: 10 }}>
-        {state.routes.map((route, i) => {
-          const on = state.index === i;
-          return (
-            <Pressable
-              key={route.key}
-              onPress={() => {
-                if (!on) navigateToTab(route.key);
-              }}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: on }}
-              style={{ flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 40, paddingHorizontal: 18, borderRadius: 20, backgroundColor: on ? th.gold : th.card, borderWidth: 2, borderColor: on ? th.gold : th.line }}>
-              <Text size={16} style={{ lineHeight: 20 }}>
-                {TAB_ICON[route.name] ?? '•'}
-              </Text>
-              <Text weight={800} size={14} color={on ? 'onGold' : 'text'}>
-                {t(`tab.${route.name}` as 'tab.plan')}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-    );
-  }
+  // desktop: the sections are a column in the shell instead
+  if (wide) return null;
 
   return (
     <View style={{ backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center' }}>

@@ -12,6 +12,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
+import { cityState } from '@/lib/place';
 import { goBack } from '@/lib/nav';
 
 /** Join a trip, one question at a time: invite code, is this the trip, which dogs. Also opened from an invite link (/join?code=...). */
@@ -94,7 +95,7 @@ export default function Join() {
             </Text>
             <Meta style={{ marginTop: 6 }}>
               {datesLabel(preview.start_date, preview.end_date, locale)}
-              {preview.place ? ` · ${preview.place}` : ''}
+              {cityState(preview.place) ? ` · ${cityState(preview.place)}` : ''}
             </Meta>
             <Meta weight={700} style={{ marginTop: 6 }}>
               {t('people', { n: preview.members })} · {t('dogs', { n: preview.dogs })}

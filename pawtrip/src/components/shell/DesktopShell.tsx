@@ -12,6 +12,7 @@ import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
+import { cityState } from '@/lib/place';
 
 import { ShellContext } from './ShellContext';
 
@@ -43,12 +44,14 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   if (tripId && tripId !== lastTrip) setLastTrip(tripId); // remember it (adjusting state while rendering)
   const folded = width < FULL_WIDTH && !!tripId && !expanded;
   const showList = active && (section === 'dogs' || (section === 'trips' && !folded));
+  const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
 
   return (
     <ShellContext.Provider value={active}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
         {active ? <Rail section={section} onTrip={!!tripId} lastTrip={lastTrip} onToggleList={() => setExpanded((v) => !v)} /> : null}
         {showList ? section === 'dogs' ? <DogList selected={dogId} /> : <TripList selected={tripId} /> : null}
+        {active && section === 'trips' && tripId ? <TripSections tripId={tripId} tab={tab} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>
       </View>
     </ShellContext.Provider>
@@ -78,13 +81,11 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         key={key}
         onPress={onPress}
         accessibilityRole="button"
+        accessibilityLabel={label}
         accessibilityState={{ selected: on }}
-        style={{ width: 60, paddingVertical: 8, borderRadius: 16, alignItems: 'center', backgroundColor: on ? th.gold : 'transparent' }}>
-        <Text size={22} style={{ lineHeight: 26 }}>
+        style={{ width: 52, height: 52, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? th.gold : 'transparent' }}>
+        <Text size={26} style={{ lineHeight: 30 }}>
           {icon}
-        </Text>
-        <Text size={11} weight={800} color={on ? 'onGold' : 'muted'}>
-          {label}
         </Text>
       </Pressable>
     );
@@ -174,10 +175,9 @@ function TripList({ selected }: { selected: string | null }) {
               {trip.name}
             </Text>
             <Meta numberOfLines={1}>📅 {datesLabel(trip.start_date, trip.end_date, locale)}</Meta>
-            <Meta numberOfLines={1}>📍 {trip.place || '—'}</Meta>
+            <Meta numberOfLines={1}>📍 {cityState(trip.place) || '—'}</Meta>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <AvatarStack people={trip.trip_members.map((m) => ({ id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url }))} size={22} max={4} />
-              <Meta numberOfLines={1}>{t('people', { n: trip.trip_members.length })}</Meta>
             </View>
           </View>
         </Row>
@@ -203,5 +203,36 @@ function DogList({ selected }: { selected: string | null }) {
       ))}
       <AddLink label={t('profile.addDog')} onPress={() => router.push({ pathname: '/dog/[id]', params: { id: 'new' } })} />
     </ListFrame>
+  );
+}
+
+const SECTIONS = [
+  { key: 'plan', icon: '📅', label: 'tab.plan' },
+  { key: 'ideas', icon: '💡', label: 'tab.ideas' },
+  { key: 'group', icon: '👥', label: 'tab.group' },
+] as const;
+
+/** The open trip's sections (plan / ideas / members) as their own column. */
+function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' | 'group' }) {
+  const { t } = useT();
+  const th = useTheme();
+  return (
+    <View style={{ width: 128, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
+      {SECTIONS.map((s) => (
+        <Row
+          key={s.key}
+          on={tab === s.key}
+          onPress={() => {
+            if (tab !== s.key) router.navigate({ pathname: `/trip/[id]/${s.key}`, params: { id: tripId } });
+          }}>
+          <Text size={18} style={{ lineHeight: 22 }}>
+            {s.icon}
+          </Text>
+          <Text weight={800} size={14} color={tab === s.key ? 'text' : 'muted'}>
+            {t(s.label)}
+          </Text>
+        </Row>
+      ))}
+    </View>
   );
 }

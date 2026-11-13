@@ -15,6 +15,7 @@ import { useColumns } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
+import { cityState } from '@/lib/place';
 
 export default function Trips() {
   const { t } = useT();
@@ -121,7 +122,7 @@ function TripCard({ trip }: { trip: TripListItem }) {
       </View>
       <Meta style={{ marginTop: 8 }}>
         {datesLabel(trip.start_date, trip.end_date, locale)}
-        {trip.place ? ` · ${trip.place}` : ''}
+        {cityState(trip.place) ? ` · ${cityState(trip.place)}` : ''}
       </Meta>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginTop: 12 }}>
         <AvatarStack people={people} />

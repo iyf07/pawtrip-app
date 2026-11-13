@@ -13,13 +13,14 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw product logo system** (each product has its own logo with the FULL product word — Travel / Feel / Walk — and the "a"
-  of "Paw" is a paw print (P🐾w); same base, one color per product) — brief and prompts in `docs/logo-brief.md`.
-  - [x] Direction: flat modern · full product word written out · paw element in every logo · one color per product.
-  - [ ] Explore 4 concepts × 3 products with ChatGPT (Prompt 1), pick one concept.
-  - [ ] Refine (Prompt 2), test that it scales to Play / Eat (Prompt 3).
-  - [ ] Claude redraws it as exact SVG with real Nunito letters and exports all sizes (app icons, favicon, store assets, horizontal lockup).
-  - [ ] Build a `Logo` component (`<Logo product="travel" />`), swap in the rail, mobile navbar, sign-in, splash, app icon.
+- [ ] **Paw product logo system** (each product logo writes its full product word — Trip / Feel / Bowl — and ONE letter of the word is a
+  paw print: the roundest letter, or the dot of the i; same type, one color per product) — brief and prompts in `docs/logo-brief.md`.
+  - [x] Direction: flat modern · full word · one letter becomes the paw · one color per product.
+  - [ ] Confirm product names (Trip / Travel? Feel, Bowl, Walk ...) and which letter becomes the paw.
+  - [ ] Explore 4 layouts × 3 products with ChatGPT (Prompt 1), pick one.
+  - [ ] Refine (Prompt 2), test that it scales to Walk / Play (Prompt 3).
+  - [ ] Claude redraws it as exact SVG with real Nunito letters and exports all sizes (app icons, favicon, store assets, horizontal wordmark).
+  - [ ] Build a `Logo` component (`<Logo product="trip" />`), swap in the rail, mobile navbar, sign-in, splash, app icon.
 
 ## Product
 

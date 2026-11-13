@@ -5,6 +5,8 @@ import {
   Nunito_800ExtraBold,
   useFonts,
 } from '@expo-google-fonts/nunito';
+import { Fredoka_700Bold } from '@expo-google-fonts/fredoka';
+import { ZCOOLKuaiLe_400Regular } from '@expo-google-fonts/zcool-kuaile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -25,6 +27,8 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold });
+  // playful title fonts (Latin + Chinese); loaded in the background, the page shows without waiting for them
+  useFonts({ Fredoka_700Bold, ZCOOLKuaiLe_400Regular });
   const [client] = useState(
     () => new QueryClient({ defaultOptions: { queries: { staleTime: 15_000, retry: 1, refetchOnWindowFocus: true } } }),
   );

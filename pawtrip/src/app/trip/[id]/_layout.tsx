@@ -17,6 +17,8 @@ import { ItemDetailSheet } from '@/features/plan/ItemDetailSheet';
 import { TripProvider } from '@/features/trip/TripContext';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { datesLabel } from '@/lib/dates';
+import { cityState } from '@/lib/place';
 import { goBack } from '@/lib/nav';
 
 type BarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
@@ -60,7 +62,7 @@ function TripTabBar({ state, navigateToTab }: BarProps) {
 
 export default function TripLayout() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { t } = useT();
+  const { t, locale } = useT();
   const th = useTheme();
   const { wide, medium } = useLayout();
   useTripRealtime(id);
@@ -104,7 +106,14 @@ export default function TripLayout() {
           <Header
             left={back}
             title={trip.name}
-            subtitleNode={<TripFaces trip={trip} />}
+            subtitleNode={
+              <View style={{ alignItems: 'center' }}>
+                <Text weight={700} size={wide ? 17 : 14} color="muted" numberOfLines={1} style={{ marginTop: 2 }}>
+                  {[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join('  ·  ')}
+                </Text>
+                <TripFaces trip={trip} />
+              </View>
+            }
           />
         }>
         <Tabs tabBar={(props) => <TripTabBar {...props} />} screenOptions={{ headerShown: false, tabBarPosition: wide ? 'top' : 'bottom', sceneStyle: { backgroundColor: th.bg } }}>

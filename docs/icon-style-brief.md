@@ -189,3 +189,66 @@ Make 9 separate icons, each centered:
 - Redo prompt (attach the approved icons, same template as above):
   `1) food — a round plate seen from above with a fork on the left and a knife on the right, accent orange #D9702E (NOT a cup, NOT a bowl)`
   `2) sights — a compact camera with a round lens, a small flash and a viewfinder bump, accent purple #7B5EA7 (NOT a cup)`
+
+## Audit: everything that is still an emoji in the app (batches 3–9, in priority order)
+
+Use the master prompt, then for each batch the batch template (3x3 grid; if a batch has more than 9 icons, send it as two images
+"A" and "B"). Write the exact object and what it must NOT be. Keep sticker style, gold/accent colors as noted.
+
+**Batch 3 — controls (you asked for the first two; cute and friendly):**
+1) camera badge — a cute chubby camera with a big round lens, small flash, tiny paw print on the front, accent gold (for the photo
+   button on avatars and dog photos; must read at 24 px)
+2) pencil — a cute chubby pencil, slightly tilted, yellow body with a pink eraser and a small brown tip, accent gold (the "edit" button
+   next to the username)
+3) trash can — rounded bin with a lid, accent red `#B42318` (delete)
+4) archive box — a box with a lid and a downward arrow, accent gray-brown (archive trip)
+5) copy — two overlapping rounded squares (copy), accent gray-blue
+6) share — a rounded arrow leaving a box (share), accent blue `#3D7590`
+7) invite — a person with a small plus, accent gold (invite friends)
+8) key — a chubby key with a paw-shaped head, accent gold (join with a code)
+9) magnifier — a chubby magnifying glass (zoom in the photo cropper), accent gray-blue
+
+**Batch 4 — interests & the two redos:**
+1) plate with fork and knife (food — REDO: NOT a cup), accent orange `#D9702E`
+2) camera with a lens and a flash (sights — REDO: NOT a cup), accent purple `#7B5EA7`
+3) beach — a palm tree and a wave, accent sky blue
+4) tent — a camping tent with an open door, accent green
+5) wildlife — a friendly deer head with antlers (NOT a dog), accent brown
+6) museum — a building with columns and a triangular roof, accent beige
+7) binoculars (viewpoints), accent purple
+8) beer mug with foam (breweries — NOT a wine glass), accent amber
+9) hiking boot (hiking), accent green
+
+**Batch 5 — weather (7) + 2:**
+sun; partly cloudy (sun behind a cloud); cloud; rain (cloud with drops); thunderstorm (cloud with a bolt); snow (cloud with
+snowflakes); fog (cloud with horizontal lines); sunrise (sun on the horizon with an up arrow); sunset (sun on the horizon with a down arrow).
+Sky blue + gold, soft and round.
+
+**Batch 6 — map pins & dog arrangements (9):**
+1) numbered stop pin (an empty round pin, we draw the number ourselves), accent gold
+2) stay pin (pin with a small house), accent blue
+3) idea pin (pin with a small bulb), accent amber
+4) dog goes along ("with") — a happy dog face with a small paw
+5) dog with a sitter — a dog face next to a small hand/person
+6) dog stays home ("alone") — a small house with a dog face in the window
+7) dog undecided ("tbd") — a dog face with a question mark
+8) warning — a rounded triangle with an exclamation mark, accent orange
+9) dog-and-warning — a dog face with a small warning triangle
+
+**Batch 7 — moods & dog traits & members (9):**
+1) mood happy — a happy dog face, big smile; 2) mood ok — a calm dog face; 3) mood meh — a worried dog face
+4) runner ("lets go and runs") — a dog running with motion lines; 5) comes back when called — a dog with a small heart/whistle
+6) crown (trip leader), accent gold; 7) chat bubble (feedback and comments), accent gold; 8) clock (time), accent brown;
+9) note / memo (notes), accent yellow
+
+**Batch 8 — dietary needs (7):**
+vegetarian (a leaf), vegan (a sprout in a heart), gluten-free (a wheat ear with a slash), dairy-free (a milk bottle with a slash),
+nut allergy (a peanut with a slash), halal (a crescent moon with a small star), kosher (a star of David outline). Accent green /
+cream tones, calm and respectful.
+
+**Batch 9 — empty-state illustrations (3, larger, more detail allowed):**
+1) a happy dog with a suitcase (no trips yet); 2) a dog looking at a map (no places); 3) a dog sleeping next to a calendar (empty day,
+replaces the bone emoji); plus 4) a dog with a "no signal" antenna (load failed).
+
+Notes: use the camera and pencil from batch 3 at once (they are used on every profile and photo). Batch 4 replaces the interest emoji
+and fixes the two wrong activity icons; batch 5 replaces the weather emoji used in the day boxes and the hourly weather.

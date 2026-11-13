@@ -103,8 +103,8 @@ export default function Plan() {
                   {`${d.getMonth() + 1}/${d.getDate()}`}
                 </Text>
                 {dw ? (
-                  <View style={{ alignItems: 'center', marginTop: 2 }}>
-                    <Text size={16} style={{ lineHeight: 20 }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 3 }}>
+                    <Text size={15} style={{ lineHeight: 18 }}>
                       {WX_EMOJI[dw.icon]}
                     </Text>
                     <Text size={11} weight={700} color={on ? 'onGold' : 'muted'}>
@@ -248,7 +248,7 @@ export default function Plan() {
 
   // desktop: dates | timeline | map (with the entry's detail underneath once one is opened)
   const dateColumn = (
-    <ScrollView style={{ width: 112, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingVertical: 8, paddingLeft: 12 }} showsVerticalScrollIndicator={false}>
+    <ScrollView style={{ width: 120, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingVertical: 8, paddingLeft: 12 }} showsVerticalScrollIndicator={false}>
       {days.map((iso, i) => {
         const on = i === day;
         const dw = weather.data?.[iso];
@@ -275,8 +275,8 @@ export default function Plan() {
               {`${d.getMonth() + 1}/${d.getDate()}`}
             </Text>
             {dw ? (
-              <View style={{ alignItems: 'center', marginTop: 2 }}>
-                <Text size={16} style={{ lineHeight: 20 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 3 }}>
+                <Text size={15} style={{ lineHeight: 18 }}>
                   {WX_EMOJI[dw.icon]}
                 </Text>
                 <Text size={11} weight={700} color={on ? 'onGold' : 'muted'}>

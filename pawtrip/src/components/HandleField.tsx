@@ -57,7 +57,7 @@ export function HandleField({ value, onChangeText, onValid, current, label, hint
   }, [value, shape, current]);
 
   const state: State =
-    shape === 'idle' ? 'idle' : shape === 'bad' ? 'bad' : current && value === current ? 'ok' : checked?.value === value ? checked.state : 'checking';
+    shape === 'idle' ? 'idle' : shape === 'bad' ? 'bad' : current && value === current ? 'idle' : checked?.value === value ? checked.state : 'checking'; // unchanged: say nothing, no lookup
 
   const line = {
     idle: null,

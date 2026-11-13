@@ -1,7 +1,7 @@
 import * as Clipboard from "expo-clipboard";
 import { router } from "expo-router";
 import { useState } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { useMyDogs } from "@/api/dogs";
 import { useMyFeedback } from "@/api/feedback";
@@ -10,8 +10,8 @@ import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
 import { AvatarEditor } from "@/components/AvatarEditor";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
+import { ProfileEditSheet } from "@/features/profile/ProfileEditSheet";
 import { InterestPicker } from "@/components/InterestPicker";
-import { HandleField } from "@/components/HandleField";
 import { GearButton } from "@/components/NavBar";
 import { ScaleInput } from "@/components/ScaleInput";
 import { DogAvatar } from "@/components/ui/Avatar";
@@ -19,7 +19,6 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { SaveBar } from "@/components/ui/SaveBar";
-import { Field } from "@/components/ui/Field";
 import {
   BackButton,
   Header,
@@ -53,9 +52,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const { wide } = useLayout();
   const [editDog, setEditDog] = useState<string | null>(null);
 
-  const [name, setName] = useState(profile.display_name);
-  const [handle, setHandle] = useState(profile.handle);
-  const [handleOk, setHandleOk] = useState(true);
+  const [editProfile, setEditProfile] = useState(false);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
   const [scales, setScales] = useState<Record<PersonScale, number | null>>({
@@ -66,21 +63,14 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   const toggle = (list: string[], v: string) =>
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
-  const handleChanged = handle !== profile.handle;
-  const canSave = name.trim().length > 0 && (!handleChanged || handleOk);
   const same = (a: string[], b: string[]) =>
     a.slice().sort().join() === b.slice().sort().join();
   const dirty =
-    name.trim() !== profile.display_name ||
-    handleChanged ||
     !same(interests, profile.interests) ||
     !same(diet, profile.diet) ||
     PERSON_SCALES.some((f) => scales[f] !== (profile[f] ?? 3));
 
   function discard() {
-    setName(profile.display_name);
-    setHandle(profile.handle);
-    setHandleOk(true);
     setInterests(profile.interests);
     setDiet(profile.diet);
     setScales({
@@ -93,8 +83,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   async function save() {
     try {
       await update.mutateAsync({
-        display_name: name.trim(),
-        ...(handleChanged ? { handle } : {}),
         interests,
         diet,
         ...scales,
@@ -117,47 +105,51 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   }
 
   const identityBlock = (
-    <>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          gap: 16,
-          marginTop: 4,
-        }}
-      >
-        <AvatarEditor
-          name={profile.display_name}
-          url={profile.avatar_url}
-          size={wide ? 128 : 84}
-          onChange={changeAvatar}
-        />
-        <View style={{ flex: 1 }}>
-          <Text weight={800} size={wide ? 30 : 22} numberOfLines={1}>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 16,
+        marginTop: 4,
+      }}
+    >
+      <AvatarEditor
+        name={profile.display_name}
+        url={profile.avatar_url}
+        size={wide ? 128 : 84}
+        onChange={changeAvatar}
+      />
+      <View style={{ flex: 1 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flexShrink: 1 }}>
             {profile.display_name}
           </Text>
-          <Text weight={700} size={15} color="muted" numberOfLines={1}>
-            @{profile.handle}
-          </Text>
+          <Pressable
+            onPress={() => setEditProfile(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t("pf.editName")}
+            hitSlop={8}
+            style={{
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+              backgroundColor: th.card,
+              borderWidth: 2,
+              borderColor: th.line,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text size={14} style={{ lineHeight: 16 }}>
+              ✏️
+            </Text>
+          </Pressable>
         </View>
+        <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>
+          ID: {profile.handle}
+        </Text>
       </View>
-
-      <Field
-        label={t("pf.name")}
-        value={name}
-        onChangeText={setName}
-        maxLength={60}
-      />
-      <View style={{ marginTop: 4 }}>
-        <HandleField
-          label={t("pf.handle")}
-          value={handle}
-          onChangeText={setHandle}
-          onValid={setHandleOk}
-          current={profile.handle}
-        />
-      </View>
-    </>
+    </View>
   );
 
   const dogsBlock = (
@@ -359,7 +351,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         dirty ? (
           <SaveBar
             saving={update.isPending}
-            canSave={canSave}
             onSave={save}
             onDiscard={discard}
           />
@@ -393,6 +384,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         </>
       )}
       <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
+      <ProfileEditSheet profile={editProfile ? profile : null} onClose={() => setEditProfile(false)} />
     </Screen>
   );
 }

@@ -55,9 +55,7 @@ export function GearButton({ size = 40 }: { size?: number }) {
       accessibilityRole="button"
       accessibilityLabel={t('trips.settings')}
       style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center', justifyContent: 'center' }}>
-      <Text size={size * 0.45} style={{ lineHeight: size * 0.55 }}>
-        ⚙️
-      </Text>
+      <Icon name="nav-settings" size={Math.round(size * 0.8)} />
     </Pressable>
   );
 }

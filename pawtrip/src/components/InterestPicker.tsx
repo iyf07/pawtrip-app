@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 
+import { InterestIcon } from '@/components/InterestIcon';
 import { Chip } from '@/components/ui/Chip';
 import { Text } from '@/components/ui/Text';
 import { INTEREST_GROUPS } from '@/constants/options';
@@ -17,7 +18,7 @@ export function InterestPicker({ value, onToggle }: { value: string[]; onToggle:
           </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {g.items.map((i) => (
-              <Chip key={i} label={t(`int.${i}` as Key)} on={value.includes(i)} onPress={() => onToggle(i)} />
+              <Chip key={i} icon={<InterestIcon interest={i} size={24} />} label={t(`int.${i}` as Key)} on={value.includes(i)} onPress={() => onToggle(i)} />
             ))}
           </View>
         </View>

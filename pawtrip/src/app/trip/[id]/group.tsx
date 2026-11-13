@@ -1,8 +1,6 @@
-import * as Clipboard from "expo-clipboard";
-import * as Linking from "expo-linking";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
-import { Platform, Pressable, Share, View } from "react-native";
+import { useState } from "react";
+import { Pressable, View } from "react-native";
 
 import { useMyDogs } from "@/api/dogs";
 import {
@@ -10,24 +8,21 @@ import {
   useDeleteTrip,
   useLeaveTrip,
   useRemoveDogFromTrip,
-  useRotateInviteCode,
   useUpdateTrip,
 } from "@/api/trips";
 import { Avatar, DogAvatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Chip } from "@/components/ui/Chip";
-import { SaveBar } from "@/components/ui/SaveBar";
 import { SectionTitle } from "@/components/ui/Screen";
 import { ConfirmSheet } from "@/components/ui/Sheet";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
-import { TRIP_INTERESTS } from "@/constants/options";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
+import { InviteSheet } from "@/features/trip/InviteSheet";
 import { TabBody, useTripCtx } from "@/features/trip/TripContext";
 import { useLayout } from "@/hooks/use-layout";
 import { useTheme } from "@/hooks/use-theme";
-import { useT, type Key } from "@/i18n";
+import { useT } from "@/i18n";
 
 export default function Group() {
   const { t } = useT();
@@ -37,7 +32,6 @@ export default function Group() {
   const { trip, userId, isLeader } = useTripCtx();
   const myDogs = useMyDogs();
 
-  const rotate = useRotateInviteCode();
   const addDog = useAddDogToTrip();
   const removeDog = useRemoveDogFromTrip();
   const leave = useLeaveTrip();
@@ -46,57 +40,10 @@ export default function Group() {
 
   const [editDog, setEditDog] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<null | "leave" | "delete">(null);
-  // the leader's unsaved edit; null = show what is saved
-  const [draft, setDraft] = useState<string[] | null>(null);
-  const interests = draft ?? trip.interests;
-
-  // invite codes last one hour; keep the countdown fresh
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 15_000);
-    return () => clearInterval(id);
-  }, []);
-  const msLeft = new Date(trip.invite_expires).getTime() - now;
-  const expired = msLeft <= 0;
-  const minLeft = Math.max(1, Math.ceil(msLeft / 60_000));
-  const linkFor = (code: string) =>
-    Platform.OS === "web"
-      ? `${window.location.origin}/join?code=${code}`
-      : Linking.createURL("/join", { queryParams: { code } });
-  // a leader who shares an expired code gets a fresh one first
-  const currentCode = async () =>
-    expired && isLeader ? await rotate.mutateAsync(trip.id) : trip.invite_code;
+  const [inviteOpen, setInviteOpen] = useState(false);
 
   const inTrip = new Set(trip.trip_dogs.map((d) => d.dog_id));
   const mineToAdd = (myDogs.data ?? []).filter((d) => !inTrip.has(d.id));
-
-  async function copyCode() {
-    try {
-      await Clipboard.setStringAsync(await currentCode());
-      toast(t("group.copied"));
-    } catch {
-      toast(t("common.saveFailed"));
-    }
-  }
-
-  async function shareInvite() {
-    try {
-      const code = await currentCode();
-      const message = t("group.shareText", {
-        name: trip.name,
-        link: linkFor(code),
-        code,
-      });
-      if (Platform.OS === "web" && !navigator.share) {
-        await Clipboard.setStringAsync(message);
-        toast(t("group.copied"));
-      } else {
-        await Share.share({ message });
-      }
-    } catch {
-      /* dismissed */
-    }
-  }
 
   async function run(p: Promise<unknown>, ok?: string) {
     try {
@@ -120,9 +67,6 @@ export default function Group() {
       toast(t("common.saveFailed"));
     }
   }
-
-  const interestsChanged =
-    interests.slice().sort().join() !== trip.interests.slice().sort().join();
 
   const membersBlock = (
     <>
@@ -253,86 +197,34 @@ export default function Group() {
     </>
   );
 
+  // no code sits on the page: it is created when someone taps the button
   const inviteBlock = (
     <>
       <SectionTitle>{t("group.invite")}</SectionTitle>
-      <Card>
-        <Meta>{t("group.code")}</Meta>
-        <Text
-          weight={800}
-          size={22}
-          selectable
-          style={{ marginTop: 4, marginBottom: 10, letterSpacing: 0.5 }}
-        >
-          {trip.invite_code}
-        </Text>
-        <Meta color={expired ? "danger" : "muted"}>
-          {expired
-            ? t("group.expired")
-            : t("group.expiresIn", { min: minLeft })}
-        </Meta>
-        <View
-          style={{
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: 8,
-            marginTop: 12,
-          }}
-        >
-          <Button label={t("group.share")} small onPress={shareInvite} />
-          <Button
-            label={t("group.copy")}
-            small
-            variant="ghost"
-            onPress={copyCode}
-          />
-          {isLeader ? (
-            <Button
-              label={t("group.newCode")}
-              small
-              variant="ghost"
-              loading={rotate.isPending}
-              onPress={() =>
-                run(rotate.mutateAsync(trip.id), t("toast.newCode"))
-              }
-            />
-          ) : null}
-        </View>
-      </Card>
+      <Button label={t("group.inviteBtn")} block onPress={() => setInviteOpen(true)} />
+      <Meta style={{ marginTop: 8 }}>{t("group.inviteHint")}</Meta>
     </>
   );
 
-  const settingsBlock = (
-    <>
+  // destructive actions live together at the very bottom, clearly marked
+  const dangerBlock = (
+    <View
+      style={{
+        marginTop: 56,
+        padding: 16,
+        borderRadius: 18,
+        borderWidth: 2,
+        borderColor: th.danger,
+        backgroundColor: th.dangerBg,
+        gap: 10,
+      }}
+    >
+      <Text weight={800} size={16} color="danger">
+        {t("group.danger")}
+      </Text>
+      <Meta>{isLeader ? t("group.dangerBody") : t("leave.body")}</Meta>
       {isLeader ? (
-        <>
-          <SectionTitle>{t("group.settings")}</SectionTitle>
-          <Text weight={800} size={13}>
-            {t("group.interests")}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 8,
-              marginTop: 8,
-            }}
-          >
-            {TRIP_INTERESTS.map((i) => (
-              <Chip
-                key={i}
-                label={t(`int.${i}` as Key)}
-                on={interests.includes(i)}
-                onPress={() =>
-                  setDraft(
-                    interests.includes(i)
-                      ? interests.filter((x) => x !== i)
-                      : [...interests, i],
-                  )
-                }
-              />
-            ))}
-          </View>
+        <View style={{ gap: 8, marginTop: 4 }}>
           {trip.status !== "completed" ? (
             <Button
               label={t("group.archive")}
@@ -348,34 +240,33 @@ export default function Group() {
                 router.replace("/");
                 toast(t("toast.archived"));
               }}
-              style={{ marginTop: 10 }}
             />
           ) : null}
-        </>
-      ) : null}
-    </>
-  );
-
-  const dangerBlock = (
-    <>
-      <View style={{ marginTop: 28 }}>
-        {isLeader ? (
-          <Button
-            label={`🗑️ ${t("group.delete")}`}
-            variant="danger"
-            block
+          <Pressable
             onPress={() => setConfirm("delete")}
-          />
-        ) : (
-          <Button
-            label={t("group.leave")}
-            variant="danger"
-            block
-            onPress={() => setConfirm("leave")}
-          />
-        )}
-      </View>
-    </>
+            accessibilityRole="button"
+            style={{
+              minHeight: 48,
+              borderRadius: 24,
+              backgroundColor: th.danger,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text weight={800} style={{ color: "#fff" }}>
+              {t("group.delete")}
+            </Text>
+          </Pressable>
+        </View>
+      ) : (
+        <Button
+          label={t("group.leave")}
+          variant="danger"
+          block
+          onPress={() => setConfirm("leave")}
+        />
+      )}
+    </View>
   );
 
   return (
@@ -393,8 +284,6 @@ export default function Group() {
             </View>
             <View style={{ flex: 1 }}>
               {inviteBlock}
-              {settingsBlock}
-              {dangerBlock}
             </View>
           </View>
         ) : (
@@ -402,10 +291,10 @@ export default function Group() {
             {membersBlock}
             {dogsBlock}
             {inviteBlock}
-            {settingsBlock}
-            {dangerBlock}
           </>
         )}
+        {dangerBlock}
+        <InviteSheet visible={inviteOpen} onClose={() => setInviteOpen(false)} trip={trip} isLeader={isLeader} />
 
         <ConfirmSheet
           visible={confirm !== null}
@@ -424,20 +313,6 @@ export default function Group() {
           onClose={() => setConfirm(null)}
         />
       </TabBody>
-      {isLeader && interestsChanged ? (
-        <SaveBar
-          aboveTabs
-          saving={update.isPending}
-          onSave={async () => {
-            await run(
-              update.mutateAsync({ tripId: trip.id, patch: { interests } }),
-              t("toast.saved"),
-            );
-            setDraft(null);
-          }}
-          onDiscard={() => setDraft(null)}
-        />
-      ) : null}
     </View>
   );
 }

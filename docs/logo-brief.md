@@ -1,139 +1,93 @@
-# Paw series logo brief (for ChatGPT image generation)
+# Paw brand logo brief (for ChatGPT image generation)
 
-One logo family for every "Paw ___" product: **Paw Travel** (this app), later **Paw Feel**, **Paw Walk**, ...
-Every logo is the **same paw print** with **its own emblem inside the main pad** and **its own main color**, plus its
-own word under it. The shared paw makes them a family; the emblem + color make each product recognizable at a glance.
+**One standalone brand mark** for every "Paw ___" product (Paw Travel now; Paw Feel, Paw Walk, ... later). It is NOT part of
+the in-app sticker icon set and does not copy its style. The same mark is used on every app, the website and the app stores.
+Products are told apart by the **word** next to the mark (and an optional accent color for that word), not by a different mark.
 
-Decided: paw print + a product emblem · stacked layout (mark on top, text below) · one main color per product ·
-rounded bold lettering. Same sticker look as the icon set (`docs/icon-style-brief.md`).
+Decided: **flat, modern, minimal brand mark · a distinctive paw print · gold + dark brown · mark only; "Paw" and the product
+name are set in real type by us (not drawn by AI).**
 
-## The shared paw (identical in every product)
+## What the mark is
 
-- A friendly **paw print**: four rounded toe beans + one large main pad, slightly chubby, soft and symmetric.
-  The exact shape, proportions, outline weight, white sticker border and highlight never change between products.
-- Style: cute die-cut sticker — thick even dark-brown outline `#4A3628`, flat fill in the product color, toe beans a
-  slightly darker tone, one small white highlight on the top-left of the pad, a thick crisp white sticker border around
-  the whole silhouette. No gradient, no texture, no shadow, no glow.
-- Must stay readable at 24–32 px (rail, favicon) and look good at 1024 px (app icon).
+- A **paw print** with real design: simple geometric shapes (perfect circles / rounded pills / one soft rounded pad), balanced
+  and slightly dynamic. It should look like something a design studio drew, not a clip-art paw and not a cute sticker.
+- **Flat**: solid color shapes only. **No outlines, no strokes, no gradients, no shadows, no glow, no highlights, no 3D,
+  no sticker border, no texture.**
+- **Two colors maximum**: gold `#FFC72C` and dark brown `#4A3628` (white/cream only as negative space). One-color
+  versions (all brown, all white) must also work.
+- **No text, no extra symbols** inside or around the paw (no heart, pin, compass, letters). Distinctiveness comes from
+  the *shape language* only (toe proportions, the pad's silhouette, the spacing / negative space).
+- Must read at **16 px** (favicon) and look great at 1024 px (app icon), on light, cream, dark and gold backgrounds.
+- Avoid shapes that read as something else (butt, mustache, flower, bear). Keep the pad a soft rounded triangle / bean,
+  with clearly separated toes.
 
-## The product emblem (the only thing that changes inside the paw)
+## Lessons from earlier rounds (already built into the prompts)
 
-A simple solid **dark-brown (#4A3628)** emblem silhouette sits in the middle of the main pad (stamped on, no outline),
-about 55% of the pad's width. One simple shape, no text, no tiny details.
+- White background only (we cut the mark out ourselves). No magenta, no checkerboard, no "transparent" claims.
+- Several concepts in one image are fine for exploring, but each concept must sit fully inside its own cell with wide
+  margins, nothing crossing cells, no stray specks.
+- Don't put a small symbol into the pad (looked wrong). Don't redraw an approved shape when refining — edit it.
 
-| Product | Emblem | Idea |
-|---|---|---|
-| Paw Travel | compass (ring + diamond needle) | direction & trips (a map pin works only in a separate badge) |
-| Paw Feel | heart | how your dog feels / care |
-| Paw Walk | leash loop (a rounded loop with a small handle) | walks |
-| Paw Play (spare) | ball | play |
-| Paw Eat (spare) | bone | food |
-
-The emblem must be recognizable at 24 px. If one is not, we simplify it before using it.
-
-## Product colors (main fill of the paw; outline and white border never change)
-
-| Product | Main color | Hex |
-|---|---|---|
-| Paw Travel | gold | `#FFC72C` |
-| Paw Feel | pink | `#E68AB3` |
-| Paw Walk | green | `#6CC48A` |
-| Paw Play (spare) | blue | `#7DB6D0` |
-| Paw Eat (spare) | orange | `#F0904E` |
-
-Shade for the toe beans: slightly darker tone of the same color (about 10–15% darker). The emblem is always dark brown.
-
-## Lettering
-
-- Two lines under the mark, centered: **`Paw`** (large) and the product word (**`Travel`**, smaller, in the product color).
-- Rounded bold sans-serif (like Nunito ExtraBold / Baloo / Fredoka Bold), dark brown `#4A3628` for "Paw".
-- **Recommended:** generate the **mark only** with ChatGPT, and let us set the lettering as real type (Nunito ExtraBold,
-  already used in the app). AI-drawn letters are often misspelled or uneven, and real type lets us add Feel / Walk
-  later with exactly the same look. Ask ChatGPT for one lettering mock-up only as a visual reference.
-
-## Files we need (name → use)
-
-| File | What |
-|---|---|
-| `mark-travel.png` | paw + map pin, gold, flat pure white background (we cut it out) |
-| `mark-feel.png`, `mark-walk.png` | same paw + heart (pink) and + leash loop (green) — proves the family works |
-| `lockup-travel-reference.png` | mark + "Paw Travel" stacked, only as a reference for spacing |
-| `app-icon-travel.png` | 1024×1024 app icon: the mark centered on a warm rounded-square background |
-
-## Prompt 1 — the Paw Travel mark: EDIT the approved paw, don't redraw it
-
-Why: asking ChatGPT to design the paw from scratch changes the paw's proportions. Start from the approved paw
-(`pawtrip/assets/icons/logo-paw.png`), attach it, and only add the product element. ONE image per request.
-Background is **pure white** (we cut it out and rebuild the sticker border ourselves).
-
-**Lessons learned:** (1) a teardrop pin on the round pad looked like something it shouldn't; (2) a compass stamped on
-the pad still looked unattractive — squeezing a small symbol into the pad does not work well. So the product
-element now lives **outside the pad**: as a separate small object, or as a frame around the paw. Try the options
-below, one at a time, and tell me which one you like best.
-
-**Option 1 — a small paper plane flying off the paw (cute, travel, never touches the pad)**
+## Prompt 1 — explore: 6 different concepts (new chat, no attachments)
 
 ```
-Edit the attached image. Keep the paw print EXACTLY as it is: same shape, proportions, colors, outline, white
-sticker border and highlight. Do not redraw or restyle it. Add one small simple paper airplane in the top-right
-corner, slightly rotated as if flying up and away, solid white with a thick dark-brown (#4A3628) outline and one
-fold line, same outline weight as the paw, about 30% of the paw's width. Add a short dotted curved trail behind it
-in dark brown. The plane must not touch the paw. Background: one perfectly flat solid pure white (#FFFFFF), no
-checkerboard, no noise, no shadow. Square 1:1, paw size and position unchanged. Output ONE image.
+Design a brand logo mark for a family of dog apps called "Paw ___" (Paw Travel, Paw Feel, Paw Walk).
+The mark is a distinctive paw print, designed like a professional brand identity: flat, modern, minimal, balanced,
+made of simple geometric shapes (circles, rounded pills, one soft rounded pad). It must NOT look like clip art, a cute
+sticker, or a cartoon.
+Rules: flat solid shapes only; NO outlines, NO strokes, NO gradients, NO shadows, NO glow, NO highlights, NO 3D,
+NO texture. Only two colors: gold #FFC72C and dark brown #4A3628 (plus white background). No text, no letters, no
+extra symbols (no heart, pin, compass).
+Give me 6 clearly DIFFERENT concepts in a 3x2 grid on a pure white (#FFFFFF) background, each fully inside its own
+cell with at least 20% empty margin on all sides, nothing crossing cells, no grid lines, no labels, no stray specks.
+Vary: the toe shapes and arrangement (circles vs pills vs teardrops, fan vs arc), the pad silhouette (rounded triangle,
+bean, soft square), the spacing / negative space, and whether the paw is gold with brown toes, all gold, or all brown.
+Each must stay readable at 16 px. Square image.
 ```
 
-**Option 2 — a passport-stamp ring around the paw (the paw stays exactly the same)**
+## Prompt 2 — refine the one you like (attach the chosen concept; ONE image per request)
 
 ```
-Edit the attached image. Keep the paw print EXACTLY as it is. Place it inside a round "passport stamp" frame:
-a circle in dark brown (#4A3628) made of a thick outer ring and a thin inner ring with a small gap, with 8 tiny
-dots between the rings. The circle is slightly larger than the paw so the paw sits fully inside with margin.
-Do not add text. The frame is flat, no fill (or a very light cream fill #FFF0C4). Background: one perfectly flat
-solid pure white (#FFFFFF), no checkerboard, no noise, no shadow. Square 1:1. Output ONE image.
+Edit the attached logo mark. Keep its concept, shape language, colors and proportions EXACTLY. Only improve:
+perfectly symmetric/balanced geometry, equal spacing between the toes and the pad, clean smooth curves, optical
+balance of the toe sizes. No outlines, no gradients, no shadows, no highlights, no text, no extra symbols.
+Flat, two colors (gold #FFC72C, dark brown #4A3628) on a pure white (#FFFFFF) background, mark centered, filling
+about 70% of the square image, wide empty margin, no stray specks. Output ONE image.
 ```
 
-**Option 3 — a tiny map-pin badge at the bottom-right (pin stays outside the pad)**
+## Prompt 3 — the versions we need (attach the final mark; ONE image per request)
 
 ```
-Edit the attached image. Keep the paw print EXACTLY as it is. Add a small round white sticker badge overlapping
-the bottom-right corner of the paw, about 30% of the paw's width, with a thick dark-brown (#4A3628) outline,
-containing a simple solid gold map pin. Background: one perfectly flat solid pure white (#FFFFFF), no checkerboard,
-no noise, no shadow. Square 1:1. Output ONE image.
+Use the attached logo mark EXACTLY (same shapes and proportions). Make: <version>.
+Flat, no outlines, no gradients, no shadows, no highlights, no text. Pure white (#FFFFFF) background unless the
+version says otherwise. Mark centered, wide margins, square image. Output ONE image.
 ```
 
-## Prompt 2 — the family (after you pick the Travel version; attach it)
+Versions: (a) all dark brown `#4A3628`; (b) all white on a solid dark-brown `#4A3628` square; (c) dark brown mark on a solid
+gold `#FFC72C` square (app icon style: mark about 55% of the square, rounded corners are applied by the app store);
+(d) all gold `#FFC72C`.
 
-Same idea, one image per request, only the product element and color change:
+## What I do (so you don't need AI for the final files)
 
-```
-Edit the attached image. Keep the paw and everything else EXACTLY the same. Change only: (a) the paw's main color to
-pink #E68AB3 (toe beans slightly darker), and (b) the product element: <Feel: a small heart in the top-right corner /
-a heart-shaped ring around the paw>. Background: pure white (#FFFFFF), no checkerboard, no noise, no shadow.
-Square 1:1. Output ONE image.
-```
+AI images are bitmaps with soft edges. Once you pick the concept, **I redraw it as an exact vector (SVG)** with perfect
+geometry, then export every size and color version (favicon 16/32, app icons 1024, store assets, one-color versions).
+You only need to pick the concept; ChatGPT is for exploring and choosing.
 
-Walk: green `#6CC48A` + a small leash loop (or a round leash-ring frame). Play: blue `#7DB6D0` + a small ball.
+## Lettering (set by us, not drawn by AI)
 
-## Prompt 3 — lockup reference and app icon
+- "Paw" in **Nunito ExtraBold** (already in the app), dark brown `#4A3628`; the product word ("Travel", "Feel", "Walk") in the same
+  font, lighter weight or the product's accent color: Travel gold-brown, Feel pink `#E68AB3`, Walk green `#6CC48A`.
+- Layouts: stacked (mark on top, text below) for app icons / sign-in / splash; horizontal (mark, then text) for headers.
+- A `Logo` component: `<Logo product="travel" layout="stacked" />`; new products only add a word and a color.
 
-```
-Attach the approved gold mark. Make two images, both with the mark unchanged:
-A) A stacked logo: the mark on top; below it, centered, the word "Paw" in large rounded bold dark-brown (#4A3628)
-   letters, and under it the word "Travel" in smaller rounded bold gold-brown letters. Same sticker style: letters
-   with a thin white outline. Flat white background, wide padding.
-B) An app icon, 1024x1024: the mark centered (about 60% of the canvas) on a warm cream (#FCF8F0) rounded-square
-   background with a thin dark-brown border, no text, no shadow.
-```
+## Checks before approving a concept
 
-## Checks before approving
+1. Shrink to 16 px: still clearly a paw?
+2. One color (all brown / all white): still works?
+3. On cream `#FCF8F0`, dark `#231B15` and gold `#FFC72C` backgrounds: still readable and balanced?
+4. Does it look like a brand (calm, confident, geometric), not like a sticker or emoji?
+5. Does any part read as something else?
 
-- Shrink to 24 px: still a paw with a clearly visible emblem?
-- Put it next to the 8 existing icons on cream `#FCF8F0`: same outline weight and white border?
-- Family test: put the 3–4 versions side by side — same paw, but each one instantly different (color + emblem)?
+## Where it goes afterwards
 
-## What I do afterwards
-
-1. Cut out the white, export 1024 / 512 / 256 / 64 / 32 px.
-2. Make the mark the app logo everywhere (rail, mobile navbar, sign-in, favicon, splash, `app.json` icons).
-3. Set the lettering in Nunito ExtraBold with a `Logo` component: `<Logo product="travel" />` → that product's mark
-   (paw + its emblem, its color) + "Paw" + "Travel"; other products only add their own mark file and word.
+App icon (iOS/Android), splash screen, favicon, sign-in page, left rail logo, mobile navbar, app store listing, website.

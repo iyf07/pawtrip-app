@@ -142,12 +142,13 @@ function ListFrame({ title, action, children }: { title: string; action?: ReactN
   );
 }
 
-function Row({ on, onPress, children }: { on: boolean; onPress: () => void; children: ReactNode }) {
+function Row({ on, onPress, children, label }: { on: boolean; onPress: () => void; children: ReactNode; label?: string }) {
   const th = useTheme();
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
+      accessibilityLabel={label}
       accessibilityState={{ selected: on }}
       style={{ padding: 10, borderRadius: 14, backgroundColor: on ? th.goldBg : 'transparent', borderWidth: 2, borderColor: on ? th.gold : 'transparent', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
       {children}
@@ -220,19 +221,17 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
   const { t } = useT();
   const th = useTheme();
   return (
-    <View style={{ width: 128, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
+    <View style={{ width: 76, alignItems: 'center', borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
       {SECTIONS.map((s) => (
         <Row
           key={s.key}
+          label={t(s.label)}
           on={tab === s.key}
           onPress={() => {
             if (tab !== s.key) router.navigate({ pathname: `/trip/[id]/${s.key}`, params: { id: tripId } });
           }}>
-          <Text size={18} style={{ lineHeight: 22 }}>
+          <Text size={26} style={{ lineHeight: 30 }}>
             {s.icon}
-          </Text>
-          <Text weight={800} size={14} color={tab === s.key ? 'text' : 'muted'}>
-            {t(s.label)}
           </Text>
         </Row>
       ))}

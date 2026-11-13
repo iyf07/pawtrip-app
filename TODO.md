@@ -15,7 +15,7 @@
 
 - [ ] **Paw product logo system** (each product logo writes its full product word — Trip / Feel / Bowl — and ONE letter of the word is a
   paw print: the roundest letter, or the dot of the i; same type, one color per product) — brief and prompts in `docs/logo-brief.md`.
-  - [x] Direction: keep the cute glossy paw · full word in special lettering (chunky bubble / sticker) · one letter keeps its shape and holds the paw · cream/cocoa/soft pastel tiles.
+  - [x] Direction: minimal flat wordmark (two colors, no gloss/outline/sticker edge) · full word · the cute paw lives INSIDE one letter (no separate paw) · cream/cocoa/soft pastel backgrounds.
   - [ ] Confirm product names (Trip / Travel? Feel, Bowl, Walk ...) and which letter becomes the paw.
   - [ ] Explore 4 layouts × 3 products with ChatGPT (Prompt 1), pick one.
   - [ ] Refine (Prompt 2), test that it scales to Walk / Play (Prompt 3).

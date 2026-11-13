@@ -55,57 +55,64 @@ Shade for the toe beans: slightly darker tone of the same color (about 10–15% 
 
 | File | What |
 |---|---|
-| `mark-travel.png` | paw + map pin, gold, flat magenta background (we cut it out) |
+| `mark-travel.png` | paw + map pin, gold, flat pure white background (we cut it out) |
 | `mark-feel.png`, `mark-walk.png` | same paw + heart (pink) and + leash loop (green) — proves the family works |
 | `lockup-travel-reference.png` | mark + "Paw Travel" stacked, only as a reference for spacing |
 | `app-icon-travel.png` | 1024×1024 app icon: the mark centered on a warm rounded-square background |
 
 ## Prompt 1 — the Paw Travel mark: EDIT the approved paw, don't redraw it
 
-Why: asking ChatGPT to design the paw from scratch changes the paw's proportions and makes the emblem tiny. Start from
-the approved paw (`pawtrip/assets/icons/logo-paw.png`), attach it, and only add the emblem. Ask for ONE image at a
-time (several variations also change the paw). The emblem is a **solid dark-brown silhouette** (no outline) so it reads
-well small.
+Why: asking ChatGPT to design the paw from scratch changes the paw's proportions. Start from the approved paw
+(`pawtrip/assets/icons/logo-paw.png`), attach it, and only add the product element. ONE image per request.
+Background is **pure white** (we cut it out and rebuild the sticker border ourselves).
 
-**Lesson learned:** a teardrop map pin (or the pad reshaped into a pin) on the round main pad looks like something
-it shouldn't. Keep emblems **round and symmetric** on the pad (compass, ring shapes), or keep pointed shapes
-(pin) **outside** the pad in a separate badge.
+**Lessons learned:** (1) a teardrop pin on the round pad looked like something it shouldn't; (2) a compass stamped on
+the pad still looked unattractive — squeezing a small symbol into the pad does not work well. So the product
+element now lives **outside the pad**: as a separate small object, or as a frame around the paw. Try the options
+below, one at a time, and tell me which one you like best.
 
-**A — compass stamped on the main pad (recommended)**
+**Option 1 — a small paper plane flying off the paw (cute, travel, never touches the pad)**
 
 ```
 Edit the attached image. Keep the paw print EXACTLY as it is: same shape, proportions, colors, outline, white
-sticker border and highlight. Do not redraw or restyle it. Only add one thing: a simple solid dark-brown (#4A3628)
-compass emblem centered on the big main pad: a thin ring with a small diamond-shaped needle (two points, north and
-south) in the middle, about 50% of the pad's width, flat, as if stamped onto the pad. It must be perfectly round
-and symmetric, no pointed teardrop shapes. Keep the white highlight on the top-left of the pad. Background: one
-perfectly flat solid magenta (#FF00FF), no checkerboard, no noise, no shadow. Square 1:1, same size and position
-as the original. Output ONE image.
+sticker border and highlight. Do not redraw or restyle it. Add one small simple paper airplane in the top-right
+corner, slightly rotated as if flying up and away, solid white with a thick dark-brown (#4A3628) outline and one
+fold line, same outline weight as the paw, about 30% of the paw's width. Add a short dotted curved trail behind it
+in dark brown. The plane must not touch the paw. Background: one perfectly flat solid pure white (#FFFFFF), no
+checkerboard, no noise, no shadow. Square 1:1, paw size and position unchanged. Output ONE image.
 ```
 
-**C — small badge sticker at the bottom-right (pin stays outside the pad)**
+**Option 2 — a passport-stamp ring around the paw (the paw stays exactly the same)**
+
+```
+Edit the attached image. Keep the paw print EXACTLY as it is. Place it inside a round "passport stamp" frame:
+a circle in dark brown (#4A3628) made of a thick outer ring and a thin inner ring with a small gap, with 8 tiny
+dots between the rings. The circle is slightly larger than the paw so the paw sits fully inside with margin.
+Do not add text. The frame is flat, no fill (or a very light cream fill #FFF0C4). Background: one perfectly flat
+solid pure white (#FFFFFF), no checkerboard, no noise, no shadow. Square 1:1. Output ONE image.
+```
+
+**Option 3 — a tiny map-pin badge at the bottom-right (pin stays outside the pad)**
 
 ```
 Edit the attached image. Keep the paw print EXACTLY as it is. Add a small round white sticker badge overlapping
-the bottom-right of the paw, about 30% of the paw's width, with a thick white border and a thin dark-brown
-outline, containing a simple solid dark-brown map pin. Flat solid magenta (#FF00FF) background, no checkerboard,
+the bottom-right corner of the paw, about 30% of the paw's width, with a thick dark-brown (#4A3628) outline,
+containing a simple solid gold map pin. Background: one perfectly flat solid pure white (#FFFFFF), no checkerboard,
 no noise, no shadow. Square 1:1. Output ONE image.
 ```
 
 ## Prompt 2 — the family (after you pick the Travel version; attach it)
 
-One image per request. Keep emblems small, upright, symmetric and inside the pad (never touching its edge):
+Same idea, one image per request, only the product element and color change:
 
 ```
-Edit the attached image. Keep everything EXACTLY the same (paw shape, outline, white sticker border, highlight,
-the way the emblem is placed). Change only: (a) the paw's main color to pink #E68AB3 (toe beans slightly darker),
-and (b) the dark-brown emblem to a small, upright, simple heart about 45% of the pad's width, clearly inside the
-pad with margin on every side. Flat solid magenta (#FF00FF) background, no checkerboard, no noise, no shadow.
+Edit the attached image. Keep the paw and everything else EXACTLY the same. Change only: (a) the paw's main color to
+pink #E68AB3 (toe beans slightly darker), and (b) the product element: <Feel: a small heart in the top-right corner /
+a heart-shaped ring around the paw>. Background: pure white (#FFFFFF), no checkerboard, no noise, no shadow.
 Square 1:1. Output ONE image.
 ```
 
-Then the same with: green `#6CC48A` + a simple round leash loop with a small handle (Paw Walk), blue `#7DB6D0` +
-a simple ball with one curved seam line (Paw Play).
+Walk: green `#6CC48A` + a small leash loop (or a round leash-ring frame). Play: blue `#7DB6D0` + a small ball.
 
 ## Prompt 3 — lockup reference and app icon
 
@@ -113,7 +120,7 @@ a simple ball with one curved seam line (Paw Play).
 Attach the approved gold mark. Make two images, both with the mark unchanged:
 A) A stacked logo: the mark on top; below it, centered, the word "Paw" in large rounded bold dark-brown (#4A3628)
    letters, and under it the word "Travel" in smaller rounded bold gold-brown letters. Same sticker style: letters
-   with a thin white outline. Flat magenta background, wide padding.
+   with a thin white outline. Flat white background, wide padding.
 B) An app icon, 1024x1024: the mark centered (about 60% of the canvas) on a warm cream (#FCF8F0) rounded-square
    background with a thin dark-brown border, no text, no shadow.
 ```
@@ -126,7 +133,7 @@ B) An app icon, 1024x1024: the mark centered (about 60% of the canvas) on a warm
 
 ## What I do afterwards
 
-1. Cut out the magenta, export 1024 / 512 / 256 / 64 / 32 px.
+1. Cut out the white, export 1024 / 512 / 256 / 64 / 32 px.
 2. Make the mark the app logo everywhere (rail, mobile navbar, sign-in, favicon, splash, `app.json` icons).
 3. Set the lettering in Nunito ExtraBold with a `Logo` component: `<Logo product="travel" />` → that product's mark
    (paw + its emblem, its color) + "Paw" + "Travel"; other products only add their own mark file and word.

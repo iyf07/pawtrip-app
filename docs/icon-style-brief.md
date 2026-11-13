@@ -15,9 +15,10 @@ A friendly sticker you would stick on a travel journal: round, chunky, a little 
   **No drop shadow and no glow** (the app adds its own shadow); the white border edge must be crisp and smooth.
 - **Fill**: flat color, at most 2 tones + one small highlight. No gradients, no textures, no realistic shading.
 - **Face / dog flavour**: only where it fits (logo, dogs, empty states). Simple dot eyes + tiny nose, never on objects like a calendar.
-- **Background**: ONE flat solid color, pure magenta `#FF00FF`, perfectly uniform, edge to edge. No checkerboard pattern, no
-  fake transparency, no gradient, no noise, no glow, no speckles. (Real transparency from ChatGPT leaves noisy specks around
-  the sticker; we remove the flat magenta ourselves afterwards.) Magenta must not appear anywhere inside the icons.
+- **Background**: ONE flat solid **pure white** `#FFFFFF`, perfectly uniform, edge to edge. No checkerboard pattern, no
+  fake transparency, no gradient, no noise, no glow, no speckles, no shadow on it. (Real transparency from ChatGPT leaves
+  noisy specks around the sticker; we cut the icon out ourselves and rebuild the white sticker border and a soft shadow in
+  code, so every icon gets exactly the same border.)
 - **Canvas**: square 1:1, object fills ~80% of the canvas, centered, equal padding.
 - **Consistency**: same line weight, same corner roundness, same light direction (top-left), same shadow on every icon.
 
@@ -52,10 +53,10 @@ crisp white sticker border around the whole shape. Warm, friendly, slightly chub
 textures, no realistic shading, no drop shadow, no glow, no text or letters. Light comes from the top-left.
 Palette: gold #FFC72C, dark brown #4A3628, white #FFFFFF, plus the accent color I give you per icon.
 Icons must stay recognizable at 32 px.
-Background: one perfectly flat solid magenta (#FF00FF) filling the whole image edge to edge, with NO checkerboard,
-NO fake transparency, NO noise, NO gradient and NO shadows on it; magenta must not appear inside any icon.
+Background: one perfectly flat solid pure white (#FFFFFF) filling the whole image edge to edge, with NO checkerboard,
+NO fake transparency, NO noise, NO gradient and NO shadows on it.
 Square 1:1 images. Each icon fills about 80% of its cell with equal padding, and cells in a grid are clearly
-separated by wide magenta gaps so they can be cut apart.
+separated by wide white gaps so they can be cut apart.
 
 I am attaching 8 icons that are already approved (logo, trips, dogs, settings, profile, plan, ideas, members).
 Match their line thickness, corner roundness, outline color, sticker border width and level of detail exactly.
@@ -109,7 +110,7 @@ Status icons (planned / idea / done) can reuse the bulb, a check mark badge and 
 ```
 Same style as the attached approved icons (cute die-cut sticker, thick dark-brown #4A3628 outline, crisp white
 sticker border, flat fills, no shadow, light from top-left, no text, 1:1).
-Background: perfectly flat solid magenta #FF00FF, no checkerboard, no noise, no shadows; wide magenta gaps between cells.
+Background: perfectly flat solid pure white #FFFFFF, no checkerboard, no noise, no shadows; wide white gaps between cells.
 Make a 3x3 grid of 9 separate icons, each centered with equal padding:
 1) <icon> — accent <color>
 2) ...

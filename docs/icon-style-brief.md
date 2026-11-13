@@ -192,6 +192,8 @@ Icons:
 
 ## Audit: everything that is still an emoji in the app (batches 3–9, in priority order)
 
+**Ready-to-send versions of every batch (copy a whole block, nothing else to add): `docs/icon-batches.md`.**
+
 Use the master prompt, then for each batch the batch template: **one separate PNG file per icon**, all delivered in one ZIP, with
 the file names below. Write the exact object and what it must NOT be. Keep sticker style, gold/accent colors as noted.
 

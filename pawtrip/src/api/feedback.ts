@@ -7,14 +7,34 @@ import { supabase } from '@/lib/supabase';
 
 export type FeedbackKind = 'bug' | 'idea' | 'other';
 
+/**
+ * Browsers hide the exact phone model (Safari reports just "iPhone"), so describe what shapes the layout:
+ * OS, browser, window and screen size, pixel ratio, orientation, installed-app mode, colour scheme.
+ */
+function webPlatform() {
+  const ua = navigator.userAgent;
+  const os = /iPhone/.test(ua) ? 'iPhone' : /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'iPad' : /Android/.test(ua) ? 'Android' : /Mac OS X/.test(ua) ? 'Mac' : /Windows/.test(ua) ? 'Windows' : /Linux/.test(ua) ? 'Linux' : 'other';
+  const osVer = (/(?:OS|Android|Mac OS X) ([\d._]+)/.exec(ua)?.[1] ?? '').replace(/_/g, '.');
+  const browser = /Edg\//.test(ua) ? 'Edge' : /(CriOS|Chrome)\//.test(ua) ? 'Chrome' : /(FxiOS|Firefox)\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : 'browser';
+  const android = /Android [\d.]+; ([^;)]+)/.exec(ua)?.[1]; // Android UAs often include the model
+  const mq = (q: string) => typeof window.matchMedia === 'function' && window.matchMedia(q).matches;
+  const parts = [
+    `web ${os}${osVer ? ' ' + osVer : ''}${android ? ' ' + android : ''} · ${browser}`,
+    `viewport ${window.innerWidth}x${window.innerHeight}`,
+    `screen ${screen.width}x${screen.height}@${window.devicePixelRatio}x`,
+    window.innerWidth > window.innerHeight ? 'landscape' : 'portrait',
+    mq('(display-mode: standalone)') || (navigator as { standalone?: boolean }).standalone ? 'home-screen app' : 'in browser',
+    mq('(prefers-color-scheme: dark)') ? 'system dark' : 'system light',
+    navigator.maxTouchPoints > 0 ? 'touch' : 'mouse',
+  ];
+  return `${parts.join(' · ')} · UA ${ua}`;
+}
+
 /** What the user was doing, so a report can be reproduced. Never includes the email. */
 export function feedbackContext() {
   const version = Constants.expoConfig?.version ?? '0';
   const commit = process.env.EXPO_PUBLIC_APP_COMMIT || 'dev';
-  const platform =
-    Platform.OS === 'web' && typeof navigator !== 'undefined'
-      ? `web · ${navigator.userAgent} · ${window.innerWidth}x${window.innerHeight}`
-      : `${Platform.OS} ${String(Platform.Version)}`;
+  const platform = Platform.OS === 'web' && typeof navigator !== 'undefined' ? webPlatform() : `${Platform.OS} ${String(Platform.Version)}`;
   return { app_version: `${version}+${commit}`, platform: platform.slice(0, 400) };
 }
 

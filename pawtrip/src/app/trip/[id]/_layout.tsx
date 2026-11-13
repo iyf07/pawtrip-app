@@ -7,6 +7,7 @@ import { useTrip, useTripRealtime } from '@/api/trips';
 import { TripFaces } from '@/components/TripFaces';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { MAX_WIDTH } from '@/constants/theme';
@@ -20,7 +21,7 @@ import { goBack } from '@/lib/nav';
 
 type BarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
-const TAB_ICON: Record<string, string> = { plan: '📅', ideas: '💡', group: '👥' };
+const TAB_ICON: Record<string, IconName> = { plan: 'tab-plan', ideas: 'tab-ideas', group: 'tab-members' };
 
 function TripTabBar({ state, navigateToTab }: BarProps) {
   const th = useTheme();
@@ -45,9 +46,7 @@ function TripTabBar({ state, navigateToTab }: BarProps) {
               accessibilityRole="tab"
               accessibilityState={{ selected: on }}
               style={{ flex: 1, minHeight: 54, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 2, backgroundColor: on ? th.gold : 'transparent' }}>
-              <Text size={20} style={{ lineHeight: 24 }}>
-                {TAB_ICON[route.name] ?? '•'}
-              </Text>
+              <Icon name={TAB_ICON[route.name] ?? 'tab-plan'} size={26} />
               <Text weight={800} size={12} color={on ? 'onGold' : 'muted'}>
                 {t(`tab.${route.name}` as 'tab.plan')}
               </Text>

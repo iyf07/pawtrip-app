@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar } from '@/components/ui/Avatar';
+import { Icon } from '@/components/ui/Icon';
 import { useInShell } from '@/components/shell/ShellContext';
 import { Text } from '@/components/ui/Text';
 import { COLUMN } from '@/constants/theme';
@@ -27,9 +28,12 @@ export function NavBar() {
     <View style={{ width: '100%', backgroundColor: th.card, borderBottomWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: insets.top }}>
       <View style={{ height: NAV_HEIGHT, width: '100%', maxWidth: COLUMN.full, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 }}>
         <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel={t('trips.title')} hitSlop={8}>
-          <Text weight={800} size={22}>
-            🐾 PawTrip
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+            <Icon name="logo-paw" size={34} />
+            <Text weight={800} size={22}>
+              PawTrip
+            </Text>
+          </View>
         </Pressable>
         <Pressable onPress={() => router.navigate('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} hitSlop={8}>
           <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={36} />

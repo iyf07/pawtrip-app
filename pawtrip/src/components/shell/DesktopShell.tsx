@@ -7,6 +7,7 @@ import { useMyProfile } from '@/api/profile';
 import { usePrefetchTrips, useTrips, type TripListItem } from '@/api/trips';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar, AvatarStack, DogAvatar } from '@/components/ui/Avatar';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { Meta, Text } from '@/components/ui/Text';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
@@ -77,7 +78,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
   const dogs = useMyDogs();
   const trips = useTrips();
 
-  const item = (key: Section, icon: string, label: string, onPress: () => void) => {
+  const item = (key: Section, icon: IconName, label: string, onPress: () => void) => {
     const on = section === key;
     return (
       <Pressable
@@ -87,9 +88,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         accessibilityLabel={label}
         accessibilityState={{ selected: on }}
         style={{ width: 52, height: 52, borderRadius: 16, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? th.gold : 'transparent' }}>
-        <Text size={26} style={{ lineHeight: 30 }}>
-          {icon}
-        </Text>
+        <Icon name={icon} size={40} />
       </Pressable>
     );
   };
@@ -97,9 +96,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
   return (
     <View style={{ width: RAIL_W, backgroundColor: th.card, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center', paddingVertical: 14, gap: 8 }}>
       <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
-        <Text size={26} style={{ lineHeight: 30 }}>
-          🐾
-        </Text>
+        <Icon name="logo-paw" size={40} />
       </Pressable>
       <Pressable
         onPress={() => router.navigate('/profile')}
@@ -108,19 +105,19 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginBottom: 6 }}>
         <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
       </Pressable>
-      {item('trips', '🧳', t('shell.trips'), () => {
+      {item('trips', 'nav-trips', t('shell.trips'), () => {
         if (section === 'trips' && onTrip) return onToggleList();
         // straight back to the trip you were on (going through "/" left stray screens in the history)
         const id = lastTrip ?? trips.data?.[0]?.id;
         if (id) openTrip(id);
         else router.navigate('/');
       })}
-      {item('dogs', '🐕', t('shell.dogs'), () => {
+      {item('dogs', 'nav-dogs', t('shell.dogs'), () => {
         const first = dogs.data?.[0];
         router.navigate(first ? { pathname: '/dog/[id]', params: { id: first.id } } : { pathname: '/dog/[id]', params: { id: 'new' } });
       })}
       <View style={{ flex: 1 }} />
-      {item('settings', '⚙️', t('shell.settings'), () => router.navigate('/settings'))}
+      {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
     </View>
   );
 }
@@ -211,9 +208,9 @@ function DogList({ selected }: { selected: string | null }) {
 }
 
 const SECTIONS = [
-  { key: 'plan', icon: '📅', label: 'tab.plan' },
-  { key: 'ideas', icon: '💡', label: 'tab.ideas' },
-  { key: 'group', icon: '👥', label: 'tab.group' },
+  { key: 'plan', icon: 'tab-plan', label: 'tab.plan' },
+  { key: 'ideas', icon: 'tab-ideas', label: 'tab.ideas' },
+  { key: 'group', icon: 'tab-members', label: 'tab.group' },
 ] as const;
 
 /** The open trip's sections (plan / ideas / members) as their own column. */
@@ -230,9 +227,7 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
           onPress={() => {
             if (tab !== s.key) router.navigate({ pathname: `/trip/[id]/${s.key}`, params: { id: tripId } });
           }}>
-          <Text size={26} style={{ lineHeight: 30 }}>
-            {s.icon}
-          </Text>
+          <Icon name={s.icon} size={40} />
         </Row>
       ))}
     </View>

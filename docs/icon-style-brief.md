@@ -11,11 +11,13 @@ A friendly sticker you would stick on a travel journal: round, chunky, a little 
 
 - **Shape**: one centered object, simple rounded forms, no tiny details, no text, no letters.
 - **Outline**: a thick, even, dark-brown line (`#4A3628`), rounded corners and caps. Same thickness on every icon.
-- **Sticker border**: a thick white outline (`#FFFFFF`) around the whole silhouette, like a die-cut sticker,
-  with a very soft drop shadow underneath (shadow `rgba(139,107,69,0.35)`).
+- **Sticker border**: a thick, clean white outline (`#FFFFFF`) around the whole silhouette, like a die-cut sticker.
+  **No drop shadow and no glow** (the app adds its own shadow); the white border edge must be crisp and smooth.
 - **Fill**: flat color, at most 2 tones + one small highlight. No gradients, no textures, no realistic shading.
 - **Face / dog flavour**: only where it fits (logo, dogs, empty states). Simple dot eyes + tiny nose, never on objects like a calendar.
-- **Background**: fully transparent (or plain white if transparent is not possible — we remove it afterwards).
+- **Background**: ONE flat solid color, pure magenta `#FF00FF`, perfectly uniform, edge to edge. No checkerboard pattern, no
+  fake transparency, no gradient, no noise, no glow, no speckles. (Real transparency from ChatGPT leaves noisy specks around
+  the sticker; we remove the flat magenta ourselves afterwards.) Magenta must not appear anywhere inside the icons.
 - **Canvas**: square 1:1, object fills ~80% of the canvas, centered, equal padding.
 - **Consistency**: same line weight, same corner roundness, same light direction (top-left), same shadow on every icon.
 
@@ -44,21 +46,26 @@ the tint as the secondary fill.
 
 ```
 You are designing one consistent icon set for a dog-friendly group trip planner app called PawTrip.
-Style: cute die-cut sticker icons. Simple rounded silhouette, ONE centered object per image, thick even dark-brown
-outline (#4A3628) with rounded corners, flat color fills (max 2 tones plus one small white highlight), a thick white
-sticker border around the whole shape, and a very soft warm drop shadow. Warm, friendly, slightly chubby proportions.
-No gradients, no textures, no realistic shading, no text or letters, no background (transparent), square 1:1 canvas,
-object fills about 80% of the canvas. Light comes from the top-left. Palette: gold #FFC72C, dark brown #4A3628,
-white #FFFFFF, plus the accent color I give you per icon. Icons must stay recognizable at 32 px.
+Style: cute die-cut sticker icons. Simple rounded silhouette, ONE centered object per cell, thick even dark-brown
+outline (#4A3628) with rounded corners, flat color fills (max 2 tones plus one small white highlight), and a thick,
+crisp white sticker border around the whole shape. Warm, friendly, slightly chubby proportions. No gradients, no
+textures, no realistic shading, no drop shadow, no glow, no text or letters. Light comes from the top-left.
+Palette: gold #FFC72C, dark brown #4A3628, white #FFFFFF, plus the accent color I give you per icon.
+Icons must stay recognizable at 32 px.
+Background: one perfectly flat solid magenta (#FF00FF) filling the whole image edge to edge, with NO checkerboard,
+NO fake transparency, NO noise, NO gradient and NO shadows on it; magenta must not appear inside any icon.
+Square 1:1 images. Each icon fills about 80% of its cell with equal padding, and cells in a grid are clearly
+separated by wide magenta gaps so they can be cut apart.
 
-First, create a style reference sheet: 6 icons in a 3x2 grid (a paw print, a suitcase, a calendar, a light bulb,
-a map pin, a dog face) so I can approve the style. Do not continue until I approve.
+I am attaching 8 icons that are already approved (logo, trips, dogs, settings, profile, plan, ideas, members).
+Match their line thickness, corner roundness, outline color, sticker border width and level of detail exactly.
+
+Confirm you understand the style, then wait for my list of icons. Make them in batches of 9 as a 3x3 grid.
 ```
 
-## Then, per batch (reuse the approved sheet as the anchor)
+## Then, per batch
 
-Always: "Use exactly the same style, line weight, corner roundness, shadow and light direction as the approved
-reference sheet. One icon per cell, 3x3 grid, same size, centered, transparent background."
+Send the template below with the next 9 icons from the checklist. Always keep the 8 approved icons attached.
 
 ## Full icon checklist (each one becomes one file in `pawtrip/assets/icons/`)
 
@@ -100,8 +107,9 @@ Status icons (planned / idea / done) can reuse the bulb, a check mark badge and 
 ## How to prompt each batch (template)
 
 ```
-Same style as the approved reference sheet (cute die-cut sticker, thick dark-brown #4A3628 outline, white sticker
-border, flat fills, soft shadow, light from top-left, transparent background, 1:1, no text).
+Same style as the attached approved icons (cute die-cut sticker, thick dark-brown #4A3628 outline, crisp white
+sticker border, flat fills, no shadow, light from top-left, no text, 1:1).
+Background: perfectly flat solid magenta #FF00FF, no checkerboard, no noise, no shadows; wide magenta gaps between cells.
 Make a 3x3 grid of 9 separate icons, each centered with equal padding:
 1) <icon> — accent <color>
 2) ...
@@ -113,8 +121,9 @@ Make a 3x3 grid of 9 separate icons, each centered with equal padding:
 - If an icon drifts, reply "Redo #4 only, match the line thickness and corner roundness of the reference sheet".
 - Ask for a **grid** (many icons per image) instead of separate images: it is much more consistent.
 - Check at small size: shrink the result to 32 px and see if each icon is still readable. Simplify if not.
-- Export: ask for "transparent PNG, 1024×1024 per icon"; we crop the grid into single files afterwards. If the
-  background is not transparent, remove it with any background-remove tool.
+- Export: ask for the grid as one PNG on flat magenta. Send me the images; I cut the grid into single files and
+  remove the magenta precisely (no background-remove tool needed).
+- Attach the 8 approved icons (`pawtrip/assets/icons/`) at the start of every new chat so the style stays identical.
 - Keep file names like `nav-trips.png`, `cat-food.png`, `wx-rain.png`, `map-pin-stop.png` in `pawtrip/assets/icons/`.
 
 ## What I (Claude) do after you have the images

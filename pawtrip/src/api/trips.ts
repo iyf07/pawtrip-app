@@ -37,20 +37,30 @@ export function useTrips() {
   });
 }
 
+async function fetchTrip(id: string): Promise<TripDetail> {
+  const { data, error } = await supabase
+    .from('trips')
+    .select('*, trip_members(user_id, joined_at, profiles(display_name, avatar_url, handle)), trip_dogs(dog_id, added_by, dogs(*, profiles(display_name, avatar_url)))')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+  return data as unknown as TripDetail;
+}
+
 export function useTrip(id: string | undefined) {
-  return useQuery({
-    queryKey: ['trip', id],
-    enabled: !!id,
-    queryFn: async (): Promise<TripDetail> => {
-      const { data, error } = await supabase
-        .from('trips')
-        .select('*, trip_members(user_id, joined_at, profiles(display_name, avatar_url, handle)), trip_dogs(dog_id, added_by, dogs(*, profiles(display_name, avatar_url)))')
-        .eq('id', id!)
-        .single();
-      if (error) throw error;
-      return data as unknown as TripDetail;
-    },
-  });
+  return useQuery({ queryKey: ['trip', id], enabled: !!id, queryFn: () => fetchTrip(id!) });
+}
+
+/**
+ * Load trip details ahead of time. Opening a trip that is not cached yet shows a loading screen, which unmounts
+ * the trip's tabs; the router then restores their old state and snaps the URL back to the previous trip.
+ */
+export function usePrefetchTrips(ids: string[]) {
+  const qc = useQueryClient();
+  const key = ids.join(',');
+  useEffect(() => {
+    key.split(',').filter(Boolean).forEach((id) => qc.prefetchQuery({ queryKey: ['trip', id], queryFn: () => fetchTrip(id) }));
+  }, [key, qc]);
 }
 
 /** Keep the open trip fresh when other members change it. */

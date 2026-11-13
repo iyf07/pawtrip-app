@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
@@ -25,9 +25,12 @@ export default function Trips() {
 
   // desktop: open the most relevant trip right away (the list is in the left column)
   const firstTrip = trips.data?.[0]?.id;
+  // Only while this screen is the one showing: the router also mounts it underneath other screens, and a
+  // redirect from there would undo whatever the user just opened (the first click after a refresh "did nothing").
+  const path = usePathname();
   useEffect(() => {
-    if (inShell && firstTrip) router.replace({ pathname: '/trip/[id]/plan', params: { id: firstTrip } });
-  }, [inShell, firstTrip]);
+    if (inShell && firstTrip && path === '/') router.replace({ pathname: '/trip/[id]/plan', params: { id: firstTrip } });
+  }, [inShell, firstTrip, path]);
 
   const header = (
     <Header

@@ -4,7 +4,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
 import { useMyProfile } from '@/api/profile';
-import { useTrips, type TripListItem } from '@/api/trips';
+import { usePrefetchTrips, useTrips, type TripListItem } from '@/api/trips';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar, AvatarStack, DogAvatar } from '@/components/ui/Avatar';
 import { Meta, Text } from '@/components/ui/Text';
@@ -55,6 +55,14 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   );
 }
 
+/**
+ * Switch trips by replacing the trip screen: navigating between two ids of the same dynamic route reuses the
+ * trip's nested tabs with their old state, which left the old trip showing until a second click.
+ */
+function openTrip(id: string) {
+  router.replace({ pathname: '/trip/[id]/plan', params: { id } });
+}
+
 function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; onTrip: boolean; lastTrip: string | null; onToggleList: () => void }) {
   const { t } = useT();
   const th = useTheme();
@@ -100,7 +108,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         if (section === 'trips' && onTrip) return onToggleList();
         // straight back to the trip you were on (going through "/" left stray screens in the history)
         const id = lastTrip ?? trips.data?.[0]?.id;
-        if (id) router.navigate({ pathname: '/trip/[id]/plan', params: { id } });
+        if (id) openTrip(id);
         else router.navigate('/');
       })}
       {item('dogs', '🐕', t('shell.dogs'), () => {
@@ -156,10 +164,11 @@ function AddLink({ label, onPress }: { label: string; onPress: () => void }) {
 function TripList({ selected }: { selected: string | null }) {
   const { t, locale } = useT();
   const trips = useTrips();
+  usePrefetchTrips((trips.data ?? []).map((x) => x.id)); // see usePrefetchTrips
   return (
     <ListFrame title={t('trips.title')}>
       {(trips.data ?? []).map((trip: TripListItem) => (
-        <Row key={trip.id} on={trip.id === selected} onPress={() => router.navigate({ pathname: '/trip/[id]/plan', params: { id: trip.id } })}>
+        <Row key={trip.id} on={trip.id === selected} onPress={() => openTrip(trip.id)}>
           <View style={{ flex: 1, gap: 2 }}>
             <Text weight={800} numberOfLines={1}>
               {trip.name}

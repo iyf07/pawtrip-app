@@ -1,6 +1,6 @@
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { useState } from 'react';
-import { Linking, View } from 'react-native';
+import { Linking, ScrollView, View } from 'react-native';
 
 import { useAddComment, usePatchItem, useSetDeleted, useSetDogMode, useSetMood, useSetRsvp } from '@/api/items';
 import { AddressField } from '@/components/AddressField';
@@ -12,6 +12,7 @@ import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { CAT_COLORS, type CatKey } from '@/constants/theme';
+import { useLayout } from '@/hooks/use-layout';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
@@ -43,11 +44,40 @@ import { WhenFields, type When } from './TimeFields';
 export function ItemDetailSheet() {
   const { t } = useT();
   const { openItemId, openItem, items } = useTripCtx();
+  const inPane = useDetailInPane();
   const item = items.find((i) => i.id === openItemId);
+  if (inPane) return null; // the plan page shows it in its right-hand pane
   return (
     <Sheet visible={!!openItemId} onClose={() => openItem(null)}>
       {openItemId ? item && !item.deletedAt ? <Detail key={item.id} item={item} /> : <Text>{t('item.removed')}</Text> : null}
     </Sheet>
+  );
+}
+
+/** On a wide screen the plan page shows an entry's detail beside the timeline instead of in a popup. */
+export function useDetailInPane() {
+  const { wide } = useLayout();
+  const path = usePathname();
+  return wide && path.endsWith('/plan');
+}
+
+/** The detail as a pane (desktop plan page): replaces the map until closed. */
+export function ItemDetailPanel() {
+  const { t } = useT();
+  const th = useTheme();
+  const { openItemId, openItem, items } = useTripCtx();
+  const item = items.find((i) => i.id === openItemId);
+  return (
+    <View style={{ flex: 1, backgroundColor: th.bg }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 8, borderBottomWidth: 2, borderStyle: 'dashed', borderColor: th.line }}>
+        <Text weight={800} color="link" onPress={() => openItem(null)} accessibilityRole="button" style={{ paddingVertical: 6 }}>
+          ← {t('plan.backToMap')}
+        </Text>
+      </View>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 16, paddingBottom: 32 }} keyboardShouldPersistTaps="handled">
+        {item && !item.deletedAt ? <Detail key={item.id} item={item} /> : <Text>{t('item.removed')}</Text>}
+      </ScrollView>
+    </View>
   );
 }
 

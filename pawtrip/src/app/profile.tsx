@@ -9,6 +9,7 @@ import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
 import { AvatarEditor } from "@/components/AvatarEditor";
+import { DogEditSheet } from "@/features/dog/DogEditSheet";
 import { InterestPicker } from "@/components/InterestPicker";
 import { HandleField } from "@/components/HandleField";
 import { GearButton } from "@/components/NavBar";
@@ -50,6 +51,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const feedback = useMyFeedback();
   const update = useUpdateProfile();
   const { wide } = useLayout();
+  const [editDog, setEditDog] = useState<string | null>(null);
 
   const [name, setName] = useState(profile.display_name);
   const [handle, setHandle] = useState(profile.handle);
@@ -164,9 +166,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         {(dogs.data ?? []).map((d) => (
           <Card
             key={d.id}
-            onPress={() =>
-              router.push({ pathname: "/dog/[id]", params: { id: d.id } })
-            }
+            onPress={() => setEditDog(d.id)}
             style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
           >
             <DogAvatar url={d.photo_url} />
@@ -391,6 +391,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           {signOutBlock}
         </>
       )}
+      <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
     </Screen>
   );
 }

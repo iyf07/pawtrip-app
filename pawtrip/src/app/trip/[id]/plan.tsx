@@ -15,6 +15,7 @@ import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
 import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, timeFields, type ItemView } from '@/features/plan/model';
+import { ItemDetailPanel } from '@/features/plan/ItemDetailSheet';
 import { PlanMap } from '@/features/plan/PlanMap';
 import { buildPins, useDayRoute, useItemCoords } from '@/features/plan/useDayGeo';
 import { WeatherBanner } from '@/features/plan/WeatherBanner';
@@ -32,7 +33,7 @@ export default function Plan() {
   const dark = useColorScheme() === 'dark';
   const { fmtMin, hourLabel } = useTimeFmt();
   const th = useTheme();
-  const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem } = useTripCtx();
+  const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
   const [show, setShow] = useState<'all' | 'confirmed'>('all');
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
 
@@ -247,6 +248,12 @@ export default function Plan() {
     <View style={{ flex: 1, flexDirection: 'row', gap: 16, paddingRight: 16, paddingBottom: 16 }}>
       <View style={{ width: 560 }}>{timeline}</View>
       <View style={{ flex: 1, position: 'relative', borderRadius: 18, overflow: 'hidden', borderWidth: 2, borderColor: th.line }}>
+        {openItemId ? (
+          // over the map (kept mounted underneath so closing is instant)
+          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 5 }}>
+            <ItemDetailPanel />
+          </View>
+        ) : null}
         <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
         {pins.length === 0 ? (
           <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>

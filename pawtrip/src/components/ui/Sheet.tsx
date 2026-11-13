@@ -10,10 +10,18 @@ import { useTheme } from '@/hooks/use-theme';
 import { Button } from './Button';
 import { Text } from './Text';
 
-type SheetProps = { visible: boolean; onClose: () => void; children: ReactNode };
+type SheetProps = {
+  visible: boolean;
+  onClose: () => void;
+  children: ReactNode;
+  /** pinned below the scrolling content (e.g. a save bar) */
+  footer?: ReactNode;
+  /** a tall form: nearly full height on a phone */
+  tall?: boolean;
+};
 
 /** Bottom sheet over a scrim. */
-export function Sheet({ visible, onClose, children }: SheetProps) {
+export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const { medium } = useLayout();
@@ -26,7 +34,8 @@ export function Sheet({ visible, onClose, children }: SheetProps) {
             width: '100%',
             maxWidth: MAX_WIDTH,
             alignSelf: 'center',
-            maxHeight: medium ? '90%' : '88%',
+            maxHeight: medium ? '90%' : tall ? '94%' : '88%',
+            overflow: 'hidden',
             backgroundColor: t.bg,
             borderTopLeftRadius: 24,
             borderTopRightRadius: 24,
@@ -35,9 +44,10 @@ export function Sheet({ visible, onClose, children }: SheetProps) {
             paddingTop: 10,
           }}>
           <View style={{ width: 44, height: 5, borderRadius: 3, backgroundColor: t.line, alignSelf: 'center', marginBottom: 14 }} />
-          <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 22 + insets.bottom }} keyboardShouldPersistTaps="handled">
+          <ScrollView style={{ flexShrink: 1 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: footer ? 16 : 22 + insets.bottom }} keyboardShouldPersistTaps="handled">
             {children}
           </ScrollView>
+          {footer}
         </Pressable>
       </Pressable>
     </Modal>

@@ -23,6 +23,7 @@ import { ConfirmSheet } from "@/components/ui/Sheet";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
 import { TRIP_INTERESTS } from "@/constants/options";
+import { DogEditSheet } from "@/features/dog/DogEditSheet";
 import { TabBody, useTripCtx } from "@/features/trip/TripContext";
 import { useLayout } from "@/hooks/use-layout";
 import { useTheme } from "@/hooks/use-theme";
@@ -43,6 +44,7 @@ export default function Group() {
   const del = useDeleteTrip();
   const update = useUpdateTrip();
 
+  const [editDog, setEditDog] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<null | "leave" | "delete">(null);
   // the leader's unsaved edit; null = show what is saved
   const [draft, setDraft] = useState<string[] | null>(null);
@@ -189,15 +191,7 @@ export default function Group() {
           return (
             <Card
               key={td.dog_id}
-              onPress={
-                mine
-                  ? () =>
-                      router.push({
-                        pathname: "/dog/[id]",
-                        params: { id: dog.id },
-                      })
-                  : undefined
-              }
+              onPress={mine ? () => setEditDog(dog.id) : undefined}
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
             >
               <DogAvatar url={dog.photo_url} />
@@ -386,6 +380,7 @@ export default function Group() {
 
   return (
     <View style={{ flex: 1 }}>
+      <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
       <TabBody max={1100}>
         {wide ? (
           // desktop: people and dogs on the left, inviting and settings on the right

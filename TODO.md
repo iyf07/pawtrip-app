@@ -13,12 +13,13 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw brand logo** (one standalone mark for all Paw apps; not the in-app sticker style) — brief and prompts in `docs/logo-brief.md`.
-  - [x] Decide direction: flat modern minimal · distinctive paw print · gold + dark brown · mark only, lettering set by us.
-  - [ ] Explore 6 concepts with ChatGPT (Prompt 1), pick one.
-  - [ ] Refine the pick (Prompt 2), generate versions (Prompt 3).
-  - [ ] Claude redraws it as an exact SVG and exports all sizes / colors (favicon, app icons, store assets).
-  - [ ] Build a `Logo` component (`<Logo product="travel" />`), swap in the rail, mobile navbar, sign-in, favicon, splash, app icons.
+- [ ] **Paw product logo system** (Adobe-style: each product has its own logo — same base, same paw element, two product
+  letters Tr / Fe / Wa, one color per product) — brief and prompts in `docs/logo-brief.md`.
+  - [x] Direction: flat modern · paw element + two clear product letters · one color per product · same system.
+  - [ ] Explore 4 concepts × 3 products with ChatGPT (Prompt 1), pick one concept.
+  - [ ] Refine (Prompt 2), test that it scales to Play / Eat (Prompt 3).
+  - [ ] Claude redraws it as exact SVG with real Nunito letters and exports all sizes (app icons, favicon, store assets).
+  - [ ] Build a `Logo` component (`<Logo product="travel" />`), swap in the rail, mobile navbar, sign-in, splash, app icon.
 
 ## Product
 

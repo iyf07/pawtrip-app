@@ -79,7 +79,8 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
         alignItems: 'center',
         minHeight: 52,
         paddingHorizontal: 16,
-        paddingVertical: 4,
+        paddingTop: inShell ? 22 : 4, // breathing room above the title now that there is no top navbar
+        paddingBottom: 4,
         backgroundColor: t.bg,
       }}>
       <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{inShell ? null : left}</View>

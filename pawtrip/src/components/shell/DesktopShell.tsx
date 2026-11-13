@@ -218,7 +218,7 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
   const { t } = useT();
   const th = useTheme();
   return (
-    <View style={{ width: 76, alignItems: 'center', borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
+    <View style={{ width: 132, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
       {SECTIONS.map((s) => (
         <Row
           key={s.key}
@@ -227,7 +227,10 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
           onPress={() => {
             if (tab !== s.key) router.navigate({ pathname: `/trip/[id]/${s.key}`, params: { id: tripId } });
           }}>
-          <Icon name={s.icon} size={40} />
+          <Icon name={s.icon} size={34} />
+          <Text weight={800} size={15} color={tab === s.key ? 'text' : 'muted'}>
+            {t(s.label)}
+          </Text>
         </Row>
       ))}
     </View>

@@ -94,7 +94,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         accessibilityRole="button"
         accessibilityLabel={t('profile.title')}
         style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginBottom: 6 }}>
-        <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={38} />
+        <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
       </Pressable>
       {item('trips', '🧳', t('shell.trips'), () => {
         if (section === 'trips' && onTrip) return onToggleList();

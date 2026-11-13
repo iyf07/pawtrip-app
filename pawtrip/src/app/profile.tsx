@@ -129,10 +129,11 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         <AvatarEditor
           name={profile.display_name}
           url={profile.avatar_url}
+          size={wide ? 128 : 84}
           onChange={changeAvatar}
         />
         <View style={{ flex: 1 }}>
-          <Text weight={800} size={22} numberOfLines={1}>
+          <Text weight={800} size={wide ? 30 : 22} numberOfLines={1}>
             {profile.display_name}
           </Text>
           <Text weight={700} size={15} color="muted" numberOfLines={1}>

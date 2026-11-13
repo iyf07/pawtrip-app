@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavBar } from '@/components/NavBar';
 import { useInShell } from '@/components/shell/ShellContext';
 import { COLUMN, type ColumnSize } from '@/constants/theme';
+import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 
 import { RefreshScroll } from './RefreshScroll';
@@ -70,6 +71,7 @@ type HeaderProps = {
 export function Header({ title, subtitle, subtitleNode, left, right }: HeaderProps) {
   const t = useTheme();
   const inShell = useInShell(); // no back links beside the rail
+  const { wide } = useLayout();
   return (
     <View
       style={{
@@ -83,7 +85,7 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
       <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
-          <Text weight={800} size={18} numberOfLines={1}>
+          <Text weight={800} size={wide ? 26 : 18} numberOfLines={1}>
             {title}
           </Text>
         ) : null}

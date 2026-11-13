@@ -18,8 +18,8 @@ rounded bold lettering. Same sticker look as the icon set (`docs/icon-style-brie
 
 ## The product emblem (the only thing that changes inside the paw)
 
-A simple **white** emblem sits in the middle of the main pad, about 50% of the pad's width, with a thin dark-brown
-outline so it reads on any color. One simple shape, no text, no tiny details.
+A simple solid **dark-brown (#4A3628)** emblem silhouette sits in the middle of the main pad (stamped on, no outline),
+about 55% of the pad's width. One simple shape, no text, no tiny details.
 
 | Product | Emblem | Idea |
 |---|---|---|
@@ -41,7 +41,7 @@ The emblem must be recognizable at 24 px. If one is not, we simplify it before u
 | Paw Play (spare) | blue | `#7DB6D0` |
 | Paw Eat (spare) | orange | `#F0904E` |
 
-Shade for the toe beans: slightly darker tone of the same color (about 10–15% darker). The emblem is always white.
+Shade for the toe beans: slightly darker tone of the same color (about 10–15% darker). The emblem is always dark brown.
 
 ## Lettering
 
@@ -60,35 +60,54 @@ Shade for the toe beans: slightly darker tone of the same color (about 10–15% 
 | `lockup-travel-reference.png` | mark + "Paw Travel" stacked, only as a reference for spacing |
 | `app-icon-travel.png` | 1024×1024 app icon: the mark centered on a warm rounded-square background |
 
-## Prompt 1 — the Paw Travel mark (new chat; attach the 8 approved icons for style)
+## Prompt 1 — the Paw Travel mark: EDIT the approved paw, don't redraw it
+
+Why: asking ChatGPT to design the paw from scratch changes the paw's proportions and makes the emblem tiny. Start from
+the approved paw (`pawtrip/assets/icons/logo-paw.png`), attach it, and only add the emblem. Ask for ONE image at a
+time (several variations also change the paw). The emblem is a **solid dark-brown silhouette** (no outline) so it reads
+well small. Try the three placements and pick the best one.
+
+**A — pin stamped on the main pad (safest)**
 
 ```
-Design the logo mark for "Paw Travel", the first app in a family of dog apps called "Paw ___".
-The mark is a friendly paw print: four rounded toe beans and one large main pad, slightly chubby, soft, symmetric.
-Inside the main pad there is a simple WHITE map-pin emblem (a teardrop pin with a round dot), about half the width
-of the pad, with a thin dark-brown outline. No text, nothing else inside.
-Style: cute die-cut sticker, matching the attached approved icons exactly: thick even dark-brown outline (#4A3628)
-with rounded corners, flat gold fill (#FFC72C) with the toe beans in a slightly darker gold, one small white
-highlight on the top-left of the pad, a thick crisp white sticker border around the whole shape. No gradients, no
-textures, no drop shadow, no glow. Must stay readable at 24 px.
-Background: one perfectly flat solid magenta (#FF00FF) edge to edge, no checkerboard, no noise, no shadow;
-magenta must not appear in the mark. Square 1:1, the paw fills about 70% of the canvas, centered.
-Give me 4 variations (a 2x2 grid with wide magenta gaps) that differ only in the shape of the toe beans and the
-size of the pin, so I can pick one.
+Edit the attached image. Keep the paw print EXACTLY as it is: same shape, proportions, colors, outline, white
+sticker border and highlight. Do not redraw or restyle it. Only add one thing: a solid dark-brown (#4A3628) map-pin
+silhouette (a teardrop pin with a small round hole), centered on the big main pad, about 55% of the pad's width,
+flat, no outline, as if stamped onto the pad. Move the existing white highlight so it still sits on the top-left
+of the pad. Background: one perfectly flat solid magenta (#FF00FF), no checkerboard, no noise, no shadow.
+Square 1:1, same size and position as the original. Output ONE image.
 ```
 
-## Prompt 2 — the family (after you pick the Travel mark; attach it)
+**B — the main pad itself becomes the pin (most "logo-like")**
 
 ```
-Use the attached approved paw logo EXACTLY for the paw itself: same toe-bean and pad shapes, proportions, outline
-weight, white sticker border and highlight. Only change (a) the main fill color and (b) the white emblem in the pad.
-Give me 3 versions in a 3x1 grid with wide magenta gaps, flat magenta background (#FF00FF), no shadow:
-1) pink #E68AB3, emblem: a simple heart            (Paw Feel)
-2) green #6CC48A, emblem: a simple leash loop       (Paw Walk)
-3) blue #7DB6D0, emblem: a simple ball              (Paw Play)
-Toe beans a slightly darker tone of each color. Emblems are white with a thin dark-brown outline, about half the
-width of the pad, readable at 24 px.
+Edit the attached image. Keep the four toe beans, the outline, the colors, the white sticker border and the style
+EXACTLY. Change only the big main pad: reshape it into a rounded map-pin (teardrop pointing down) with a small
+round hole in the middle, same size and same outline weight, same highlight. Flat solid magenta (#FF00FF)
+background, no checkerboard, no noise, no shadow. Square 1:1. Output ONE image.
 ```
+
+**C — small badge sticker at the bottom-right (hardest to read when small)**
+
+```
+Edit the attached image. Keep the paw print EXACTLY as it is. Add a small round white sticker badge overlapping
+the bottom-right of the paw, about 30% of the paw's width, with a thick white border and a thin dark-brown
+outline, containing a simple solid dark-brown map pin. Flat solid magenta (#FF00FF) background, no checkerboard,
+no noise, no shadow. Square 1:1. Output ONE image.
+```
+
+## Prompt 2 — the family (after you pick the Travel version; attach it)
+
+One image per request:
+
+```
+Edit the attached image. Keep everything EXACTLY the same (paw shape, outline, white sticker border, highlight,
+the way the emblem is placed). Change only: (a) the paw's main color to pink #E68AB3 (toe beans slightly darker),
+and (b) the dark-brown emblem to a simple heart. Flat solid magenta (#FF00FF) background, no checkerboard, no
+noise, no shadow. Square 1:1. Output ONE image.
+```
+
+Then the same with: green `#6CC48A` + a simple leash loop (Paw Walk), blue `#7DB6D0` + a simple ball (Paw Play).
 
 ## Prompt 3 — lockup reference and app icon
 

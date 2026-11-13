@@ -14,6 +14,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useMyProfile } from '@/api/profile';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { FeedbackButton } from '@/components/FeedbackButton';
+import { DesktopShell } from '@/components/shell/DesktopShell';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -63,6 +64,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
 
   return (
     <ThemeProvider value={{ ...base, colors: { ...base.colors, background: colors.bg, card: colors.bg, text: colors.text, border: colors.line } }}>
+      <DesktopShell enabled={!!session && !needsOnboarding}>
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
         <Stack.Protected guard={!session}>
           <Stack.Screen name="sign-in" />
@@ -80,6 +82,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="trip/[id]" />
         </Stack.Protected>
       </Stack>
+      </DesktopShell>
       {session ? <FeedbackButton /> : null}
     </ThemeProvider>
   );

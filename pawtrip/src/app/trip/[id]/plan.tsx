@@ -72,6 +72,7 @@ export default function Plan() {
   const timeline = (
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 16 }}>
+        {wide ? null : (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -16, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 }}>
           {days.map((iso, i) => {
             const on = i === day;
@@ -114,6 +115,7 @@ export default function Plan() {
             );
           })}
         </ScrollView>
+        )}
 
         <View style={{ marginTop: 10 }}>
           <Segmented
@@ -243,23 +245,69 @@ export default function Plan() {
 
   if (!wide) return timeline;
 
-  // desktop: timeline column (same width as on a phone, so entries stay readable) + a map that fills the rest
+  // desktop: dates | timeline | map (with the entry's detail underneath once one is opened)
+  const dateColumn = (
+    <ScrollView style={{ width: 112, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingVertical: 8, paddingLeft: 12 }} showsVerticalScrollIndicator={false}>
+      {days.map((iso, i) => {
+        const on = i === day;
+        const dw = weather.data?.[iso];
+        const d = parseIso(iso);
+        return (
+          <Pressable
+            key={iso}
+            onPress={() => setDay(i)}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: on }}
+            style={{
+              paddingVertical: 8,
+              borderRadius: 16,
+              alignItems: 'center',
+              backgroundColor: on ? th.gold : th.card,
+              borderWidth: on ? 4 : 2,
+              borderColor: on ? th.sticker : th.line,
+              boxShadow: on ? `0 2px 6px -1px ${th.shadow}` : undefined,
+            }}>
+            <Text size={11} weight={800} color={on ? 'onGold' : 'muted'}>
+              {weekdayShort(iso, locale)}
+            </Text>
+            <Text size={20} weight={800} color={on ? 'onGold' : 'text'}>
+              {`${d.getMonth() + 1}/${d.getDate()}`}
+            </Text>
+            {dw ? (
+              <View style={{ alignItems: 'center', marginTop: 2 }}>
+                <Text size={16} style={{ lineHeight: 20 }}>
+                  {WX_EMOJI[dw.icon]}
+                </Text>
+                <Text size={11} weight={700} color={on ? 'onGold' : 'muted'}>
+                  {tempOut(dw.hi, unit)}°/{tempOut(dw.lo, unit)}°
+                </Text>
+              </View>
+            ) : null}
+          </Pressable>
+        );
+      })}
+    </ScrollView>
+  );
+
+  const frame = { borderRadius: 18, overflow: 'hidden', borderWidth: 2, borderColor: th.line } as const;
   return (
-    <View style={{ flex: 1, flexDirection: 'row', gap: 16, paddingRight: 16, paddingBottom: 16 }}>
-      <View style={{ width: 560 }}>{timeline}</View>
-      <View style={{ flex: 1, position: 'relative', borderRadius: 18, overflow: 'hidden', borderWidth: 2, borderColor: th.line }}>
-        {openItemId ? (
-          // over the map (kept mounted underneath so closing is instant)
-          <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 5 }}>
-            <ItemDetailPanel />
-          </View>
-        ) : null}
-        <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
-        {pins.length === 0 ? (
-          <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
-            <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
-              <Meta>{t('map.empty.body')}</Meta>
+    <View style={{ flex: 1, flexDirection: 'row', gap: 12, paddingRight: 16, paddingBottom: 16 }}>
+      {dateColumn}
+      <View style={{ flex: 1, minWidth: 380, maxWidth: 540 }}>{timeline}</View>
+      <View style={{ flex: 1.2, minWidth: 0, gap: 12 }}>
+        <View style={{ flex: 1, position: 'relative', ...frame }}>
+          <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
+          {pins.length === 0 ? (
+            <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
+              <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
+                <Meta>{t('map.empty.body')}</Meta>
+              </View>
             </View>
+          ) : null}
+        </View>
+        {openItemId ? (
+          <View style={{ flex: 1.5, ...frame }}>
+            <ItemDetailPanel />
           </View>
         ) : null}
       </View>

@@ -51,6 +51,15 @@ export function TripMap({ pins, line, center, dark, onPin, height }: TripMapProp
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dark]);
 
+  // keep the canvas matched to its box (the box shrinks when a detail pane opens below it)
+  useEffect(() => {
+    const el = box.current;
+    if (!map || !el || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => map.resize());
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [map]);
+
   // pins + route
   useEffect(() => {
     if (!map || !gl.current) return;

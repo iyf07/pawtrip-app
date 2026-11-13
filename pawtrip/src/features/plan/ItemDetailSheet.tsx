@@ -71,7 +71,7 @@ export function ItemDetailPanel() {
     <View style={{ flex: 1, backgroundColor: th.bg }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 8, borderBottomWidth: 2, borderStyle: 'dashed', borderColor: th.line }}>
         <Text weight={800} color="link" onPress={() => openItem(null)} accessibilityRole="button" style={{ paddingVertical: 6 }}>
-          ← {t('plan.backToMap')}
+          ✕ {t('plan.closeDetail')}
         </Text>
       </View>
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ padding: 16, paddingBottom: 32 }} keyboardShouldPersistTaps="handled">

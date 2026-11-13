@@ -1,7 +1,9 @@
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useTrips, type TripListItem } from '@/api/trips';
+import { useInShell } from '@/components/shell/ShellContext';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -19,6 +21,13 @@ export default function Trips() {
   const th = useTheme();
   const trips = useTrips();
   const grid = useColumns(COLUMN.wide);
+  const inShell = useInShell();
+
+  // desktop: open the most relevant trip right away (the list is in the left column)
+  const firstTrip = trips.data?.[0]?.id;
+  useEffect(() => {
+    if (inShell && firstTrip) router.replace({ pathname: '/trip/[id]/plan', params: { id: firstTrip } });
+  }, [inShell, firstTrip]);
 
   const header = (
     <Header

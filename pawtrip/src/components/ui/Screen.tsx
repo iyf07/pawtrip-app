@@ -3,6 +3,7 @@ import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavBar } from '@/components/NavBar';
+import { useInShell } from '@/components/shell/ShellContext';
 import { COLUMN, type ColumnSize } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -32,10 +33,12 @@ type ScreenProps = {
 export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle, size = 'narrow', nav }: ScreenProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
+  const inShell = useInShell();
+  const nav2 = nav && !inShell; // the desktop shell already has the rail
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
-      {nav ? <NavBar /> : null}
-      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav ? 0 : insets.top }}>
+      {nav2 ? <NavBar /> : null}
+      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 ? 0 : insets.top }}>
         {top}
         {scroll ? (
           <RefreshScroll
@@ -66,6 +69,7 @@ type HeaderProps = {
 /** 3-column header: left action, centred title, right action. */
 export function Header({ title, subtitle, subtitleNode, left, right }: HeaderProps) {
   const t = useTheme();
+  const inShell = useInShell(); // no back links beside the rail
   return (
     <View
       style={{
@@ -76,7 +80,7 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
         paddingVertical: 4,
         backgroundColor: t.bg,
       }}>
-      <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{left}</View>
+      <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
           <Text weight={800} size={18} numberOfLines={1}>

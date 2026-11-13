@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar } from '@/components/ui/Avatar';
+import { useInShell } from '@/components/shell/ShellContext';
 import { Text } from '@/components/ui/Text';
 import { COLUMN } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -41,7 +42,9 @@ export function NavBar() {
 /** Settings gear: only shown at the top right of the profile page. */
 export function GearButton({ size = 40 }: { size?: number }) {
   const { t } = useT();
+  const inShell = useInShell();
   const th = useTheme();
+  if (inShell) return null; // settings are in the rail
   return (
     <Pressable
       onPress={() => router.push('/settings')}

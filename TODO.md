@@ -13,17 +13,14 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw product logo system** (each product logo writes its full product word — Trip / Feel / Bowl — and ONE letter of the word is a
-  paw print: the roundest letter, or the dot of the i; same type, one color per product) — brief and prompts in `docs/logo-brief.md`.
-  - [x] Direction: minimal flat wordmark (two colors, no gloss/outline/sticker edge) · full word · the cute paw lives INSIDE one letter (no separate paw) · cream/cocoa/soft pastel backgrounds.
-  - [ ] Confirm product names (Trip / Travel? Feel, Bowl, Walk ...) and which letter becomes the paw.
-  - [ ] Explore 4 layouts × 3 products with ChatGPT (Prompt 1), pick one.
-  - [ ] Refine (Prompt 2), test that it scales to Walk / Play (Prompt 3).
-  - [ ] Claude redraws it as exact SVG with real Nunito letters and exports all sizes (app icons, favicon, store assets, horizontal wordmark).
+- [ ] **Paw logo family** (pure symbol, no text: the same paw for every product; only the big pad changes into a white cut-out
+  product symbol that opens into the white background; one color per product: Trip amber, Feel rose pink, Bowl teal) — brief and
+  prompts in `docs/logo-brief.md`.
+  - [x] Direction decided: two colors only (paw color + white), background always white, hollow symbol merges with the background.
+  - [ ] Generate Paw Feel (heart), Paw Trip (12 symbol options), Paw Bowl (6 bowl options) with ChatGPT; pick.
+  - [ ] Confirm product colors (Trip amber, Feel rose, Bowl teal).
+  - [ ] Claude redraws the family as exact SVG and exports all sizes (app icons, favicon, store assets, one-color / dark).
   - [ ] Build a `Logo` component (`<Logo product="trip" />`), swap in the rail, mobile navbar, sign-in, splash, app icon.
-
-  - [ ] Redo the two wrong activity icons: **food** (plate + fork + knife) and **sights** (camera) — both came out as cups (see `docs/icon-style-brief.md`).
-  - [ ] Next batches: weather (7), map pins, empty-state dog illustrations; redo a gender-neutral profile avatar.
 
 ## Product
 

@@ -4,8 +4,8 @@
 
 - [ ] **Icon set (designed with ChatGPT)** — replace the emoji used as icons (rail, sections, categories, weather, status)
       with one consistent custom illustration set.
-  - [ ] Decide the visual style (answers to the style questions; see "Icon style brief" below once filled in).
-  - [ ] Write the master style prompt + per-icon prompts.
+  - [x] Decide the visual style: sticker · warm & cute · existing palette · simplified bold outline.
+  - [x] Write the master style prompt + per-icon prompts → `docs/icon-style-brief.md`.
   - [ ] Generate, pick, and clean up (transparent PNG/SVG, 1:1, one icon per image).
   - [ ] Add to `pawtrip/assets/icons/` and swap them in (rail: trips, dogs, settings, profile; sections: plan, ideas,
         members; categories: outdoors, food, coffee, sights, shopping, drinks, fun, stay, transit; weather; map pins).

@@ -14,9 +14,9 @@
     map pins; 3 empty-state illustrations.
 
 - [ ] **Paw series logo** (Paw Travel now; Paw Feel / Paw Walk later) — brief and prompts in `docs/logo-brief.md`.
-  - [x] Decide direction: paw mark with a small heart · stacked (mark on top, text below) · one main color per product · rounded bold type.
-  - [ ] Generate the mark (4 variations) with ChatGPT, pick one.
-  - [ ] Generate the family recolors (pink, green, blue) to check it works as a series.
+  - [x] Decide direction: same paw + a product emblem in the pad (Travel: pin, Feel: heart, Walk: leash) · stacked (mark on top, text below) · one main color per product · rounded bold type.
+  - [ ] Generate the Paw Travel mark (paw + pin, 4 variations) with ChatGPT, pick one.
+  - [ ] Generate the family (Feel: pink + heart, Walk: green + leash, Play: blue + ball) to check it works as a series.
   - [ ] App icon (1024) + stacked lockup reference.
   - [ ] Build a `Logo` component (`<Logo product="travel" />`), swap in the rail, mobile navbar, sign-in, favicon, splash, app icons.
 

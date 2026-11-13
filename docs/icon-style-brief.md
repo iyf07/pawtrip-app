@@ -165,3 +165,10 @@ Make 9 separate icons, each centered:
 - Cleaned by code: white slivers from neighbouring cells (suitcase, calendar, bulb, members), faint pink dots on the border edge.
 - Redo candidates: `nav-profile` is a specific woman — make it a gender-neutral avatar; `tab-ideas` rays are thin
   (still fine at 44 px, but chunkier is safer); gear hole is pure white (fine).
+
+## Pipeline for every batch (always from the original files)
+
+1. Unzip the original 1024px images you downloaded (never resized copies).
+2. `pawtrip/scripts/clean-icons.py`: keeps the main shape, removes slivers and colored fringe, normalizes size.
+3. Keep the **1024px clean masters** in `pawtrip/assets/icons/masters/` and ship **512px** files in `pawtrip/assets/icons/`
+   (UI shows icons at 26–128 px, so 512 is sharp even on 3x screens; masters are for app icons / splash / print).

@@ -13,8 +13,8 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw product logo system** (each product has its own logo with the FULL product word — Travel / Feel / Walk — plus the
-  same paw element, same base and one color per product) — brief and prompts in `docs/logo-brief.md`.
+- [ ] **Paw product logo system** (each product has its own logo with the FULL product word — Travel / Feel / Walk — and the "a"
+  of "Paw" is a paw print (P🐾w); same base, one color per product) — brief and prompts in `docs/logo-brief.md`.
   - [x] Direction: flat modern · full product word written out · paw element in every logo · one color per product.
   - [ ] Explore 4 concepts × 3 products with ChatGPT (Prompt 1), pick one concept.
   - [ ] Refine (Prompt 2), test that it scales to Play / Eat (Prompt 3).

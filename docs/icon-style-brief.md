@@ -122,8 +122,8 @@ Make a 3x3 grid of 9 separate icons, each centered with equal padding:
 - If an icon drifts, reply "Redo #4 only, match the line thickness and corner roundness of the reference sheet".
 - Ask for a **grid** (many icons per image) instead of separate images: it is much more consistent.
 - Check at small size: shrink the result to 32 px and see if each icon is still readable. Simplify if not.
-- Export: ask for the grid as one PNG on flat magenta. Send me the images; I cut the grid into single files and
-  remove the magenta precisely (no background-remove tool needed).
+- Export: ask for the grid as one PNG on flat pure white. Send me the images; I cut the grid into single files and
+  remove the white background precisely (no background-remove tool needed).
 - Attach the 8 approved icons (`pawtrip/assets/icons/`) at the start of every new chat so the style stays identical.
 - Keep file names like `nav-trips.png`, `cat-food.png`, `wx-rain.png`, `map-pin-stop.png` in `pawtrip/assets/icons/`.
 

@@ -56,27 +56,27 @@ the tint as the secondary fill.
 ## Master prompt (paste first, in a new ChatGPT chat)
 
 ```
-You are designing one consistent icon set for a dog-friendly group trip planner app called PawTrip.
-Style: cute die-cut sticker icons. Simple rounded silhouette, ONE centered object per cell, thick even dark-brown
-outline (#4A3628) with rounded corners, flat color fills (max 2 tones plus one small white highlight), and a thick,
-crisp white sticker border around the whole shape. Warm, friendly, slightly chubby proportions. No gradients, no
-textures, no realistic shading, no drop shadow, no glow, no text or letters. Light comes from the top-left.
-Palette: gold #FFC72C, dark brown #4A3628, white #FFFFFF, plus the accent color I give you per icon.
-Icons must stay recognizable at 32 px.
-Background: one perfectly flat solid pure white (#FFFFFF) filling the whole image edge to edge, with NO checkerboard,
-NO fake transparency, NO noise, NO gradient and NO shadows on it.
-Square 1:1 images. Each icon fills about 80% of its cell with equal padding, and cells in a grid are clearly
-separated by wide white gaps so they can be cut apart.
-Cleanliness rules: every icon sits fully inside its own cell with at least 15% empty white margin on all sides;
-nothing from one icon may touch or leak into a neighbouring cell; no stray fragments, slivers, dots or specks anywhere;
-no grid lines, labels or numbers. The outer edge of the white sticker border is crisp and smooth with no colored
-fringe, halo or glow, and the border has the same thickness on every icon. Same visual size for every icon.
-No thin rays, sparkles or hairline details (chunkier parts only). People/avatars are gender-neutral.
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (I attach the approved icons if I can; here is the style in words too):
 
-I am attaching 8 icons that are already approved (logo, trips, dogs, settings, profile, plan, ideas, members).
-Match their line thickness, corner roundness, outline color, sticker border width and level of detail exactly.
+STYLE (identical for every icon): cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even,
+dark-brown (#4A3628) outline with rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills
+with at most 2 tones plus a small glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main
+shape. A thick, clean, crisp white sticker border around the whole silhouette (the same thickness on every icon). Warm palette:
+gold #FFC72C and amber, dark brown #4A3628, cream #FFF4D6, white; plus the accent color I give you per icon. Warm, soft, slightly
+chubby proportions, light from the top-left. NO drop shadow, NO glow, NO gradients other than the subtle tone shift, NO textures,
+NO realistic shading, NO text or letters, NO thin hairline details (chunky shapes only, readable at 24 px).
 
-Confirm you understand the style, then wait for my list of icons. Make them in batches of 9 as a 3x3 grid.
+FILES (very important): create EACH icon as its OWN SEPARATE image file, not a sheet or a grid. One icon per image. Each image is
+square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient on the
+background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Name each file exactly as I specify (for example "ui-camera.png"). Deliver all files together as ONE downloadable ZIP
+containing only those PNG files. Do not combine icons into one picture.
+
+CONSISTENCY: all icons in this chat must look like one family: same outline thickness, same white border thickness, same highlight
+style, same level of detail, same visual size. People/avatars are gender-neutral.
+
+Confirm you understand, then wait for my list of icons.
 ```
 
 ## Then, per batch
@@ -123,14 +123,14 @@ Status icons (planned / idea / done) can reuse the bulb, a check mark badge and 
 ## How to prompt each batch (template)
 
 ```
-Same style as the attached approved icons (cute die-cut sticker, thick dark-brown #4A3628 outline, crisp white
-sticker border, flat fills, no shadow, light from top-left, no text, 1:1).
-Background: perfectly flat solid pure white #FFFFFF, no checkerboard, no noise, no shadows; wide white gaps between cells.
-One single image, square, 3x3 equal cells, no grid lines, no labels. Each icon fully inside its own cell with at
-least 15% white margin on all sides, nothing crossing into neighbouring cells, no stray specks or slivers, crisp edges
-with no colored fringe, same white border thickness and same visual size on every icon. Chunky shapes only.
-Make 9 separate icons, each centered:
-1) <icon> — accent <color>
+Same style as the approved icons in this chat (cute die-cut sticker, thick even dark-brown #4A3628 outline, crisp white sticker
+border, flat fills with a glossy white highlight on the upper-left, no shadow, chubby and friendly, chunky shapes only).
+Create each icon below as its own SEPARATE 1024x1024 PNG file (one icon per image, never a sheet or grid), perfectly flat pure
+white #FFFFFF background, icon centered at about 80% of the image, equal margin on all sides, no stray specks, with exactly the
+file name given. Deliver all files in ONE ZIP.
+Match the existing icons' outline thickness, white border thickness, highlight and level of detail exactly.
+Icons:
+1) file "<name>.png" — <exact object> — accent <color> (must NOT be <what to avoid>)
 2) ...
 ```
 
@@ -192,23 +192,23 @@ Make 9 separate icons, each centered:
 
 ## Audit: everything that is still an emoji in the app (batches 3–9, in priority order)
 
-Use the master prompt, then for each batch the batch template (3x3 grid; if a batch has more than 9 icons, send it as two images
-"A" and "B"). Write the exact object and what it must NOT be. Keep sticker style, gold/accent colors as noted.
+Use the master prompt, then for each batch the batch template: **one separate PNG file per icon**, all delivered in one ZIP, with
+the file names below. Write the exact object and what it must NOT be. Keep sticker style, gold/accent colors as noted.
 
 **Batch 3 — controls (you asked for the first two; cute and friendly):**
-1) camera badge — a cute chubby camera with a big round lens, small flash, tiny paw print on the front, accent gold (for the photo
+1) file "ui-camera.png" — camera badge — a cute chubby camera with a big round lens, small flash, tiny paw print on the front, accent gold (for the photo
    button on avatars and dog photos; must read at 24 px)
-2) pencil — a cute chubby pencil, slightly tilted, yellow body with a pink eraser and a small brown tip, accent gold (the "edit" button
+2) file "ui-pencil.png" — pencil — a cute chubby pencil, slightly tilted, yellow body with a pink eraser and a small brown tip, accent gold (the "edit" button
    next to the username)
-3) trash can — rounded bin with a lid, accent red `#B42318` (delete)
-4) archive box — a box with a lid and a downward arrow, accent gray-brown (archive trip)
-5) copy — two overlapping rounded squares (copy), accent gray-blue
-6) share — a rounded arrow leaving a box (share), accent blue `#3D7590`
-7) invite — a person with a small plus, accent gold (invite friends)
-8) key — a chubby key with a paw-shaped head, accent gold (join with a code)
-9) magnifier — a chubby magnifying glass (zoom in the photo cropper), accent gray-blue
+3) file "ui-trash.png" — trash can — rounded bin with a lid, accent red `#B42318` (delete)
+4) file "ui-archive.png" — archive box — a box with a lid and a downward arrow, accent gray-brown (archive trip)
+5) file "ui-copy.png" — copy — two overlapping rounded squares (copy), accent gray-blue
+6) file "ui-share.png" — share — a rounded arrow leaving a box (share), accent blue `#3D7590`
+7) file "ui-invite.png" — invite — a person with a small plus, accent gold (invite friends)
+8) file "ui-key.png" — key — a chubby key with a paw-shaped head, accent gold (join with a code)
+9) file "ui-zoom.png" — magnifier — a chubby magnifying glass (zoom in the photo cropper), accent gray-blue
 
-**Batch 4 — interests & the two redos:**
+**Batch 4 — interests & the two redos** (files: `cat-food.png`, `cat-sights.png`, `int-beaches.png`, `int-camping.png`, `int-wildlife.png`, `int-museums.png`, `int-viewpoints.png`, `int-breweries.png`, `int-hiking.png`):
 1) plate with fork and knife (food — REDO: NOT a cup), accent orange `#D9702E`
 2) camera with a lens and a flash (sights — REDO: NOT a cup), accent purple `#7B5EA7`
 3) beach — a palm tree and a wave, accent sky blue
@@ -219,12 +219,12 @@ Use the master prompt, then for each batch the batch template (3x3 grid; if a ba
 8) beer mug with foam (breweries — NOT a wine glass), accent amber
 9) hiking boot (hiking), accent green
 
-**Batch 5 — weather (7) + 2:**
+**Batch 5 — weather (7) + 2** (files: `wx-sun.png`, `wx-partly.png`, `wx-cloud.png`, `wx-rain.png`, `wx-storm.png`, `wx-snow.png`, `wx-fog.png`, `wx-sunrise.png`, `wx-sunset.png`):
 sun; partly cloudy (sun behind a cloud); cloud; rain (cloud with drops); thunderstorm (cloud with a bolt); snow (cloud with
 snowflakes); fog (cloud with horizontal lines); sunrise (sun on the horizon with an up arrow); sunset (sun on the horizon with a down arrow).
 Sky blue + gold, soft and round.
 
-**Batch 6 — map pins & dog arrangements (9):**
+**Batch 6 — map pins & dog arrangements (9)** (files: `pin-stop.png`, `pin-stay.png`, `pin-idea.png`, `dog-with.png`, `dog-sitter.png`, `dog-alone.png`, `dog-tbd.png`, `ui-warning.png`, `ui-dog-warning.png`):
 1) numbered stop pin (an empty round pin, we draw the number ourselves), accent gold
 2) stay pin (pin with a small house), accent blue
 3) idea pin (pin with a small bulb), accent amber
@@ -235,18 +235,18 @@ Sky blue + gold, soft and round.
 8) warning — a rounded triangle with an exclamation mark, accent orange
 9) dog-and-warning — a dog face with a small warning triangle
 
-**Batch 7 — moods & dog traits & members (9):**
+**Batch 7 — moods & dog traits & members (9)** (files: `mood-yay.png`, `mood-ok.png`, `mood-meh.png`, `trait-runner.png`, `trait-recall.png`, `ui-crown.png`, `ui-chat.png`, `ui-clock.png`, `ui-note.png`):
 1) mood happy — a happy dog face, big smile; 2) mood ok — a calm dog face; 3) mood meh — a worried dog face
 4) runner ("lets go and runs") — a dog running with motion lines; 5) comes back when called — a dog with a small heart/whistle
 6) crown (trip leader), accent gold; 7) chat bubble (feedback and comments), accent gold; 8) clock (time), accent brown;
 9) note / memo (notes), accent yellow
 
-**Batch 8 — dietary needs (7):**
+**Batch 8 — dietary needs (7)** (files: `diet-vegetarian.png`, `diet-vegan.png`, `diet-glutenfree.png`, `diet-dairyfree.png`, `diet-nutallergy.png`, `diet-halal.png`, `diet-kosher.png`):
 vegetarian (a leaf), vegan (a sprout in a heart), gluten-free (a wheat ear with a slash), dairy-free (a milk bottle with a slash),
 nut allergy (a peanut with a slash), halal (a crescent moon with a small star), kosher (a star of David outline). Accent green /
 cream tones, calm and respectful.
 
-**Batch 9 — empty-state illustrations (3, larger, more detail allowed):**
+**Batch 9 — empty-state illustrations (4, larger, more detail allowed; files: `empty-trips.png`, `empty-map.png`, `empty-day.png`, `empty-offline.png`):**
 1) a happy dog with a suitcase (no trips yet); 2) a dog looking at a map (no places); 3) a dog sleeping next to a calendar (empty day,
 replaces the bone emoji); plus 4) a dog with a "no signal" antenna (load failed).
 

@@ -1,35 +1,39 @@
 # Paw product logo system — brief for ChatGPT image generation
 
 Every product has **its own logo, all built from the same system**. Each logo writes the **full product word** (Trip, Feel,
-Bowl, ...) and **one letter of that word is a paw print**. The paw is part of the lettering, so the logo is the word and the
-brand at once. What makes them one family: the same lettering style, the same way of turning a letter into a paw, the same
+Bowl, ...) and **one letter of that word is built into a paw print without losing its own shape**. The paw lives inside the letter (its
+counter or its dot), so the logo is the word and the brand at once. What makes them one family: the same lettering style, the same way of turning a letter into a paw, the same
 base shape, and one color per product. Flat, modern, brand-like — not the in-app sticker icon style.
 
-Decided: **flat modern · the full product word written out · one letter of the word is a paw print · one color per product ·
-same type, same rules.** The final artwork is redrawn by us as exact SVG with real type (AI is for exploring concepts; AI-drawn
+Decided: **flat modern · the full product word written out · one letter keeps its own letterform and grows paw features · one color
+per product · same type, same rules.** The final artwork is redrawn by us as exact SVG with real type (AI is for exploring concepts; AI-drawn
 letters are unreliable).
 
-## Which letter becomes the paw (one rule for every product)
+## How a letter becomes a paw (shape-preserving — not a paw pasted on top)
 
-**The roundest letter of the word (o, e, a) becomes the paw print. If the word has no round letter (e.g. "Trip"), the dot of the
-"i" becomes the paw.** The paw takes exactly the place of that letter: same height and baseline, similar visual weight, equal
-letter spacing, so the word still reads as the word at a glance.
+**The letter must keep its own shape** (same stroke weight, height, width and outline as its neighbours, so it still reads as that
+letter) and **the paw grows out of the letter's own structure**. Never just swap in a separate paw icon. Pick the roundest letter
+(o, e, a); if the word has none, use the i.
 
-| Product | Word | Paw replaces | Result |
-|---|---|---|---|
-| Paw Trip | Trip | the dot of the **i** (or the i itself) | Tr🐾p-style: the i's dot is a small paw |
-| Paw Feel | Feel | one of the **e**s (second e preferred) | Fe🐾l |
-| Paw Bowl | Bowl | the **o** | B🐾wl |
-| Paw Walk (later) | Walk | the **a** | W🐾lk |
-| Paw Play (later) | Play | the **a** | Pl🐾y |
+| Letter | How the paw is built into it |
+|---|---|
+| **o** | Keep the round ring. The **counter (the hole in the middle) is shaped like a paw print**: one pad plus four small toe beans, cut out as negative space, so the ring still looks like an o. |
+| **e** | Keep the e: the same bowl and crossbar. The **small hole of the e is a paw pad** and **four small toe beans sit as dots around/above it** inside the letter's outline; the letter outline stays an e. |
+| **a** | Keep the single-story a (round bowl + stem). The **bowl's counter is a paw pad with toe beans** as negative space, stem unchanged. |
+| **i** | Keep the stem. The **dot of the i is a small paw print** (one pad + four toes) in the same weight. |
 
-Whichever letter we choose, the word must be perfectly readable (test with the paw hidden — people should still read the word).
+Examples by product: **Bowl** → the o's counter is a paw; **Feel** → one e's counter is a paw pad with toe dots; **Trip** → the i's dot
+is a paw; later **Walk / Play** → the a's counter is a paw.
+
+Rules: the paw detail is **negative space or the same flat color** as the letter (no extra color, no outline); stroke weight of the
+letter is identical to its neighbours; the paw must be recognizable as a paw even at 60 px (simplify to a pad + four dots if needed);
+the word must still read perfectly with the paw details hidden.
 
 ## The system (identical in every product logo)
 
 - **Lettering**: bold rounded sans-serif (Nunito ExtraBold style), same letter size, baseline and spacing rules in every logo.
-- **The paw-letter**: a compact, symmetric paw print (four toes + one pad), flat, same color as the other letters (or the product
-  accent color to make it pop), the same drawing in every product.
+- **The paw-letter**: the letter keeps its own shape and grows a compact, symmetric paw (one pad + four toes) in its counter or dot,
+  flat, same color as the other letters, drawn the same way in every product.
 - **Color**: one main color per product, the rest dark brown `#4A3628` and white. Trip gold `#FFC72C`, Feel pink `#E68AB3`,
   Bowl orange `#F0904E`, Walk green `#6CC48A`, Play blue `#7DB6D0`.
 - **Base shape** (app icon version): the same rounded square, same corner radius; word centered, big.
@@ -51,11 +55,15 @@ Whichever letter we choose, the word must be perfectly readable (test with the p
 
 ```
 Design a product logo system for a family of dog apps called "Paw ___": Paw Trip, Paw Feel, Paw Bowl.
-Core idea: each logo writes the FULL product word, correctly spelled ("Trip", "Feel", "Bowl"), and exactly ONE letter of
-the word is replaced by a paw print: the roundest letter becomes the paw ("Bowl": the o; "Feel": the second e); in
-"Trip" there is no round letter, so the dot of the i is a small paw print. The paw takes exactly the place of that
-letter: same height and baseline as the other letters, equal letter spacing, a compact symmetric paw (four toes + one pad),
-flat, same color as the other letters. The word must still be perfectly readable at a glance.
+Core idea: each logo writes the FULL product word, correctly spelled ("Trip", "Feel", "Bowl"), and exactly ONE letter of the
+word is built into a paw print WITHOUT losing its own letter shape. The letter keeps its normal outline, stroke weight, height
+and width, so it still reads clearly as that letter, and the paw grows out of the letter's own structure:
+- "Bowl": the round "o" keeps its ring shape; its inner hole (counter) is cut out in the shape of a paw print (one pad plus
+  four small toe beans) as negative space.
+- "Feel": one "e" keeps the e shape and crossbar; the small hole of the e is a paw pad with four tiny toe beans.
+- "Trip": the "i" keeps its stem; the dot of the i is a small paw print (a pad plus four toes).
+Never paste a separate paw icon in place of a letter. The paw detail is negative space or the same flat color as the letter
+(no extra color, no outline). The paw must stay recognizable as a paw and the word must read perfectly at a glance.
 All logos use the same system: one bold rounded sans-serif (like Nunito ExtraBold), same letter size and baseline rules,
 the same way of turning a letter into a paw.
 Colors: Trip = gold #FFC72C, Feel = pink #E68AB3, Bowl = orange #F0904E as the main color; letters in dark brown #4A3628
@@ -75,8 +83,9 @@ square image. All words correctly spelled and readable at 60 px.
 
 ```
 Take the attached logo system, layout in row <N>. Keep the concept, colors and lettering style EXACTLY. Improve only:
-perfect geometry and symmetry, equal letter spacing, identical letter size and baseline in all three logos, make each paw
-letter exactly the height and weight of its neighbours so the word reads as one word, clean smooth curves, words correctly
+perfect geometry and symmetry, equal letter spacing, identical letter size and baseline in all three logos, keep each paw letter
+exactly the height, width and stroke weight of its neighbours with its own letter shape fully intact (the paw lives in its
+counter or dot, never replaces the letter), so the word reads as one word, clean smooth curves, words correctly
 spelled ("Trip", "Feel", "Bowl"). Flat, no outlines, no gradients, no shadows, no glow, no text other than the product
 words. Show the three logos side by side on a pure white (#FFFFFF) background with wide margins, no stray specks.
 Output ONE image.
@@ -85,9 +94,9 @@ Output ONE image.
 ## Prompt 3 — does it scale? (attach the chosen logos)
 
 ```
-Using exactly the same system as the attached logos (same layout, lettering style, size, and the same way of turning the
-roundest letter into a paw), add two more products: "Walk" in green #6CC48A (the a becomes the paw) and "Play" in blue
-#7DB6D0 (the a becomes the paw). Show all five logos side by side on pure white (#FFFFFF), no other text, no stray specks,
+Using exactly the same system as the attached logos (same layout, lettering style, size, and the same shape-preserving way of building a
+paw into the roundest letter's counter), add two more products: "Walk" in green #6CC48A (the a keeps its shape, its counter is a paw) and "Play" in blue
+#7DB6D0 (the a keeps its shape, its counter is a paw). Show all five logos side by side on pure white (#FFFFFF), no other text, no stray specks,
 words correctly spelled. Output ONE image.
 ```
 
@@ -103,7 +112,8 @@ words correctly spelled. Output ONE image.
 ## Checks before approving
 
 1. At 60 px and 32 px: is the word still readable? Is the paw still clear as a paw?
-2. Hide the paw with your thumb: can you still read the word? (If not, choose another letter.)
+2. Does the letter keep its own shape (outline, stroke weight, size) so it reads as that letter — and can you still read the word
+   when the paw detail is ignored? (If not, choose another letter or simplify the paw.)
 3. Side by side: do Trip / Feel / Bowl look like one family (same type, same method) and yet instantly different?
 4. Are all words spelled correctly, with identical letter size and baseline? Is the spacing around the paw-letter equal?
 5. Does it look like a brand (calm, confident, geometric) rather than a sticker or emoji?
@@ -114,6 +124,7 @@ words correctly spelled. Output ONE image.
 - White background only; no magenta, no checkerboard. Each logo fully inside its cell with wide margins, nothing crossing cells.
 - Don't put a small symbol (pin, compass, heart) into a paw pad — it looked wrong.
 - Two letters alone (Tr / Fe / Wa) are not enough: people would be confused, so the full word is written.
+- A pasted-on paw in place of a letter hurts readability: the letter must keep its shape and the paw is built into its counter/dot.
 - Replacing the "a" of the constant word "Paw" was considered; now the paw replaces a letter of each product word instead, so each
   logo is distinct and the word itself carries the brand.
 - Several concepts in one image are good for exploring; refine ONE image at a time, and edit rather than redraw.

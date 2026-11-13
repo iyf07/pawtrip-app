@@ -64,7 +64,9 @@ export function useTripRealtime(tripId: string | undefined) {
     };
     const refreshItems = () => qc.invalidateQueries({ queryKey: ['items', tripId] });
     const channel = supabase
-      .channel(`trip:${tripId}`)
+      // unique per subscription: removeChannel is async, and re-entering the trip right away would otherwise
+      // get the old, already-subscribed channel back ("cannot add postgres_changes callbacks after subscribe()")
+      .channel(`trip:${tripId}:${Math.random().toString(36).slice(2, 8)}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trips', filter: `id=eq.${tripId}` }, refresh)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trip_members', filter: `trip_id=eq.${tripId}` }, refresh)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'trip_dogs', filter: `trip_id=eq.${tripId}` }, refresh)

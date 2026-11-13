@@ -35,17 +35,19 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   const { wide, width } = useLayout();
   const path = usePathname();
   const [expanded, setExpanded] = useState(false);
+  const [lastTrip, setLastTrip] = useState<string | null>(null); // where the Trips button returns to
   const active = enabled && wide && !isFlow(path);
   const section = sectionOf(path);
   const tripId = /^\/trip\/([^/]+)/.exec(path)?.[1] ?? null;
   const dogId = /^\/dog\/([^/]+)/.exec(path)?.[1] ?? null;
+  if (tripId && tripId !== lastTrip) setLastTrip(tripId); // remember it (adjusting state while rendering)
   const folded = width < FULL_WIDTH && !!tripId && !expanded;
   const showList = active && (section === 'dogs' || (section === 'trips' && !folded));
 
   return (
     <ShellContext.Provider value={active}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        {active ? <Rail section={section} onTrip={!!tripId} onToggleList={() => setExpanded((v) => !v)} /> : null}
+        {active ? <Rail section={section} onTrip={!!tripId} lastTrip={lastTrip} onToggleList={() => setExpanded((v) => !v)} /> : null}
         {showList ? section === 'dogs' ? <DogList selected={dogId} /> : <TripList selected={tripId} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>
       </View>
@@ -53,12 +55,13 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   );
 }
 
-function Rail({ section, onTrip, onToggleList }: { section: Section; onTrip: boolean; onToggleList: () => void }) {
+function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; onTrip: boolean; lastTrip: string | null; onToggleList: () => void }) {
   const { t } = useT();
   const th = useTheme();
   const { userId } = useAuth();
   const me = useMyProfile();
   const dogs = useMyDogs();
+  const trips = useTrips();
 
   const item = (key: Section, icon: string, label: string, onPress: () => void) => {
     const on = section === key;
@@ -93,7 +96,13 @@ function Rail({ section, onTrip, onToggleList }: { section: Section; onTrip: boo
         style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginBottom: 6 }}>
         <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={38} />
       </Pressable>
-      {item('trips', '🧳', t('shell.trips'), () => (section === 'trips' && onTrip ? onToggleList() : router.navigate('/')))}
+      {item('trips', '🧳', t('shell.trips'), () => {
+        if (section === 'trips' && onTrip) return onToggleList();
+        // straight back to the trip you were on (going through "/" left stray screens in the history)
+        const id = lastTrip ?? trips.data?.[0]?.id;
+        if (id) router.navigate({ pathname: '/trip/[id]/plan', params: { id } });
+        else router.navigate('/');
+      })}
       {item('dogs', '🐕', t('shell.dogs'), () => {
         const first = dogs.data?.[0];
         router.navigate(first ? { pathname: '/dog/[id]', params: { id: first.id } } : { pathname: '/dog/[id]', params: { id: 'new' } });

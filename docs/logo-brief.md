@@ -23,7 +23,7 @@ about 55% of the pad's width. One simple shape, no text, no tiny details.
 
 | Product | Emblem | Idea |
 |---|---|---|
-| Paw Travel | map pin (teardrop with a dot) | places & trips |
+| Paw Travel | compass (ring + diamond needle) | direction & trips (a map pin works only in a separate badge) |
 | Paw Feel | heart | how your dog feels / care |
 | Paw Walk | leash loop (a rounded loop with a small handle) | walks |
 | Paw Play (spare) | ball | play |
@@ -65,29 +65,25 @@ Shade for the toe beans: slightly darker tone of the same color (about 10–15% 
 Why: asking ChatGPT to design the paw from scratch changes the paw's proportions and makes the emblem tiny. Start from
 the approved paw (`pawtrip/assets/icons/logo-paw.png`), attach it, and only add the emblem. Ask for ONE image at a
 time (several variations also change the paw). The emblem is a **solid dark-brown silhouette** (no outline) so it reads
-well small. Try the three placements and pick the best one.
+well small.
 
-**A — pin stamped on the main pad (safest)**
+**Lesson learned:** a teardrop map pin (or the pad reshaped into a pin) on the round main pad looks like something
+it shouldn't. Keep emblems **round and symmetric** on the pad (compass, ring shapes), or keep pointed shapes
+(pin) **outside** the pad in a separate badge.
+
+**A — compass stamped on the main pad (recommended)**
 
 ```
 Edit the attached image. Keep the paw print EXACTLY as it is: same shape, proportions, colors, outline, white
-sticker border and highlight. Do not redraw or restyle it. Only add one thing: a solid dark-brown (#4A3628) map-pin
-silhouette (a teardrop pin with a small round hole), centered on the big main pad, about 55% of the pad's width,
-flat, no outline, as if stamped onto the pad. Move the existing white highlight so it still sits on the top-left
-of the pad. Background: one perfectly flat solid magenta (#FF00FF), no checkerboard, no noise, no shadow.
-Square 1:1, same size and position as the original. Output ONE image.
+sticker border and highlight. Do not redraw or restyle it. Only add one thing: a simple solid dark-brown (#4A3628)
+compass emblem centered on the big main pad: a thin ring with a small diamond-shaped needle (two points, north and
+south) in the middle, about 50% of the pad's width, flat, as if stamped onto the pad. It must be perfectly round
+and symmetric, no pointed teardrop shapes. Keep the white highlight on the top-left of the pad. Background: one
+perfectly flat solid magenta (#FF00FF), no checkerboard, no noise, no shadow. Square 1:1, same size and position
+as the original. Output ONE image.
 ```
 
-**B — the main pad itself becomes the pin (most "logo-like")**
-
-```
-Edit the attached image. Keep the four toe beans, the outline, the colors, the white sticker border and the style
-EXACTLY. Change only the big main pad: reshape it into a rounded map-pin (teardrop pointing down) with a small
-round hole in the middle, same size and same outline weight, same highlight. Flat solid magenta (#FF00FF)
-background, no checkerboard, no noise, no shadow. Square 1:1. Output ONE image.
-```
-
-**C — small badge sticker at the bottom-right (hardest to read when small)**
+**C — small badge sticker at the bottom-right (pin stays outside the pad)**
 
 ```
 Edit the attached image. Keep the paw print EXACTLY as it is. Add a small round white sticker badge overlapping
@@ -98,16 +94,18 @@ no noise, no shadow. Square 1:1. Output ONE image.
 
 ## Prompt 2 — the family (after you pick the Travel version; attach it)
 
-One image per request:
+One image per request. Keep emblems small, upright, symmetric and inside the pad (never touching its edge):
 
 ```
 Edit the attached image. Keep everything EXACTLY the same (paw shape, outline, white sticker border, highlight,
 the way the emblem is placed). Change only: (a) the paw's main color to pink #E68AB3 (toe beans slightly darker),
-and (b) the dark-brown emblem to a simple heart. Flat solid magenta (#FF00FF) background, no checkerboard, no
-noise, no shadow. Square 1:1. Output ONE image.
+and (b) the dark-brown emblem to a small, upright, simple heart about 45% of the pad's width, clearly inside the
+pad with margin on every side. Flat solid magenta (#FF00FF) background, no checkerboard, no noise, no shadow.
+Square 1:1. Output ONE image.
 ```
 
-Then the same with: green `#6CC48A` + a simple leash loop (Paw Walk), blue `#7DB6D0` + a simple ball (Paw Play).
+Then the same with: green `#6CC48A` + a simple round leash loop with a small handle (Paw Walk), blue `#7DB6D0` +
+a simple ball with one curved seam line (Paw Play).
 
 ## Prompt 3 — lockup reference and app icon
 

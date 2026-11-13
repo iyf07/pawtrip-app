@@ -60,13 +60,42 @@ a map pin, a dog face) so I can approve the style. Do not continue until I appro
 Always: "Use exactly the same style, line weight, corner roundness, shadow and light direction as the approved
 reference sheet. One icon per cell, 3x3 grid, same size, centered, transparent background."
 
-Batches (4–9 icons at a time keeps them consistent):
+## Full icon checklist (each one becomes one file in `pawtrip/assets/icons/`)
 
-1. **Navigation**: paw-print logo (gold), suitcase (trips, gold + brown), dog face (dogs), gear (settings), user avatar placeholder (circle with a smiley face), calendar (plan), light bulb (ideas), two people (members).
-2. **Categories** (accent color in brackets): pine tree / hiking boot (outdoors, green), fork & plate (food, orange), coffee cup (coffee, brown), camera (sights, purple), shopping bag (shopping, pink), wine glass (drinks, wine red), party popper (fun, mustard), small house / bed (stay, blue), car (transit, gray).
-3. **Weather**: sun, partly cloudy, cloud, rain, thunderstorm, snow, fog (sky blue + gold, same style).
-4. **Map & misc**: numbered pin (stop), hotel pin, idea pin, dog paw bullet, leash, dog bowl, tent.
-5. **Empty-state illustrations** (larger, more detail allowed): a happy dog with a suitcase, a dog looking at a map, a dog with a calendar.
+**Batch 1 — Navigation & sections (8)**
+
+| App label | Icon | Accent | File |
+|---|---|---|---|
+| Logo | paw print | gold | `logo-paw.png` |
+| 行程 Trips | suitcase | gold + brown | `nav-trips.png` |
+| 狗狗 Dogs | dog face | gold + brown | `nav-dogs.png` |
+| 设置 Settings | gear | gold + brown | `nav-settings.png` |
+| 个人主页 Profile | round smiley avatar | gold | `nav-profile.png` |
+| 计划 Plan | calendar page | gold + brown | `tab-plan.png` |
+| 想法 Ideas | light bulb | gold + brown | `tab-ideas.png` |
+| 成员 Members | two people | gold + brown | `tab-members.png` |
+
+**Batch 2 — All activity types (9)** (accent color from the palette above)
+
+| App label | Icon | Accent | File |
+|---|---|---|---|
+| 户外 Outdoors | pine tree (or hiking boot) | green | `cat-outdoors.png` |
+| 餐厅 Food | fork, knife and plate | orange | `cat-food.png` |
+| 咖啡 Coffee | coffee cup | brown | `cat-coffee.png` |
+| 景点 Sights | camera | purple | `cat-sights.png` |
+| 购物 Shopping | shopping bag | pink | `cat-shopping.png` |
+| 品酒 Drinks | wine glass | wine red | `cat-drinks.png` |
+| 活动 Fun | party popper | mustard | `cat-fun.png` |
+| 住宿 Stay | small house / bed | blue | `cat-stay.png` |
+| 交通 Transit | car | gray | `cat-transit.png` |
+
+**Batch 3 — Weather (7):** sun, partly cloudy, cloud, rain, thunderstorm, snow, fog — `wx-sun.png` … `wx-fog.png`.
+
+**Batch 4 — Map & small marks (7):** numbered stop pin, hotel pin, idea pin, paw bullet, leash, dog bowl, tent.
+
+**Batch 5 — Empty-state illustrations (3, larger, more detail allowed):** happy dog with a suitcase, dog looking at a map, dog with a calendar.
+
+Status icons (planned / idea / done) can reuse the bulb, a check mark badge and the calendar; add them later if needed.
 
 ## How to prompt each batch (template)
 

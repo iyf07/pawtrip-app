@@ -9,8 +9,9 @@
   - [ ] Generate, pick, and clean up (transparent PNG/SVG, 1:1, one icon per image).
   - [ ] Add to `pawtrip/assets/icons/` and swap them in (rail: trips, dogs, settings, profile; sections: plan, ideas,
         members; categories: outdoors, food, coffee, sights, shopping, drinks, fun, stay, transit; weather; map pins).
-  - Icons needed so far: logo/paw, trips (suitcase), dogs, settings, plan (calendar), ideas (bulb), members (people),
-    9 categories, 7 weather types, empty-state dog.
+  - Icons needed (full list with file names in `docs/icon-style-brief.md`): logo, 行程, 狗狗, 设置, 个人主页,
+    计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
+    map pins; 3 empty-state illustrations.
 
 ## Product
 

@@ -176,3 +176,16 @@ Make 9 separate icons, each centered:
    images: `pawtrip/scripts/clean-icons.py`.)
 3. Keep the **1024px clean masters** in `pawtrip/assets/icons/masters/` and ship **512px** files in `pawtrip/assets/icons/`
    (UI shows icons at 26–128 px, so 512 is sharp even on 3x screens; masters are for app icons / splash / print).
+
+### Notes from batch 2 (activity types)
+
+- 7 of 9 are great and shipped: outdoors (pine tree), coffee (cup with a paw), shopping (bag with a paw), drinks (wine glass),
+  fun (ticket with a star), stay (bed), transit (bus).
+- **Redo `cat-food` and `cat-sights`**: both came out as another coffee/tea cup instead of **fork + knife + plate** (food) and a
+  **camera** (sights). Their masters are kept in `assets/icons/masters/` but not used; the app shows emoji for these two for now.
+- Prompt lesson: ChatGPT sometimes repeats a subject. For every icon, name the **exact object and say what it must NOT be**, e.g.
+  "food: a plate with a fork and a knife on each side (NOT a cup or bowl)"; "sights: a camera with a lens and a flash (NOT a cup)".
+  Always give a distinct silhouette per icon (no two icons with the same outline).
+- Redo prompt (attach the approved icons, same template as above):
+  `1) food — a round plate seen from above with a fork on the left and a knife on the right, accent orange #D9702E (NOT a cup, NOT a bowl)`
+  `2) sights — a compact camera with a round lens, a small flash and a viewfinder bump, accent purple #7B5EA7 (NOT a cup)`

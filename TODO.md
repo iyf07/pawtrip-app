@@ -22,6 +22,9 @@
   - [ ] Claude redraws it as exact SVG with real Nunito letters and exports all sizes (app icons, favicon, store assets, horizontal wordmark).
   - [ ] Build a `Logo` component (`<Logo product="trip" />`), swap in the rail, mobile navbar, sign-in, splash, app icon.
 
+  - [ ] Redo the two wrong activity icons: **food** (plate + fork + knife) and **sights** (camera) — both came out as cups (see `docs/icon-style-brief.md`).
+  - [ ] Next batches: weather (7), map pins, empty-state dog illustrations; redo a gender-neutral profile avatar.
+
 ## Product
 
 - [ ] Email sign-in for friends: custom SMTP (Resend + a domain) so codes reach anyone, then push the 6-digit-code template.

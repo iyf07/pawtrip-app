@@ -16,6 +16,7 @@ import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
 import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, timeFields, type ItemView } from '@/features/plan/model';
 import { ItemDetailPanel } from '@/features/plan/ItemDetailSheet';
+import { CatIcon } from '@/features/plan/CatIcon';
 import { PlanMap } from '@/features/plan/PlanMap';
 import { buildPins, useDayRoute, useItemCoords } from '@/features/plan/useDayGeo';
 import { WeatherBanner } from '@/features/plan/WeatherBanner';
@@ -338,7 +339,7 @@ function StayStrip({ item }: { item: ItemView }) {
         borderStyle: item.confirmed ? 'solid' : 'dashed',
         borderColor: c.c,
       }}>
-      <Text>🏨</Text>
+      <CatIcon cat="stay" size={22} />
       <Text weight={800} size={14} style={{ flex: 1 }} numberOfLines={1}>
         {item.title}
       </Text>
@@ -452,10 +453,13 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
           alignItems: short ? 'center' : 'stretch',
           gap: short ? 8 : 1,
         }}>
-        <Text weight={item.confirmed ? 800 : 700} size={15} numberOfLines={short ? 1 : 2} style={{ flexShrink: 1, paddingRight: n > 1 ? 0 : 44 }}>
-          {item.confirmed ? '' : '💡 '}
-          {item.emoji} {item.title}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1, paddingRight: n > 1 ? 0 : 44 }}>
+          <CatIcon cat={item.cat} size={short ? 20 : 24} />
+          <Text weight={item.confirmed ? 800 : 700} size={15} numberOfLines={short ? 1 : 2} style={{ flexShrink: 1 }}>
+            {item.confirmed ? '' : '💡 '}
+            {item.title}
+          </Text>
+        </View>
         <Text size={13} weight={700} color="muted" numberOfLines={1}>
           {short ? fmtMin(start) : fmtRange(start, start + dur)}
           {travel ? ` · ${t('travel', { n: travel })}` : ''}

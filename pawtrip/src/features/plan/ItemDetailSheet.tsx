@@ -38,6 +38,7 @@ import {
   type Mood,
   type Rsvp,
 } from './model';
+import { CatIcon } from './CatIcon';
 import { WhenFields, type When } from './TimeFields';
 
 /** Item detail: fields save when you leave them; RSVP, dog arrangements, comments; the leader confirms. */
@@ -216,10 +217,11 @@ function Detail({ item }: { item: ItemView }) {
       />
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>
-        {ITEM_CATS.map(([c, emoji]) => (
+        {ITEM_CATS.map(([c]) => (
           <Chip
             key={c}
-            label={`${emoji} ${t(`cat.${c}` as Key)}`}
+            icon={<CatIcon cat={c} size={24} />}
+            label={t(`cat.${c}` as Key)}
             on={item.cat === c}
             onPress={locked ? undefined : () => changeCat(c)}
             textColor="text"

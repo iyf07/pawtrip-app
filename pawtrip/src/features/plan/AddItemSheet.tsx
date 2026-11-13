@@ -14,6 +14,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useT, type Key } from '@/i18n';
 
 import { ITEM_CATS, catEmoji, typeOfCat } from './model';
+import { CatIcon } from './CatIcon';
 import { WhenFields, type When } from './TimeFields';
 import { useTripCtx, type AddRequest } from '../trip/TripContext';
 
@@ -91,10 +92,11 @@ function AddForm({ req }: { req: AddRequest }) {
         {t('add.cat')}
       </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-        {ITEM_CATS.map(([c, emoji]) => (
+        {ITEM_CATS.map(([c]) => (
           <Chip
             key={c}
-            label={`${emoji} ${t(`cat.${c}` as Key)}`}
+            icon={<CatIcon cat={c} size={24} />}
+            label={t(`cat.${c}` as Key)}
             on={cat === c}
             onPress={() => setCat(c)}
             textColor="text"

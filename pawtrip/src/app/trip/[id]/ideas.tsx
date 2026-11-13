@@ -16,6 +16,7 @@ import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT, type Key } from '@/i18n';
 import { weekdayShort } from '@/lib/dates';
 import { relTime } from '@/lib/format';
+import { CatIcon } from '@/features/plan/CatIcon';
 
 /** Ideas the group is still deciding on. The leader puts them in the plan from the item detail. */
 export default function Ideas() {
@@ -119,7 +120,7 @@ function IdeaCard({ item }: { item: ItemView }) {
   return (
     <Card onPress={() => openItem(item.id)} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
       <View style={{ width: 40, height: 40, borderRadius: 12, backgroundColor: c.tint, alignItems: 'center', justifyContent: 'center' }}>
-        <Text size={22}>{item.emoji}</Text>
+        <CatIcon cat={item.cat} size={30} />
       </View>
       <View style={{ flex: 1, gap: 4 }}>
         <Text weight={800} size={16} numberOfLines={2}>

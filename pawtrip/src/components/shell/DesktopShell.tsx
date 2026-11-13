@@ -6,7 +6,7 @@ import { useMyDogs } from '@/api/dogs';
 import { useMyProfile } from '@/api/profile';
 import { useTrips, type TripListItem } from '@/api/trips';
 import { useAuth } from '@/auth/AuthProvider';
-import { Avatar, DogAvatar } from '@/components/ui/Avatar';
+import { Avatar, AvatarStack, DogAvatar } from '@/components/ui/Avatar';
 import { Meta, Text } from '@/components/ui/Text';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
@@ -160,14 +160,16 @@ function TripList({ selected }: { selected: string | null }) {
     <ListFrame title={t('trips.title')}>
       {(trips.data ?? []).map((trip: TripListItem) => (
         <Row key={trip.id} on={trip.id === selected} onPress={() => router.navigate({ pathname: '/trip/[id]/plan', params: { id: trip.id } })}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, gap: 2 }}>
             <Text weight={800} numberOfLines={1}>
               {trip.name}
             </Text>
-            <Meta numberOfLines={1}>
-              {datesLabel(trip.start_date, trip.end_date, locale)}
-              {trip.place ? ` · ${trip.place}` : ''}
-            </Meta>
+            <Meta numberOfLines={1}>📅 {datesLabel(trip.start_date, trip.end_date, locale)}</Meta>
+            <Meta numberOfLines={1}>📍 {trip.place || '—'}</Meta>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
+              <AvatarStack people={trip.trip_members.map((m) => ({ id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url }))} size={22} max={4} />
+              <Meta numberOfLines={1}>{t('people', { n: trip.trip_members.length })}</Meta>
+            </View>
           </View>
         </Row>
       ))}

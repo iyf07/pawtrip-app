@@ -89,11 +89,12 @@ export default function TripLayout() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useT();
   const th = useTheme();
-  const { wide } = useLayout();
+  const { wide, medium } = useLayout();
   useTripRealtime(id);
   const q = useTrip(id);
 
-  const back = <Button label={t('nav.backTrips')} variant="text" onPress={goBack} />;
+  // the long label would squeeze the trip name on a phone
+  const back = <Button label={t(medium ? 'nav.backTrips' : 'nav.backTripsShort')} variant="text" onPress={goBack} />;
 
   if (q.isPending) {
     return (

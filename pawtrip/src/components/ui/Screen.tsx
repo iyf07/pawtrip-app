@@ -71,7 +71,7 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
         paddingHorizontal: 16,
         backgroundColor: t.bg,
       }}>
-      <View style={{ width: 80, alignItems: 'flex-start' }}>{left}</View>
+      <View style={{ minWidth: 80, alignItems: 'flex-start' }}>{left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
           <Text weight={800} size={18} numberOfLines={1}>

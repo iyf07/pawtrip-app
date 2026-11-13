@@ -23,9 +23,14 @@ export default function Trips() {
 
   const header = (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12, backgroundColor: th.bg }}>
-      <Text weight={800} size={28}>
-        {t('trips.title')}
-      </Text>
+      <View>
+        <Text weight={800} size={26}>
+          🐾 PawTrip
+        </Text>
+        <Text weight={700} size={14} color="muted">
+          {t('trips.title')}
+        </Text>
+      </View>
       <HeaderActions
         size={44}
         before={

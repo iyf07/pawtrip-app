@@ -62,6 +62,9 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
  * Switch trips by replacing the trip screen: navigating between two ids of the same dynamic route reuses the
  * trip's nested tabs with their old state, which left the old trip showing until a second click.
  */
+/** The list column carries no emoji (icons are being replaced by a custom set). */
+const noEmoji = (text: string) => text.replace(/\p{Extended_Pictographic}\uFE0F?\s*/gu, '').trim();
+
 function openTrip(id: string) {
   router.replace({ pathname: '/trip/[id]/plan', params: { id } });
 }
@@ -174,8 +177,8 @@ function TripList({ selected }: { selected: string | null }) {
             <Text weight={800} numberOfLines={1}>
               {trip.name}
             </Text>
-            <Meta numberOfLines={1}>📅 {datesLabel(trip.start_date, trip.end_date, locale)}</Meta>
-            <Meta numberOfLines={1}>📍 {cityState(trip.place) || '—'}</Meta>
+            <Meta numberOfLines={1}>{datesLabel(trip.start_date, trip.end_date, locale)}</Meta>
+            <Meta numberOfLines={1}>{cityState(trip.place) || '—'}</Meta>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <AvatarStack people={trip.trip_members.map((m) => ({ id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url }))} size={22} max={4} />
             </View>
@@ -183,7 +186,7 @@ function TripList({ selected }: { selected: string | null }) {
         </Row>
       ))}
       <AddLink label={`+ ${t('trips.new')}`} onPress={() => router.push('/new-trip')} />
-      <AddLink label={t('trips.join')} onPress={() => router.push('/join')} />
+      <AddLink label={noEmoji(t('trips.join'))} onPress={() => router.push('/join')} />
     </ListFrame>
   );
 }

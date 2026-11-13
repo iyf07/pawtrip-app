@@ -13,11 +13,11 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw series logo** (Paw Travel now; Paw Feel / Paw Walk later) — brief and prompts in `docs/logo-brief.md`.
-  - [x] Decide direction: same paw + a product emblem in the pad (Travel: pin, Feel: heart, Walk: leash) · stacked (mark on top, text below) · one main color per product · rounded bold type.
-  - [ ] Generate the Paw Travel mark (paw + pin, 4 variations) with ChatGPT, pick one.
-  - [ ] Generate the family (Feel: pink + heart, Walk: green + leash, Play: blue + ball) to check it works as a series.
-  - [ ] App icon (1024) + stacked lockup reference.
+- [ ] **Paw brand logo** (one standalone mark for all Paw apps; not the in-app sticker style) — brief and prompts in `docs/logo-brief.md`.
+  - [x] Decide direction: flat modern minimal · distinctive paw print · gold + dark brown · mark only, lettering set by us.
+  - [ ] Explore 6 concepts with ChatGPT (Prompt 1), pick one.
+  - [ ] Refine the pick (Prompt 2), generate versions (Prompt 3).
+  - [ ] Claude redraws it as an exact SVG and exports all sizes / colors (favicon, app icons, store assets).
   - [ ] Build a `Logo` component (`<Logo product="travel" />`), swap in the rail, mobile navbar, sign-in, favicon, splash, app icons.
 
 ## Product

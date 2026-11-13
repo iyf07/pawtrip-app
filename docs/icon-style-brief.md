@@ -166,9 +166,13 @@ Make 9 separate icons, each centered:
 - Redo candidates: `nav-profile` is a specific woman — make it a gender-neutral avatar; `tab-ideas` rays are thin
   (still fine at 44 px, but chunkier is safer); gear hole is pure white (fine).
 
-## Pipeline for every batch (always from the original files)
+## Pipeline for every batch (always from the original files, latest file by timestamp)
 
-1. Unzip the original 1024px images you downloaded (never resized copies).
-2. `pawtrip/scripts/clean-icons.py`: keeps the main shape, removes slivers and colored fringe, normalizes size.
+1. Take the **newest** zip/files in `/Users/ivan/workplace/icons/` (by timestamp) and unzip the original 1024px images
+   into a fresh folder — never resized copies.
+2. White-background images (the current prompts): `pawtrip/scripts/clean-icons-white.py <dir> <out> <px>` finds the
+   silhouette from the artwork (dark outline + warm fills), drops everything outside it (grey shadow, colored fringe,
+   slivers from neighbouring cells), and rebuilds one uniform white sticker border. (Old transparent-background
+   images: `pawtrip/scripts/clean-icons.py`.)
 3. Keep the **1024px clean masters** in `pawtrip/assets/icons/masters/` and ship **512px** files in `pawtrip/assets/icons/`
    (UI shows icons at 26–128 px, so 512 is sharp even on 3x screens; masters are for app icons / splash / print).

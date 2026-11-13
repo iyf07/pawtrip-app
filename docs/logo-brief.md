@@ -56,6 +56,40 @@ When showing several variations, use a grid on pure white, each variation fully 
 margin, nothing crossing cells, no grid lines, no stray specks; a small dark-gray number under each cell is allowed (for choosing).
 ```
 
+## Request 0 — EVERYTHING AT ONCE (use this first: paste the STYLE SPEC, then this)
+
+ChatGPT tends to do only the first item and stop (it once drew only the heart). This request lists every product, gives a fixed
+count per row, and tells it explicitly not to stop.
+
+```
+[paste the STYLE SPEC above]
+
+REQUEST: Generate ALL of the following in ONE square image, as a grid with 4 columns x 4 rows (16 cells), every cell a different
+logo variation, numbered 1-16 with a small dark-gray number under each cell. Do NOT skip any row and do NOT stop after the first
+row — all 16 cells must be filled. Do not ask me any questions; just generate.
+
+ROW 1 (cells 1-4) = Paw FEEL. Product color rose pink #F25C8A. The pad has a white HEART cut out whose bottom point runs out
+through the bottom edge of the pad into the white background. The four cells differ in heart size, round vs slightly pointed
+heart, and how much solid pink remains around it.
+
+ROW 2 (cells 5-8) = Paw TRIP. Product color warm amber gold #FFB400. The pad has a white travel symbol cut out, running out
+through the bottom edge into the white background. Cell 5 map pin, 6 suitcase, 7 compass, 8 airplane.
+
+ROW 3 (cells 9-12) = Paw TRIP (more options). Same amber #FFB400. Cell 9 mountains with a sun, 10 winding road, 11 tent,
+12 hot-air balloon.
+
+ROW 4 (cells 13-16) = Paw BOWL. Product color teal blue #2FA4B8. The pad has a white DOG BOWL cut out, opening out through the
+bottom edge into the white background. Cell 13 simple bowl, 14 bowl with a small mound of kibble, 15 bowl with a bone shape,
+16 deeper bowl.
+
+All 16 logos use the exact same paw (same four toe beans, same size and positions); only the pad cut-out changes. Only two colors
+per logo (its product color + white). No text except the small gray numbers.
+If you cannot fit all 16 cleanly in one image, make TWO images in a row without asking: image A = rows 1 and 4 (Feel and Bowl),
+image B = rows 2 and 3 (Trip), keeping the same numbering.
+```
+
+After you choose, use the single-product requests below to refine one logo at a time, or **Request 5** for the next products.
+
 ## Request 1 — Paw Feel (rose pink `#F25C8A`, heart)
 
 ```
@@ -99,6 +133,18 @@ shape on its side, 4 deeper bowl, 5 wide shallow bowl, 6 bowl seen slightly from
 REQUEST: Generate ONLY the "<Feel|Trip|Bowl>" logo with <describe the chosen variation, e.g. "variation 3: a round heart, 40% of the
 pad's width">. One image, very clean and precise: perfectly smooth curves, the four toe beans identical in size and spacing,
 the cut-out symbol exactly centered and running out through the bottom of the pad. <optional notes>
+```
+
+## Request 5 — the next products (same system; paste the spec + this)
+
+```
+[paste the STYLE SPEC above]
+
+REQUEST: One square image, grid 4 columns x 2 rows (8 cells), numbered 1-8, all different variations, same paw in every cell:
+ROW 1 = Paw WALK, product color fresh green #4CAF6A: cells 1 leash loop with a handle, 2 two small footprints, 3 a winding path,
+4 a dog on a leash silhouette (simple, one bold shape).
+ROW 2 = Paw PLAY, product color violet #8A6BE0: cells 5 ball, 6 bone, 7 frisbee, 8 squeaky toy.
+Do not stop after the first row; fill all 8 cells; do not ask questions.
 ```
 
 Tip: stay in the **same chat** (ChatGPT remembers earlier images) and say "same as the previous image, but ...". If shine, outlines

@@ -20,6 +20,16 @@ A friendly sticker you would stick on a travel journal: round, chunky, a little 
   noisy specks around the sticker; we cut the icon out ourselves and rebuild the white sticker border and a soft shadow in
   code, so every icon gets exactly the same border.)
 - **Canvas**: square 1:1, object fills ~80% of the canvas, centered, equal padding.
+- **Clean cells (very important):** every icon sits fully inside its own cell with at least 15% empty white margin on all
+  four sides. Nothing from one icon may touch, cross, or leak into a neighbouring cell. No stray fragments, slivers, dots,
+  specks or partial shapes anywhere, especially at cell edges. No grid lines, no labels, no numbers, no frames.
+- **Clean edges:** the outer edge of the white sticker border is crisp and smooth, with NO colored fringe, halo, outline
+  or glow around it (no pink/purple/gray rim). The white border has the same thickness on every icon (about 4% of the icon width).
+- **Same visual size:** every icon's largest dimension fills the same share of its cell (80%), so a wide icon and a
+  tall icon look equally big. Same optical weight: same outline thickness (never thinner than 1.5% of the icon width).
+- **No hairlines:** no thin rays, sparkles or details thinner than the outline; they disappear at 32 px. Use fewer, chunkier parts.
+- **Neutral people:** any person/avatar icon is gender-neutral and not a specific character (simple round head, no
+  hairstyle that reads as one gender, no named character), because it stands for any user.
 - **Consistency**: same line weight, same corner roundness, same light direction (top-left), same shadow on every icon.
 
 ## Palette (from the app)
@@ -57,6 +67,11 @@ Background: one perfectly flat solid pure white (#FFFFFF) filling the whole imag
 NO fake transparency, NO noise, NO gradient and NO shadows on it.
 Square 1:1 images. Each icon fills about 80% of its cell with equal padding, and cells in a grid are clearly
 separated by wide white gaps so they can be cut apart.
+Cleanliness rules: every icon sits fully inside its own cell with at least 15% empty white margin on all sides;
+nothing from one icon may touch or leak into a neighbouring cell; no stray fragments, slivers, dots or specks anywhere;
+no grid lines, labels or numbers. The outer edge of the white sticker border is crisp and smooth with no colored
+fringe, halo or glow, and the border has the same thickness on every icon. Same visual size for every icon.
+No thin rays, sparkles or hairline details (chunkier parts only). People/avatars are gender-neutral.
 
 I am attaching 8 icons that are already approved (logo, trips, dogs, settings, profile, plan, ideas, members).
 Match their line thickness, corner roundness, outline color, sticker border width and level of detail exactly.
@@ -111,7 +126,10 @@ Status icons (planned / idea / done) can reuse the bulb, a check mark badge and 
 Same style as the attached approved icons (cute die-cut sticker, thick dark-brown #4A3628 outline, crisp white
 sticker border, flat fills, no shadow, light from top-left, no text, 1:1).
 Background: perfectly flat solid pure white #FFFFFF, no checkerboard, no noise, no shadows; wide white gaps between cells.
-Make a 3x3 grid of 9 separate icons, each centered with equal padding:
+One single image, square, 3x3 equal cells, no grid lines, no labels. Each icon fully inside its own cell with at
+least 15% white margin on all sides, nothing crossing into neighbouring cells, no stray specks or slivers, crisp edges
+with no colored fringe, same white border thickness and same visual size on every icon. Chunky shapes only.
+Make 9 separate icons, each centered:
 1) <icon> — accent <color>
 2) ...
 ```
@@ -132,3 +150,18 @@ Make a 3x3 grid of 9 separate icons, each centered with equal padding:
 1. Crop the sheets into single files, trim padding, make 1x/2x/3x sizes.
 2. Put them in `pawtrip/assets/icons/` and replace the emoji in the rail, sections, categories, weather and map pins.
 3. Check light and dark mode (the white sticker border keeps them readable on dark).
+
+## Quality checklist (what I check on every batch — send me the image and I tell you what to fix)
+
+1. **Stray fragments** at the edges of a cell (leftovers of the neighbour) → I remove them in code, but tell ChatGPT "more margin".
+2. **Colored fringe / halo** on the border edge → I remove it in code (the border is white).
+3. **Same size / weight / border thickness** across the batch → I normalize the size; thickness differences need a redo.
+4. **Readable at 32–44 px** (I render a small row) → thin details get redone chunkier.
+5. **Readable on dark** (white border on `#231B15`) → check the outline contrast.
+6. **Meaning** — does each icon say what the label says, and is it neutral where it should be (avatar)?
+
+### Notes from batch 1 (v2)
+
+- Cleaned by code: white slivers from neighbouring cells (suitcase, calendar, bulb, members), faint pink dots on the border edge.
+- Redo candidates: `nav-profile` is a specific woman — make it a gender-neutral avatar; `tab-ideas` rays are thin
+  (still fine at 44 px, but chunkier is safer); gear hole is pure white (fine).

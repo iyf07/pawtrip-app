@@ -142,7 +142,7 @@ export function useJoinTrip() {
   });
 }
 
-function useTripMutation<V>(fn: (v: V) => Promise<void>, extraKeys: string[][] = []) {
+function useTripMutation<V, R = void>(fn: (v: V) => Promise<R>, extraKeys: string[][] = []) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: fn,
@@ -182,8 +182,9 @@ export const useDeleteTrip = () =>
 
 export const useRotateInviteCode = () =>
   useTripMutation(async (tripId: string) => {
-    const { error } = await supabase.rpc('rotate_invite_code', { p_trip: tripId });
+    const { data, error } = await supabase.rpc('rotate_invite_code', { p_trip: tripId });
     if (error) throw error;
+    return data as string;
   });
 
 export const useUpdateTrip = () =>

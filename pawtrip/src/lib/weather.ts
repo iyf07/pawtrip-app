@@ -8,6 +8,9 @@ import { addDaysIso, todayIso } from './dates';
 export type WxIcon = 'sun' | 'partly' | 'cloud' | 'rain' | 'storm' | 'snow' | 'fog';
 export const WX_EMOJI: Record<WxIcon, string> = { sun: '☀️', partly: '⛅', cloud: '☁️', rain: '🌧️', storm: '⛈️', snow: '🌨️', fog: '🌫️' };
 
+/** One hour of a real forecast (or recorded day). */
+export type HourWx = { icon: WxIcon; /** °F */ temp: number; rainPct: number | null };
+
 export type DayWx = {
   iso: string;
   icon: WxIcon;
@@ -23,6 +26,8 @@ export type DayWx = {
   typical: boolean;
   /** typical days only: the date from which a real forecast exists for this day */
   forecastFrom: string | null;
+  /** the 24 hours of the day; only for days within the forecast window (and recent past days), never for averages */
+  hours: HourWx[] | null;
 };
 
 /** A real forecast exists for a day only when it is at most this many days away. */
@@ -64,7 +69,8 @@ type Daily = {
   sunset: string[];
   precipitation_probability_max?: (number | null)[];
 };
-type Rec = { icon: WxIcon; hi: number; lo: number; rise: number | null; set: number | null; rain: number | null };
+type Rec = { icon: WxIcon; hi: number; lo: number; rise: number | null; set: number | null; rain: number | null; hours?: HourWx[] };
+type Hourly = { time: string[]; weather_code: (number | null)[]; temperature_2m: (number | null)[]; precipitation_probability?: (number | null)[] };
 
 const FIELDS = (rain: boolean) =>
   ['weather_code', 'temperature_2m_max', 'temperature_2m_min', 'sunrise', 'sunset', ...(rain ? ['precipitation_probability_max'] : [])].join(',');
@@ -72,7 +78,18 @@ const FIELDS = (rain: boolean) =>
 async function getDaily(url: string): Promise<Record<string, Rec>> {
   const res = await fetch(url);
   if (!res.ok) return {};
-  const d: Daily | undefined = (await res.json()).daily;
+  const json = await res.json();
+  const d: Daily | undefined = json.daily;
+  const hourly: Hourly | undefined = json.hourly;
+  // hour-by-hour values grouped by date
+  const byDay: Record<string, (HourWx | undefined)[]> = {};
+  hourly?.time.forEach((stamp, i) => {
+    const [date, hh] = stamp.split('T');
+    const temp = hourly.temperature_2m?.[i];
+    const code = hourly.weather_code?.[i];
+    if (temp == null || code == null) return;
+    (byDay[date] ??= Array.from({ length: 24 }))[Number(hh.slice(0, 2))] = { icon: iconOf(code), temp: Math.round(temp), rainPct: hourly.precipitation_probability?.[i] ?? null };
+  });
   const out: Record<string, Rec> = {};
   d?.time.forEach((iso, i) => {
     if (d.temperature_2m_max?.[i] == null || d.weather_code?.[i] == null) return;
@@ -83,6 +100,7 @@ async function getDaily(url: string): Promise<Record<string, Rec>> {
       rise: minOf(d.sunrise?.[i]),
       set: minOf(d.sunset?.[i]),
       rain: d.precipitation_probability_max?.[i] ?? null,
+      hours: byDay[iso]?.every(Boolean) ? (byDay[iso] as HourWx[]) : undefined,
     };
   });
   return out;
@@ -106,7 +124,7 @@ export async function loadWeather(lat: number, lon: number, tz: string, days: st
   const out: Record<string, DayWx> = {};
 
   const put = (iso: string, r: Rec) => {
-    out[iso] = { iso, icon: r.icon, hi: r.hi, lo: r.lo, rise: r.rise, set: r.set, rainPct: r.rain, typical: false, forecastFrom: null };
+    out[iso] = { iso, icon: r.icon, hi: r.hi, lo: r.lo, rise: r.rise, set: r.set, rainPct: r.rain, typical: false, forecastFrom: null, hours: r.hours ?? null };
   };
 
   const jobs: Promise<void>[] = [];
@@ -114,7 +132,7 @@ export async function loadWeather(lat: number, lon: number, tz: string, days: st
   if (recent.length) {
     const back = Math.min(PAST_MAX, Math.max(0, Math.round((Date.parse(today) - Date.parse(recent[0])) / 86_400_000)));
     jobs.push(
-      getDaily(`https://api.open-meteo.com/v1/forecast?${base(lat, lon, tz)}&daily=${FIELDS(true)}&past_days=${back}&forecast_days=${FORECAST_DAYS + 1}`).then((m) =>
+      getDaily(`https://api.open-meteo.com/v1/forecast?${base(lat, lon, tz)}&daily=${FIELDS(true)}&hourly=weather_code,temperature_2m,precipitation_probability&past_days=${back}&forecast_days=${FORECAST_DAYS + 1}`).then((m) =>
         recent.forEach((d) => m[d] && put(d, m[d])),
       ),
     );
@@ -156,6 +174,7 @@ export async function loadWeather(lat: number, lon: number, tz: string, days: st
             rainPct: Math.round((sample.filter((r) => wet(r.icon)).length / sample.length) * 100),
             typical: true,
             forecastFrom: addDaysIso(d, -FORECAST_DAYS),
+            hours: null,
           };
         });
       }),

@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
+import { SaveBar } from '@/components/ui/SaveBar';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -55,6 +56,26 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
   const [errs, setErrs] = useState<{ name?: string; weight?: string }>({});
   const [askDelete, setAskDelete] = useState(false);
 
+  // what the form started with, to know whether there is anything to save
+  const [init] = useState(() => ({ name, photo, unit, weight, scales, recall }));
+  const dirty =
+    name !== init.name ||
+    photo !== init.photo ||
+    unit !== init.unit ||
+    weight !== init.weight ||
+    recall !== init.recall ||
+    DOG_SCALES.some((f) => scales[f] !== init.scales[f]);
+  function discard() {
+    const i = init;
+    setName(i.name);
+    setPhoto(i.photo);
+    setUnit(i.unit);
+    setWeight(i.weight);
+    setScales(i.scales);
+    setRecall(i.recall);
+    setErrs({});
+  }
+
   async function submit() {
     const e: typeof errs = {};
     if (!name.trim()) e.name = t('dog.errName');
@@ -93,6 +114,7 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
   return (
     <Screen
       nav
+      bottom={dirty ? <SaveBar saving={save.isPending} onSave={submit} onDiscard={discard} /> : null}
       top={
         <Header
           title={t('dog.edit')}
@@ -142,7 +164,6 @@ function DogForm({ id, dog }: { id: string; dog: Dog }) {
       <Text size={13} color="muted" style={{ marginTop: 20 }}>
         {t('dog.req')}
       </Text>
-      <Button label={t('nav.save')} block loading={save.isPending} onPress={submit} style={{ marginTop: 16 }} />
       <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} />
 
       <ConfirmSheet

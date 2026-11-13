@@ -57,7 +57,7 @@ export function DayChips({ days, value, onChange, disabled }: { days: string[]; 
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
       {days.map((iso, i) => (
-        <Chip key={iso} label={`${weekdayShort(iso, locale)} ${parseIso(iso).getDate()}`} on={value === i} onPress={disabled ? undefined : () => onChange(i)} />
+        <Chip key={iso} label={`${weekdayShort(iso, locale)} ${parseIso(iso).getMonth() + 1}/${parseIso(iso).getDate()}`} on={value === i} onPress={disabled ? undefined : () => onChange(i)} />
       ))}
     </View>
   );

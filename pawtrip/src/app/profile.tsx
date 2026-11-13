@@ -17,13 +17,13 @@ import { DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
+import { SaveBar } from '@/components/ui/SaveBar';
 import { Field } from '@/components/ui/Field';
 import { BackButton, Header, Screen, SectionTitle } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { DIETS, PERSON_SCALES, type PersonScale } from '@/constants/options';
 import { useTheme } from '@/hooks/use-theme';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useT, type Key } from '@/i18n';
 import { goBack } from '@/lib/nav';
 import { deletePhotoByUrl } from '@/lib/photos';
@@ -38,7 +38,6 @@ export default function ProfileRoute() {
 function ProfileForm({ profile }: { profile: ProfileRow }) {
   const { t } = useT();
   const th = useTheme();
-  const insets = useSafeAreaInsets();
   const toast = useToast();
   const { userId, email, signOut } = useAuth();
   const dogs = useMyDogs();
@@ -100,14 +99,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     <Screen
       nav
       top={<Header title={t('profile.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} right={<GearButton />} />}
-      bottom={
-        dirty ? (
-          <View style={{ paddingHorizontal: 16, paddingTop: 10, paddingBottom: 10 + insets.bottom, backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, gap: 4 }}>
-            <Button label={t('pf.save')} block loading={update.isPending} disabled={!canSave} onPress={save} />
-            <Button label={t('pf.discard')} variant="text" block disabled={update.isPending} onPress={discard} />
-          </View>
-        ) : null
-      }>
+      bottom={dirty ? <SaveBar saving={update.isPending} canSave={canSave} onSave={save} onDiscard={discard} /> : null}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 4 }}>
         <AvatarEditor name={profile.display_name} url={profile.avatar_url} onChange={changeAvatar} />
         <View style={{ flex: 1 }}>

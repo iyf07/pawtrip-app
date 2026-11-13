@@ -19,6 +19,9 @@ export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; 
     return out;
   });
   const warn = tips.length > 0;
+  // the temperature already shows in the day box; this card is only for dog tips and the "average, not a forecast" note
+  const note = wx.typical ? wx.forecastFrom : null;
+  if (!warn && !note) return null;
   return (
     <View style={{ marginTop: 10, flexDirection: 'row', gap: 10, alignItems: 'center', padding: 10, paddingHorizontal: 14, borderRadius: 14, backgroundColor: warn ? th.warnBg : th.goldBg }}>
       <Text size={24}>{WX_EMOJI[wx.icon]}</Text>
@@ -32,7 +35,7 @@ export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; 
             {tip}
           </Text>
         ))}
-        {wx.typical && wx.forecastFrom ? <Meta>{t('wx.noteWhen', { days: FORECAST_DAYS, date: datesLabel(wx.forecastFrom, wx.forecastFrom, locale) })}</Meta> : null}
+        {note ? <Meta>{t('wx.noteWhen', { days: FORECAST_DAYS, date: datesLabel(note, note, locale) })}</Meta> : null}
       </View>
     </View>
   );

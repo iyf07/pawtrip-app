@@ -1,25 +1,27 @@
-import { useEffect, useRef, useState, type ComponentRef } from 'react';
-import { ActivityIndicator, Pressable, ScrollView, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
+import { ActivityIndicator, PanResponder, Pressable, ScrollView, View } from 'react-native';
 
+import { usePatchItem } from '@/api/items';
 import { useSettings } from '@/api/profile';
 import { TripMap } from '@/components/TripMap';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Segmented } from '@/components/ui/Chip';
+import { useToast } from '@/components/ui/Toast';
 import { Meta, Text } from '@/components/ui/Text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useLayout } from '@/hooks/use-layout';
 import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
-import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, type ItemView } from '@/features/plan/model';
+import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, timeFields, type ItemView } from '@/features/plan/model';
 import { PlanMap } from '@/features/plan/PlanMap';
 import { buildPins, useDayRoute, useItemCoords } from '@/features/plan/useDayGeo';
 import { WeatherBanner } from '@/features/plan/WeatherBanner';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
-import { useWeather } from '@/lib/weather';
+import { WX_EMOJI, tempOut, useWeather } from '@/lib/weather';
 
 const PX = 96; // pixels per hour: the whole day, opened scrolled to the morning
 const GUTTER = 46;
@@ -72,6 +74,8 @@ export default function Plan() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -16, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 }}>
           {days.map((iso, i) => {
             const on = i === day;
+            const dw = weather.data?.[iso];
+            const d = parseIso(iso);
             return (
               <Pressable
                 key={iso}
@@ -79,7 +83,7 @@ export default function Plan() {
                 accessibilityRole="tab"
                 accessibilityState={{ selected: on }}
                 style={{
-                  minWidth: 64,
+                  minWidth: 72,
                   paddingVertical: 6,
                   paddingHorizontal: 12,
                   borderRadius: 18,
@@ -93,8 +97,18 @@ export default function Plan() {
                   {weekdayShort(iso, locale)}
                 </Text>
                 <Text size={20} weight={800} color={on ? 'onGold' : 'text'}>
-                  {parseIso(iso).getDate()}
+                  {`${d.getMonth() + 1}/${d.getDate()}`}
                 </Text>
+                {dw ? (
+                  <View style={{ alignItems: 'center', marginTop: 2 }}>
+                    <Text size={16} style={{ lineHeight: 20 }}>
+                      {WX_EMOJI[dw.icon]}
+                    </Text>
+                    <Text size={11} weight={700} color={on ? 'onGold' : 'muted'}>
+                      {tempOut(dw.hi, unit)}°/{tempOut(dw.lo, unit)}°
+                    </Text>
+                  </View>
+                ) : null}
               </Pressable>
             );
           })}
@@ -151,6 +165,12 @@ export default function Plan() {
                   <Text size={12} weight={800} color="muted" style={{ position: 'absolute', top: -10, left: 0, width: 42, backgroundColor: th.bg, lineHeight: 20 }}>
                     {hourLabel(h)}
                   </Text>
+                  {wx?.hours?.[h] ? (
+                    <Text size={11} weight={700} color="muted" style={{ position: 'absolute', top: 12, left: 0, width: 42, lineHeight: 15 }}>
+                      {WX_EMOJI[wx.hours[h].icon]}
+                      {tempOut(wx.hours[h].temp, unit)}°
+                    </Text>
+                  ) : null}
                 </View>
               ))}
               {/* tap empty time to add */}
@@ -275,15 +295,68 @@ function StayStrip({ item }: { item: ItemView }) {
   );
 }
 
+const SNAP = 15; // minutes
+
 function Block({ item, col, n, travel }: { item: ItemView; col: number; n: number; travel?: number }) {
   const { t } = useT();
   const { fmtMin, fmtRange } = useTimeFmt();
   const th = useTheme();
+  const toast = useToast();
   const c = useCatColors(item.cat);
-  const { items, dogs, openItem } = useTripCtx();
+  const { trip, days, items, dogs, openItem, isLeader } = useTripCtx();
+  const patch = usePatchItem(trip.id);
 
-  const top = item.start! * (PX / 60);
-  const h = Math.max((item.end! - item.start!) * (PX / 60) - 4, 28);
+  // drag the grip on the right edge to move the entry in time (confirmed entries: leader only)
+  const canDrag = !item.confirmed || isLeader;
+  const [dragMin, setDragMin] = useState<number | null>(null); // minutes moved while dragging
+  const [movedTo, setMovedTo] = useState<number | null>(null); // new start, kept until the saved value arrives
+  const dur = item.end! - item.start!;
+  const start = dragMin != null ? item.start! + dragMin : (movedTo ?? item.start!);
+  const live = useRef({ start: item.start!, dur, dayIdx: item.day });
+  const touchedGrip = useRef(false); // a drag (or a tap on the grip) must not also open the entry
+  useEffect(() => {
+    live.current = { start: item.start!, dur, dayIdx: item.day };
+  });
+  const clamp = (dy: number) => {
+    const { start: s0, dur: d0 } = live.current;
+    const m = Math.round(((dy / PX) * 60) / SNAP) * SNAP;
+    return Math.max(-s0, Math.min(m, 1440 - d0 - s0));
+  };
+  const grip = useMemo(
+    () =>
+      // the handlers read `live` only when a touch happens, never during render
+      // eslint-disable-next-line react-hooks/refs
+      PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderTerminationRequest: () => false,
+        onPanResponderGrant: () => {
+          touchedGrip.current = true;
+        },
+        onPanResponderMove: (_e, g) => setDragMin(clamp(g.dy)),
+        onPanResponderRelease: (_e, g) => {
+          const m = clamp(g.dy);
+          setDragMin(null);
+          setTimeout(() => (touchedGrip.current = false), 300);
+          if (m === 0) return;
+          const s = live.current.start + m;
+          setMovedTo(s);
+          patch.mutate(
+            { id: item.id, patch: timeFields(days, live.current.dayIdx, s, s + live.current.dur) },
+            { onError: () => toast(t('common.saveFailed')), onSettled: () => setMovedTo(null) },
+          );
+        },
+        onPanResponderTerminate: () => {
+          setDragMin(null);
+          setTimeout(() => (touchedGrip.current = false), 300);
+        },
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [item.id, days],
+  );
+
+  const top = start * (PX / 60);
+  const h = Math.max(dur * (PX / 60) - 4, 28);
   const short = h < 52;
   const hasConflict = conflictsOf(item, items).length > 0;
   const hasAlone = aloneIssues(item, dogs).length > 0;
@@ -291,7 +364,9 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
 
   return (
     <Pressable
-      onPress={() => openItem(item.id)}
+      onPress={() => {
+        if (!touchedGrip.current) openItem(item.id);
+      }}
       accessibilityRole="button"
       accessibilityLabel={`${item.title} ${fmtRange(item.start!, item.end!)}`}
       style={{
@@ -301,6 +376,8 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
         left: `${(col / n) * 100}%`,
         width: `${100 / n}%`,
         paddingLeft: col ? 3 : 0,
+        zIndex: dragMin != null ? 10 : 0,
+        opacity: dragMin != null ? 0.9 : 1,
       }}>
       <View
         style={{
@@ -313,7 +390,8 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
           borderWidth: item.confirmed ? 0 : 2,
           borderStyle: item.confirmed ? 'solid' : 'dashed',
           borderColor: c.c,
-          paddingHorizontal: 10,
+          paddingLeft: canDrag ? 24 : 10,
+          paddingRight: 10,
           paddingVertical: short ? 2 : 6,
           flexDirection: short ? 'row' : 'column',
           alignItems: short ? 'center' : 'stretch',
@@ -324,7 +402,7 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
           {item.emoji} {item.title}
         </Text>
         <Text size={13} weight={700} color="muted" numberOfLines={1}>
-          {short ? fmtMin(item.start!) : fmtRange(item.start!, item.end!)}
+          {short ? fmtMin(start) : fmtRange(start, start + dur)}
           {travel ? ` · ${t('travel', { n: travel })}` : ''}
         </Text>
         {!short ? <FacePile item={item} size={18} /> : null}
@@ -333,6 +411,16 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
           {hasAlone ? <Text size={14} accessibilityLabel={t('item.assign')}>🐕⚠️</Text> : null}
           {hasConflict ? <Text size={14}>⚠️</Text> : null}
         </View>
+        {canDrag ? (
+          <View
+            {...grip.panHandlers}
+            accessibilityLabel={t('plan.drag')}
+            style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 26, alignItems: 'center', justifyContent: 'center', touchAction: 'none', cursor: 'grab' } as never}>
+            <Text size={16} weight={800} color="muted" style={{ lineHeight: 18 }}>
+              ⠿
+            </Text>
+          </View>
+        ) : null}
       </View>
     </Pressable>
   );

@@ -29,7 +29,7 @@ export const zhExtra = {
   'int.markets': '集市',
   'int.petstores': '宠物用品店',
   'int.events': '活动演出',
-  'int.workshops': '手作体验',
+  'int.workshops': '手工课',
   'int.boating': '划船',
   'shell.calendar': '日历',
   'cal.title': '我的旅行日历',

@@ -96,7 +96,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
   return (
     <View style={{ width: RAIL_W, backgroundColor: th.card, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center', paddingVertical: 14, gap: 8 }}>
       <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
-        <Icon name="logo-paw" size={40} />
+        <Icon name="logo-paw" size={56} />
       </Pressable>
       <Pressable
         onPress={() => router.navigate('/profile')}

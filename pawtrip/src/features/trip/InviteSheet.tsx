@@ -89,8 +89,8 @@ export function InviteSheet({ visible, onClose, trip, isLeader }: { visible: boo
           </Text>
           <Meta style={{ marginTop: 6 }}>{t('group.expiresIn', { min: minLeft })}</Meta>
           <View style={{ marginTop: 18, gap: 8 }}>
-            <Button label={t('group.share')} block onPress={shareInvite} />
-            <Button label={t('group.copy')} variant="ghost" block onPress={copyCode} />
+            <Button label={t('group.share')} icon="ui-share" block onPress={shareInvite} />
+            <Button label={t('group.copy')} icon="ui-copy" variant="ghost" block onPress={copyCode} />
           </View>
         </>
       )}

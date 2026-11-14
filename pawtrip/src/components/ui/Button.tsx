@@ -2,6 +2,7 @@ import { ActivityIndicator, Pressable, type StyleProp, type ViewStyle } from 're
 
 import { useTheme } from '@/hooks/use-theme';
 
+import { Icon, type IconName } from './Icon';
 import { Text } from './Text';
 
 type Props = {
@@ -13,10 +14,12 @@ type Props = {
   /** stretch to the full width of the parent */
   block?: boolean;
   small?: boolean;
+  /** small sticker icon before the label */
+  icon?: IconName;
   style?: StyleProp<ViewStyle>;
 };
 
-export function Button({ label, onPress, variant = 'gold', disabled, loading, block, small, style }: Props) {
+export function Button({ label, onPress, variant = 'gold', disabled, loading, block, small, icon, style }: Props) {
   const t = useTheme();
   const off = disabled || loading;
   const base: ViewStyle = {
@@ -46,6 +49,7 @@ export function Button({ label, onPress, variant = 'gold', disabled, loading, bl
       accessibilityState={{ disabled: !!off }}
       style={({ pressed }) => [base, skin, pressed && !off ? { transform: [{ scale: 0.98 }] } : null, style]}>
       {loading ? <ActivityIndicator color={t.onGold} size="small" /> : null}
+      {icon && !loading ? <Icon name={icon} size={small ? 22 : 26} /> : null}
       <Text weight={800} size={small ? 14 : 16} color={color} numberOfLines={1}>
         {label}
       </Text>

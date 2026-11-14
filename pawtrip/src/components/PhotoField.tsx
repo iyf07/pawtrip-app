@@ -78,7 +78,7 @@ export function PhotoField(props: Props) {
       {props.kind === 'avatar' ? <Avatar id={userId ?? 'me'} name={props.name} url={props.url} size={72} /> : <DogAvatar url={props.url} size={72} />}
       <View style={{ flex: 1, alignItems: 'flex-start', gap: 6 }}>
         <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-          <Button label={props.url ? t('dog.photoChange') : t('dog.photoAdd')} small variant="ghost" loading={busy} onPress={choose} />
+          <Button label={props.url ? t('dog.photoChange') : t('dog.photoAdd')} icon="ui-camera" small variant="ghost" loading={busy} onPress={choose} />
           {props.url ? <Button label={t('dog.photoRemove')} small variant="text" disabled={busy} onPress={() => props.onChange(null)} /> : null}
         </View>
         {error ? <Meta color="danger">{error}</Meta> : null}

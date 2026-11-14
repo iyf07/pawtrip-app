@@ -12,6 +12,7 @@ import {
 } from "@/api/trips";
 import { Avatar, DogAvatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
 import { Card } from "@/components/ui/Card";
 import { SectionTitle } from "@/components/ui/Screen";
 import { ConfirmSheet } from "@/components/ui/Sheet";
@@ -201,7 +202,7 @@ export default function Group() {
   const inviteBlock = (
     <>
       <SectionTitle>{t("group.invite")}</SectionTitle>
-      <Button label={t("group.inviteBtn")} block onPress={() => setInviteOpen(true)} />
+      <Button label={t("group.inviteBtn")} icon="ui-invite" block onPress={() => setInviteOpen(true)} />
       <Meta style={{ marginTop: 8 }}>{t("group.inviteHint")}</Meta>
     </>
   );
@@ -228,6 +229,7 @@ export default function Group() {
           {trip.status !== "completed" ? (
             <Button
               label={t("group.archive")}
+              icon="ui-archive"
               variant="ghost"
               block
               onPress={async () => {
@@ -253,9 +255,12 @@ export default function Group() {
               justifyContent: "center",
             }}
           >
-            <Text weight={800} style={{ color: "#fff" }}>
-              {t("group.delete")}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Icon name="ui-trash" size={26} />
+              <Text weight={800} style={{ color: "#fff" }}>
+                {t("group.delete")}
+              </Text>
+            </View>
           </Pressable>
         </View>
       ) : (

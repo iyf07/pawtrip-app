@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useAuth } from '@/auth/AuthProvider';
+import { Icon } from '@/components/ui/Icon';
 import { usePhotoUpload } from '@/components/PhotoField';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -44,7 +45,7 @@ export function AvatarEditor({ name, url, size = 84, onChange }: Props) {
             justifyContent: 'center',
             boxShadow: `0 2px 6px -1px ${th.shadow}`,
           }}>
-          {busy ? <ActivityIndicator size="small" color={th.link} /> : <Text size={15} style={{ lineHeight: 18 }}>📷</Text>}
+          {busy ? <ActivityIndicator size="small" color={th.link} /> : <Icon name="ui-camera" size={22} />}
         </View>
       </Pressable>
 

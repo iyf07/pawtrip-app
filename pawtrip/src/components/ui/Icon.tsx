@@ -17,6 +17,15 @@ const SOURCES = {
   'cat-fun': require('../../../assets/icons/cat-fun.png'),
   'cat-stay': require('../../../assets/icons/cat-stay.png'),
   'cat-transit': require('../../../assets/icons/cat-transit.png'),
+  'ui-camera': require('../../../assets/icons/ui-camera.png'),
+  'ui-pencil': require('../../../assets/icons/ui-pencil.png'),
+  'ui-trash': require('../../../assets/icons/ui-trash.png'),
+  'ui-archive': require('../../../assets/icons/ui-archive.png'),
+  'ui-copy': require('../../../assets/icons/ui-copy.png'),
+  'ui-share': require('../../../assets/icons/ui-share.png'),
+  'ui-invite': require('../../../assets/icons/ui-invite.png'),
+  'ui-key': require('../../../assets/icons/ui-key.png'),
+  'ui-zoom': require('../../../assets/icons/ui-zoom.png'),
 } as const;
 
 export type IconName = keyof typeof SOURCES;

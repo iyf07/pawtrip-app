@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useTrips, type TripListItem } from '@/api/trips';
+import { Icon } from '@/components/ui/Icon';
 import { useInShell } from '@/components/shell/ShellContext';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -51,9 +52,12 @@ export default function Trips() {
 
   const joinButton = (
     <Card dashed onPress={() => router.push('/join')} style={{ alignItems: 'center' }}>
-      <Text weight={800} color="muted">
-        {t('trips.join')}
-      </Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <Icon name="ui-key" size={28} />
+        <Text weight={800} color="muted">
+          {t('trips.join').replace(/^\S*🔑\s*/u, '')}
+        </Text>
+      </View>
     </Card>
   );
 

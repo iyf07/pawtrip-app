@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
@@ -141,7 +142,7 @@ function CropBody({ photo, onCancel, onDone }: { photo: PickedPhoto; onCancel: (
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, width: V, marginTop: 14 }}>
-        <span aria-hidden="true">🔍</span>
+        <Icon name="ui-zoom" size={26} />
         <input
           type="range"
           min={1}

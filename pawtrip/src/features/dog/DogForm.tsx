@@ -123,9 +123,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         />
       </View>
 
-      <Text size={13} color="muted" style={{ marginTop: 18 }}>
-        {t('dog.scaleHint')}
-      </Text>
+      <View style={{ height: 18 }} />
       {DOG_SCALES.map((f) => (
         <ScaleInput key={f} field={f} value={scales[f]} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />
       ))}
@@ -141,9 +139,6 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         ))}
       </View>
 
-      <Text size={13} color="muted" style={{ marginTop: 20 }}>
-        {t('dog.req')}
-      </Text>
       <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} />
 
       <ConfirmSheet

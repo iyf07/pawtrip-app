@@ -8,6 +8,7 @@ import { useMyFeedback } from "@/api/feedback";
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
+import { Icon } from "@/components/ui/Icon";
 import { AvatarEditor } from "@/components/AvatarEditor";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
 import { ProfileEditSheet } from "@/features/profile/ProfileEditSheet";
@@ -140,9 +141,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
               justifyContent: "center",
             }}
           >
-            <Text size={14} style={{ lineHeight: 16 }}>
-              ✏️
-            </Text>
+            <Icon name="ui-pencil" size={20} />
           </Pressable>
         </View>
         <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>

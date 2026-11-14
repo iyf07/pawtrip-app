@@ -77,7 +77,6 @@ export function DogWizard() {
       (f): WizardStep => ({
         key: f,
         title: t(`scale.${f === 'with_dogs' ? 'withDogs' : f === 'with_people' ? 'withPeople' : f}` as Key),
-        hint: t('dog.scaleHint'),
         optional: true,
         content: <ScaleInput field={f} hideTitle value={scales[f]} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />,
       }),

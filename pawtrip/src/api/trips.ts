@@ -10,7 +10,7 @@ type PersonLite = { display_name: string; avatar_url: string | null; handle?: st
 
 export type TripListItem = Trip & {
   trip_members: { user_id: string; profiles: PersonLite | null }[];
-  trip_dogs: { dog_id: string }[];
+  trip_dogs: { dog_id: string; dogs: { photo_url: string | null } | null }[];
 };
 
 export type TripDetail = Trip & {
@@ -26,7 +26,7 @@ export function useTrips() {
     queryFn: async (): Promise<TripListItem[]> => {
       const { data, error } = await supabase
         .from('trips')
-        .select('*, trip_members(user_id, profiles(display_name, avatar_url)), trip_dogs(dog_id)')
+        .select('*, trip_members(user_id, profiles(display_name, avatar_url)), trip_dogs(dog_id, dogs(photo_url))')
         .order('start_date', { ascending: false });
       if (error) throw error;
       const order = { active: 0, planning: 1, completed: 2 } as const;

@@ -4,6 +4,7 @@ import { PanResponder, Pressable, View, type ViewStyle } from 'react-native';
 
 import { countScheduled, useMoveTrip, useTrips, type TripListItem } from '@/api/trips';
 import { useAuth } from '@/auth/AuthProvider';
+import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -26,7 +27,8 @@ const INK = '#4A3628';
 const hash = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) | 0, 7);
 
 const LANE_TOP = 26;
-const LANE_H = 22;
+const LANE_H = 26;
+const FACE = 20;
 const LANE_GAP = 3;
 
 type Drag =
@@ -57,7 +59,7 @@ export function MonthCalendar() {
   const [drag, setDrag] = useState<Drag>(null);
   const [pending, setPending] = useState<Pending | null>(null);
 
-  const rowH = wide ? 112 : 84;
+  const rowH = wide ? 124 : 84;
   const { gridStart, rows, dayAt } = useMemo(() => monthGrid(cursor.y, cursor.m), [cursor]);
   const list = useMemo(() => trips.data ?? [], [trips.data]);
   const byId = useMemo(() => new Map(list.map((x) => [x.id, x])), [list]);
@@ -206,6 +208,33 @@ export function MonthCalendar() {
     );
   };
 
+  // everyone on the trip (people, then dogs) on the first piece of its bar, as many as fit
+  const faces = (trip: TripListItem | undefined, barW: number) => {
+    if (!trip) return null;
+    const all = [
+      ...trip.trip_members.map((m) => ({ key: `p-${m.user_id}`, person: { id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url } })),
+      ...trip.trip_dogs.map((d) => ({ key: `d-${d.dog_id}`, dogUrl: d.dogs?.photo_url ?? null, person: null })),
+    ];
+    const fit = Math.floor((barW - 70) / (FACE - 8));
+    if (fit < 1) return null;
+    const shown = all.length > fit ? all.slice(0, Math.max(1, fit - 1)) : all;
+    const rest = all.length - shown.length;
+    return (
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        {shown.map((f, i) => (
+          <View key={f.key} style={{ marginLeft: i === 0 ? 0 : -8 }}>
+            {f.person ? <Avatar id={f.person.id} name={f.person.name} url={f.person.url} size={FACE} border={2} /> : <DogAvatar url={'dogUrl' in f ? f.dogUrl : null} size={FACE} border={2} />}
+          </View>
+        ))}
+        {rest > 0 ? (
+          <Text weight={800} size={10} style={{ color: INK, marginLeft: 3 }}>
+            +{rest}
+          </Text>
+        ) : null}
+      </View>
+    );
+  };
+
   const bar = (s: Seg, trip: { id: string; name: string }, opts?: { ghost?: boolean }) => {
     const [bg, border] = BARS[Math.abs(hash(trip.id)) % BARS.length];
     const faded = !opts?.ghost && dragged?.id === trip.id && delta !== 0;
@@ -232,9 +261,12 @@ export function MonthCalendar() {
           opacity: faded ? 0.35 : opts?.ghost ? 0.92 : 1,
           zIndex: opts?.ghost ? 5 : 1,
         }}>
-        <Text weight={800} size={12} numberOfLines={1} style={{ color: INK, lineHeight: 16 }}>
-          {trip.name}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          <Text weight={800} size={12} numberOfLines={1} style={{ color: INK, lineHeight: 16, flex: 1 }}>
+            {trip.name}
+          </Text>
+          {s.startsHere ? faces(byId.get(trip.id), (s.ec - s.sc + 1) * cw - 4) : null}
+        </View>
       </View>
     );
   };

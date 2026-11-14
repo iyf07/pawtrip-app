@@ -121,7 +121,7 @@ export const RefreshScroll = forwardRef<ComponentRef<typeof ScrollView>, ScrollV
         {busy ? (
           <ActivityIndicator color={th.link} />
         ) : (
-          <Text size={18} weight={800} color="muted">
+          <Text plain size={18} weight={800} color="muted">
             {armed ? '↻' : '↓'}
           </Text>
         )}

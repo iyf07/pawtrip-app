@@ -84,7 +84,7 @@ export function InviteSheet({ visible, onClose, trip, isLeader }: { visible: boo
       ) : (
         <>
           <Meta style={{ marginTop: 14 }}>{t('group.code')}</Meta>
-          <Text weight={800} size={30} selectable style={{ marginTop: 4, letterSpacing: 1 }}>
+          <Text plain weight={800} size={30} selectable style={{ marginTop: 4, letterSpacing: 1 }}>
             {code}
           </Text>
           <Meta style={{ marginTop: 6 }}>{t('group.expiresIn', { min: minLeft })}</Meta>

@@ -36,6 +36,8 @@ export default function Plan() {
   const th = useTheme();
   const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
   const [show, setShow] = useState<'all' | 'confirmed'>('all');
+  // desktop: the map can be folded away; the right half then shows only the open entry's detail, or nothing (calendar fills the width)
+  const [mapOpen, setMapOpen] = useState(true);
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
 
   const dayList = dayItems(items, day).filter((i) => show === 'all' || i.confirmed);
@@ -99,7 +101,7 @@ export default function Plan() {
                 <Text size={11} weight={800} color={on ? 'onGold' : 'muted'}>
                   {weekdayShort(iso, locale)}
                 </Text>
-                <Text size={20} weight={800} color={on ? 'onGold' : 'text'}>
+                <Text plain size={20} weight={800} color={on ? 'onGold' : 'text'}>
                   {`${d.getMonth() + 1}/${d.getDate()}`}
                 </Text>
                 {dw ? (
@@ -237,7 +239,7 @@ export default function Plan() {
           justifyContent: 'center',
           boxShadow: `0 6px 14px -4px ${th.shadow}`,
         }}>
-        <Text size={32} weight={800} color="onGold" style={{ lineHeight: 36 }}>
+        <Text plain size={32} weight={800} color="onGold" style={{ lineHeight: 36 }}>
           +
         </Text>
       </Pressable>
@@ -271,7 +273,7 @@ export default function Plan() {
             <Text size={11} weight={800} color={on ? 'onGold' : 'muted'}>
               {weekdayShort(iso, locale)}
             </Text>
-            <Text size={20} weight={800} color={on ? 'onGold' : 'text'}>
+            <Text plain size={20} weight={800} color={on ? 'onGold' : 'text'}>
               {`${d.getMonth() + 1}/${d.getDate()}`}
             </Text>
             {dw ? (
@@ -291,27 +293,47 @@ export default function Plan() {
   );
 
   const frame = { borderRadius: 18, overflow: 'hidden', borderWidth: 2, borderColor: th.line } as const;
+  const showRight = mapOpen || !!openItemId;
   return (
-    <View style={{ flex: 1, flexDirection: 'row', gap: 12, paddingRight: 16, paddingBottom: 16 }}>
+    <View style={{ flex: 1, flexDirection: 'row', paddingRight: 16, paddingBottom: 16 }}>
       {dateColumn}
-      <View style={{ flex: 1, minWidth: 380, maxWidth: 540 }}>{timeline}</View>
-      <View style={{ flex: 1.2, minWidth: 0, gap: 12 }}>
-        <View style={{ flex: 1, position: 'relative', ...frame }}>
-          <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
-          {pins.length === 0 ? (
-            <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
-              <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
-                <Meta>{t('map.empty.body')}</Meta>
-              </View>
+      <View style={{ flex: 1, minWidth: 380, maxWidth: showRight ? 540 : undefined, marginLeft: 12 }}>{timeline}</View>
+      <View style={{ width: 28, alignItems: 'center', justifyContent: 'center' }}>
+        <Pressable
+          onPress={() => setMapOpen((v) => !v)}
+          accessibilityRole="button"
+          accessibilityLabel={mapOpen ? t('map.hide') : t('map.show')}
+          // @ts-expect-error web-only tooltip
+          title={mapOpen ? t('map.hide') : t('map.show')}
+          hitSlop={8}
+          style={{ width: 26, height: 56, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: th.card, borderWidth: 2, borderColor: th.line, opacity: mapOpen ? 1 : 0.7 }}>
+          <Text plain size={14} weight={800} color="muted">
+            {mapOpen ? '▸' : '◂'}
+          </Text>
+          <Text size={13}>🗺</Text>
+        </Pressable>
+      </View>
+      {showRight ? (
+        <View style={{ flex: 1.2, minWidth: 0, gap: 12 }}>
+          {mapOpen ? (
+            <View style={{ flex: 1, position: 'relative', ...frame }}>
+              <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
+              {pins.length === 0 ? (
+                <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
+                  <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
+                    <Meta>{t('map.empty.body')}</Meta>
+                  </View>
+                </View>
+              ) : null}
+            </View>
+          ) : null}
+          {openItemId ? (
+            <View style={{ flex: mapOpen ? 1.5 : 1, ...frame }}>
+              <ItemDetailPanel />
             </View>
           ) : null}
         </View>
-        {openItemId ? (
-          <View style={{ flex: 1.5, ...frame }}>
-            <ItemDetailPanel />
-          </View>
-        ) : null}
-      </View>
+      ) : null}
     </View>
   );
 }

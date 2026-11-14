@@ -19,15 +19,17 @@ export type AppTextProps = TextProps & {
   weight?: TextWeight;
   size?: number;
   color?: ThemeColor;
+  /** Opt out of the playful title face (dates, symbols, codes): only page and section titles use it. */
+  plain?: boolean;
 };
 
 /** App text: Nunito (Latin) with system fallback for CJK, themed colour. */
-export function Text({ weight = 600, size = 16, color = 'text', style, ...rest }: AppTextProps) {
+export function Text({ weight = 600, size = 16, color = 'text', plain, style, ...rest }: AppTextProps) {
   const t = useTheme();
   return (
     <RNText
       {...rest}
-      style={[{ fontFamily: weight === 800 && size >= 18 ? DISPLAY : FAMILY[weight], fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color] }, style]}
+      style={[{ fontFamily: weight === 800 && size >= 18 && !plain ? DISPLAY : FAMILY[weight], fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color] }, style]}
     />
   );
 }

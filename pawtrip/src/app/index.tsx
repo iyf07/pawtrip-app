@@ -41,7 +41,7 @@ export default function Trips() {
           onPress={() => router.push('/new-trip')}
           accessibilityLabel={t('trips.new')}
           style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: th.gold, borderWidth: 3, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
-          <Text size={24} weight={800} color="onGold" style={{ lineHeight: 28 }}>
+          <Text plain size={24} weight={800} color="onGold" style={{ lineHeight: 28 }}>
             +
           </Text>
         </Pressable>

@@ -50,7 +50,7 @@ export function RangeCalendar({ start, end, onChange, onTooLong }: Props) {
     <View>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
         <Pressable onPress={() => shift(-1)} accessibilityLabel={tr('rp.prev')} style={{ width: 44, height: 38, alignItems: 'center', justifyContent: 'center', borderRadius: 19, borderWidth: 2, borderColor: t.line, backgroundColor: t.card }}>
-          <Text size={20} weight={800}>
+          <Text plain size={20} weight={800}>
             ‹
           </Text>
         </Pressable>
@@ -58,7 +58,7 @@ export function RangeCalendar({ start, end, onChange, onTooLong }: Props) {
           {title}
         </Text>
         <Pressable onPress={() => shift(1)} accessibilityLabel={tr('rp.next')} style={{ width: 44, height: 38, alignItems: 'center', justifyContent: 'center', borderRadius: 19, borderWidth: 2, borderColor: t.line, backgroundColor: t.card }}>
-          <Text size={20} weight={800}>
+          <Text plain size={20} weight={800}>
             ›
           </Text>
         </Pressable>

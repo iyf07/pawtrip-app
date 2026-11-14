@@ -166,7 +166,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
             <Text weight={800} style={{ flex: 1 }}>
               {d.name}
             </Text>
-            <Text size={22} color="muted" weight={800}>
+            <Text plain size={22} color="muted" weight={800}>
               ›
             </Text>
           </Card>

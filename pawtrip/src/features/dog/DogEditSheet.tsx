@@ -22,7 +22,7 @@ export function DogEditSheet({ dogId, onClose }: { dogId: string | null; onClose
             <Text weight={800} size={22}>
               {t('dog.edit')}
             </Text>
-            <Text weight={800} size={22} color="muted" onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.cancel')} style={{ paddingHorizontal: 8 }}>
+            <Text plain weight={800} size={22} color="muted" onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.cancel')} style={{ paddingHorizontal: 8 }}>
               ✕
             </Text>
           </View>

@@ -50,7 +50,7 @@ function Form({ profile, onClose }: { profile: Profile; onClose: () => void }) {
         <Text weight={800} size={22}>
           {t('pf.editTitle')}
         </Text>
-        <Text weight={800} size={22} color="muted" onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.cancel')} style={{ paddingHorizontal: 8 }}>
+        <Text plain weight={800} size={22} color="muted" onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.cancel')} style={{ paddingHorizontal: 8 }}>
           ✕
         </Text>
       </View>

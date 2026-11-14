@@ -100,7 +100,6 @@ export function HandleField({ value, onChangeText, onValid, current, label, hint
         </Text>
       </View>
       <View style={{ marginTop: 6, minHeight: 20 }}>{line}</View>
-      {hint ? <Meta style={{ marginTop: 4 }}>{hint}</Meta> : null}
     </View>
   );
 }

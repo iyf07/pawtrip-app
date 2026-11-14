@@ -4,7 +4,7 @@ import Animated, { FadeInRight } from 'react-native-reanimated';
 
 import { Button } from '@/components/ui/Button';
 import { Screen } from '@/components/ui/Screen';
-import { Meta, Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
@@ -88,7 +88,6 @@ export function Wizard({ steps, onFinish, onClose, finishLabel }: Props) {
           <Text weight={800} size={28} style={{ marginTop: 28, lineHeight: 36 }}>
             {step.title}
           </Text>
-          {step.hint ? <Meta style={{ marginTop: 8, fontSize: 15 }}>{step.hint}</Meta> : null}
           <View style={{ marginTop: 20 }}>{typeof step.content === 'function' ? step.content({ next }) : step.content}</View>
         </Animated.View>
       </ScrollView>

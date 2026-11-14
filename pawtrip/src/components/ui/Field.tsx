@@ -52,11 +52,6 @@ export function Field({ label, hint, error, invalid, style, onFocus, onBlur, ...
           style,
         ]}
       />
-      {hint && !error ? (
-        <Text size={13} color="muted" style={{ marginTop: 6 }}>
-          {hint}
-        </Text>
-      ) : null}
       {error ? (
         <Text size={14} weight={700} color="danger" style={{ marginTop: 6 }}>
           {error}

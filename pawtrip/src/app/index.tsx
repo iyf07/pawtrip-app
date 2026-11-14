@@ -1,10 +1,10 @@
-import { router, usePathname } from 'expo-router';
-import { useEffect } from 'react';
+import { router } from 'expo-router';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
 import { useInShell } from '@/components/shell/ShellContext';
+import { CalendarScreen } from '@/features/calendar/CalendarScreen';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -18,21 +18,16 @@ import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 
-export default function Trips() {
+/** The root: the month calendar on desktop; the trip list on phones (the calendar is one tap away in the top bar). */
+export default function Root() {
+  return useInShell() ? <CalendarScreen /> : <Trips />;
+}
+
+function Trips() {
   const { t } = useT();
   const th = useTheme();
   const trips = useTrips();
   const grid = useColumns(COLUMN.wide);
-  const inShell = useInShell();
-
-  // desktop: open the most relevant trip right away (the list is in the left column)
-  const firstTrip = trips.data?.[0]?.id;
-  // Only while this screen is the one showing: the router also mounts it underneath other screens, and a
-  // redirect from there would undo whatever the user just opened (the first click after a refresh "did nothing").
-  const path = usePathname();
-  useEffect(() => {
-    if (inShell && firstTrip && path === '/') router.replace({ pathname: '/trip/[id]/plan', params: { id: firstTrip } });
-  }, [inShell, firstTrip, path]);
 
   const header = (
     <Header

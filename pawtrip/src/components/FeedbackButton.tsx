@@ -87,7 +87,6 @@ function FeedbackForm({ route, onClose }: { route: string; onClose: () => void }
       <Text weight={800} size={22}>
         {t('fdbk.title')}
       </Text>
-      <Meta style={{ marginTop: 4 }}>{t('fdbk.hint')}</Meta>
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 16 }}>
         {KINDS.map((k) => (

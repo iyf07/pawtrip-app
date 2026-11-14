@@ -267,6 +267,9 @@ isOneToOne: false
 "is_trip_leader":
 { Args: { "tid": string }; Returns: boolean
                            },
+"move_trip":
+{ Args: { "p_trip": string; "p_start": string; "p_end": string }; Returns: number
+                           },
 "is_trip_member":
 { Args: { "tid": string }; Returns: boolean
                            },

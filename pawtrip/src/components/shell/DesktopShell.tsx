@@ -17,7 +17,7 @@ import { cityState } from '@/lib/place';
 
 import { ShellContext } from './ShellContext';
 
-type Section = 'trips' | 'dogs' | 'profile' | 'settings';
+type Section = 'calendar' | 'trips' | 'dogs' | 'profile' | 'settings';
 
 const RAIL_W = 76;
 const LIST_W = 252;
@@ -27,7 +27,7 @@ const FULL_WIDTH = 1400;
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|new-trip|join)(\/|$)/.test(p) || p === '/dog/new';
 
-const sectionOf = (p: string): Section => (p.startsWith('/dog') ? 'dogs' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p === '/' || p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the
@@ -105,6 +105,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginBottom: 6 }}>
         <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
       </Pressable>
+      {item('calendar', 'tab-plan', t('shell.calendar'), () => router.navigate('/calendar'))}
       {item('trips', 'nav-trips', t('shell.trips'), () => {
         if (section === 'trips' && onTrip) return onToggleList();
         // straight back to the trip you were on (going through "/" left stray screens in the history)

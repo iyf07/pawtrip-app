@@ -130,7 +130,7 @@ function AddForm({ req }: { req: AddRequest }) {
             <Chip label={t('add.setTime')} on={timed} onPress={() => setTimed(true)} />
           </View>
         ) : null}
-        {timed ? <WhenFields days={days} when={when} stay={stay} onChange={setWhen} /> : <Text size={13} color="muted">{t('add.ideaHint')}</Text>}
+        {timed ? <WhenFields days={days} when={when} stay={stay} onChange={setWhen} /> : null}
         {errs.time ? (
           <Text size={14} weight={700} color="danger" style={{ marginTop: 6 }}>
             {errs.time}

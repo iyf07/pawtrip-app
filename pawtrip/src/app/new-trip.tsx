@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -29,8 +29,10 @@ export default function NewTrip() {
   const [name, setName] = useState('');
   const [dest, setDest] = useState('');
   const [picked, setPicked] = useState<PlaceHit | null>(null);
-  const [start, setStart] = useState<string | null>(null);
-  const [end, setEnd] = useState<string | null>(null);
+  // the calendar can hand over the days that were tapped or dragged
+  const preset = useLocalSearchParams<{ start?: string; end?: string }>();
+  const [start, setStart] = useState<string | null>(preset.start ?? null);
+  const [end, setEnd] = useState<string | null>(preset.end ?? preset.start ?? null);
   const [tooLong, setTooLong] = useState(false);
   const [interests, setInterests] = useState<string[]>([]);
   const [dogIds, setDogIds] = useState<string[] | null>(null); // null = all my dogs
@@ -78,7 +80,7 @@ export default function NewTrip() {
             />
           </Card>
           <Meta style={{ marginTop: 10 }} color={tooLong ? 'danger' : 'muted'}>
-            {tooLong ? t('rp.tooLong') : start && end ? `${datesLabel(start, end, locale)} · ${t('rp.days', { n: days })}` : !start ? t('rp.pickStart') : t('rp.pickEnd')}
+            {tooLong ? t('rp.tooLong') : start && end ? `${datesLabel(start, end, locale)} · ${t('rp.days', { n: days })}`   : ''}
           </Meta>
         </View>
       ),

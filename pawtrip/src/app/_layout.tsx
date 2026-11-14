@@ -88,6 +88,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
         </Stack.Protected>
         <Stack.Protected guard={!!session && !needsOnboarding}>
           <Stack.Screen name="index" />
+          <Stack.Screen name="calendar" />
           <Stack.Screen name="settings" />
           <Stack.Screen name="new-trip" options={{ presentation: 'modal' }} />
           <Stack.Screen name="join" options={{ presentation: 'modal' }} />

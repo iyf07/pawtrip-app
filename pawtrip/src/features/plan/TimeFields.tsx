@@ -80,9 +80,6 @@ export function WhenFields({ days, when, stay, onChange, disabled }: { days: str
           →
         </Text>
         <DayChips days={days} value={when.stayTo} disabled={disabled} onChange={(i) => onChange({ ...when, stayTo: Math.max(i, from) })} />
-        <Text size={13} color="muted">
-          {t('add.stayHint')}
-        </Text>
       </View>
     );
   }

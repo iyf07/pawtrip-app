@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { Icon } from '@/components/ui/Icon';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
-import { Meta, Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import type { CropRect, PickedPhoto } from '@/lib/photos';
@@ -121,7 +121,7 @@ function CropBody({ photo, onCancel, onDone }: { photo: PickedPhoto; onCancel: (
       <Text weight={800} size={20} style={{ alignSelf: 'flex-start' }}>
         {t('dog.cropTitle')}
       </Text>
-      <Meta style={{ alignSelf: 'flex-start', marginTop: 4, marginBottom: 14 }}>{t('dog.cropHint')}</Meta>
+      <View style={{ height: 14 }} />
 
       <div
         ref={box}

@@ -119,6 +119,34 @@ export function useCreateTrip() {
   });
 }
 
+/** How many entries of a trip are scheduled (have a date, a stay or are confirmed): they turn into ideas when the trip moves. */
+export async function countScheduled(tripId: string): Promise<number> {
+  const { count, error } = await supabase
+    .from('items')
+    .select('id', { count: 'exact', head: true })
+    .eq('trip_id', tripId)
+    .or('date.not.is.null,stay_from.not.is.null,confirmed.eq.true');
+  if (error) throw error;
+  return count ?? 0;
+}
+
+/** Move a trip to new dates (leader only). Scheduled entries become ideas; resolves to how many changed. */
+export function useMoveTrip() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ tripId, start, end }: { tripId: string; start: string; end: string }): Promise<number> => {
+      const { data, error } = await supabase.rpc('move_trip', { p_trip: tripId, p_start: start, p_end: end });
+      if (error) throw error;
+      return data as number;
+    },
+    onSuccess: (_n, v) => {
+      qc.invalidateQueries({ queryKey: ['trips'] });
+      qc.invalidateQueries({ queryKey: ['trip', v.tripId] });
+      qc.invalidateQueries({ queryKey: ['items', v.tripId] });
+    },
+  });
+}
+
 export type TripPreview = {
   id: string;
   name: string;

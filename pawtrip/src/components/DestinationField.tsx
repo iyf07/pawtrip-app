@@ -81,7 +81,6 @@ export function DestinationField({ value, onChangeText, picked, onPick, placehol
           )}
         </View>
       ) : null}
-      {picked ? <Meta style={{ marginTop: 8 }}>{`${t('new.tz')}: ${picked.tz.replace('_', ' ')} ${t('new.tzHint')}`}</Meta> : null}
     </View>
   );
 }

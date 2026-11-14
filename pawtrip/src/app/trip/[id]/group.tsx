@@ -203,7 +203,6 @@ export default function Group() {
     <>
       <SectionTitle>{t("group.invite")}</SectionTitle>
       <Button label={t("group.inviteBtn")} icon="ui-invite" block onPress={() => setInviteOpen(true)} />
-      <Meta style={{ marginTop: 8 }}>{t("group.inviteHint")}</Meta>
     </>
   );
 

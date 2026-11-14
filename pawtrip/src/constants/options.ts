@@ -1,9 +1,6 @@
 // Language-neutral codes stored in the database. Display text comes from i18n (`int.<code>`, `diet.<code>`).
 
-/** Interests offered when creating a trip. */
-export const TRIP_INTERESTS = ['hiking', 'restaurants', 'cafes', 'viewpoints', 'breweries', 'shopping'] as const;
-
-/** Interests on a person's profile. */
+/** The one interest list: used on profiles, in onboarding and when creating a trip (same names, same icons). */
 export const PROFILE_INTERESTS = [
   'hiking',
   'beaches',

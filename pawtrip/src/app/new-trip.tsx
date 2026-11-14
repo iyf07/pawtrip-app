@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
 import { useCreateTrip } from '@/api/trips';
+import { InterestPicker } from '@/components/InterestPicker';
 import { DestinationField } from '@/components/DestinationField';
 import { RangeCalendar } from '@/components/RangeCalendar';
 import { Wizard, type WizardStep } from '@/components/Wizard';
@@ -13,8 +14,7 @@ import { DogIllo } from '@/components/ui/DogIllo';
 import { Field } from '@/components/ui/Field';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
-import { TRIP_INTERESTS } from '@/constants/options';
-import { useT, type Key } from '@/i18n';
+import { useT } from '@/i18n';
 import { daysBetween, datesLabel } from '@/lib/dates';
 import type { PlaceHit } from '@/lib/mapbox';
 import { goBack } from '@/lib/nav';
@@ -91,16 +91,7 @@ export default function NewTrip() {
       hint: t('nt.interests.hint'),
       optional: true,
       content: (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-          {TRIP_INTERESTS.map((i) => (
-            <Chip
-              key={i}
-              label={t(`int.${i}` as Key)}
-              on={interests.includes(i)}
-              onPress={() => setInterests((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]))}
-            />
-          ))}
-        </View>
+        <InterestPicker value={interests} onToggle={(i) => setInterests((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]))} />
       ),
     },
     {

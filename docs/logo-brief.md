@@ -1,174 +1,116 @@
-# Paw product logo family — brief for ChatGPT image generation
+# Paw product logos (wordmarks) — brief for ChatGPT image generation
 
-**No attachments, every request is a fresh generation.** Each request below is self-contained: paste the STYLE SPEC first, then the REQUEST.
+**No attachments; every request is a fresh generation and fully self-contained.** Copy the whole block into ChatGPT.
 
-## The idea (decided)
+## Decision (latest)
 
-- **Pure symbol, no text at all.** Each product's logo is only a picture.
-- **One shared paw**: every logo is the same paw print — four toe beans in the same arrangement, same size and shape. Only the **big
-  pad at the bottom** is different for each product: it is turned into a **product symbol cut out as an empty (white) shape**.
-- **Only two colors per logo**: the paw color + white. The background is always **pure white**, and the cut-out shape is white too,
-  so the hollow symbol **merges with the white background** — the symbol opens through the bottom edge of the pad into the
-  background, so it reads as one continuous white shape.
-- **One color per product** (the paw's color), background always white.
-- Simple, flat, minimal; it must not look AI-generated (no gloss, outline, gradient, shadow, sticker edge, texture).
-- Final artwork: we redraw it as exact SVG (the paw geometry is identical in all logos, only the cut-out changes).
+The user liked the first row of the earlier wordmark exploration (`docs/logo-explore/wordmark-reference-v1.png`: the product word in
+bold rounded dark-brown letters with a paw built into one letter) and asked for three changes:
+1. **Pure white background** (no colored tile).
+2. **The letter that holds the paw takes the product color** (the former tile color); all other letters stay dark brown.
+3. **A bigger paw.**
 
-## Products and colors (proposal — tell us if you want to change one)
+Earlier directions (symbol-only logos with a cut-out pad, sticker-style paw above the word, two-letter logos) are replaced by this.
 
-| Product | Paw color | The pad becomes (hollow, white, opens to the background below) |
-|---|---|---|
-| Paw Trip | warm amber gold `#FFB400` (close to the current gold paw, slightly deeper to read on white) | a trip symbol — **ChatGPT proposes many options, you pick** |
-| Paw Feel | rose pink `#F25C8A` | a **heart** |
-| Paw Bowl | teal blue `#2FA4B8` | a **dog bowl** |
-| later: Paw Walk | fresh green `#4CAF6A` | e.g. a leash loop / footprints |
-| later: Paw Play | violet `#8A6BE0` | e.g. a ball |
+## The logos
 
-## How the hollow works (be precise)
+| Product | Word | Letter that holds the paw | Product color (sampled from the liked image) |
+|---|---|---|---|
+| Paw Trip | **Trip** | the **i**: the stem plus a big paw as its dot | gold `#FEC119` |
+| Paw Feel | **Feel** | one **e** (the second e): the paw sits in its eye (counter) | pink `#EB86A6` |
+| Paw Bowl | **Bowl** | the **o**: the paw fills its counter | orange `#F48D4B` |
 
-The big pad is a solid rounded shape in the product color. Inside it, the product symbol is **cut out in white**. The cut-out
-**continues down through the bottom edge of the pad**, so the white symbol is connected to the white background below the paw
-(no closed hole): the pad looks like it has a notch in the shape of the symbol. For Paw Feel: a white heart whose bottom point
-runs out through the pad's lower edge into the background. For Paw Bowl: the white bowl shape sits low in the pad and its base
-opens to the background. The four toe beans stay solid.
+- All other letters: dark brown `#4A3628`. Background: **pure white `#FFFFFF`**. Only **two colors plus white** per logo.
+- **The paw is the same drawing in all logos**: a cute chubby paw print (four plump round toe beans in a gentle arc above one soft
+  rounded pad), flat, no outline, in the **product color** (same color as its letter).
+- **The paw is BIG**: clearly larger than in the earlier version. In "Trip" the paw is the dot of the i and about as wide as the
+  letter's stem is thick times 2 — roughly the width of the x-height of the letters (a bold, easy-to-see paw). In "Feel" and
+  "Bowl" the paw fills most of the letter's counter (about 75–80% of it), leaving only a thin rim of the letter's stroke.
+- The letter that holds the paw **keeps its own shape and stroke weight** so it still reads clearly as that letter.
+- Lettering: one very bold, rounded geometric sans-serif (heavy weight, soft rounded terminals, generous round shapes, tight but
+  even spacing). Same size and baseline in all three logos.
+- Flat only: NO outlines, NO gradients, NO shadows, NO glow, NO glossy highlights, NO textures, NO sticker border, NO 3D.
 
-## STYLE SPEC — paste at the top of EVERY request
-
-```
-STYLE SPEC for a family of dog-app logos, "Paw ___" (Paw Trip, Paw Feel, Paw Bowl).
-
-EACH LOGO IS A PURE SYMBOL: no text, no letters, no words at all. Pure white (#FFFFFF) background. Only TWO colors in the whole
-logo: one product color and white. Flat solid shapes only: NO outlines, NO strokes, NO gradients, NO shadows, NO glow, NO glossy
-highlights, NO textures, NO sticker edge, NO 3D. Minimal, precise, simple geometry, like a professional brand symbol by a human
-designer. It must not look AI-generated.
-
-THE SHARED PAW (identical in every logo): a cute, chubby paw print made of four plump oval toe beans arranged in a gentle arc
-(the two outer toes tilted outward, the two inner toes upright) above one large, soft, rounded pad. The four toe beans are the
-same size, shape and position in every logo.
-
-THE PAD IS THE PRODUCT SYMBOL: the big pad at the bottom is a solid rounded shape in the product color with the product symbol
-CUT OUT of it as white (empty) space. The cut-out symbol is white, exactly the same white as the background, and it runs out
-through the bottom edge of the pad, so the hollow symbol is connected to the white background below the paw — it merges with the
-background (it is NOT a closed hole). The four toe beans stay solid.
-
-LAYOUT: the paw is centered, filling about 70% of a square image, with wide white margins. Crisp vector-like edges.
-When showing several variations, use a grid on pure white, each variation fully inside its own cell with at least 15% empty
-margin, nothing crossing cells, no grid lines, no stray specks; a small dark-gray number under each cell is allowed (for choosing).
-```
-
-## Request 0 — EVERYTHING AT ONCE (use this first: paste the STYLE SPEC, then this)
-
-ChatGPT tends to do only the first item and stop (it once drew only the heart). This request lists every product, gives a fixed
-count per row, and tells it explicitly not to stop.
+## Request 1 — all three logos, two paw sizes (paste the whole block)
 
 ```
-[paste the STYLE SPEC above]
+Design wordmark logos for a family of dog apps: "Trip", "Feel" and "Bowl" (the apps are called Paw Trip, Paw Feel and Paw Bowl,
+but each logo shows only its one word). Make them in ONE square image on a pure white (#FFFFFF) background: 3 columns (Trip, Feel,
+Bowl) x 2 rows, each logo centered in its own cell with at least 12% empty margin, nothing crossing cells, no grid lines, no
+labels, no other text, no stray specks.
 
-REQUEST: Generate ALL of the following in ONE square image, as a grid with 4 columns x 4 rows (16 cells), every cell a different
-logo variation, numbered 1-16 with a small dark-gray number under each cell. Do NOT skip any row and do NOT stop after the first
-row — all 16 cells must be filled. Do not ask me any questions; just generate.
+STYLE (identical in every logo): flat, minimal, professional. Only two colors per logo plus the white background: dark brown
+#4A3628 for all letters except one, and the product color for the one letter that holds a paw. NO outlines, NO gradients, NO
+shadows, NO glow, NO glossy highlights, NO textures, NO sticker border, NO 3D. The lettering is one very bold, rounded geometric
+sans-serif (heavy weight, soft rounded terminals, generous round shapes, tight but even letter spacing), the same size and
+baseline in all three logos, words correctly spelled.
 
-ROW 1 (cells 1-4) = Paw FEEL. Product color rose pink #F25C8A. The pad has a white HEART cut out whose bottom point runs out
-through the bottom edge of the pad into the white background. The four cells differ in heart size, round vs slightly pointed
-heart, and how much solid pink remains around it.
+THE PAW LETTER: in each word exactly one letter holds a BIG paw and is drawn in the product color (the other letters stay dark
+brown). The paw is a cute chubby paw print: four plump round toe beans in a gentle arc above one soft rounded pad, flat, no
+outline, in the product color, and it is the same paw drawing in all three logos. The letter keeps its own shape and stroke weight
+so it still reads clearly as that letter; the paw is built into it, never pasted on top.
+- "Trip": the "i" is in gold #FEC119: its stem is gold and the dot of the i is a big gold paw print, as wide as about twice the
+  stem's thickness (clearly bigger than a normal dot).
+- "Feel": the second "e" is in pink #EB86A6 and its small hole (eye) holds a big pink paw filling about 75-80% of the hole.
+- "Bowl": the "o" is in orange #F48D4B and its inner hole holds a big orange paw filling about 75-80% of the hole.
+The paw must stay clearly recognizable as a paw at small size.
 
-ROW 2 (cells 5-8) = Paw TRIP. Product color warm amber gold #FFB400. The pad has a white travel symbol cut out, running out
-through the bottom edge into the white background. Cell 5 map pin, 6 suitcase, 7 compass, 8 airplane.
+ROWS: row 1 = the paw is big; row 2 = the paw is even bigger (about 25% larger than row 1), so I can choose. Everything else is
+identical between the rows.
 
-ROW 3 (cells 9-12) = Paw TRIP (more options). Same amber #FFB400. Cell 9 mountains with a sun, 10 winding road, 11 tent,
-12 hot-air balloon.
-
-ROW 4 (cells 13-16) = Paw BOWL. Product color teal blue #2FA4B8. The pad has a white DOG BOWL cut out, opening out through the
-bottom edge into the white background. Cell 13 simple bowl, 14 bowl with a small mound of kibble, 15 bowl with a bone shape,
-16 deeper bowl.
-
-All 16 logos use the exact same paw (same four toe beans, same size and positions); only the pad cut-out changes. Only two colors
-per logo (its product color + white). No text except the small gray numbers.
-If you cannot fit all 16 cleanly in one image, make TWO images in a row without asking: image A = rows 1 and 4 (Feel and Bowl),
-image B = rows 2 and 3 (Trip), keeping the same numbering.
+Also deliver EACH logo as its own separate PNG file (2048x1024, pure white background, the wordmark centered with wide margins),
+named logo-trip-a.png, logo-feel-a.png, logo-bowl-a.png (row 1) and logo-trip-b.png, logo-feel-b.png, logo-bowl-b.png (row 2),
+together in ONE ZIP, in addition to the comparison image. Do not ask questions; just generate.
 ```
 
-After you choose, use the single-product requests below to refine one logo at a time, or **Request 5** for the next products.
-
-## Request 1 — Paw Feel (rose pink `#F25C8A`, heart)
+## Request 2 — refine the one you chose (paste the whole block)
 
 ```
-[paste the STYLE SPEC above]
-
-REQUEST: Paw Feel logo. Product color rose pink #F25C8A on a white background. The big pad has a white HEART cut out of it; the
-heart's bottom point runs out through the bottom edge of the pad into the white background, so the white heart merges with the
-background. Make a 2x2 grid of 4 variations that differ only in heart size, heart shape (round vs slightly pointed) and how
-much of the pad's solid color remains around it. Number them 1-4.
+Design wordmark logos on a pure white (#FFFFFF) background, flat and minimal: NO outlines, NO gradients, NO shadows, NO glow, NO
+glossy highlights, NO sticker border, NO 3D. Very bold, rounded geometric sans-serif letters in dark brown #4A3628, correctly
+spelled. In each word exactly one letter is drawn in the product color and holds a BIG cute paw print (four plump round toe beans in
+an arc above one soft rounded pad, flat, no outline, in the product color); the letter keeps its own shape and stroke weight, the
+paw is built into it. Words: "Trip" (the i in gold #FEC119, the paw is the dot of the i), "Feel" (the second e in pink #EB86A6, the
+paw fills its eye), "Bowl" (the o in orange #F48D4B, the paw fills its counter). Use the paw size of <row 1 | row 2> from my last
+image. Make it cleaner and more precise: perfect smooth curves, even letter spacing, identical letter size and baseline in all
+three, the paw perfectly centered in its counter / above the stem, all words correctly spelled. <optional notes, for example
+"paw 10% bigger", "heavier letters">
+Deliver one comparison image with the three logos side by side, and each logo as its own 2048x1024 PNG (pure white background):
+logo-trip.png, logo-feel.png, logo-bowl.png, in ONE ZIP. Do not ask questions; just generate.
 ```
 
-## Request 2 — Paw Trip (amber `#FFB400`) — many options to choose from
+## Request 3 — the next products (same system)
 
 ```
-[paste the STYLE SPEC above]
-
-REQUEST: Paw Trip logo. Product color warm amber gold #FFB400 on a white background. The big pad has a white TRIP-RELATED symbol
-cut out of it, running out through the bottom edge of the pad into the white background. Make a 4x3 grid of 12 variations, each
-with a different symbol, the most recognizable and representative ones for travel, each simplified to one bold shape that reads at
-a small size: 1 map pin, 2 suitcase, 3 compass, 4 airplane, 5 mountains with a sun, 6 winding road, 7 tent, 8 hot-air balloon,
-9 camper van, 10 hiking boot, 11 paper plane, 12 route line with a dot at each end. Number them 1-12. All with the same paw, same
-toes, same amber color.
+Same system and style as the previous logos (very bold rounded dark-brown letters on pure white, one letter in the product color
+holding a big flat cute paw print, no outlines, no gradients, no shadows). Make two more wordmarks: "Walk" (the "a" in green
+#4CAF6A holds the paw in its counter) and "Play" (the "a" in violet #8A6BE0 holds the paw in its counter), in the same size and
+baseline as before. One comparison image with all five logos (Trip, Feel, Bowl, Walk, Play) side by side, plus each new logo as its own
+2048x1024 PNG named logo-walk.png and logo-play.png in ONE ZIP. Words correctly spelled. Do not ask questions; just generate.
 ```
-
-## Request 3 — Paw Bowl (teal `#2FA4B8`, dog bowl)
-
-```
-[paste the STYLE SPEC above]
-
-REQUEST: Paw Bowl logo. Product color teal blue #2FA4B8 on a white background. The big pad has a white DOG BOWL cut out of it
-(a simple bowl shape: a rounded bowl with a flat rim line), opening out through the bottom edge of the pad into the white
-background. Make a 2x3 grid of 6 variations: 1 simple bowl, 2 bowl with a small mound of kibble on top, 3 bowl with a bone
-shape on its side, 4 deeper bowl, 5 wide shallow bowl, 6 bowl seen slightly from above with a visible rim. Number them 1-6.
-```
-
-## Request 4 — refine the one you chose (paste the spec + this; no attachment)
-
-```
-[paste the STYLE SPEC above]
-
-REQUEST: Generate ONLY the "<Feel|Trip|Bowl>" logo with <describe the chosen variation, e.g. "variation 3: a round heart, 40% of the
-pad's width">. One image, very clean and precise: perfectly smooth curves, the four toe beans identical in size and spacing,
-the cut-out symbol exactly centered and running out through the bottom of the pad. <optional notes>
-```
-
-## Request 5 — the next products (same system; paste the spec + this)
-
-```
-[paste the STYLE SPEC above]
-
-REQUEST: One square image, grid 4 columns x 2 rows (8 cells), numbered 1-8, all different variations, same paw in every cell:
-ROW 1 = Paw WALK, product color fresh green #4CAF6A: cells 1 leash loop with a handle, 2 two small footprints, 3 a winding path,
-4 a dog on a leash silhouette (simple, one bold shape).
-ROW 2 = Paw PLAY, product color violet #8A6BE0: cells 5 ball, 6 bone, 7 frisbee, 8 squeaky toy.
-Do not stop after the first row; fill all 8 cells; do not ask questions.
-```
-
-Tip: stay in the **same chat** (ChatGPT remembers earlier images) and say "same as the previous image, but ...". If shine, outlines
-or shadows creep in, paste the first paragraph of the STYLE SPEC again.
 
 ## What I do afterwards
 
-- Redraw the family as **exact SVG**: one paw (same toes in every logo) and one pad per product with the symbol cut out. Perfect
-  geometry, only two colors, then export app icons (1024), favicon, store assets, one-color and dark-mode versions.
-- A `Logo` component: `<Logo product="feel" />`; a new product = a color and a pad symbol.
-- Swap into the left rail, mobile navbar, sign-in, splash, favicon and the app icon.
+- Redraw the chosen logos as **exact SVG** with a real bold rounded font (candidates in `docs/logo-explore/font_specimen.png`; the
+  look in the reference is close to Nunito Black / Baloo 2 ExtraBold), with the paw drawn once and placed exactly in the letter's
+  counter or as the dot. Export app icons, favicon (the paw alone in the product color), store assets, one-color and dark versions.
+- A `Logo` component: `<Logo product="trip" />` (word, color, and which letter holds the paw); a new product is a word, a color and
+  a letter.
+- Swap them into the left rail, mobile navbar, sign-in, splash, favicon and the app icon.
 
 ## Checks before approving
 
-1. Is it a pure symbol (no text), two colors, white background, no gloss/outline/shadow?
-2. Is the paw identical across products (toes the same), with only the pad symbol different?
-3. Does the white cut-out merge with the background (open at the bottom), not a closed hole?
-4. Is the symbol recognizable at 32 px? (Heart, bowl, pin ... must read instantly.)
-5. Side by side: one family, each instantly different by color and symbol?
+1. Is the background pure white and are there only two colors (dark brown + the product color)?
+2. Is the paw clearly bigger and still clearly a paw at 32 px?
+3. Does the letter with the paw keep its own shape, and can you read the word instantly?
+4. Spelling correct; same size/baseline in all three?
+5. Side by side: one family, each instantly different by color and letter?
 
 ## Lessons from earlier rounds
 
-- No wordmarks and no letters: the symbol alone is simpler and cannot be misspelled by AI.
-- Don't put a separate small symbol *inside* a closed pad (looked wrong); instead the symbol is the pad's white cut-out that opens to the background.
-- Gold/orange backgrounds looked unattractive: the background is always white now.
-- Gloss, white sticker edges, outlines and wobbly shapes read as AI-generated: flat, two colors, precise geometry.
-- No attachments: every request carries the full spec.
+- White background only; no gold/orange or colored tiles; no gloss, outline or sticker edge (they read as AI-generated).
+- A separate paw above the word felt detached: the paw lives in a letter.
+- Two letters alone are not enough: write the full word.
+- Paw too small: make it big (about the width of the stem x2 as the i-dot; 75-80% of the counter).
+- ChatGPT can stop after the first item: list every logo and the counts, and say "do not stop, do not ask questions".
+- Final letters are set by us in real type (AI can misspell).

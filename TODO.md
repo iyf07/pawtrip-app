@@ -13,14 +13,13 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw logo family** (pure symbol, no text: the same paw for every product; only the big pad changes into a white cut-out
-  product symbol that opens into the white background; one color per product: Trip amber, Feel rose pink, Bowl teal) — brief and
-  prompts in `docs/logo-brief.md`.
-  - [x] Direction decided: two colors only (paw color + white), background always white, hollow symbol merges with the background.
-  - [ ] Generate Paw Feel (heart), Paw Trip (12 symbol options), Paw Bowl (6 bowl options) with ChatGPT; pick.
-  - [ ] Confirm product colors (Trip amber, Feel rose, Bowl teal).
-  - [ ] Claude redraws the family as exact SVG and exports all sizes (app icons, favicon, store assets, one-color / dark).
-  - [ ] Build a `Logo` component (`<Logo product="trip" />`), swap in the rail, mobile navbar, sign-in, splash, app icon.
+- [ ] **Paw wordmark logos** (Trip / Feel / Bowl: bold rounded dark-brown word on pure white; the one letter that holds a big paw is
+  in the product color — Trip i gold `#FEC119`, Feel e pink `#EB86A6`, Bowl o orange `#F48D4B`) — brief and prompts in
+  `docs/logo-brief.md` (reference image in `docs/logo-explore/wordmark-reference-v1.png`).
+  - [x] Direction decided (from the liked wordmark): white background, paw letter in product color, bigger paw.
+  - [ ] Generate with Request 1 (two paw sizes, each logo as a separate PNG in a ZIP), pick one.
+  - [ ] Claude redraws as exact SVG with a real font; exports app icons / favicon / store assets / one-color / dark.
+  - [ ] Build a `Logo` component (`<Logo product="trip" />`) and swap in the rail, navbar, sign-in, splash, app icon.
 
 ## Product
 

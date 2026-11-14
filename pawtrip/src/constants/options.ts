@@ -1,24 +1,22 @@
 // Language-neutral codes stored in the database. Display text comes from i18n (`int.<code>`, `diet.<code>`).
 
 /**
- * Interests are the activity types of the Ideas tab (outdoors, food, coffee, sights, shopping, drinks, fun, stay,
- * transit): one list, same names, same icons on profiles, in onboarding, when creating a trip and when adding ideas.
- * Older profiles stored finer codes (hiking, cafes ...); they are mapped to the type they belong to when loaded.
+ * Interests are finer than the activity types of the Ideas tab and are grouped under them: each group is one
+ * activity type (same name, same icon as on the Ideas tab). Stay and transit are not interests.
  */
-const LEGACY: Record<string, string> = {
-  hiking: 'outdoors',
-  beaches: 'outdoors',
-  camping: 'outdoors',
-  wildlife: 'outdoors',
-  viewpoints: 'sights',
-  museums: 'sights',
-  restaurants: 'food',
-  cafes: 'coffee',
-  breweries: 'drinks',
-};
-/** Lodging and transport are activity types, not interests. */
-export const NOT_INTERESTS: readonly string[] = ['stay', 'transit'];
-export const normalizeInterests = (list: string[]) => [...new Set(list.map((i) => LEGACY[i] ?? i))].filter((i) => !NOT_INTERESTS.includes(i));
+export const INTEREST_GROUPS: { cat: 'outdoors' | 'sights' | 'food' | 'coffee' | 'drinks' | 'shopping' | 'fun'; items: string[] }[] = [
+  { cat: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'parks', 'dogparks', 'lakes'] },
+  { cat: 'sights', items: ['viewpoints', 'museums', 'landmarks', 'gardens'] },
+  { cat: 'food', items: ['restaurants', 'brunch', 'bakeries', 'patios'] },
+  { cat: 'coffee', items: ['cafes', 'dessert'] },
+  { cat: 'drinks', items: ['breweries', 'wine', 'cocktails'] },
+  { cat: 'shopping', items: ['shopping', 'markets', 'petstores'] },
+  { cat: 'fun', items: ['events', 'workshops', 'boating'] },
+];
+export const PROFILE_INTERESTS = INTEREST_GROUPS.flatMap((g) => g.items);
+
+/** Keep only interests that still exist (older saves used the activity-type codes). */
+export const normalizeInterests = (list: string[]) => [...new Set(list)].filter((i) => PROFILE_INTERESTS.includes(i));
 
 export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutallergy', 'halal', 'kosher'] as const;
 

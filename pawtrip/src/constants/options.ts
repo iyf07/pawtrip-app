@@ -16,7 +16,9 @@ const LEGACY: Record<string, string> = {
   cafes: 'coffee',
   breweries: 'drinks',
 };
-export const normalizeInterests = (list: string[]) => [...new Set(list.map((i) => LEGACY[i] ?? i))];
+/** Lodging and transport are activity types, not interests. */
+export const NOT_INTERESTS: readonly string[] = ['stay', 'transit'];
+export const normalizeInterests = (list: string[]) => [...new Set(list.map((i) => LEGACY[i] ?? i))].filter((i) => !NOT_INTERESTS.includes(i));
 
 export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutallergy', 'halal', 'kosher'] as const;
 

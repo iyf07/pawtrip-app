@@ -1,27 +1,17 @@
 import { View } from 'react-native';
 
-import { InterestIcon } from '@/components/InterestIcon';
 import { Chip } from '@/components/ui/Chip';
-import { Text } from '@/components/ui/Text';
-import { INTEREST_GROUPS } from '@/constants/options';
+import { CatIcon } from '@/features/plan/CatIcon';
+import { ITEM_CATS } from '@/features/plan/model';
 import { useT, type Key } from '@/i18n';
 
-/** Interest chips, grouped under small headings (outdoors / food & drink / in town). */
+/** Interest chips: the same types, names and icons as the activity types on the Ideas tab. */
 export function InterestPicker({ value, onToggle }: { value: string[]; onToggle: (interest: string) => void }) {
   const { t } = useT();
   return (
-    <View style={{ gap: 12 }}>
-      {INTEREST_GROUPS.map((g) => (
-        <View key={g.key}>
-          <Text size={12} weight={800} color="muted" style={{ marginBottom: 6 }}>
-            {t(`int.group.${g.key}` as Key)}
-          </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-            {g.items.map((i) => (
-              <Chip key={i} icon={<InterestIcon interest={i} size={24} />} label={t(`int.${i}` as Key)} on={value.includes(i)} onPress={() => onToggle(i)} />
-            ))}
-          </View>
-        </View>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+      {ITEM_CATS.map(([cat]) => (
+        <Chip key={cat} icon={<CatIcon cat={cat} size={24} />} label={t(`cat.${cat}` as Key)} on={value.includes(cat)} onPress={() => onToggle(cat)} />
       ))}
     </View>
   );

@@ -1,25 +1,22 @@
 // Language-neutral codes stored in the database. Display text comes from i18n (`int.<code>`, `diet.<code>`).
 
-/** The one interest list: used on profiles, in onboarding and when creating a trip (same names, same icons). */
-export const PROFILE_INTERESTS = [
-  'hiking',
-  'beaches',
-  'camping',
-  'restaurants',
-  'cafes',
-  'wildlife',
-  'museums',
-  'shopping',
-  'breweries',
-  'viewpoints',
-] as const;
-
-/** The same interests, grouped for display. */
-export const INTEREST_GROUPS: { key: 'outdoors' | 'food' | 'town'; items: (typeof PROFILE_INTERESTS)[number][] }[] = [
-  { key: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'viewpoints'] },
-  { key: 'food', items: ['restaurants', 'cafes', 'breweries'] },
-  { key: 'town', items: ['museums', 'shopping'] },
-];
+/**
+ * Interests are the activity types of the Ideas tab (outdoors, food, coffee, sights, shopping, drinks, fun, stay,
+ * transit): one list, same names, same icons on profiles, in onboarding, when creating a trip and when adding ideas.
+ * Older profiles stored finer codes (hiking, cafes ...); they are mapped to the type they belong to when loaded.
+ */
+const LEGACY: Record<string, string> = {
+  hiking: 'outdoors',
+  beaches: 'outdoors',
+  camping: 'outdoors',
+  wildlife: 'outdoors',
+  viewpoints: 'sights',
+  museums: 'sights',
+  restaurants: 'food',
+  cafes: 'coffee',
+  breweries: 'drinks',
+};
+export const normalizeInterests = (list: string[]) => [...new Set(list.map((i) => LEGACY[i] ?? i))];
 
 export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutallergy', 'halal', 'kosher'] as const;
 

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useAuth } from '@/auth/AuthProvider';
+import { normalizeInterests } from '@/constants/options';
 import { supabase } from '@/lib/supabase';
 
 import type { Profile } from './types';
@@ -13,7 +14,7 @@ export function useMyProfile() {
     queryFn: async (): Promise<Profile> => {
       const { data, error } = await supabase.from('profiles').select('*').eq('id', userId!).single();
       if (error) throw error;
-      return data;
+      return { ...data, interests: normalizeInterests(data.interests) };
     },
   });
 }

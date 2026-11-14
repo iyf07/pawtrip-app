@@ -9,6 +9,7 @@ import { Fredoka_700Bold } from '@expo-google-fonts/fredoka';
 import { ZCOOLKuaiLe_400Regular } from '@expo-google-fonts/zcool-kuaile';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import Head from 'expo-router/head';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -35,6 +36,15 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={client}>
+      <Head>
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Paw Trip" />
+        <meta property="og:title" content="Paw Trip" />
+        <meta property="og:description" content="Plan dog-friendly group trips together." />
+        <meta property="og:image" content="https://pawtrip.expo.app/og-image.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://pawtrip.expo.app/og-image.png" />
+      </Head>
       <I18nProvider>
         <SafeAreaProvider>
           <AuthProvider>

@@ -5,9 +5,9 @@
 ## Decision (latest)
 
 The user liked the first row of the earlier wordmark exploration (`docs/logo-explore/wordmark-reference-v1.png`: the product word in
-bold rounded dark-brown letters with a paw built into one letter) and asked for three changes:
+bold rounded light greyish brown letters with a paw built into one letter) and asked for three changes:
 1. **Pure white background** (no colored tile).
-2. **The letter that holds the paw takes the product color** (the former tile color); all other letters stay soft warm brown.
+2. **The letter that holds the paw takes the product color** (the former tile color); all other letters stay light greyish brown.
 3. **A bigger paw.**
 
 Earlier directions (symbol-only logos with a cut-out pad, sticker-style paw above the word, two-letter logos) are replaced by this.
@@ -20,7 +20,7 @@ Earlier directions (symbol-only logos with a cut-out pad, sticker-style paw abov
 | Paw Feel | **Feel** | one **e** (the second e): the paw sits in its eye (counter) | pink `#EB86A6` |
 | Paw Bowl | **Bowl** | the **o**: the paw fills its counter | orange `#F48D4B` |
 
-- All other letters: soft warm brown `#8A6A55`. Background: **pure white `#FFFFFF`**. Only **two colors plus white** per logo.
+- All other letters: light greyish brown `#B8A090`. Background: **pure white `#FFFFFF`**. Only **two colors plus white** per logo.
 - **The paw is the same drawing in all logos**: a cute chubby paw print (four plump round toe beans in a gentle arc above one soft
   rounded pad), flat, no outline, in the **product color** (same color as its letter).
 - **The paw is BIG**: clearly larger than in the earlier version. In "Trip" the paw is the dot of the i and about as wide as the
@@ -39,8 +39,8 @@ but each logo shows only its one word). Make them in ONE square image on a pure 
 Bowl) x 2 rows, each logo centered in its own cell with at least 12% empty margin, nothing crossing cells, no grid lines, no
 labels, no other text, no stray specks.
 
-STYLE (identical in every logo): flat, minimal, professional. Only two colors per logo plus the white background: soft warm brown
-#8A6A55 for all letters except one, and the product color for the one letter that holds a paw. NO outlines, NO gradients, NO
+STYLE (identical in every logo): flat, minimal, professional. Only two colors per logo plus the white background: light greyish brown
+#B8A090 for all letters except one, and the product color for the one letter that holds a paw. NO outlines, NO gradients, NO
 shadows, NO glow, NO glossy highlights, NO textures, NO sticker border, NO 3D. The lettering is one very bold, rounded geometric
 sans-serif (heavy weight, soft rounded terminals, generous round shapes, tight but even letter spacing), the same size and
 baseline in all three logos, words correctly spelled.
@@ -67,7 +67,7 @@ together in ONE ZIP, in addition to the comparison image. Do not ask questions; 
 
 ```
 Design wordmark logos on a pure white (#FFFFFF) background, flat and minimal: NO outlines, NO gradients, NO shadows, NO glow, NO
-glossy highlights, NO sticker border, NO 3D. Very bold, rounded geometric sans-serif letters in soft warm brown #8A6A55, correctly
+glossy highlights, NO sticker border, NO 3D. Very bold, rounded geometric sans-serif letters in light greyish brown #B8A090, correctly
 spelled. In each word exactly one letter is drawn in the product color and holds a BIG cute paw print (four plump round toe beans in
 an arc above one soft rounded pad, flat, no outline, in the product color); the letter keeps its own shape and stroke weight, the
 paw is built into it. Words: "Trip" (the i in gold #FEC119, the paw is the dot of the i), "Feel" (the second e in pink #EB86A6, the
@@ -82,7 +82,7 @@ logo-trip.png, logo-feel.png, logo-bowl.png, in ONE ZIP. Do not ask questions; j
 ## Request 3 — the next products (same system)
 
 ```
-Same system and style as the previous logos (very bold rounded dark-brown letters on pure white, one letter in the product color
+Same system and style as the previous logos (very bold rounded light greyish brown letters on pure white, one letter in the product color
 holding a big flat cute paw print, no outlines, no gradients, no shadows). Make two more wordmarks: "Walk" (the "a" in green
 #4CAF6A holds the paw in its counter) and "Play" (the "a" in violet #8A6BE0 holds the paw in its counter), in the same size and
 baseline as before. One comparison image with all five logos (Trip, Feel, Bowl, Walk, Play) side by side, plus each new logo as its own
@@ -100,7 +100,7 @@ baseline as before. One comparison image with all five logos (Trip, Feel, Bowl, 
 
 ## Checks before approving
 
-1. Is the background pure white and are there only two colors (soft warm brown + the product color)?
+1. Is the background pure white and are there only two colors (light greyish brown + the product color)?
 2. Is the paw clearly bigger and still clearly a paw at 32 px?
 3. Does the letter with the paw keep its own shape, and can you read the word instantly?
 4. Spelling correct; same size/baseline in all three?

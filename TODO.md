@@ -13,7 +13,7 @@
     计划, 想法, 成员; all 9 activity types (户外, 餐厅, 咖啡, 景点, 购物, 品酒, 活动, 住宿, 交通); 7 weather types;
     map pins; 3 empty-state illustrations.
 
-- [ ] **Paw wordmark logos** (Trip / Feel / Bowl: bold rounded soft-brown word on pure white; the one letter that holds a big paw is
+- [ ] **Paw wordmark logos** (Trip / Feel / Bowl: bold rounded light greyish brown (#B8A090) word on pure white; the one letter that holds a big paw is
   in the product color — Trip i gold `#FEC119`, Feel e pink `#EB86A6`, Bowl o orange `#F48D4B`) — brief and prompts in
   `docs/logo-brief.md` (reference image in `docs/logo-explore/wordmark-reference-v1.png`).
   - [x] Direction decided (from the liked wordmark): white background, paw letter in product color, bigger paw.

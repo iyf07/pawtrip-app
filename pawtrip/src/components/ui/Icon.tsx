@@ -26,6 +26,15 @@ const SOURCES = {
   'ui-invite': require('../../../assets/icons/ui-invite.png'),
   'ui-key': require('../../../assets/icons/ui-key.png'),
   'ui-zoom': require('../../../assets/icons/ui-zoom.png'),
+  'cat-food': require('../../../assets/icons/cat-food.png'),
+  'cat-sights': require('../../../assets/icons/cat-sights.png'),
+  'int-beaches': require('../../../assets/icons/int-beaches.png'),
+  'int-camping': require('../../../assets/icons/int-camping.png'),
+  'int-wildlife': require('../../../assets/icons/int-wildlife.png'),
+  'int-museums': require('../../../assets/icons/int-museums.png'),
+  'int-viewpoints': require('../../../assets/icons/int-viewpoints.png'),
+  'int-breweries': require('../../../assets/icons/int-breweries.png'),
+  'int-hiking': require('../../../assets/icons/int-hiking.png'),
 } as const;
 
 export type IconName = keyof typeof SOURCES;

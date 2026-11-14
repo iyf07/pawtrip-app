@@ -13,6 +13,8 @@ const HAS_ICON: Partial<Record<CatKey, IconName>> = {
   fun: 'cat-fun',
   stay: 'cat-stay',
   transit: 'cat-transit',
+  food: 'cat-food',
+  sights: 'cat-sights',
 };
 
 /** The icon of an activity category (sticker icon, or its emoji if that icon is not ready yet). */

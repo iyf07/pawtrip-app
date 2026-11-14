@@ -7,7 +7,7 @@
 export const INTEREST_GROUPS: { cat: 'outdoors' | 'sights' | 'food' | 'coffee' | 'drinks' | 'shopping' | 'fun'; items: string[] }[] = [
   { cat: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'parks', 'dogparks', 'lakes'] },
   { cat: 'sights', items: ['viewpoints', 'museums', 'landmarks', 'gardens'] },
-  { cat: 'food', items: ['restaurants', 'brunch', 'bakeries', 'patios'] },
+  { cat: 'food', items: ['brunch', 'bakeries', 'patios'] },
   { cat: 'coffee', items: ['cafes', 'dessert'] },
   { cat: 'drinks', items: ['breweries', 'wine', 'cocktails'] },
   { cat: 'shopping', items: ['shopping', 'markets', 'petstores'] },

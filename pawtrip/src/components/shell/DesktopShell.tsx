@@ -17,7 +17,7 @@ import { cityState } from '@/lib/place';
 
 import { ShellContext } from './ShellContext';
 
-type Section = 'calendar' | 'trips' | 'dogs' | 'profile' | 'settings';
+type Section = 'calendar' | 'trips' | 'dogs' | 'buddies' | 'profile' | 'settings';
 
 const RAIL_W = 76;
 const LIST_W = 252;
@@ -27,7 +27,7 @@ const FULL_WIDTH = 1400;
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|new-trip|join)(\/|$)/.test(p) || p === '/dog/new';
 
-const sectionOf = (p: string): Section => (p === '/' || p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p === '/' || p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/buddies') ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the
@@ -118,6 +118,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         router.navigate(first ? { pathname: '/dog/[id]', params: { id: first.id } } : { pathname: '/dog/[id]', params: { id: 'new' } });
       })}
       <View style={{ flex: 1 }} />
+      {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/buddies'))}
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
     </View>
   );

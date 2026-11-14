@@ -30,6 +30,9 @@ export function NavBar() {
           <Image source={require('../../assets/logos/wordmark-trip.png')} accessibilityLabel="Paw Trip" resizeMode="contain" style={{ height: 52, width: 81, borderRadius: 8, backgroundColor: '#FFFFFF' }} />
         </Pressable>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        <Pressable onPress={() => router.navigate('/buddies')} accessibilityRole="button" accessibilityLabel={t('shell.buddies')} hitSlop={8}>
+          <Icon name="tab-members" size={34} />
+        </Pressable>
         <Pressable onPress={() => router.navigate('/calendar')} accessibilityRole="button" accessibilityLabel={t('shell.calendar')} hitSlop={8}>
           <Icon name="tab-plan" size={34} />
         </Pressable>

@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
+import { addBuddiesToTrip } from '@/api/buddies';
 import { useAuth } from '@/auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
 
@@ -101,18 +102,21 @@ export type NewTrip = {
   end_date: string;
   interests: string[];
   dogIds: string[];
+  buddyGroupIds?: string[];
+  buddyDogs?: boolean;
 };
 
 export function useCreateTrip() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ dogIds, ...trip }: NewTrip): Promise<string> => {
+    mutationFn: async ({ dogIds, buddyGroupIds = [], buddyDogs = true, ...trip }: NewTrip): Promise<string> => {
       const { data, error } = await supabase.from('trips').insert(trip).select('id').single();
       if (error) throw error;
       if (dogIds.length) {
         const { error: e2 } = await supabase.from('trip_dogs').insert(dogIds.map((dog_id) => ({ trip_id: data.id, dog_id })));
         if (e2) throw e2;
       }
+      if (buddyGroupIds.length) await addBuddiesToTrip(data.id, buddyGroupIds, buddyDogs);
       return data.id;
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['trips'] }),

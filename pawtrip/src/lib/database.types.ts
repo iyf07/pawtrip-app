@@ -23,7 +23,47 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "comments": {
+            "buddy_groups": {
+                  Row: {
+                    "created_at": string,"id": string,"name": string,"owner_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"id"?: string,"name": string,"owner_id"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"id"?: string,"name"?: string,"owner_id"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"buddy_members": {
+                  Row: {
+                    "created_at": string,"group_id": string,"invited_by": string | null,"status": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"group_id": string,"invited_by"?: string | null,"status"?: string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"group_id"?: string,"invited_by"?: string | null,"status"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "buddy_members_group_id_fkey"
+      columns: ["group_id"]
+isOneToOne: false
+      referencedRelation: "buddy_groups"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "buddy_members_profile_fk"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"comments": {
                   Row: {
                     "created_at": string,"id": string,"item_id": string,"text": string,"trip_id": string,"user_id": string
                   }
@@ -261,14 +301,23 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            "handle_available":
+            "add_buddies_to_trip":
+{ Args: { "p_dogs"?: boolean,"p_group": string,"p_trip": string }; Returns: number
+                           },
+"handle_available":
 { Args: { "p_handle": string }; Returns: boolean
+                           },
+"in_buddy_group":
+{ Args: { "gid": string }; Returns: boolean
+                           },
+"invite_buddy":
+{ Args: { "p_group": string,"p_handle": string }; Returns: undefined
+                           },
+"is_buddy_owner":
+{ Args: { "gid": string }; Returns: boolean
                            },
 "is_trip_leader":
 { Args: { "tid": string }; Returns: boolean
-                           },
-"move_trip":
-{ Args: { "p_trip": string; "p_start": string; "p_end": string }; Returns: number
                            },
 "is_trip_member":
 { Args: { "tid": string }; Returns: boolean
@@ -279,14 +328,23 @@ isOneToOne: false
 "make_handle":
 { Args: { "base": string }; Returns: string
                            },
+"move_trip":
+{ Args: { "p_end": string,"p_start": string,"p_trip": string }; Returns: number
+                           },
 "new_invite_code":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
 "peek_trip":
 { Args: { "p_code": string }; Returns: Json
                            },
+"respond_buddy":
+{ Args: { "p_accept": boolean,"p_group": string }; Returns: undefined
+                           },
 "rotate_invite_code":
 { Args: { "p_trip": string }; Returns: string
+                           },
+"shares_buddy_group_with":
+{ Args: { "uid": string }; Returns: boolean
                            },
 "shares_trip_with":
 { Args: { "uid": string }; Returns: boolean

@@ -24,9 +24,9 @@ export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutalle
 export const PERSON_SCALES = ['morning', 'noise', 'walking', 'temperature', 'pace', 'spending'] as const;
 export type PersonScale = (typeof PERSON_SCALES)[number];
 
-/** Read optional profile scales without assigning an answer to an unanswered question. */
+/** Missing answers use the neutral middle option; stored choices are preserved. */
 export const personScales = (profile: Partial<Record<PersonScale, number | null>>) =>
-  Object.fromEntries(PERSON_SCALES.map((field) => [field, profile[field] ?? null])) as Record<PersonScale, number | null>;
+  Object.fromEntries(PERSON_SCALES.map((field) => [field, profile[field] ?? 3])) as Record<PersonScale, number | null>;
 
 export const INTEREST_SECTIONS = [
   { key: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'lakes'] },
@@ -46,10 +46,10 @@ export function addDietaryNeed(current: string[], input: string): string[] {
 export const DOG_SCALES = ['energy', 'temp', 'with_dogs', 'with_people', 'alone', 'car', 'recall_level'] as const;
 export type DogScale = (typeof DOG_SCALES)[number];
 export const dogScales = (dog: Partial<Record<DogScale, number | null>>) =>
-  Object.fromEntries(DOG_SCALES.map((field) => [field, dog[field] ?? null])) as Record<DogScale, number | null>;
+  Object.fromEntries(DOG_SCALES.map((field) => [field, dog[field] ?? 3])) as Record<DogScale, number | null>;
 
 export const personTraitKeys = (profile: Partial<Record<PersonScale, number | null>>) =>
   PERSON_SCALES.flatMap((field) => {
     const value = profile[field];
-    return value != null && Number.isInteger(value) && value >= 1 && value <= 5 ? [`scale.${field}.${value}`] : [];
+    return (value === 1 || value === 5) ? [`scale.${field}.${value}`] : [];
   });

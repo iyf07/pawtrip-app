@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Neutral defaults supersede unset/grey scales: missing or NULL person/dog answers read as 3; new/saved forms write numeric middle values. No historic DB backfill. Bio summaries on profile/friends/members show ONLY exact endpoint values 1 or 5, never 2/3/4. Remove parenthetical subtitles from all human/dog scale headings in both languages. Sign-out uses the paw arrow sticker.
 - 2026-11-15 Full-site paw family: 140 registered stickers, 130 regenerated and 10 approved existing paw icons retained. Paw marks are integrated into each object. Batch 13 prompts/contact sheet in docs; raw archive /Users/ivan/workplace/icons/batch-13-paw-family. Dog avatar fallback, welcome illustration, maps and decorative emoji use the same stickers.
 - 2026-11-15 Human six / dog seven values remain nullable numeric 1–5 for future LLM input; UI uses exact playful titles and descriptions without score labels. Human titles form one small line under ID and on friends/member cards. Dog recall_level is separate from legacy recall text; never infer or rewrite old values.
 - 2026-11-15 Sign in accepts email or public ID. ID resolution happens only in id-login Edge Function; bound email receives existing Auth OTP. Send responses expose neither email nor account existence; a valid OTP is required for a session.
@@ -144,6 +145,8 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+2026-11-15 Neutral defaults / endpoint bios: implemented default 3 for missing person and dog scale answers, endpoint-only human bio summaries, shorter scale headings and sign-out paw icon. Browser desktop/375px verified neutral result/icon, 1 -> bio appears, 3 -> bio disappears, discard, sign-out icon. Frontend-only; no Supabase schema/function changes. Release pending.
 
 2026-11-15 Paw/personality/ID release: preserved current root-list, skeleton, friends lookup and plural URL updates. Backend 2760ebb pushed: recall migration 20261115191749 deployed with --include-all after already-applied find_buddy; id-login function deployed. 91 DB tests pass; local OTP integration/browser sign-in and unknown-ID cloud smoke checks pass. Frontend 140 stickers inspected after cleanup; desktop/375px checked, read-only 0 sliders, edit 6 human / 7 dog sliders; all test drafts discarded. Frontend 9679896 pushed and deployed to https://pawtrip.expo.app (nq7on1amix); tsc/eslint silent and 10 frontend tests pass.
 
@@ -209,6 +212,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-15 | Codex | 默认中间档、极端称号与退出图标 | options / scales / profile / i18n | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -298,3 +302,6 @@ Re-read handoff and reviewed 605e13d through 30134d0: preserved root trip list, 
 Backend 2760ebb pushed/deployed: nullable dogs.recall_level without legacy-data inference; ID -> bound-email OTP login. Auth OTP verification/rate limits retained. 91 pgTAP assertions pass; local integration verifies known/unknown/malformed ID, correct session and OTP replay rejection. Production unknown-ID smoke checks pass. Browser ID login with disposable Alex fixture succeeded; profile/dog drafts discarded, desktop and 375px verified. Frontend release result follows.
 
 Release result: frontend 9679896 committed/pushed and deployed successfully to Expo production (nq7on1amix). Backend 2760ebb clean/pushed/deployed; production dogs.recall_level verified nullable smallint. Final checks: tsc/eslint silent, 10 frontend tests and 91 DB assertions pass; all 140 registered UI assets verified 512px transparent with corresponding masters. Security advisor review reports existing authenticated SECURITY DEFINER RPC warnings (intended RPC/RLS helpers, including find_buddy) and existing leaked-password-protection setting; this release did not change either. Remediation references: https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable and https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection. No unresolved release blocker. Claim released.
+
+### 2026-11-15 — Codex neutral defaults and endpoint bios
+Updated shared scale normalization to default missing answers to 3 for human/dog profile and wizards. Historic NULLs remain stored until saved; effective preference is neutral. Bio title selector shared by profile/friends/member cards now includes only 1 or 5. Removed parenthetical heading subtitles in Chinese/English and grey/unset UI; sign-out uses existing paw-arrow sticker. TDD: three relevant assertions failed before implementation and all 10 tests passed after. Desktop/375px browser checked default results, extreme bio appearance and disappearance on reset, discarded edits and sign-out icon. No backend changes.

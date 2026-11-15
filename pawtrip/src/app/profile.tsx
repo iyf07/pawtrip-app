@@ -276,6 +276,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     <>
       <Button
         label={t("profile.signout")}
+        icon="ui-share"
         variant="danger"
         block
         onPress={() => signOut()}

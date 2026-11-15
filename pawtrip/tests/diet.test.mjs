@@ -12,7 +12,7 @@ test('ignores empty and duplicate custom dietary needs', () => {
   assert.deepEqual(addDietaryNeed(['Peanut allergy'], 'peanut allergy'), ['Peanut allergy']);
   assert.deepEqual(addDietaryNeed(['vegan'], '  '), ['vegan']);
 });
-test('new scales stay unset while existing answers are preserved', () => {
+test('unanswered scales default to neutral while existing answers are preserved', () => {
   assert.deepEqual(personScales({morning: 2, walking: 4, noise: 1}),
-    {morning: 2, noise: 1, walking: 4, temperature: null, pace: null, spending: null});
+    {morning: 2, noise: 1, walking: 4, temperature: 3, pace: 3, spending: 3});
 });

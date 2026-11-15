@@ -25,15 +25,14 @@ type Props = {
   readOnly?: boolean;
 };
 
-/** One 1-5 personality scale: question, five steps, and the label of the chosen step. Starts in the middle (3). */
+/** One 1-5 personality scale: question, five steps, and the label of the chosen step. Defaults to the middle (3). */
 export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
-  const unset = value == null;
   const v = value ?? 3;
   const iconName = `scale-${ICON_KEY[stem] ?? stem}-${v}`;
-  const showIcon = !unset && hasIcon(iconName);
+  const showIcon = hasIcon(iconName);
   const stacked = showIcon || !!description;
   return (
     <View
@@ -53,13 +52,13 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
               {t(`scale.${stem}` as Key)}
             </Text>
           )}
-          <Text weight={800} size={stacked ? 17 : 14} color={unset ? 'muted' : 'link'}>
-            {unset ? t('scale.unset') : t(`scale.${stem}.${v}` as Key)}
+          <Text weight={800} size={stacked ? 17 : 14} color="link">
+            {t(`scale.${stem}.${v}` as Key)}
           </Text>
         </View>
       </View>
       {description ? <Text size={13} color="muted" style={{ marginTop: 8 }}>{description}</Text> : null}
-      {!readOnly ? <Slider v={v} unset={unset} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}
+      {!readOnly ? <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}
     </View>
   );
 }
@@ -67,7 +66,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
 const THUMB = 32;
 
 /** A 1-5 slider: drag the knob (or tap the bar); it snaps to the five steps. */
-function Slider({ v, unset, onChange, label }: { v: number; unset?: boolean; onChange: (v: number) => void; label: string }) {
+function Slider({ v, onChange, label }: { v: number; onChange: (v: number) => void; label: string }) {
   const th = useTheme();
   const [w, setW] = useState(0);
   const width = useRef(0);
@@ -108,14 +107,14 @@ function Slider({ v, unset, onChange, label }: { v: number; unset?: boolean; onC
       style={touch}
       {...pan.panHandlers}>
       <View pointerEvents="none" style={{ height: 12, borderRadius: 6, backgroundColor: th.line, marginHorizontal: THUMB / 2, justifyContent: 'center' }}>
-        <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: (v - 1) * 0.25 * usable, borderRadius: 6, backgroundColor: unset ? th.line : th.gold }} />
+        <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: (v - 1) * 0.25 * usable, borderRadius: 6, backgroundColor: th.gold }} />
         {[0, 1, 2, 3, 4].map((i) => (
           <View key={i} style={{ position: 'absolute', left: i * 0.25 * usable - 3, width: 6, height: 6, borderRadius: 3, backgroundColor: i < v ? th.sticker : th.muted, opacity: 0.5 }} />
         ))}
       </View>
       <View
         pointerEvents="none"
-        style={{ position: 'absolute', left, width: THUMB, height: THUMB, borderRadius: THUMB / 2, backgroundColor: unset ? th.muted : th.gold, borderWidth: 4, borderColor: unset ? th.line : th.sticker, boxShadow: `0 2px 6px -1px ${th.shadow}` }}
+        style={{ position: 'absolute', left, width: THUMB, height: THUMB, borderRadius: THUMB / 2, backgroundColor: th.gold, borderWidth: 4, borderColor: th.sticker, boxShadow: `0 2px 6px -1px ${th.shadow}` }}
       />
     </View>
   );

@@ -2,7 +2,6 @@ import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
-import { useMyFeedback } from "@/api/feedback";
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
@@ -45,11 +44,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const th = useTheme();
   const toast = useToast();
   const { userId, email, signOut } = useAuth();
-  const feedback = useMyFeedback();
   const update = useUpdateProfile();
   const { wide } = useLayout();
   // everything is read-only until the pencil is tapped; Save / Cancel then end the edit
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = useState<"identity" | "style" | "interests" | "diet" | null>(null);
   const [name, setName] = useState(profile.display_name);
   const [handle, setHandle] = useState(profile.handle);
   const [handleOk, setHandleOk] = useState(true);
@@ -65,7 +63,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
 
   const handleChanged = handle !== profile.handle;
-  const canSave = name.trim().length > 0 && (!handleChanged || handleOk);
+  const canSave = editing !== "identity" || (name.trim().length > 0 && (!handleChanged || handleOk));
 
   function cancel() {
     setName(profile.display_name);
@@ -78,20 +76,19 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       noise: profile.noise,
       morning: profile.morning,
     });
-    setEditing(false);
+    setEditing(null);
   }
 
   async function save() {
     try {
-      await update.mutateAsync({
-        display_name: name.trim(),
-        ...(handleChanged ? { handle } : {}),
-        interests,
-        diet,
-        ...scales,
-      });
+      const patch = editing === "identity"
+        ? { display_name: name.trim(), ...(handleChanged ? { handle } : {}) }
+        : editing === "style" ? scales
+        : editing === "interests" ? { interests }
+        : { diet };
+      await update.mutateAsync(patch);
       toast(t("toast.saved"));
-      setEditing(false);
+      setEditing(null);
     } catch (e) {
       const code = (e as { code?: string })?.code;
       toast(code === "23505" ? t("pf.handle.taken") : t("common.saveFailed")); // someone took it a moment ago
@@ -110,13 +107,13 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   const identityBlock = (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginTop: 4 }}>
-      {editing ? (
+      {editing === "identity" ? (
         <AvatarEditor name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} onChange={changeAvatar} />
       ) : (
         <Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} />
       )}
       <View style={{ flex: 1 }}>
-        {editing ? (
+        {editing === "identity" ? (
           <>
             <Field label={t("pf.name")} value={name} onChangeText={setName} maxLength={60} />
             <View style={{ marginTop: 4 }}>
@@ -130,7 +127,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
                 {profile.display_name}
               </Text>
               <Pressable
-                onPress={() => setEditing(true)}
+                disabled={editing !== null}
+                onPress={() => { cancel(); setEditing("identity"); }}
                 accessibilityRole="button"
                 accessibilityLabel={t("pf.editName")}
                 hitSlop={8}
@@ -148,29 +146,57 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     </View>
   );
 
+  function sectionHeading(title: string, section: "style" | "interests" | "diet") {
+    return (
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 12 }}>
+        <Text weight={800} size={20}>{title}</Text>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={t("pf.editSection", { section: title })}
+          disabled={editing !== null}
+          onPress={() => { cancel(); setEditing(section); }}
+          hitSlop={8}
+          style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: "center", justifyContent: "center", opacity: editing && editing !== section ? 0.45 : 1 }}>
+          <Icon name="ui-pencil" size={20} />
+        </Pressable>
+        <View style={{ flex: 1, borderTopWidth: 2, borderStyle: "dashed", borderColor: th.line }} />
+      </View>
+    );
+  }
+
   const styleBlock = (
     <>
-      <SectionTitle>{t("profile.travelStyle")}</SectionTitle>
+      {sectionHeading(t("profile.travelStyle"), "style")}
       {PERSON_SCALES.map((f) => (
         <ScaleInput
           key={f}
           field={f}
           value={scales[f]}
-          readOnly={!editing}
+          readOnly={editing !== "style"}
           onChange={(v) => setScales((s) => ({ ...s, [f]: v }))}
         />
       ))}
 
-      <SectionTitle>{t("profile.interests")}</SectionTitle>
+    </>
+  );
+
+  const interestsBlock = (
+    <>
+      {sectionHeading(t("profile.interests"), "interests")}
       <View>
         <InterestPicker
           value={interests}
-          readOnly={!editing}
+          readOnly={editing !== "interests"}
           onToggle={(i) => setInterests((c) => toggle(c, i))}
         />
       </View>
 
-      <SectionTitle>{t("profile.diet")}</SectionTitle>
+    </>
+  );
+
+  const dietBlock = (
+    <>
+      {sectionHeading(t("profile.diet"), "diet")}
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {DIETS.map((d) => (
           <Chip
@@ -178,8 +204,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
             icon={dietIcon(d)}
             label={t(`diet.${d}` as Key)}
             on={diet.includes(d)}
-            onPress={editing ? () => setDiet((c) => toggle(c, d)) : undefined}
-            style={!editing && !diet.includes(d) ? { opacity: 0.45 } : undefined}
+            onPress={editing === "diet" ? () => setDiet((c) => toggle(c, d)) : undefined}
+            style={editing !== "diet" && !diet.includes(d) ? { opacity: 0.45 } : undefined}
           />
         ))}
       </View>
@@ -222,68 +248,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     </>
   );
 
-  const feedbackBlock = (
-    <>
-      {(feedback.data ?? []).length > 0 ? (
-        <>
-          <SectionTitle>{t("fdbk.mine")}</SectionTitle>
-          <View style={{ gap: 10 }}>
-            {(feedback.data ?? []).map((f) => {
-              const tone =
-                f.status === "fixed"
-                  ? { bg: th.okBg, fg: th.ok }
-                  : f.status === "wontfix"
-                    ? { bg: th.line, fg: th.muted }
-                    : f.status === "triaged"
-                      ? { bg: th.blueBg, fg: th.text }
-                      : { bg: th.goldBg, fg: th.link };
-              return (
-                <Card key={f.id}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: 8,
-                    }}
-                  >
-                    <Text size={16}>
-                      {f.kind === "bug"
-                        ? "🐞"
-                        : f.kind === "idea"
-                          ? "💡"
-                          : "💬"}
-                    </Text>
-                    <View
-                      style={{
-                        backgroundColor: tone.bg,
-                        paddingHorizontal: 10,
-                        paddingVertical: 3,
-                        borderRadius: 12,
-                      }}
-                    >
-                      <Text weight={800} size={11} style={{ color: tone.fg }}>
-                        {t(`fdbk.st.${f.status}` as Key)}
-                      </Text>
-                    </View>
-                  </View>
-                  <Text numberOfLines={3} style={{ marginTop: 6 }}>
-                    {f.message}
-                  </Text>
-                  {f.resolution ? (
-                    <Meta style={{ marginTop: 6 }} weight={700}>
-                      ↳ {f.resolution}
-                    </Meta>
-                  ) : null}
-                </Card>
-              );
-            })}
-          </View>
-        </>
-      ) : null}
-    </>
-  );
-
   const signOutBlock = (
     <>
       <Button
@@ -308,30 +272,31 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       }
       bottom={editing ? <SaveBar saving={update.isPending} canSave={canSave} onSave={save} onDiscard={cancel} /> : null}
     >
-      {wide ? (
-        // desktop: who you are and the account on the left; travel style, interests and feedback on the right
-        <View
-          style={{ flexDirection: "row", gap: 40, alignItems: "flex-start" }}
-        >
-          <View style={{ flex: 1 }}>
-            {identityBlock}
-            {accountBlock}
-            {signOutBlock}
-          </View>
-          <View style={{ flex: 1 }}>
+      {identityBlock}
+      <View style={{ marginTop: 28, padding: wide ? 24 : 16, borderWidth: 2, borderColor: th.line, borderRadius: 24 }}>
+        {wide ? (
+          <>
+            <View style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}>
+              <View style={{ flex: 1, minWidth: 0 }}>{styleBlock}</View>
+              <View style={{ flex: 1, minWidth: 0 }}>{interestsBlock}</View>
+            </View>
+            <View style={{ flexDirection: "row", gap: 32, marginTop: 28 }}>
+              <View style={{ flex: 1, minWidth: 0 }}>{dietBlock}</View>
+              <View style={{ flex: 1 }} />
+            </View>
+          </>
+        ) : (
+          <>
             {styleBlock}
-            {feedbackBlock}
-          </View>
-        </View>
-      ) : (
-        <>
-          {identityBlock}
-          {styleBlock}
-          {accountBlock}
-          {feedbackBlock}
-          {signOutBlock}
-        </>
-      )}
+            <View style={{ marginTop: 28 }}>{interestsBlock}</View>
+            <View style={{ marginTop: 28 }}>{dietBlock}</View>
+          </>
+        )}
+      </View>
+      <View style={{ marginTop: 12 }}>
+        {accountBlock}
+        {signOutBlock}
+      </View>
     </Screen>
   );
 }

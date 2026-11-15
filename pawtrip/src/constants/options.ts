@@ -1,8 +1,8 @@
 // Language-neutral codes stored in the database. Display text comes from i18n (`int.<code>`, `diet.<code>`).
 
 /**
- * Interests are finer than the activity types of the Ideas tab and are grouped under them: each group is one
- * activity type (same name, same icon as on the Ideas tab). Stay and transit are not interests.
+ * Broad interest categories share the Ideas activity icons. Detailed codes below are retained only
+ * to map earlier saved choices into their category. Stay and transit are not interests.
  */
 export const INTEREST_GROUPS: { cat: 'outdoors' | 'sights' | 'food' | 'coffee' | 'drinks' | 'shopping' | 'fun'; items: string[] }[] = [
   { cat: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'parks', 'dogparks', 'lakes'] },
@@ -13,10 +13,13 @@ export const INTEREST_GROUPS: { cat: 'outdoors' | 'sights' | 'food' | 'coffee' |
   { cat: 'shopping', items: ['shopping', 'markets', 'petstores'] },
   { cat: 'fun', items: ['events', 'workshops', 'boating'] },
 ];
-export const PROFILE_INTERESTS = INTEREST_GROUPS.flatMap((g) => g.items);
+/** Broad interests; the detailed groups above also map earlier saved selections. */
+export const PROFILE_INTERESTS = INTEREST_GROUPS.map((g) => g.cat);
 
-/** Keep only interests that still exist (older saves used the activity-type codes). */
-export const normalizeInterests = (list: string[]) => [...new Set(list)].filter((i) => PROFILE_INTERESTS.includes(i));
+export const normalizeInterests = (list: string[]) => [...new Set(list.flatMap((i) => {
+  const group = INTEREST_GROUPS.find((g) => g.cat === i || g.items.includes(i));
+  return group ? [group.cat] : [];
+}))];
 
 export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutallergy', 'halal', 'kosher'] as const;
 

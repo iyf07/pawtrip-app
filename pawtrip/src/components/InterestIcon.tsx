@@ -16,6 +16,6 @@ const OWN: Record<string, IconName> = {
 export function InterestIcon({ interest, size = 24 }: { interest: string; size?: number }) {
   const own = OWN[interest];
   if (own) return <Icon name={own} size={size} />;
-  const cat = INTEREST_GROUPS.find((g) => g.items.includes(interest))?.cat ?? 'fun';
+  const cat = INTEREST_GROUPS.find((g) => g.cat === interest || g.items.includes(interest))?.cat ?? 'fun';
   return <CatIcon cat={cat} size={size} />;
 }

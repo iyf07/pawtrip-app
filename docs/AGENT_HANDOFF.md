@@ -51,12 +51,14 @@ stack, `.env.local` → cloud (both gitignored). Local test logins: `alex@test.l
 **Check before every commit** (from `pawtrip/`): `npx tsc --noEmit` and `npx eslint src` must print nothing (zero warnings is the norm).
 Then look at the change in the browser (desktop width and a 375px phone width).
 
-**Deploy (standing instruction from the user, 2026-11-12): after a verified change, commit + push + deploy without asking, until the user says "停止自动化".**
+**Deploy (standing instruction from the user, 2026-11-12; explicitly reaffirmed 2026-11-15): after a verified change, commit + push + deploy without asking, until the user says "停止自动化".**
 ```bash
 cd /Users/ivan/workplace/pawtrip-app/pawtrip
 git add -A && git commit -m "…" && git push origin main
 EXPO_PUBLIC_APP_COMMIT=$(git rev-parse --short HEAD) npx expo export -p web && eas deploy --prod
 ```
+User explicitly reaffirmed on 2026-11-15: automatically deploy every verified change to Expo and deploy any associated Supabase backend changes. Frontend-only work needs no database mutation. This supersedes the earlier pending approval blocker.
+
 Only **one agent deploys at a time** (see 8.3). Commit message ends with the attribution line the harness asks for.
 
 **Database** (from `/Users/ivan/workplace/pawtrip-backend`):
@@ -114,10 +116,12 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Profile layout: identity above a single bordered preferences group. Desktop: travel style upper left, interests upper right, dietary needs lower left. Mobile: style → interests → dietary needs. Account section below the group on all sizes. Dietary heading 我的忌口; remove feedback history from profile, retain the global send-feedback button.
+- 2026-11-15 Profile edits are per section: identity, travel style, interests, diet. Each has a pencil and saves only its own fields; finish or discard the current section before opening another. Headings: 我的兴趣 / 我的账号. User approved neutral travel-preference wording (walking, atmosphere, departure time) in both languages.
 - 2026-11-15 Page Header titles use 26px on phone/tablet and 32px on desktop; SectionTitle stays 20px so page titles are visibly larger.
 - Calendar page = month of today, trips as bars with members + dogs; tap/drag empty days → new trip with those dates; drag a trip bar → move it (confirm: scheduled plans become ideas; leader only; not for finished trips).
 - **Friends (好友)** are people, not groups: add by public ID → they accept → add to trips (new-trip step, and "添加我的好友" on the members page, optionally with their dogs). Replaced an earlier "groups" model.
-- Interests = grouped under the Ideas activity types (23 items, stay/transit are not interests, plain "restaurants" removed).
+- Interests = grouped under the Ideas activity types (23 items, stay/transit are not interests, plain "restaurants" removed). **Superseded 2026-11-15:** seven broad categories (outdoors, sights, food, coffee, drinks, shopping, fun), one unique existing category icon each; legacy detailed choices map to broad categories on read.
 - Danger actions on the members page have no red card/description; each asks in a confirm dialog (archive / delete / leave).
 - Weather note kept (user asked for the short "(预测…)" wording); all other helper text removed.
 - Logo direction: wordmark on white, light greyish-brown letters `#B8A090`, one letter in the product colour holding a big paw (Trip i `#FEC119`, Feel e `#EB86A6`, Bowl o `#F48D4B`). ChatGPT "a" versions chosen; navbar uses `assets/logos/wordmark-trip.png`, rail uses a round crop.
@@ -130,6 +134,8 @@ Process
 2026-11-15 Codex context review: read root CLAUDE.md / AGENTS.md, app AGENTS.md, UI principles, TODO, dependency versions, auth/root routing, desktop shell, trip context and trip/item API/model. No app behavior changed. TODO design checkboxes lag behind shipped state; use this handoff and current code as the baseline.
 
 2026-11-15 Header typography: shared page titles enlarged to 26px / 32px (phone / desktop); typecheck and lint clean, profile checked at desktop and 375px and settings at desktop.
+
+2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Release authorized explicitly by user on 2026-11-15; latest layout includes grouped preferences above account and no feedback history.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -179,7 +185,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| — | — | (none) | | |
+| 2026-11-15 | Codex | 发布主页修改 | profile / interests / i18n | 发布中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -221,3 +227,9 @@ User reported travel-style sliders could not drag, then confirmed they had not e
 
 ### 2026-11-15 — Codex page title hierarchy
 Updated the shared Header title from 18/26px to 26/32px (phone/desktop), keeping section titles at 20px. Browser checked profile on desktop and 375px phone and settings on desktop; tsc and eslint both exited 0 without output. Committed and pushed f5864ec; deployed to production https://pawtrip.expo.app (deployment e7kezsq9sx). Export required the installed Node 24 because the escalated shell defaulted to unsupported Node 21; use an explicit Node 24 PATH for future releases.
+
+### 2026-11-15 — Codex profile sections and interests
+Split profile editing into identity/style/interests/diet with separate pencils and section-scoped save payloads. Renamed headings to 我的兴趣 / 我的账号. Shared interest picker now has seven broad categories and seven unique existing stickers; detailed legacy selections normalize into their categories. Updated scale questions and five-step descriptions in both languages after user approval. Typecheck/lint clean; two regression tests pass. Browser verified desktop/375px, style drag/discard, interest save/reload/restoration, diet editing/discard. Commit/push to main was rejected by automatic approval review: it requires explicit user approval for this release despite the standing instruction above. Changes remain local and fully verified; next step is obtain approval, then commit/push/export/deploy.
+
+### 2026-11-15 — Codex profile layout and release authorization
+Grouped preferences into one bordered section: desktop style left/interests right, dietary needs below on left; mobile stacks style/interests/dietary needs. Renamed dietary section 我的忌口 and preserved its pencil. Moved account below preferences. Removed profile feedback history and its query; global feedback composer retained. Browser checked 1280px and 375px, including dietary edit/discard. User explicitly reaffirmed automatic Expo and relevant Supabase deployment, superseding earlier approval blocker. No backend changes in this release.

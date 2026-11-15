@@ -114,6 +114,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Page Header titles use 26px on phone/tablet and 32px on desktop; SectionTitle stays 20px so page titles are visibly larger.
 - Calendar page = month of today, trips as bars with members + dogs; tap/drag empty days → new trip with those dates; drag a trip bar → move it (confirm: scheduled plans become ideas; leader only; not for finished trips).
 - **Friends (好友)** are people, not groups: add by public ID → they accept → add to trips (new-trip step, and "添加我的好友" on the members page, optionally with their dogs). Replaced an earlier "groups" model.
 - Interests = grouped under the Ideas activity types (23 items, stay/transit are not interests, plain "restaurants" removed).
@@ -126,12 +127,18 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+2026-11-15 Codex context review: read root CLAUDE.md / AGENTS.md, app AGENTS.md, UI principles, TODO, dependency versions, auth/root routing, desktop shell, trip context and trip/item API/model. No app behavior changed. TODO design checkboxes lag behind shipped state; use this handoff and current code as the baseline.
+
+2026-11-15 Header typography: shared page titles enlarged to 26px / 32px (phone / desktop); typecheck and lint clean, profile checked at desktop and 375px and settings at desktop.
+
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
 Ideas tab; members page (members, add my friends, invite, dogs with add-my-dogs popup); month calendar; friends page (requests, accept/decline, add by ID);
 dogs (list page on phone, profile view/edit); my profile (view/edit); settings; in-app feedback; pull-to-refresh; icon sets batches 1–9 (kosher missing, see below).
 
 **Backend**: migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
+
+2026-11-15 Scale interaction check: profile scales intentionally require pencil edit mode. User confirmed attempting to drag in view mode; local browser drag in edit mode works (unset to level 5). No code fix needed.
 
 **Open / next (pick from here; claim in 8.2)**
 - Scale icons (batch 10, 45) are **done and live**: `scale-<key>-<1..5>` registered in `Icon.tsx`, shown by `ScaleInput` (nine sets sent as separate prompts 10a–10i after the all-in-one attempt failed). Scales stay `null` until chosen (grey knob, "还没选").
@@ -205,3 +212,12 @@ Batch 10 (45 scale icons) arrived broken: every file was a small cut-out piece o
 
 ### 2026-11-15 (later 5) — first agent
 Batch 10 delivered as nine zips; all 45 icons checked on contact sheets (sharp, complete), cleaned (masters + UI) and registered; slider icon size 60. Note: cleaning 90 large PNGs takes several minutes — run it in the background and wait with a file-exists check.
+
+### 2026-11-15 — Codex context review
+Read development context, CLAUDE.md and both AGENTS.md files; inspected core routing/auth, responsive shell, trip context, API hooks and plan model. No feature changes, commit, push or deployment. Existing open tasks remain in section 6. Next: follow the user’s selected task and claim its area before editing.
+
+### 2026-11-15 — Codex scale interaction investigation
+User reported travel-style sliders could not drag, then confirmed they had not entered pencil edit mode. Reproduced the intended read-only state and verified dragging an editable slider to level 5 in the local browser; cancelled all test edits. No app code changed or deployment needed. No unresolved slider bug established.
+
+### 2026-11-15 — Codex page title hierarchy
+Updated the shared Header title from 18/26px to 26/32px (phone/desktop), keeping section titles at 20px. Browser checked profile on desktop and 375px phone and settings on desktop; tsc and eslint both exited 0 without output. Publishing through the standing automatic release workflow.

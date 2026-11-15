@@ -86,7 +86,7 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
       <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
-          <Text weight={800} size={wide ? 26 : 18} numberOfLines={1}>
+          <Text weight={800} size={wide ? 32 : 26} numberOfLines={1}>
             {title}
           </Text>
         ) : null}

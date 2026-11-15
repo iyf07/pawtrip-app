@@ -49,7 +49,7 @@ export function BuddiesScreen() {
   }
 
   return (
-    <Screen nav top={<Header title={t('bd.title')} />} size="wide">
+    <Screen nav top={<Header title={t('bd.title')} />} size="narrow">
       {buddies.isPending ? (
         <View style={{ alignItems: 'center', paddingTop: 60 }}>
           <ActivityIndicator color={th.muted} />

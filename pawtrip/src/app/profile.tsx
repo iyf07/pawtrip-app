@@ -1,21 +1,19 @@
 import * as Clipboard from "expo-clipboard";
-import { router } from "expo-router";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
-import { useMyDogs } from "@/api/dogs";
 import { useMyFeedback } from "@/api/feedback";
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
 import { Icon } from "@/components/ui/Icon";
 import { AvatarEditor } from "@/components/AvatarEditor";
-import { DogEditSheet } from "@/features/dog/DogEditSheet";
-import { ProfileEditSheet } from "@/features/profile/ProfileEditSheet";
+import { HandleField } from "@/components/HandleField";
+import { Field } from "@/components/ui/Field";
 import { dietIcon } from "@/components/DietIcon";
 import { InterestPicker } from "@/components/InterestPicker";
 import { ScaleInput } from "@/components/ScaleInput";
-import { DogAvatar } from "@/components/ui/Avatar";
+import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -47,13 +45,14 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const th = useTheme();
   const toast = useToast();
   const { userId, email, signOut } = useAuth();
-  const dogs = useMyDogs();
   const feedback = useMyFeedback();
   const update = useUpdateProfile();
   const { wide } = useLayout();
-  const [editDog, setEditDog] = useState<string | null>(null);
-
-  const [editProfile, setEditProfile] = useState(false);
+  // everything is read-only until the pencil is tapped; Save / Cancel then end the edit
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(profile.display_name);
+  const [handle, setHandle] = useState(profile.handle);
+  const [handleOk, setHandleOk] = useState(true);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
   const [scales, setScales] = useState<Record<PersonScale, number | null>>({
@@ -64,14 +63,14 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   const toggle = (list: string[], v: string) =>
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
-  const same = (a: string[], b: string[]) =>
-    a.slice().sort().join() === b.slice().sort().join();
-  const dirty =
-    !same(interests, profile.interests) ||
-    !same(diet, profile.diet) ||
-    PERSON_SCALES.some((f) => scales[f] !== (profile[f] ?? 3));
 
-  function discard() {
+  const handleChanged = handle !== profile.handle;
+  const canSave = name.trim().length > 0 && (!handleChanged || handleOk);
+
+  function cancel() {
+    setName(profile.display_name);
+    setHandle(profile.handle);
+    setHandleOk(true);
     setInterests(profile.interests);
     setDiet(profile.diet);
     setScales({
@@ -79,16 +78,20 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       noise: profile.noise ?? 3,
       morning: profile.morning ?? 3,
     });
+    setEditing(false);
   }
 
   async function save() {
     try {
       await update.mutateAsync({
+        display_name: name.trim(),
+        ...(handleChanged ? { handle } : {}),
         interests,
         diet,
         ...scales,
       });
       toast(t("toast.saved"));
+      setEditing(false);
     } catch (e) {
       const code = (e as { code?: string })?.code;
       toast(code === "23505" ? t("pf.handle.taken") : t("common.saveFailed")); // someone took it a moment ago
@@ -106,83 +109,43 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   }
 
   const identityBlock = (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 16,
-        marginTop: 4,
-      }}
-    >
-      <AvatarEditor
-        name={profile.display_name}
-        url={profile.avatar_url}
-        size={wide ? 128 : 84}
-        onChange={changeAvatar}
-      />
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginTop: 4 }}>
+      {editing ? (
+        <AvatarEditor name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} onChange={changeAvatar} />
+      ) : (
+        <Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} />
+      )}
       <View style={{ flex: 1 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-          <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flexShrink: 1 }}>
-            {profile.display_name}
-          </Text>
-          <Pressable
-            onPress={() => setEditProfile(true)}
-            accessibilityRole="button"
-            accessibilityLabel={t("pf.editName")}
-            hitSlop={8}
-            style={{
-              width: 30,
-              height: 30,
-              borderRadius: 15,
-              backgroundColor: th.card,
-              borderWidth: 2,
-              borderColor: th.line,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Icon name="ui-pencil" size={20} />
-          </Pressable>
-        </View>
-        <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>
-          ID: {profile.handle}
-        </Text>
+        {editing ? (
+          <>
+            <Field label={t("pf.name")} value={name} onChangeText={setName} maxLength={60} />
+            <View style={{ marginTop: 4 }}>
+              <HandleField label={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
+            </View>
+          </>
+        ) : (
+          <>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+              <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flexShrink: 1 }}>
+                {profile.display_name}
+              </Text>
+              <Pressable
+                onPress={() => setEditing(true)}
+                accessibilityRole="button"
+                accessibilityLabel={t("pf.editName")}
+                hitSlop={8}
+                style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: "center", justifyContent: "center" }}
+              >
+                <Icon name="ui-pencil" size={20} />
+              </Pressable>
+            </View>
+            <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>
+              ID: {profile.handle}
+            </Text>
+          </>
+        )}
       </View>
     </View>
-  );
-
-  const dogsBlock = (
-    <>
-      <SectionTitle>{t("profile.myDogs")}</SectionTitle>
-      <View style={{ gap: 10 }}>
-        {(dogs.data ?? []).map((d) => (
-          <Card
-            key={d.id}
-            onPress={() => setEditDog(d.id)}
-            style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-          >
-            <DogAvatar url={d.photo_url} />
-            <Text weight={800} style={{ flex: 1 }}>
-              {d.name}
-            </Text>
-            <Text plain size={22} color="muted" weight={800}>
-              ›
-            </Text>
-          </Card>
-        ))}
-        <Card
-          dashed
-          onPress={() =>
-            router.push({ pathname: "/dog/[id]", params: { id: "new" } })
-          }
-          style={{ alignItems: "center" }}
-        >
-          <Text weight={800} color="link">
-            {t("profile.addDog")}
-          </Text>
-        </Card>
-      </View>
-    </>
   );
 
   const styleBlock = (
@@ -193,35 +156,32 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           key={f}
           field={f}
           value={scales[f]}
+          readOnly={!editing}
           onChange={(v) => setScales((s) => ({ ...s, [f]: v }))}
         />
       ))}
 
-      <Text weight={800} size={13} style={{ marginTop: 20 }}>
-        {t("profile.interests")}
-      </Text>
-      <View style={{ marginTop: 8 }}>
+      <SectionTitle>{t("profile.interests")}</SectionTitle>
+      <View>
         <InterestPicker
           value={interests}
+          readOnly={!editing}
           onToggle={(i) => setInterests((c) => toggle(c, i))}
         />
       </View>
 
-      <Text weight={800} size={13} style={{ marginTop: 18 }}>
-        {t("profile.diet")}
-      </Text>
-      <View
-        style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 8 }}
-      >
-        {DIETS.map((d) => (
+      <SectionTitle>{t("profile.diet")}</SectionTitle>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+        {(editing ? DIETS : DIETS.filter((d) => diet.includes(d))).map((d) => (
           <Chip
             key={d}
             icon={dietIcon(d)}
             label={t(`diet.${d}` as Key)}
-            on={diet.includes(d)}
-            onPress={() => setDiet((c) => toggle(c, d))}
+            on={editing ? diet.includes(d) : false}
+            onPress={editing ? () => setDiet((c) => toggle(c, d)) : undefined}
           />
         ))}
+        {!editing && diet.length === 0 ? <Meta>—</Meta> : null}
       </View>
     </>
   );
@@ -346,24 +306,15 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           left={<BackButton label={t("nav.back")} onPress={goBack} />}
         />
       }
-      bottom={
-        dirty ? (
-          <SaveBar
-            saving={update.isPending}
-            onSave={save}
-            onDiscard={discard}
-          />
-        ) : null
-      }
+      bottom={editing ? <SaveBar saving={update.isPending} canSave={canSave} onSave={save} onDiscard={cancel} /> : null}
     >
       {wide ? (
-        // desktop: who you are, dogs and account on the left; travel style, interests and feedback on the right
+        // desktop: who you are and the account on the left; travel style, interests and feedback on the right
         <View
           style={{ flexDirection: "row", gap: 40, alignItems: "flex-start" }}
         >
           <View style={{ flex: 1 }}>
             {identityBlock}
-            {dogsBlock}
             {accountBlock}
             {signOutBlock}
           </View>
@@ -375,15 +326,12 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       ) : (
         <>
           {identityBlock}
-          {dogsBlock}
           {styleBlock}
           {accountBlock}
           {feedbackBlock}
           {signOutBlock}
         </>
       )}
-      <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
-      <ProfileEditSheet profile={editProfile ? profile : null} onClose={() => setEditProfile(false)} />
     </Screen>
   );
 }

@@ -19,7 +19,7 @@ export default function DogEditorRoute() {
   return (
     <DogForm key={dog.data.id} dog={dog.data} onClose={goBack}>
       {({ body, footer }) => (
-        <Screen nav bottom={footer} top={<Header title={t('dog.edit')} left={<BackButton label={t('nav.cancel')} onPress={goBack} />} />}>
+        <Screen nav bottom={footer} top={<Header title={dog.data.name} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
           {body}
         </Screen>
       )}

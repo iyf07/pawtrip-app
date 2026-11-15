@@ -20,7 +20,7 @@ export function DogEditSheet({ dogId, onClose }: { dogId: string | null; onClose
         <Sheet visible tall onClose={onClose} footer={footer}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text weight={800} size={22}>
-              {t('dog.edit')}
+              {dog.data?.name}
             </Text>
             <Text plain weight={800} size={22} color="muted" onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.cancel')} style={{ paddingHorizontal: 8 }}>
               ✕

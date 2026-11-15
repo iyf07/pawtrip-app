@@ -16,10 +16,12 @@ type Props = {
   onChange: (v: number) => void;
   /** the surrounding screen already shows the question (wizard) */
   hideTitle?: boolean;
+  /** view mode: show the answer, not editable */
+  readOnly?: boolean;
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Starts in the middle (3). */
-export function ScaleInput({ field, value, onChange, hideTitle }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
@@ -44,7 +46,9 @@ export function ScaleInput({ field, value, onChange, hideTitle }: Props) {
           {t(`scale.${stem}.${v}` as Key)}
         </Text>
       </View>
-      <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} />
+      <View pointerEvents={readOnly ? 'none' : 'auto'}>
+        <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} />
+      </View>
     </View>
   );
 }

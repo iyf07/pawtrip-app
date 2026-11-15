@@ -24,7 +24,7 @@ export default function Dogs() {
   }
 
   return (
-    <Screen nav top={<Header title={t('profile.myDogs')} />} size="wide">
+    <Screen nav top={<Header title={t('profile.myDogs')} />} size="narrow">
       {dogs.isPending ? (
         <View style={{ alignItems: 'center', paddingTop: 60 }}>
           <ActivityIndicator color={th.muted} />

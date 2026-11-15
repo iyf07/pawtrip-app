@@ -115,12 +115,18 @@ export function SectionTitle({ children }: { children: string }) {
   );
 }
 
-/** Back / cancel link for the left of a Header: compact, with its text flush to the page's left edge. */
+/** Back button for the left of a Header: the same round control as the other icon buttons (the label is for screen readers). */
 export function BackButton({ label, onPress }: { label: string; onPress: () => void }) {
+  const t = useTheme();
   return (
-    <Pressable onPress={onPress} accessibilityRole="button" hitSlop={{ top: 8, bottom: 8, right: 8 }} style={{ minHeight: 40, justifyContent: 'center' }}>
-      <Text weight={800} color="link" numberOfLines={1}>
-        {label}
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      hitSlop={8}
+      style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: t.card, borderWidth: 2, borderColor: t.line, alignItems: 'center', justifyContent: 'center' }}>
+      <Text plain weight={800} size={24} color="muted" style={{ lineHeight: 28, marginTop: -2 }}>
+        ‹
       </Text>
     </Pressable>
   );

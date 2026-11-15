@@ -27,7 +27,7 @@ function Trips() {
   const { t } = useT();
   const th = useTheme();
   const trips = useTrips();
-  const grid = useColumns(COLUMN.wide);
+  const grid = useColumns(COLUMN.narrow);
 
   const header = (
     <Header
@@ -57,7 +57,7 @@ function Trips() {
   );
 
   return (
-    <Screen nav top={header} size="wide">
+    <Screen nav top={header} size="narrow">
       {trips.isPending ? (
         <View style={{ alignItems: 'center', paddingTop: 60 }}>
           <ActivityIndicator color={th.muted} />

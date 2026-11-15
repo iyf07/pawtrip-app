@@ -14,6 +14,7 @@
 | [08-metrics-and-research.md](08-metrics-and-research.md) | 北极星指标、漏斗、埋点、访谈提纲、假设清单 |
 | [09-risks-decisions.md](09-risks-decisions.md) | 风险登记、决策日志、待决问题 |
 | [10-cross-project.md](10-cross-project.md) | 与 Paw Track（老婆的项目）的协同约定与待确认的问题 |
+| [11-ui-principles.md](11-ui-principles.md) | 界面与交互原则：导航、宽度、返回键、先看后改、命名 |
 
 ## 怎么用 PM agent
 

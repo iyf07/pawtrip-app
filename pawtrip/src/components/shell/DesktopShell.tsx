@@ -98,13 +98,6 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
       <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
         <Icon name="logo-paw" size={56} />
       </Pressable>
-      <Pressable
-        onPress={() => router.navigate('/profile')}
-        accessibilityRole="button"
-        accessibilityLabel={t('profile.title')}
-        style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginBottom: 6 }}>
-        <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
-      </Pressable>
       {item('calendar', 'tab-plan', t('shell.calendar'), () => router.navigate('/calendar'))}
       {item('trips', 'nav-trips', t('shell.trips'), () => {
         if (section === 'trips' && onTrip) return onToggleList();
@@ -120,6 +113,13 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
       {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/buddies'))}
       <View style={{ flex: 1 }} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
+      <Pressable
+        onPress={() => router.navigate('/profile')}
+        accessibilityRole="button"
+        accessibilityLabel={t('profile.title')}
+        style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginTop: 2 }}>
+        <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={44} />
+      </Pressable>
     </View>
   );
 }

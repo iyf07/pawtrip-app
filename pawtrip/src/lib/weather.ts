@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 import { addDaysIso, todayIso } from './dates';
 
 export type WxIcon = 'sun' | 'partly' | 'cloud' | 'rain' | 'storm' | 'snow' | 'fog';
-export const WX_EMOJI: Record<WxIcon, string> = { sun: '☀️', partly: '⛅', cloud: '☁️', rain: '🌧️', storm: '⛈️', snow: '🌨️', fog: '🌫️' };
 
 /** One hour of a real forecast (or recorded day). */
 export type HourWx = { icon: WxIcon; /** °F */ temp: number; rainPct: number | null };

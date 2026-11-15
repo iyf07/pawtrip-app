@@ -4,7 +4,9 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
-import { FORECAST_DAYS, WX_EMOJI, tempOut, type DayWx } from '@/lib/weather';
+import { FORECAST_DAYS, tempOut, type DayWx } from '@/lib/weather';
+
+import { WeatherIcon } from './WeatherIcon';
 
 import type { TripDog } from '../trip/TripContext';
 
@@ -24,7 +26,7 @@ export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; 
   if (!warn && !note) return null;
   return (
     <View style={{ marginTop: 10, flexDirection: 'row', gap: 10, alignItems: 'center', padding: 10, paddingHorizontal: 14, borderRadius: 14, backgroundColor: warn ? th.warnBg : th.goldBg }}>
-      <Text size={24}>{WX_EMOJI[wx.icon]}</Text>
+      <WeatherIcon icon={wx.icon} size={32} />
       <View style={{ flex: 1 }}>
         <Text weight={800}>
           {tempOut(wx.hi, unit)}°/{tempOut(wx.lo, unit)}°

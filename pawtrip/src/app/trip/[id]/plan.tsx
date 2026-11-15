@@ -10,6 +10,8 @@ import { Segmented } from '@/components/ui/Chip';
 import { useToast } from '@/components/ui/Toast';
 import { Meta, Text } from '@/components/ui/Text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Icon } from '@/components/ui/Icon';
+import { WeatherIcon } from '@/features/plan/WeatherIcon';
 import { useLayout } from '@/hooks/use-layout';
 import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
@@ -23,7 +25,7 @@ import { WeatherBanner } from '@/features/plan/WeatherBanner';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
-import { WX_EMOJI, tempOut, useWeather } from '@/lib/weather';
+import { tempOut, useWeather } from '@/lib/weather';
 
 const PX = 96; // pixels per hour: the whole day, opened scrolled to the morning
 const GUTTER = 46;
@@ -106,9 +108,7 @@ export default function Plan() {
                 </Text>
                 {dw ? (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 3 }}>
-                    <Text size={15} style={{ lineHeight: 18 }}>
-                      {WX_EMOJI[dw.icon]}
-                    </Text>
+                    <WeatherIcon icon={dw.icon} size={18} />
                     <Text size={11} weight={700} color={on ? 'onGold' : 'muted'}>
                       {tempOut(dw.hi, unit)}°/{tempOut(dw.lo, unit)}°
                     </Text>
@@ -172,10 +172,12 @@ export default function Plan() {
                     {hourLabel(h)}
                   </Text>
                   {wx?.hours?.[h] ? (
-                    <Text size={11} weight={700} color="muted" style={{ position: 'absolute', top: 12, left: 0, width: 42, lineHeight: 15 }}>
-                      {WX_EMOJI[wx.hours[h].icon]}
-                      {tempOut(wx.hours[h].temp, unit)}°
-                    </Text>
+                    <View style={{ position: 'absolute', top: 12, left: 0, width: 42, flexDirection: 'row', alignItems: 'center', gap: 1 }}>
+                      <WeatherIcon icon={wx.hours[h].icon} size={15} />
+                      <Text size={11} weight={700} color="muted" style={{ lineHeight: 15 }}>
+                        {tempOut(wx.hours[h].temp, unit)}°
+                      </Text>
+                    </View>
                   ) : null}
                 </View>
               ))}
@@ -201,12 +203,15 @@ export default function Plan() {
                 <>
                   <View pointerEvents="none" style={{ position: 'absolute', left: GUTTER, right: 0, top: 0, height: wx.rise * (PX / 60), backgroundColor: th.night, borderRadius: 6 }} />
                   <View pointerEvents="none" style={{ position: 'absolute', left: GUTTER, right: 0, top: wx.set * (PX / 60), bottom: 0, backgroundColor: th.night, borderRadius: 6 }} />
-                  {([['rise', wx.rise, th.sun, '☀︎'], ['set', wx.set, th.sunset, '☾']] as const).map(([k, m, color, icon]) => (
+                  {([['rise', wx.rise, th.sun], ['set', wx.set, th.sunset]] as const).map(([k, m, color]) => (
                     <View key={k} pointerEvents="none" style={{ position: 'absolute', left: GUTTER, right: 0, top: m * (PX / 60), height: 0, borderTopWidth: 1.5, borderColor: color }}>
                       <View style={{ position: 'absolute', left: 6, top: -10, paddingHorizontal: 8, height: 20, justifyContent: 'center', borderRadius: 10, backgroundColor: th.bg, borderWidth: 1.5, borderColor: color }}>
-                        <Text size={11} weight={700} style={{ color, lineHeight: 14 }}>
-                          {icon} {t(`sun.${k}`)} {fmtMin(m)}
-                        </Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
+                          <Icon name={k === 'rise' ? 'wx-sunrise' : 'wx-sunset'} size={16} />
+                          <Text size={11} weight={700} style={{ color, lineHeight: 14 }}>
+                            {t(`sun.${k}`)} {fmtMin(m)}
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   ))}
@@ -278,9 +283,7 @@ export default function Plan() {
             </Text>
             {dw ? (
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 3 }}>
-                <Text size={15} style={{ lineHeight: 18 }}>
-                  {WX_EMOJI[dw.icon]}
-                </Text>
+                <WeatherIcon icon={dw.icon} size={18} />
                 <Text size={11} weight={700} color={on ? 'onGold' : 'muted'}>
                   {tempOut(dw.hi, unit)}°/{tempOut(dw.lo, unit)}°
                 </Text>

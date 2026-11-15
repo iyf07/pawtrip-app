@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
@@ -41,7 +41,8 @@ export default function Group() {
   const update = useUpdateTrip();
 
   const [editDog, setEditDog] = useState<string | null>(null);
-  const [confirm, setConfirm] = useState<null | "leave" | "delete">(null);
+  const [confirm, setConfirm] = useState<null | "leave" | "delete" | "archive">(null);
+  const here = usePathname();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [buddiesOpen, setBuddiesOpen] = useState(false);
 
@@ -61,9 +62,10 @@ export default function Group() {
     const which = confirm;
     try {
       if (which === "leave") await leave.mutateAsync(trip.id);
+      else if (which === "archive") await update.mutateAsync({ tripId: trip.id, patch: { status: "completed" } });
       else await del.mutateAsync(trip.id);
       setConfirm(null);
-      toast(which === "leave" ? t("toast.left") : t("toast.deleted"));
+      toast(which === "leave" ? t("toast.left") : which === "archive" ? t("toast.archived") : t("toast.deleted"));
       router.replace("/");
     } catch {
       setConfirm(null);
@@ -129,7 +131,6 @@ export default function Group() {
     <>
       <SectionTitle>{t("group.dogs")}</SectionTitle>
       <View style={{ gap: 10 }}>
-        {trip.trip_dogs.length === 0 ? <Meta>{t("group.noDogs")}</Meta> : null}
         {trip.trip_dogs.map((td) => {
           const dog = td.dogs;
           if (!dog) return null;
@@ -188,7 +189,7 @@ export default function Group() {
         <Card
           dashed
           onPress={() =>
-            router.push({ pathname: "/dog/[id]", params: { id: "new" } })
+            router.push({ pathname: "/dog/[id]", params: { id: "new", returnTo: here } })
           }
           style={{ alignItems: "center" }}
         >
@@ -214,53 +215,16 @@ export default function Group() {
     </>
   );
 
-  // destructive actions live together at the very bottom, clearly marked
+  // archive / delete / leave sit at the very bottom; each one asks before it does anything
   const dangerBlock = (
-    <View
-      style={{
-        marginTop: 56,
-        padding: 16,
-        borderRadius: 18,
-        borderWidth: 2,
-        borderColor: th.danger,
-        backgroundColor: th.dangerBg,
-        gap: 10,
-      }}
-    >
-      <Text weight={800} size={16} color="danger">
-        {t("group.danger")}
-      </Text>
-      <Meta>{isLeader ? t("group.dangerBody") : t("leave.body")}</Meta>
+    <View style={{ marginTop: 40, gap: 10 }}>
       {isLeader ? (
-        <View style={{ gap: 8, marginTop: 4 }}>
-          {trip.status !== "completed" ? (
-            <Button
-              label={t("group.archive")}
-              icon="ui-archive"
-              variant="ghost"
-              block
-              onPress={async () => {
-                await run(
-                  update.mutateAsync({
-                    tripId: trip.id,
-                    patch: { status: "completed" },
-                  }),
-                );
-                router.replace("/");
-                toast(t("toast.archived"));
-              }}
-            />
-          ) : null}
+        <>
+          {trip.status !== "completed" ? <Button label={t("group.archive")} icon="ui-archive" variant="ghost" block onPress={() => setConfirm("archive")} /> : null}
           <Pressable
             onPress={() => setConfirm("delete")}
             accessibilityRole="button"
-            style={{
-              minHeight: 48,
-              borderRadius: 24,
-              backgroundColor: th.danger,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={{ minHeight: 48, borderRadius: 24, backgroundColor: th.danger, alignItems: "center", justifyContent: "center" }}
           >
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <Icon name="ui-trash" size={26} />
@@ -269,14 +233,9 @@ export default function Group() {
               </Text>
             </View>
           </Pressable>
-        </View>
+        </>
       ) : (
-        <Button
-          label={t("group.leave")}
-          variant="danger"
-          block
-          onPress={() => setConfirm("leave")}
-        />
+        <Button label={t("group.leave")} variant="danger" block onPress={() => setConfirm("leave")} />
       )}
     </View>
   );
@@ -294,6 +253,7 @@ export default function Group() {
               {membersBlock}
               {inviteBlock}
               {dogsBlock}
+              {dangerBlock}
             </View>
             <View style={{ flex: 1 }} />
           </View>
@@ -302,22 +262,24 @@ export default function Group() {
             {membersBlock}
             {inviteBlock}
             {dogsBlock}
+            {dangerBlock}
           </>
         )}
-        {dangerBlock}
         <AddBuddiesSheet visible={buddiesOpen} onClose={() => setBuddiesOpen(false)} trip={trip} />
         <InviteSheet visible={inviteOpen} onClose={() => setInviteOpen(false)} trip={trip} isLeader={isLeader} />
 
         <ConfirmSheet
           visible={confirm !== null}
-          title={confirm === "delete" ? t("delete.title") : t("leave.title")}
+          title={confirm === "delete" ? t("delete.title") : confirm === "archive" ? t("archive.title") : t("leave.title")}
           body={
             confirm === "delete"
               ? t("delete.body", { name: trip.name })
-              : t("leave.body")
+              : confirm === "archive"
+                ? t("archive.body")
+                : t("leave.body")
           }
           confirmLabel={
-            confirm === "delete" ? t("group.delete") : t("leave.yes")
+            confirm === "delete" ? t("group.delete") : confirm === "archive" ? t("group.archive") : t("leave.yes")
           }
           danger
           busy={leave.isPending || del.isPending}

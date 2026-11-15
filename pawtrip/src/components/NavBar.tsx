@@ -2,7 +2,6 @@ import { router, usePathname } from 'expo-router';
 import { Image, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useMyDogs } from '@/api/dogs';
 import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar } from '@/components/ui/Avatar';
@@ -24,7 +23,6 @@ export function NavBar() {
   const insets = useSafeAreaInsets();
   const { userId } = useAuth();
   const me = useMyProfile();
-  const dogs = useMyDogs();
   const path = usePathname();
   // the same entries as the desktop rail; settings sit next to the avatar
   const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
@@ -34,10 +32,7 @@ export function NavBar() {
       key: 'dogs',
       icon: 'nav-dogs',
       label: t('shell.dogs'),
-      go: () => {
-        const first = dogs.data?.[0];
-        router.navigate({ pathname: '/dog/[id]', params: { id: first?.id ?? 'new' } });
-      },
+      go: () => router.navigate('/dogs'),
       match: (p) => p.startsWith('/dog'),
     },
     { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/buddies'), match: (p) => p.startsWith('/buddies') },

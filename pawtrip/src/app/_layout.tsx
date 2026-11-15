@@ -90,6 +90,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="index" />
           <Stack.Screen name="calendar" />
           <Stack.Screen name="buddies" />
+          <Stack.Screen name="dogs" />
           <Stack.Screen name="settings" />
           <Stack.Screen name="new-trip" options={{ presentation: 'modal' }} />
           <Stack.Screen name="join" options={{ presentation: 'modal' }} />

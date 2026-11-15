@@ -1,3 +1,4 @@
+import { router, useLocalSearchParams, type Href } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
@@ -19,6 +20,7 @@ const round1 = (x: number) => Math.round(x * 10) / 10;
 
 /** New dog profile, one question at a time. Editing an existing dog stays a single page. */
 export function DogWizard() {
+  const { returnTo } = useLocalSearchParams<{ returnTo?: string }>();
   const { t } = useT();
   const toast = useToast();
   const save = useSaveDog();
@@ -110,6 +112,9 @@ export function DogWizard() {
     },
   ];
 
+  // go back to the screen that started the wizard (the trip's members page), not wherever the history happens to point
+  const leave = () => (returnTo ? router.replace(returnTo as Href) : goBack());
+
   async function finish() {
     try {
       await save.mutateAsync({
@@ -121,11 +126,11 @@ export function DogWizard() {
         recall,
       });
       toast(t('toast.saved'));
-      goBack();
+      leave();
     } catch {
       toast(t('common.saveFailed'));
     }
   }
 
-  return <Wizard steps={steps} onFinish={finish} finishLabel={t('dw.save')} onClose={goBack} />;
+  return <Wizard steps={steps} onFinish={finish} finishLabel={t('dw.save')} onClose={leave} />;
 }

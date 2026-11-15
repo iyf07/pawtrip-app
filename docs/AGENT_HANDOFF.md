@@ -116,6 +116,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Read-only ScaleInput displays question/result and selected sticker only; no slider track/thumb. Sliders mount only while editable (also applies to read-only dog traits through the shared component).
 - 2026-11-15 Interest refinement supersedes the seven-category picker: 14 independent options (hiking, beaches, camping, wildlife, lakes, museums, viewpoints, food, cafes, dessert, breweries, wineries, shopping, fun), each with a unique sticker. Retain saved broad outdoors/sights/coffee/drinks as removable text-only chips; do not invent detailed preferences from a broad selection. Older wine maps to wineries; detailed choices no longer collapse.
 - 2026-11-15 Follow-up: remove the outer preferences box and its padding; keep preferences and account as two sections separated by whitespace. Supersedes the bordered-group styling below, not its responsive placement.
 - 2026-11-15 Profile layout: identity above a single bordered preferences group. Desktop: travel style upper left, interests upper right, dietary needs lower left. Mobile: style → interests → dietary needs. Account section below the group on all sizes. Dietary heading 我的忌口; remove feedback history from profile, retain the global send-feedback button.
@@ -140,6 +141,8 @@ Process
 2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Live at https://pawtrip.expo.app: code commit 12220b5, deployment rkxe2m18ve. Includes preferences above account and no feedback history. Follow-up removes the outer preferences box; browser desktop/375px verified, typecheck/lint clean.
 
 2026-11-15 Interest refinement: 14 independent options implemented; three compatibility tests pass and desktop/375px browser checks passed. New lake/dessert icons generated with built-in imagegen, cleaned via existing pipeline and archived in /Users/ivan/workplace/icons/batch-11-interests. Live: code 8ab87c3, Expo deployment 5hgb9hu2d7.
+
+2026-11-15 Read-only scales: slider removed in view mode, result text/sticker retained. Browser verified desktop/375px and edit/discard toggling (0 sliders in view, 3 while editing); tsc/eslint silent. Release in progress.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -189,7 +192,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| — | — | (none) | | |
+| 2026-11-15 | Codex | 发布查看模式量表调整 | ScaleInput | 发布中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -249,3 +252,6 @@ Release result: 4aac689 pushed and deployed to Expo production, deployment v0ton
 Split winery/brewery, coffee/dessert and wildlife/hiking; added lakes, retained beaches/camping/museums/views/food/shopping/experiences (14 options). Unique icons for all 14; generated lakes and dessert with built-in imagegen and existing border-cleanup pipeline. Prompts in docs/icon-batches.md Batch 11; source archive in /Users/ivan/workplace/icons/batch-11-interests; 1024px masters and 512px UI in assets/icons. Preserve legacy broad choices without inventing specifics, preserve detailed choices and normalize wine to wineries. Three regression tests pass, tsc/eslint silent, browser desktop/375px and independent coffee/dessert multi-select/discard checked. Frontend-only; no Supabase change.
 
 Release result: 8ab87c3 pushed and deployed successfully to https://pawtrip.expo.app, deployment 5hgb9hu2d7. No backend deployment needed. Claim released.
+
+### 2026-11-15 — Codex view-mode scale results
+Shared ScaleInput now omits Slider entirely when readOnly; keeps question and selected result/icon, or unset text. Edit mode remains draggable. Browser verified desktop/375px; DOM counted zero sliders in view and three in style edit; discard restored view. Typecheck and lint silent. Frontend only, no Supabase changes.

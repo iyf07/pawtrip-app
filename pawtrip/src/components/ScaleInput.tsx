@@ -55,9 +55,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
           </Text>
         </View>
       </View>
-      <View pointerEvents={readOnly ? 'none' : 'auto'}>
-        <Slider v={v} unset={unset} onChange={onChange} label={t(`scale.${stem}` as Key)} />
-      </View>
+      {!readOnly ? <Slider v={v} unset={unset} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}
     </View>
   );
 }

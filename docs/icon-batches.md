@@ -98,6 +98,13 @@ Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING fami
 
 ### scale-spending-2.png
 
+Final refinement (reference image: the approved generated scale-spending-1):
+
+```text
+Edit this exact icon for level 2 of the same scale. Preserve wallet, its shape, angle, brown/cream colors, outline thickness, gold snap, white highlights, white sticker rim, and canvas placement exactly. Change only the single gold coin to TWO stacked gold coins in exactly the same position. No paw print or new mark on wallet, no text, no extra objects, no shadow. Flat pure white background. One complete square standalone icon.
+```
+
+
 ```text
 Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky muted brown travel wallet with a cream inner lining, simple gold snap and TWO small stacked gold coins beside it: economical travel. Spending set: same wallet subject, size, angle and position at all five levels; vary coin count and small badge only, no currency letters or text.
 ```

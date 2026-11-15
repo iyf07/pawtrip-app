@@ -148,14 +148,14 @@ Process
 
 2026-11-15 Read-only scales: slider removed in view mode, result text/sticker retained. Browser verified desktop/375px and edit/discard toggling (0 sliders in view, 3 while editing); tsc/eslint silent. Live: d1983d2, Expo deployment z2to4noabm.
 
-2026-11-15 Six-scale/profile refinement release: implemented all six questions and 30 descriptions, temperature/pace/spending nullable DB columns, inline edit/save/discard controls, custom dietary needs, grouped interests and Simplified Chinese body fallback. Matched 21 icons against approved masters; comparison sheet docs/icon-style-alignment-batch12.png. Local DB: 78 tests pass; frontend: 6 tests pass; tsc/eslint silent. Browser drafts checked desktop/375px, six sliders, descriptions/icons, discard, custom diet add/discard, identity actions; view mode has 0 sliders and no bottom SaveBar. Release in progress.
+2026-11-15 Six-scale/profile refinement release: implemented all six questions and 30 descriptions, temperature/pace/spending nullable DB columns, inline edit/save/discard controls, custom dietary needs, grouped interests and Simplified Chinese body fallback. Matched 21 icons against approved masters; comparison sheet docs/icon-style-alignment-batch12.png. Local DB: 78 tests pass; frontend: 6 tests pass; tsc/eslint silent. Browser drafts checked desktop/375px, six sliders, descriptions/icons, discard, custom diet add/discard, identity actions; view mode has 0 sliders and no bottom SaveBar. Live: frontend 8bbb2a4, Expo mc16wt3inq; backend 9e8554a, migration 20261115185057 deployed and schema verified.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
 Ideas tab; members page (members, add my friends, invite, dogs with add-my-dogs popup); month calendar; friends page (requests, accept/decline, add by ID);
 dogs (list page on phone, profile view/edit); my profile (view/edit); settings; in-app feedback; pull-to-refresh; icon sets batches 1–9 (kosher missing, see below).
 
-**Backend**: migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
+**Backend**: latest additive migration `20261115185057_profile_travel_preferences` adds nullable profiles.temperature/pace/spending with 1–5 checks (deployed; all 78 pgTAP tests pass). Earlier migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
 
 2026-11-15 Scale interaction check: profile scales intentionally require pencil edit mode. User confirmed attempting to drag in view mode; local browser drag in edit mode works (unset to level 5). No code fix needed.
 
@@ -198,7 +198,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 发布六项偏好、原位编辑与图标对齐 | profile / interests / assets / backend | 发布中 |
+| — | — | (none) | | |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -268,3 +268,5 @@ Release result: d1983d2 pushed and deployed to Expo production (z2to4noabm). No 
 Implemented user-supplied six-question/30-answer copy and descriptions, with new optional profiles.temperature/pace/spending fields (migration 20261115185057_profile_travel_preferences.sql). Updated onboarding/API/generated types and kept existing answers. Profile pencils moved to the right; active section swaps pencil for save/check + discard/X in place, no bottom SaveBar. Added custom diet text, trim/dedup logic and explicit Simplified Chinese body fallback for 无 glyph. Grouped 14 interests under plain text headings; iconless legacy category chips removed from rendering.
 Generated 21 final icons with actual approved int-hiking/cat-coffee/scale-walk-3 masters as image references; rebuilt borders with existing pipeline, inspected comparison sheet, refined spending-2 against spending-1. Replaced mismatched lakes/dessert and outdated morning4/5; added temperature/pace/spending sets and ui-save/ui-discard. Prompts and reference rules in Batch 12; source archive /Users/ivan/workplace/icons/batch-12-six-scales, UI/master assets in repo.
 Verification: tsc/eslint silent; 6 frontend tests and 78 database tests pass. Browser checked desktop/375px drafts (six sliders, chosen descriptions and icons, custom diet add/discard, identity editing, no bottom bar and zero sliders in view). A browser save-test action was automatically rejected as a possible persistent profile change; used draft/discard verification and transactional pgTAP persistence tests instead, no profile test changes saved.
+
+Release result: backend 9e8554a pushed and migration 20261115185057 applied to Supabase after dry run; read-only production schema verified all three new smallint columns nullable. Security advisors: no issues found. Frontend 8bbb2a4 pushed and deployed to Expo production https://pawtrip.expo.app (mc16wt3inq). All requested refinements included; no saved browser profile test edits. Claim released.

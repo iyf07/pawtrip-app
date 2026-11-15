@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRequestBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
 import { isCode } from '@/api/types';
@@ -8,16 +8,15 @@ import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Field } from '@/components/ui/Field';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
-import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
   const { t } = useT();
-  const th = useTheme();
   const toast = useToast();
   const buddies = useBuddies();
   const request = useRequestBuddy();
@@ -52,9 +51,7 @@ export function BuddiesScreen() {
   return (
     <Screen nav top={<Header title={t('bd.title')} />} size="narrow">
       {buddies.isPending ? (
-        <View style={{ alignItems: 'center', paddingTop: 60 }}>
-          <ActivityIndicator color={th.muted} />
-        </View>
+        <PageSkeleton cards={3} />
       ) : (
         <View style={{ gap: 14, marginTop: 8 }}>
           {incoming.map((b) => (

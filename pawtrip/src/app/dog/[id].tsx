@@ -3,6 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useDog } from '@/api/dogs';
 import { DogForm } from '@/features/dog/DogForm';
 import { DogWizard } from '@/features/dog/DogWizard';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { useT } from '@/i18n';
 import { goBack } from '@/lib/nav';
@@ -15,7 +16,7 @@ export default function DogEditorRoute() {
   // (this page only serves direct links).
   if (id === 'new') return <DogWizard />;
   // Mount the form only once the dog is loaded, so its fields start from the saved values.
-  if (!dog.data) return <Screen scroll={false}>{null}</Screen>;
+  if (!dog.data) return <Screen nav size="narrow"><PageSkeleton cards={4} /></Screen>;
   return (
     <DogForm key={dog.data.id} dog={dog.data} onClose={goBack}>
       {({ body, footer }) => (

@@ -4,7 +4,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
 import { useMyProfile } from '@/api/profile';
-import { usePrefetchTrips, useTrips, type TripListItem } from '@/api/trips';
+import { useTrips, type TripListItem } from '@/api/trips';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar, AvatarStack, DogAvatar } from '@/components/ui/Avatar';
 import { Icon, type IconName } from '@/components/ui/Icon';
@@ -156,7 +156,6 @@ function AddLink({ label, onPress }: { label: string; onPress: () => void }) {
 function TripList({ selected }: { selected: string | null }) {
   const { t, locale } = useT();
   const trips = useTrips();
-  usePrefetchTrips((trips.data ?? []).map((x) => x.id)); // see usePrefetchTrips
   return (
     <ListFrame title={t('trips.title')}>
       {(trips.data ?? []).map((trip: TripListItem) => (

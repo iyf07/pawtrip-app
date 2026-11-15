@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 
 import { addBuddiesToTrip } from '@/api/buddies';
+import { fetchItemRows } from '@/api/items';
 import { useAuth } from '@/auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
 
@@ -61,7 +62,10 @@ export function usePrefetchTrips(ids: string[]) {
   const qc = useQueryClient();
   const key = ids.join(',');
   useEffect(() => {
-    key.split(',').filter(Boolean).forEach((id) => qc.prefetchQuery({ queryKey: ['trip', id], queryFn: () => fetchTrip(id) }));
+    key.split(',').filter(Boolean).forEach((id) => {
+      qc.prefetchQuery({ queryKey: ['trip', id], queryFn: () => fetchTrip(id) });
+      qc.prefetchQuery({ queryKey: ['items', id], queryFn: () => fetchItemRows(id) });
+    });
   }, [key, qc]);
 }
 

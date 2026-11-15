@@ -1,19 +1,18 @@
 import { Redirect, router } from 'expo-router';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
 import { useInShell } from '@/components/shell/ShellContext';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Card } from '@/components/ui/Card';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
-import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
 /** Phone: all my dogs first; tap one to see and edit its profile. (On desktop the dog list is a column of the shell.) */
 export default function Dogs() {
   const { t } = useT();
-  const th = useTheme();
   const inShell = useInShell();
   const dogs = useMyDogs();
 
@@ -26,9 +25,7 @@ export default function Dogs() {
   return (
     <Screen nav top={<Header title={t('profile.myDogs')} />} size="narrow">
       {dogs.isPending ? (
-        <View style={{ alignItems: 'center', paddingTop: 60 }}>
-          <ActivityIndicator color={th.muted} />
-        </View>
+        <PageSkeleton cards={3} />
       ) : (
         <View style={{ gap: 10, marginTop: 8 }}>
           {(dogs.data ?? []).map((d) => (

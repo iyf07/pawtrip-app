@@ -7,6 +7,8 @@ import { useAuth } from '@/auth/AuthProvider';
 import { HandleField } from '@/components/HandleField';
 import { PhotoField } from '@/components/PhotoField';
 import { ScaleInput } from '@/components/ScaleInput';
+import { Screen } from '@/components/ui/Screen';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
@@ -23,7 +25,7 @@ import type { Profile } from '@/api/types';
 /** First run after signing in: one question at a time. Everything stays editable later on the profile page. */
 export default function OnboardingRoute() {
   const me = useMyProfile();
-  if (!me.data) return null;
+  if (!me.data) return <Screen><PageSkeleton cards={3} /></Screen>;
   return <Onboarding key={me.data.id} profile={me.data} />;
 }
 

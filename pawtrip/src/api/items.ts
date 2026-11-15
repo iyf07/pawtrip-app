@@ -7,16 +7,14 @@ import { supabase } from '@/lib/supabase';
 
 const SELECT = '*, item_dogs(dog_id, mode, mood), reactions(user_id, vote, rsvp), comments(id, user_id, text, created_at)';
 
+export async function fetchItemRows(tripId: string): Promise<ItemRow[]> {
+  const { data, error } = await supabase.from('items').select(SELECT).eq('trip_id', tripId);
+  if (error) throw error;
+  return data as unknown as ItemRow[];
+}
+
 export function useItemRows(tripId: string | undefined) {
-  return useQuery({
-    queryKey: ['items', tripId],
-    enabled: !!tripId,
-    queryFn: async (): Promise<ItemRow[]> => {
-      const { data, error } = await supabase.from('items').select(SELECT).eq('trip_id', tripId!);
-      if (error) throw error;
-      return data as unknown as ItemRow[];
-    },
-  });
+  return useQuery({ queryKey: ['items', tripId], enabled: !!tripId, queryFn: () => fetchItemRows(tripId!) });
 }
 
 /** Items of a trip as screen-ready views (day indexes, RSVP maps, ...). */

@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
@@ -49,10 +50,7 @@ export default function Trips() {
   return (
     <Screen nav top={header} size="narrow">
       {trips.isPending ? (
-        <View style={{ alignItems: 'center', paddingTop: 60 }}>
-          <ActivityIndicator color={th.muted} />
-          <Meta style={{ marginTop: 10 }}>{t('trips.loading')}</Meta>
-        </View>
+        <PageSkeleton cards={3} />
       ) : trips.isError ? (
         <Card style={{ alignItems: 'center', marginTop: 24 }}>
           <Icon name="empty-offline" size={110} />

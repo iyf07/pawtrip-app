@@ -184,6 +184,8 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 - Production `profiles` select policy lets members and buddies see each other; a person you merely share nothing with is invisible (invite by ID goes through RPCs).
 - Local DB state is test data and can be reset; production data is real — read it with `--linked` carefully, write only with the user's OK.
 
+- **Perceived speed**: `asyncRoutes` is **off** for web (every route was a separate downloaded chunk → blank on the first visit of each page). Trips + their items are prefetched at app start (`usePrefetchTrips` in `Gate`), icons and the Mapbox library are preloaded, and loading states use `Skeleton`/`PageSkeleton` instead of blank pages or spinners. Don't reintroduce `return null` for loading — use a skeleton.
+
 ## 8. Coordinating several agents
 
 ### 8.1 Areas (suggested ownership; one writer per file set)
@@ -274,3 +276,6 @@ Release result: backend 9e8554a pushed and migration 20261115185057 applied to S
 
 ### 2026-11-15 (later 6) — first agent
 Root is now the trip list everywhere; rail Trips icon and logo go to `/`; a fold handle on the trip's section column returns to the list. Trip list is a single-column page (no grid).
+
+### 2026-11-15 (later 7) — first agent
+Smoothness pass: disabled async routes on web, prefetch of trips+items, mapbox preload, skeletons on profile/dog/trip/ideas/plan/settings/onboarding/lists.

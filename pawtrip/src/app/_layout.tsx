@@ -12,12 +12,13 @@ import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import Head from 'expo-router/head';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import { useMyProfile, useSettings } from '@/api/profile';
-import { useTrips } from '@/api/trips';
+import { usePrefetchTrips, useTrips } from '@/api/trips';
 import { preloadIcons } from '@/components/ui/Icon';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { FeedbackButton } from '@/components/FeedbackButton';
@@ -72,9 +73,16 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   useMyDogs();
   useBuddies();
   useSettings();
-  useTrips();
+  const trips = useTrips();
+  usePrefetchTrips((trips.data ?? []).map((x) => x.id)); // trip details and their items, so opening a trip shows content at once
   useEffect(() => {
-    if (session) void preloadIcons();
+    if (!session) return;
+    void preloadIcons();
+    // the map library is a big separate download; fetch it quietly so the first map opens at once
+    const id = setTimeout(() => {
+      if (Platform.OS === 'web') void import('mapbox-gl').catch(() => {});
+    }, 2500);
+    return () => clearTimeout(id);
   }, [session]);
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];

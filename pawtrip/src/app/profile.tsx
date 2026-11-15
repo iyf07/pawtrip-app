@@ -14,6 +14,7 @@ import { InterestPicker } from "@/components/InterestPicker";
 import { PersonTraits } from "@/components/PersonTraits";
 import { ScaleInput } from "@/components/ScaleInput";
 import { Avatar } from "@/components/ui/Avatar";
+import { PageSkeleton } from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -35,7 +36,7 @@ import { deletePhotoByUrl } from "@/lib/photos";
 export default function ProfileRoute() {
   const me = useMyProfile();
   // Mount the form once the profile is loaded so its fields start from the saved values.
-  if (!me.data) return <Screen scroll={false}>{null}</Screen>;
+  if (!me.data) return <Screen nav size="narrow"><PageSkeleton cards={4} /></Screen>;
   return <ProfileForm key={me.data.id} profile={me.data} />;
 }
 

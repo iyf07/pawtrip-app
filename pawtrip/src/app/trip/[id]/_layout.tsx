@@ -1,6 +1,6 @@
 import { Tabs, useLocalSearchParams } from 'expo-router';
 import type { ComponentProps } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useTrip, useTripRealtime } from '@/api/trips';
@@ -8,6 +8,7 @@ import { TripFaces } from '@/components/TripFaces';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { MAX_WIDTH } from '@/constants/theme';
@@ -74,8 +75,8 @@ export default function TripLayout() {
   if (q.isPending) {
     return (
       <Screen nav scroll={false} top={<Header left={back} />}>
-        <View style={{ alignItems: 'center', paddingTop: 60 }}>
-          <ActivityIndicator color={th.muted} />
+        <View style={{ paddingHorizontal: 16 }}>
+          <PageSkeleton cards={3} />
         </View>
       </Screen>
     );

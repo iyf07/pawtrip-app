@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useSetDeleted } from '@/api/items';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Card } from '@/components/ui/Card';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -50,9 +51,7 @@ export default function Ideas() {
       </View>
 
       {itemsLoading ? (
-        <View style={{ alignItems: 'center', paddingTop: 40 }}>
-          <ActivityIndicator color={th.muted} />
-        </View>
+        <PageSkeleton cards={2} />
       ) : itemsError ? (
         <Card style={{ alignItems: 'center', marginTop: 16 }}>
           <Icon name="empty-offline" size={96} />

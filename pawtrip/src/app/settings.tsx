@@ -2,6 +2,7 @@ import { View } from 'react-native';
 
 import { useSettings, useUpdateSettings } from '@/api/profile';
 import { Segmented } from '@/components/ui/Chip';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen, SectionTitle } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useT, type Lang } from '@/i18n';
@@ -22,6 +23,8 @@ export default function Settings() {
       {control}
     </View>
   );
+
+  if (settings.isPending) return <Screen nav top={<Header title={t('set.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}><PageSkeleton cards={4} /></Screen>;
 
   return (
     <Screen nav top={<Header title={t('set.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>

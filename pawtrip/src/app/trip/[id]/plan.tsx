@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
-import { ActivityIndicator, PanResponder, Pressable, ScrollView, View } from 'react-native';
+import { PanResponder, Pressable, ScrollView, View } from 'react-native';
 
 import { usePatchItem } from '@/api/items';
 import { useSettings } from '@/api/profile';
@@ -11,6 +11,7 @@ import { useToast } from '@/components/ui/Toast';
 import { Meta, Text } from '@/components/ui/Text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Icon } from '@/components/ui/Icon';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { WeatherIcon } from '@/features/plan/WeatherIcon';
 import { useLayout } from '@/hooks/use-layout';
 import { useTimeFmt } from '@/hooks/use-prefs';
@@ -145,9 +146,7 @@ export default function Plan() {
       </View>
       <TabBody innerRef={scroller}>
         {itemsLoading ? (
-          <View style={{ alignItems: 'center', paddingTop: 40 }}>
-            <ActivityIndicator color={th.muted} />
-          </View>
+          <PageSkeleton cards={2} />
         ) : itemsError ? (
           <Card style={{ alignItems: 'center', marginTop: 16 }}>
             <Icon name="empty-offline" size={96} />

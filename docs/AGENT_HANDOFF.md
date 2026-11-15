@@ -201,6 +201,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-15 | first agent | URL naming (plural collections: /trips, /dogs, /friends) — touches route files and every `router.*` call; finishing within the hour | `src/app/**`, `components/shell`, `NavBar` | 进行中 |
 | 2026-11-15 | Codex | 人狗人格标签、爪爪图标及ID登录 | profile / dog / buddies / auth / backend / assets | 开发中 |
 
 ### 8.3 Rules

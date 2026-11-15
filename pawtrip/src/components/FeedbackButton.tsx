@@ -7,6 +7,7 @@ import { useSubmitFeedback, type FeedbackKind } from '@/api/feedback';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
+import { Icon } from '@/components/ui/Icon';
 import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -18,7 +19,7 @@ import { pickScreenshot } from '@/lib/photos';
 
 const KINDS: FeedbackKind[] = ['bug', 'idea', 'other'];
 
-/** A small 💬 at the right edge of every screen (signed-in users). Opens a quick feedback form that records where the user was. */
+/** A small chat icon at the right edge of every screen (signed-in users). Opens a quick feedback form that records where the user was. */
 export function FeedbackButton() {
   const { t } = useT();
   const th = useTheme();
@@ -48,9 +49,7 @@ export function FeedbackButton() {
               opacity: 0.92,
               boxShadow: `0 3px 8px -2px ${th.shadow}`,
             }}>
-            <Text size={16} style={{ lineHeight: 20 }}>
-              💬
-            </Text>
+            <Icon name="ui-chat" size={26} />
           </Pressable>
         </View>
       </View>

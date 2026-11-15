@@ -7,6 +7,7 @@ import { PhotoField } from '@/components/PhotoField';
 import { ScaleInput } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
+import { Icon } from '@/components/ui/Icon';
 import { Field } from '@/components/ui/Field';
 import { SaveBar } from '@/components/ui/SaveBar';
 import { ConfirmSheet } from '@/components/ui/Sheet';
@@ -134,7 +135,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       <View style={{ flexDirection: 'row', gap: 10, marginTop: 8 }}>
         {(['runner', 'comes'] as const).map((r) => (
           <View key={r} style={{ flex: 1 }}>
-            <Chip label={t(`recall.${r}`)} on={recall === r} onPress={() => setRecall(recall === r ? null : r)} style={{ minHeight: 52, borderRadius: 16 }} />
+            <Chip icon={<Icon name={r === 'runner' ? 'trait-runner' : 'trait-recall'} size={30} />} label={t(`recall.${r}`)} on={recall === r} onPress={() => setRecall(recall === r ? null : r)} style={{ minHeight: 52, borderRadius: 16 }} />
           </View>
         ))}
       </View>

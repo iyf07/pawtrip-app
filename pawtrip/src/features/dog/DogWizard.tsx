@@ -9,6 +9,7 @@ import { ScaleInput } from '@/components/ScaleInput';
 import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Chip, Segmented } from '@/components/ui/Chip';
 import { DogAvatar } from '@/components/ui/Avatar';
+import { Icon } from '@/components/ui/Icon';
 import { Field } from '@/components/ui/Field';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -91,7 +92,7 @@ export function DogWizard() {
         <View style={{ flexDirection: 'row', gap: 10 }}>
           {(['runner', 'comes'] as const).map((r) => (
             <View key={r} style={{ flex: 1 }}>
-              <Chip label={t(`recall.${r}`)} on={recall === r} onPress={() => setRecall(recall === r ? null : r)} style={{ minHeight: 56, borderRadius: 16 }} />
+              <Chip icon={<Icon name={r === 'runner' ? 'trait-runner' : 'trait-recall'} size={30} />} label={t(`recall.${r}`)} on={recall === r} onPress={() => setRecall(recall === r ? null : r)} style={{ minHeight: 56, borderRadius: 16 }} />
             </View>
           ))}
         </View>

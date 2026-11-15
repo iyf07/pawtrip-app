@@ -115,9 +115,12 @@ export default function Group() {
                     borderRadius: 12,
                   }}
                 >
-                  <Text weight={800} size={11}>
-                    {t("group.organizer")}
-                  </Text>
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
+                    <Icon name="ui-crown" size={16} />
+                    <Text weight={800} size={11}>
+                      {t("group.organizer").replace(/^\S*👑\s*/u, "")}
+                    </Text>
+                  </View>
                 </View>
               ) : null}
             </View>

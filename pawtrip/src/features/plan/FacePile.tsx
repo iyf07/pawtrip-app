@@ -1,12 +1,12 @@
 import { View } from 'react-native';
 
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
-import { Meta, Text } from '@/components/ui/Text';
+import { Meta } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useTripCtx } from '@/features/trip/TripContext';
 
 import { Icon } from '@/components/ui/Icon';
-import { MOODS, dogMode, type ItemView } from './model';
+import { dogMode, type ItemView } from './model';
 
 /**
  * Everyone's face for an item: full colour + green ring = going, faded = no reply / maybe, crossed = can't go.
@@ -49,15 +49,13 @@ export function FacePile({ item, size = 20 }: { item: ItemView; size?: number })
           {dogs.map((d) => {
             const mode = dogMode(item, d.id);
             const mood = item.mood[d.id];
-            const moodEmoji = mood ? MOODS.find((m) => m[0] === mood)?.[1] : null;
+            const moodKey = mood ?? null;
             return (
               <View key={d.id} style={{ opacity: mode === 'tbd' ? 0.4 : 1 }}>
                 <DogAvatar url={d.photo} size={size} border={1.5} />
-                {moodEmoji ? (
-                  <View style={{ position: 'absolute', right: -5, bottom: -4, width: 13, height: 13, borderRadius: 7, backgroundColor: th.card, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: th.line }}>
-                    <Text size={8} style={{ lineHeight: 11 }}>
-                      {moodEmoji}
-                    </Text>
+                {moodKey ? (
+                  <View style={{ position: 'absolute', right: -6, bottom: -5 }}>
+                    <Icon name={`mood-${moodKey}` as 'mood-ok'} size={15} />
                   </View>
                 ) : mode !== 'tbd' ? (
                   <View style={{ position: 'absolute', right: -6, bottom: -5 }}>

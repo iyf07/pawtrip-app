@@ -53,6 +53,15 @@ const SOURCES = {
   'dog-tbd': require('../../../assets/icons/dog-tbd.png'),
   'ui-warning': require('../../../assets/icons/ui-warning.png'),
   'ui-dog-warning': require('../../../assets/icons/ui-dog-warning.png'),
+  'mood-yay': require('../../../assets/icons/mood-yay.png'),
+  'mood-ok': require('../../../assets/icons/mood-ok.png'),
+  'mood-meh': require('../../../assets/icons/mood-meh.png'),
+  'trait-runner': require('../../../assets/icons/trait-runner.png'),
+  'trait-recall': require('../../../assets/icons/trait-recall.png'),
+  'ui-crown': require('../../../assets/icons/ui-crown.png'),
+  'ui-chat': require('../../../assets/icons/ui-chat.png'),
+  'ui-clock': require('../../../assets/icons/ui-clock.png'),
+  'ui-note': require('../../../assets/icons/ui-note.png'),
 } as const;
 
 export type IconName = keyof typeof SOURCES;

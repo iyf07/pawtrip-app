@@ -38,7 +38,7 @@ import {
   type Mood,
   type Rsvp,
 } from './model';
-import { Icon } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/Icon';
 
 import { CatIcon } from './CatIcon';
 import { WhenFields, type When } from './TimeFields';
@@ -182,11 +182,11 @@ function Detail({ item }: { item: ItemView }) {
     }
   }
 
-  const row = (icon: string, label: string, body: React.ReactNode) => (
+  const row = (icon: IconName, label: string, body: React.ReactNode) => (
     <View style={{ flexDirection: 'row', gap: 12, paddingVertical: 14, borderBottomWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
-      <Text size={20} style={{ width: 28, textAlign: 'center' }}>
-        {icon}
-      </Text>
+      <View style={{ width: 28, alignItems: 'center' }}>
+        <Icon name={icon} size={26} />
+      </View>
       <View style={{ flex: 1 }}>
         <Text weight={800}>{label}</Text>
         <View style={{ marginTop: 8 }}>{body}</View>
@@ -253,7 +253,7 @@ function Detail({ item }: { item: ItemView }) {
       )}
 
       {row(
-        '⏰',
+        'ui-clock',
         t('add.time'),
         timeSet ? (
           <View style={{ gap: 10 }}>
@@ -283,7 +283,7 @@ function Detail({ item }: { item: ItemView }) {
       )}
 
       {row(
-        '📍',
+        'pin-stop',
         t('add.addr'),
         <View>
           <AddressField
@@ -308,7 +308,7 @@ function Detail({ item }: { item: ItemView }) {
       )}
 
       {row(
-        '👥',
+        'tab-members',
         t('item.members'),
         <View style={{ gap: 10 }}>
           {members.map((m) => {
@@ -340,7 +340,7 @@ function Detail({ item }: { item: ItemView }) {
 
       {dogs.length > 0
         ? row(
-            '🐕',
+            'nav-dogs',
             t('group.dogs'),
             <View style={{ gap: 10 }}>
               {dogs.map((d) => (
@@ -359,7 +359,7 @@ function Detail({ item }: { item: ItemView }) {
 
       {item.confirmed && went.length > 0 && ended
         ? row(
-            '😄',
+            'mood-yay',
             t('fb.title'),
             <View style={{ gap: 10 }}>
               <Meta>{t('fb.why')}</Meta>
@@ -369,7 +369,7 @@ function Detail({ item }: { item: ItemView }) {
                   <Segmented<Mood | ''>
                     value={item.mood[d.id] ?? ''}
                     onChange={(v) => moodM.mutate({ itemId: item.id, dogId: d.id, mood: v === '' || v === item.mood[d.id] ? null : v })}
-                    options={MOODS.map(([v, e]) => ({ value: v, label: `${e} ${t(`mood.${v}` as Key)}` }))}
+                    options={MOODS.map(([v]) => ({ value: v, label: t(`mood.${v}` as Key) }))}
                   />
                 </View>
               ))}
@@ -378,7 +378,7 @@ function Detail({ item }: { item: ItemView }) {
         : null}
 
       {row(
-        '💬',
+        'ui-chat',
         t('item.comments'),
         <View>
           {item.comments.map((c) => {
@@ -405,7 +405,7 @@ function Detail({ item }: { item: ItemView }) {
       )}
 
       {row(
-        '📝',
+        'ui-note',
         t('item.notes'),
         <Field
           value={notes}

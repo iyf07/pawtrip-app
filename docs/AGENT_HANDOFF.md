@@ -186,7 +186,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 发布主页无外框布局 | profile | 发布中 |
+| — | — | (none) | | |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -239,3 +239,5 @@ Release result: 12220b5 committed/pushed and deployed successfully to Expo produ
 
 ### 2026-11-15 — Codex remove profile outer box
 Removed preferences outer border, radius and inset padding; increased whitespace before account. Existing desktop columns, mobile stack and per-section edits preserved. Typecheck/lint both silent; browser verified desktop and 375px. Frontend-only release; no Supabase changes.
+
+Release result: 4aac689 pushed and deployed to Expo production, deployment v0tonsmcse. Outer preferences box removed on desktop and phone. Claim released.

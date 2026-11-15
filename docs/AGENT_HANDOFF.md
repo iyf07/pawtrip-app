@@ -142,7 +142,7 @@ Process
 
 2026-11-15 Interest refinement: 14 independent options implemented; three compatibility tests pass and desktop/375px browser checks passed. New lake/dessert icons generated with built-in imagegen, cleaned via existing pipeline and archived in /Users/ivan/workplace/icons/batch-11-interests. Live: code 8ab87c3, Expo deployment 5hgb9hu2d7.
 
-2026-11-15 Read-only scales: slider removed in view mode, result text/sticker retained. Browser verified desktop/375px and edit/discard toggling (0 sliders in view, 3 while editing); tsc/eslint silent. Release in progress.
+2026-11-15 Read-only scales: slider removed in view mode, result text/sticker retained. Browser verified desktop/375px and edit/discard toggling (0 sliders in view, 3 while editing); tsc/eslint silent. Live: d1983d2, Expo deployment z2to4noabm.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -192,7 +192,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 发布查看模式量表调整 | ScaleInput | 发布中 |
+| — | — | (none) | | |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -255,3 +255,5 @@ Release result: 8ab87c3 pushed and deployed successfully to https://pawtrip.expo
 
 ### 2026-11-15 — Codex view-mode scale results
 Shared ScaleInput now omits Slider entirely when readOnly; keeps question and selected result/icon, or unset text. Edit mode remains draggable. Browser verified desktop/375px; DOM counted zero sliders in view and three in style edit; discard restored view. Typecheck and lint silent. Frontend only, no Supabase changes.
+
+Release result: d1983d2 pushed and deployed to Expo production (z2to4noabm). No backend deployment required. Claim released.

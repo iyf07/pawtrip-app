@@ -63,6 +63,12 @@ const SOURCES = {
   'ui-chat': require('../../../assets/icons/ui-chat.png'),
   'ui-clock': require('../../../assets/icons/ui-clock.png'),
   'ui-note': require('../../../assets/icons/ui-note.png'),
+  'diet-vegetarian': require('../../../assets/icons/diet-vegetarian.png'),
+  'diet-vegan': require('../../../assets/icons/diet-vegan.png'),
+  'diet-glutenfree': require('../../../assets/icons/diet-glutenfree.png'),
+  'diet-dairyfree': require('../../../assets/icons/diet-dairyfree.png'),
+  'diet-nutallergy': require('../../../assets/icons/diet-nutallergy.png'),
+  'diet-halal': require('../../../assets/icons/diet-halal.png'),
 } as const;
 
 export type IconName = keyof typeof SOURCES;

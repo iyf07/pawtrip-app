@@ -11,6 +11,7 @@ import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
 import { DogIllo } from '@/components/ui/DogIllo';
+import { dietIcon } from '@/components/DietIcon';
 import { InterestPicker } from '@/components/InterestPicker';
 import { Field } from '@/components/ui/Field';
 import { useToast } from '@/components/ui/Toast';
@@ -113,7 +114,7 @@ function Onboarding({ profile }: { profile: Profile }) {
       content: (
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           {DIETS.map((d) => (
-            <Chip key={d} label={t(`diet.${d}` as Key)} on={diet.includes(d)} onPress={() => setDiet((c) => toggle(c, d))} />
+            <Chip key={d} icon={dietIcon(d)} label={t(`diet.${d}` as Key)} on={diet.includes(d)} onPress={() => setDiet((c) => toggle(c, d))} />
           ))}
         </View>
       ),

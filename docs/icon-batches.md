@@ -220,3 +220,26 @@ Icons (create exactly these files):
 3) file "empty-day.png" — a dog sleeping curled up next to a small calendar page (empty day) — accent blue and gold
 4) file "empty-offline.png" — a confused dog with a small broken signal antenna (could not load) — accent gray-blue and gold
 ```
+
+## Batch 8b — redo kosher (the first one came out cut in half)
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+Icons (create exactly these files):
+1) file "diet-kosher.png" — a simple six-pointed star (two overlapping triangles) made of chunky lines, with a small cream hexagon in the middle (kosher) — accent blue #3D7590 — the WHOLE star must be fully inside the image, centered, nothing cut off on any side
+```

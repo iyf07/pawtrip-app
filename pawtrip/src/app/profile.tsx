@@ -12,6 +12,7 @@ import { Icon } from "@/components/ui/Icon";
 import { AvatarEditor } from "@/components/AvatarEditor";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
 import { ProfileEditSheet } from "@/features/profile/ProfileEditSheet";
+import { dietIcon } from "@/components/DietIcon";
 import { InterestPicker } from "@/components/InterestPicker";
 import { ScaleInput } from "@/components/ScaleInput";
 import { DogAvatar } from "@/components/ui/Avatar";
@@ -215,6 +216,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         {DIETS.map((d) => (
           <Chip
             key={d}
+            icon={dietIcon(d)}
             label={t(`diet.${d}` as Key)}
             on={diet.includes(d)}
             onPress={() => setDiet((c) => toggle(c, d))}

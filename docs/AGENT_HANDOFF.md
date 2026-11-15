@@ -139,7 +139,7 @@ Process
 
 2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Live at https://pawtrip.expo.app: code commit 12220b5, deployment rkxe2m18ve. Includes preferences above account and no feedback history. Follow-up removes the outer preferences box; browser desktop/375px verified, typecheck/lint clean.
 
-2026-11-15 Interest refinement: 14 independent options implemented; three compatibility tests pass and desktop/375px browser checks passed. New lake/dessert icons generated with built-in imagegen, cleaned via existing pipeline and archived in /Users/ivan/workplace/icons/batch-11-interests. Release in progress.
+2026-11-15 Interest refinement: 14 independent options implemented; three compatibility tests pass and desktop/375px browser checks passed. New lake/dessert icons generated with built-in imagegen, cleaned via existing pipeline and archived in /Users/ivan/workplace/icons/batch-11-interests. Live: code 8ab87c3, Expo deployment 5hgb9hu2d7.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -189,7 +189,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 发布细分兴趣 | interests / assets | 发布中 |
+| — | — | (none) | | |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -247,3 +247,5 @@ Release result: 4aac689 pushed and deployed to Expo production, deployment v0ton
 
 ### 2026-11-15 — Codex detailed interests
 Split winery/brewery, coffee/dessert and wildlife/hiking; added lakes, retained beaches/camping/museums/views/food/shopping/experiences (14 options). Unique icons for all 14; generated lakes and dessert with built-in imagegen and existing border-cleanup pipeline. Prompts in docs/icon-batches.md Batch 11; source archive in /Users/ivan/workplace/icons/batch-11-interests; 1024px masters and 512px UI in assets/icons. Preserve legacy broad choices without inventing specifics, preserve detailed choices and normalize wine to wineries. Three regression tests pass, tsc/eslint silent, browser desktop/375px and independent coffee/dessert multi-select/discard checked. Frontend-only; no Supabase change.
+
+Release result: 8ab87c3 pushed and deployed successfully to https://pawtrip.expo.app, deployment 5hgb9hu2d7. No backend deployment needed. Claim released.

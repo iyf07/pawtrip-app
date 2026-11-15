@@ -77,6 +77,9 @@ const SOURCES = {
 
 export type IconName = keyof typeof SOURCES;
 
+/** Whether an icon with this name exists yet (some icon sets are added batch by batch). */
+export const hasIcon = (name: string): name is IconName => name in SOURCES;
+
 /** Download every sticker icon up front, so a screen opened for the first time does not show them popping in. */
 export function preloadIcons() {
   return Asset.loadAsync(Object.values(SOURCES) as number[]).catch(() => {});

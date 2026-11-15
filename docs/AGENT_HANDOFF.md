@@ -134,6 +134,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 **Backend**: migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
 
 **Open / next (pick from here; claim in 8.2)**
+- **Scale icons (batch 10, 45 icons, waiting for the user's ChatGPT output)**: prompt in `docs/icon-batches.md` ("Batch 10"). The UI is ready: `ScaleInput` shows `scale-<key>-<1..5>` icons automatically once they are registered in `components/ui/Icon.tsx` (keys: walk, noise, morning, energy, temp, withdogs, withpeople, alone, car). Clean the zip with the icon pipeline (section 7), register all 45 names, deploy. Scales now stay `null` until chosen (grey knob, "还没选").
 - Icons: **kosher** redo (prompt "Batch 8b" in `docs/icon-batches.md`); batch 9 empty-state illustrations are **done and wired** (empty-trips, empty-map, empty-day, empty-offline; sign-in/onboarding/new-trip still use the old SVG `DogIllo`); dedicated icons for friends and calendar (currently reuse tab-members / tab-plan); `nav-profile` neutral redo.
 - Feedback `d7b17312…` ("every screen flashes on first visit" on iPhone Chrome) is **triaged, not reproduced**: a warm-up of data/icons was added; ask the user for details if it persists.
 - Friend requests have no notification (no badge); add a dot on the nav icon.
@@ -195,3 +196,6 @@ Batch 9 empty-state illustrations processed and wired (trips empty, ideas empty,
 
 ### 2026-11-15 (later 2) — first agent
 Fixes after user feedback: desktop trip list column no longer folds away beside an open trip (the rail Trips button folds/unfolds it; the plan map starts folded below 1300px width); members page is one centered 560px column; profile/dog view mode shows ALL interests/diets/traits (chosen highlighted, others dimmed, none tappable). Note: the user calls 行程 "计划" sometimes.
+
+### 2026-11-15 (later 3) — first agent
+Scale redesign: per-level icons (batch 10 prompt written, 45 icons), `ScaleInput` icon slot + grey "not set" state, scales keep null instead of defaulting to 3 (profile, dog form, wizards). Icons not yet generated.

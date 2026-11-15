@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { PanResponder, View, type ViewStyle } from 'react-native';
 
+import { Icon, hasIcon, type IconName } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
@@ -8,6 +9,8 @@ import { useT, type Key } from '@/i18n';
 /** DB column name -> i18n key stem (the prototype used camelCase). */
 const STEM: Record<string, string> = { with_dogs: 'withDogs', with_people: 'withPeople' };
 export const scaleStem = (col: string) => STEM[col] ?? col;
+/** file-name key of a scale's icons: scale-<key>-<1..5> */
+const ICON_KEY: Record<string, string> = { withDogs: 'withdogs', withPeople: 'withpeople', walking: 'walk' };
 
 type Props = {
   /** DB column / profile field, e.g. 'energy', 'with_dogs', 'walking' */
@@ -25,7 +28,10 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
+  const unset = value == null;
   const v = value ?? 3;
+  const iconName = `scale-${ICON_KEY[stem] ?? stem}-${v}`;
+  const showIcon = !unset && hasIcon(iconName);
   return (
     <View
       style={{
@@ -36,18 +42,21 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
         borderColor: th.line,
         borderRadius: 18,
       }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
-        {hideTitle ? <View style={{ flex: 1 }} /> : (
-          <Text weight={800} size={14} style={{ flex: 1 }}>
-            {t(`scale.${stem}` as Key)}
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+        {showIcon ? <Icon name={iconName as IconName} size={48} /> : null}
+        <View style={{ flex: 1, flexDirection: showIcon ? 'column' : 'row', justifyContent: 'space-between', alignItems: showIcon ? 'flex-start' : 'baseline', gap: showIcon ? 0 : 8 }}>
+          {hideTitle ? (showIcon ? null : <View style={{ flex: 1 }} />) : (
+            <Text weight={800} size={showIcon ? 13 : 14} color={showIcon ? 'muted' : 'text'} style={showIcon ? undefined : { flex: 1 }}>
+              {t(`scale.${stem}` as Key)}
+            </Text>
+          )}
+          <Text weight={800} size={showIcon ? 17 : 14} color={unset ? 'muted' : 'link'}>
+            {unset ? t('scale.unset') : t(`scale.${stem}.${v}` as Key)}
           </Text>
-        )}
-        <Text weight={800} size={14} color="link">
-          {t(`scale.${stem}.${v}` as Key)}
-        </Text>
+        </View>
       </View>
       <View pointerEvents={readOnly ? 'none' : 'auto'}>
-        <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} />
+        <Slider v={v} unset={unset} onChange={onChange} label={t(`scale.${stem}` as Key)} />
       </View>
     </View>
   );
@@ -56,7 +65,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
 const THUMB = 32;
 
 /** A 1-5 slider: drag the knob (or tap the bar); it snaps to the five steps. */
-function Slider({ v, onChange, label }: { v: number; onChange: (v: number) => void; label: string }) {
+function Slider({ v, unset, onChange, label }: { v: number; unset?: boolean; onChange: (v: number) => void; label: string }) {
   const th = useTheme();
   const [w, setW] = useState(0);
   const width = useRef(0);
@@ -97,14 +106,14 @@ function Slider({ v, onChange, label }: { v: number; onChange: (v: number) => vo
       style={touch}
       {...pan.panHandlers}>
       <View pointerEvents="none" style={{ height: 12, borderRadius: 6, backgroundColor: th.line, marginHorizontal: THUMB / 2, justifyContent: 'center' }}>
-        <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: (v - 1) * 0.25 * usable, borderRadius: 6, backgroundColor: th.gold }} />
+        <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: (v - 1) * 0.25 * usable, borderRadius: 6, backgroundColor: unset ? th.line : th.gold }} />
         {[0, 1, 2, 3, 4].map((i) => (
           <View key={i} style={{ position: 'absolute', left: i * 0.25 * usable - 3, width: 6, height: 6, borderRadius: 3, backgroundColor: i < v ? th.sticker : th.muted, opacity: 0.5 }} />
         ))}
       </View>
       <View
         pointerEvents="none"
-        style={{ position: 'absolute', left, width: THUMB, height: THUMB, borderRadius: THUMB / 2, backgroundColor: th.gold, borderWidth: 4, borderColor: th.sticker, boxShadow: `0 2px 6px -1px ${th.shadow}` }}
+        style={{ position: 'absolute', left, width: THUMB, height: THUMB, borderRadius: THUMB / 2, backgroundColor: unset ? th.muted : th.gold, borderWidth: 4, borderColor: unset ? th.line : th.sticker, boxShadow: `0 2px 6px -1px ${th.shadow}` }}
       />
     </View>
   );

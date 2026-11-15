@@ -39,12 +39,12 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     dog.weight_lb != null ? String(dog.weight_unit === 'kg' ? round1(Number(dog.weight_lb) / LB_PER_KG) : Number(dog.weight_lb)) : '',
   );
   const [scales, setScales] = useState<Record<DogScale, number | null>>({
-    energy: dog.energy ?? 3,
-    temp: dog.temp ?? 3,
-    with_dogs: dog.with_dogs ?? 3,
-    with_people: dog.with_people ?? 3,
-    alone: dog.alone ?? 3,
-    car: dog.car ?? 3,
+    energy: dog.energy,
+    temp: dog.temp,
+    with_dogs: dog.with_dogs,
+    with_people: dog.with_people,
+    alone: dog.alone,
+    car: dog.car,
   });
   const [recall, setRecall] = useState<'runner' | 'comes' | null>((dog.recall as 'runner' | 'comes' | null) ?? null);
   const [errs, setErrs] = useState<{ name?: string; weight?: string }>({});

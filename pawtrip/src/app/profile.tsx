@@ -56,9 +56,9 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
   const [scales, setScales] = useState<Record<PersonScale, number | null>>({
-    walking: profile.walking ?? 3,
-    noise: profile.noise ?? 3,
-    morning: profile.morning ?? 3,
+    walking: profile.walking,
+    noise: profile.noise,
+    morning: profile.morning,
   });
 
   const toggle = (list: string[], v: string) =>
@@ -74,9 +74,9 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     setInterests(profile.interests);
     setDiet(profile.diet);
     setScales({
-      walking: profile.walking ?? 3,
-      noise: profile.noise ?? 3,
-      morning: profile.morning ?? 3,
+      walking: profile.walking,
+      noise: profile.noise,
+      morning: profile.morning,
     });
     setEditing(false);
   }

@@ -39,7 +39,7 @@ function Onboarding({ profile }: { profile: Profile }) {
   const [photo, setPhoto] = useState<string | null>(profile.avatar_url);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
-  const [scales, setScales] = useState<Record<PersonScale, number | null>>({ walking: profile.walking ?? 3, noise: profile.noise ?? 3, morning: profile.morning ?? 3 });
+  const [scales, setScales] = useState<Record<PersonScale, number | null>>({ walking: profile.walking, noise: profile.noise, morning: profile.morning });
 
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   const save = async (patch: Parameters<typeof update.mutateAsync>[0]) => {

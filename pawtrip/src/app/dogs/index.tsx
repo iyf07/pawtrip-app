@@ -19,7 +19,7 @@ export default function Dogs() {
   if (inShell) {
     if (dogs.isPending) return null;
     const first = dogs.data?.[0];
-    return <Redirect href={{ pathname: '/dog/[id]', params: { id: first?.id ?? 'new' } }} />;
+    return <Redirect href={{ pathname: '/dogs/[id]', params: { id: first?.id ?? 'new' } }} />;
   }
 
   return (
@@ -29,7 +29,7 @@ export default function Dogs() {
       ) : (
         <View style={{ gap: 10, marginTop: 8 }}>
           {(dogs.data ?? []).map((d) => (
-            <Card key={d.id} onPress={() => router.push({ pathname: '/dog/[id]', params: { id: d.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Card key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
               <DogAvatar url={d.photo_url} />
               <Text weight={800} style={{ flex: 1 }}>
                 {d.name}
@@ -39,7 +39,7 @@ export default function Dogs() {
               </Text>
             </Card>
           ))}
-          <Card dashed onPress={() => router.push({ pathname: '/dog/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
+          <Card dashed onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
             <Text weight={800} color="link">
               {t('profile.addDog')}
             </Text>

@@ -23,9 +23,9 @@ const RAIL_W = 76;
 const LIST_W = 232;
 
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
-const isFlow = (p: string) => /^\/(sign-in|onboarding|new-trip|join)(\/|$)/.test(p) || p === '/dog/new';
+const isFlow = (p: string) => /^\/(sign-in|onboarding|join)(\/|$)/.test(p) || p === '/trips/new' || p === '/dogs/new';
 
-const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/buddies') ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/friends') ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the
@@ -36,8 +36,8 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   const path = usePathname();
   const active = enabled && wide && !isFlow(path);
   const section = sectionOf(path);
-  const tripId = /^\/trip\/([^/]+)/.exec(path)?.[1] ?? null;
-  const dogId = /^\/dog\/([^/]+)/.exec(path)?.[1] ?? null;
+  const tripId = /^\/trips\/([^/]+)/.exec(path)?.[1] ?? null;
+  const dogId = /^\/dogs\/([^/]+)/.exec(path)?.[1] ?? null;
   // the trip list is a column only beside an open trip; on its own it is the page (cards), like on a phone
   const showList = active && (section === 'dogs' || (section === 'trips' && !!tripId));
   const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
@@ -62,7 +62,7 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
 const noEmoji = (text: string) => text.replace(/\p{Extended_Pictographic}\uFE0F?\s*/gu, '').trim();
 
 function openTrip(id: string) {
-  router.replace({ pathname: '/trip/[id]/plan', params: { id } });
+  router.replace({ pathname: '/trips/[id]/plan', params: { id } });
 }
 
 function Rail({ section }: { section: Section }) {
@@ -96,9 +96,9 @@ function Rail({ section }: { section: Section }) {
       {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
       {item('dogs', 'nav-dogs', t('shell.dogs'), () => {
         const first = dogs.data?.[0];
-        router.navigate(first ? { pathname: '/dog/[id]', params: { id: first.id } } : { pathname: '/dog/[id]', params: { id: 'new' } });
+        router.navigate(first ? { pathname: '/dogs/[id]', params: { id: first.id } } : { pathname: '/dogs/[id]', params: { id: 'new' } });
       })}
-      {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/buddies'))}
+      {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/friends'))}
       <View style={{ flex: 1 }} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
       <Pressable
@@ -172,7 +172,7 @@ function TripList({ selected }: { selected: string | null }) {
           </View>
         </Row>
       ))}
-      <AddLink label={`+ ${t('trips.new')}`} onPress={() => router.push('/new-trip')} />
+      <AddLink label={`+ ${t('trips.new')}`} onPress={() => router.push('/trips/new')} />
       <AddLink label={noEmoji(t('trips.join'))} onPress={() => router.push('/join')} />
     </ListFrame>
   );
@@ -184,14 +184,14 @@ function DogList({ selected }: { selected: string | null }) {
   return (
     <ListFrame title={t('profile.myDogs')}>
       {(dogs.data ?? []).map((d) => (
-        <Row key={d.id} on={d.id === selected} onPress={() => router.navigate({ pathname: '/dog/[id]', params: { id: d.id } })}>
+        <Row key={d.id} on={d.id === selected} onPress={() => router.navigate({ pathname: '/dogs/[id]', params: { id: d.id } })}>
           <DogAvatar url={d.photo_url} />
           <Text weight={800} style={{ flex: 1 }} numberOfLines={1}>
             {d.name}
           </Text>
         </Row>
       ))}
-      <AddLink label={t('profile.addDog')} onPress={() => router.push({ pathname: '/dog/[id]', params: { id: 'new' } })} />
+      <AddLink label={t('profile.addDog')} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} />
     </ListFrame>
   );
 }
@@ -228,7 +228,7 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
           label={t(s.label)}
           on={tab === s.key}
           onPress={() => {
-            if (tab !== s.key) router.navigate({ pathname: `/trip/[id]/${s.key}`, params: { id: tripId } });
+            if (tab !== s.key) router.navigate({ pathname: `/trips/[id]/${s.key}`, params: { id: tripId } });
           }}>
           <Icon name={s.icon} size={34} />
           <Text weight={800} size={15} color={tab === s.key ? 'text' : 'muted'}>

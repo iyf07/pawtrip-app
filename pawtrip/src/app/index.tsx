@@ -25,7 +25,7 @@ export default function Trips() {
       title={t('trips.title')}
       right={
         <Pressable
-          onPress={() => router.push('/new-trip')}
+          onPress={() => router.push('/trips/new')}
           accessibilityLabel={t('trips.new')}
           style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: th.gold, borderWidth: 3, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
           <Text plain size={24} weight={800} color="onGold" style={{ lineHeight: 28 }}>
@@ -68,7 +68,7 @@ export default function Trips() {
           <Text color="muted" style={{ marginTop: 4, marginBottom: 18, textAlign: 'center' }}>
             {t('trips.empty.body')}
           </Text>
-          <Button label={t('trips.new')} onPress={() => router.push('/new-trip')} style={{ alignSelf: 'center' }} />
+          <Button label={t('trips.new')} onPress={() => router.push('/trips/new')} style={{ alignSelf: 'center' }} />
           <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
         </View>
       ) : (
@@ -94,7 +94,7 @@ function TripCard({ trip }: { trip: TripListItem }) {
         : { bg: th.goldBg, fg: th.link };
   const people = trip.trip_members.map((m) => ({ id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url }));
   return (
-    <Card onPress={() => router.push({ pathname: '/trip/[id]/plan', params: { id: trip.id } })}>
+    <Card onPress={() => router.push({ pathname: '/trips/[id]/plan', params: { id: trip.id } })}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
         <Text weight={800} size={18} style={{ flex: 1 }}>
           {trip.name}

@@ -1,3 +1,6 @@
-import { BuddiesScreen } from '@/features/buddies/BuddiesScreen';
+import { Redirect } from 'expo-router';
 
-export default BuddiesScreen;
+/** Old link (/buddies) → /friends. */
+export default function LegacyBuddies() {
+  return <Redirect href="/friends" />;
+}

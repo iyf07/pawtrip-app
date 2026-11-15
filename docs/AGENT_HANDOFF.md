@@ -82,7 +82,7 @@ triage, fix, deploy, then write back `status`, `resolution` (user-facing, Chines
 ```
 pawtrip/src/
   app/                 routes (Expo Router). index = trip list (all sizes); calendar, buddies, dogs,
-                       profile, settings, new-trip, join, onboarding, sign-in, dog/[id], trip/[id]/{plan,ideas,group}
+                       profile, settings, join, onboarding, sign-in, friends, dogs/[id], trips/new, trips/[id]/{plan,ideas,group}
   api/                 Supabase queries + mutations (trips, items, dogs, profile, buddies, feedback) as TanStack Query hooks
   components/          shared UI (ui/ = Button, Card, Chip, Sheet, Screen/Header/BackButton, SaveBar, Icon, Text…), shell/DesktopShell
   features/            calendar, buddies, dog, plan, trip, profile
@@ -106,6 +106,9 @@ Conventions that matter:
   no `Date.now()`/impure calls in render, no `setState` in effects (adjust state during render or use callbacks), no conditional hooks.
 - Expo web uses `output: "server"`: guard browser-only APIs. Do not add `src/app/+html.tsx` (it removed the page scripts); use `expo-router/head` for tags.
 - Typed routes: after adding a route file, restart the dev server so `.expo/types/router.d.ts` regenerates, or `tsc` complains about the new path.
+
+### URL scheme (decided 2026-11-15)
+Collections are plural, one item adds `[id]`: `/` (trip list), `/trips/new`, `/trips/[id]/{plan,ideas,group}`, `/dogs`, `/dogs/[id]` (`/dogs/new`), `/friends`, `/calendar`, `/profile`, `/settings`, `/join`, `/onboarding`, `/sign-in`. The old singular URLs (`/trip/...`, `/dog/[id]`, `/buddies`, `/new-trip`) still work through small redirect files (`src/app/trip`, `src/app/dog`, `src/app/buddies.tsx`, `src/app/new-trip.tsx`); keep them while old links may exist. Code identifiers still say buddy/buddies in places (API, features/buddies); user-facing name is "friends".
 
 ## 5. Decisions (append; never silently rewrite — mark old ones "superseded by …")
 
@@ -201,7 +204,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | first agent | URL naming (plural collections: /trips, /dogs, /friends) — touches route files and every `router.*` call; finishing within the hour | `src/app/**`, `components/shell`, `NavBar` | 进行中 |
 | 2026-11-15 | Codex | 人狗人格标签、爪爪图标及ID登录 | profile / dog / buddies / auth / backend / assets | 开发中 |
 
 ### 8.3 Rules
@@ -283,3 +285,6 @@ Smoothness pass: disabled async routes on web, prefetch of trips+items, mapbox p
 
 ### 2026-11-15 (later 8) — first agent
 Friends: adding a friend is now two steps (look the ID up with `find_buddy()`, show who it is, then confirm). `20261115200000_find_buddy.sql` was applied to production directly (`db query -f` + `migration repair --status applied`) **on purpose, without pushing Codex's uncommitted `20261115191749_dog_recall_scale.sql`**. Heads-up for Codex: `supabase db push --linked` now fails with "migration before the last remote one" for your file — either push it with `--include-all` or rename it to a timestamp after `20261115200000`. Production profiles at this time: two users (`iyf07`, `user_9101`), no buddy rows. Self-add is blocked in three places (table CHECK, `request_buddy` raises `self`, UI shows "这是你自己").
+
+### 2026-11-15 (later 9) — first agent
+Friends page: dashed "+ 添加好友" card opening a popup (look up ID, see who, confirm). URL rename to plural collections done (claim released); old URLs redirect.

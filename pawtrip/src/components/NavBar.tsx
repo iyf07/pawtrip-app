@@ -26,7 +26,7 @@ export function NavBar() {
   // the same entries as the desktop rail; settings sit next to the avatar
   const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
     { key: 'cal', icon: 'tab-plan', label: t('shell.calendar'), go: () => router.navigate('/calendar'), match: (p) => p.startsWith('/calendar') },
-    { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => router.navigate('/'), match: (p) => p === '/' || p.startsWith('/trip') },
+    { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => router.navigate('/'), match: (p) => p === '/' || p.startsWith('/trips') },
     {
       key: 'dogs',
       icon: 'nav-dogs',
@@ -34,7 +34,7 @@ export function NavBar() {
       go: () => router.navigate('/dogs'),
       match: (p) => p.startsWith('/dog'),
     },
-    { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/buddies'), match: (p) => p.startsWith('/buddies') },
+    { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/friends'), match: (p) => p.startsWith('/friends') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => router.navigate('/settings'), match: (p) => p.startsWith('/settings') },
   ];
   const btn = (it: (typeof items)[number]) => (

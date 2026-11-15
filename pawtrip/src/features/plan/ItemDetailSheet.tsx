@@ -153,7 +153,7 @@ function Detail({ item }: { item: ItemView }) {
         // an idea became a plan item: show it on the plan, on its day
         if (item.day != null) setDay(item.day);
         openItem(null);
-        router.navigate({ pathname: '/trip/[id]/plan', params: { id: trip.id } });
+        router.navigate({ pathname: '/trips/[id]/plan', params: { id: trip.id } });
       }
     } catch {
       toast(t('common.saveFailed'));

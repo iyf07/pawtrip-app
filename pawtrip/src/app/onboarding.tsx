@@ -137,19 +137,19 @@ function Onboarding({ profile }: { profile: Profile }) {
       content: (
         <View style={{ alignItems: 'center', gap: 16, marginTop: 8 }}>
           <DogIllo size={140} />
-          <Button label={t('ob.done.addDog')} variant="ghost" block onPress={() => finish('/dog/new')} />
+          <Button label={t('ob.done.addDog')} variant="ghost" block onPress={() => finish('/dogs/new')} />
         </View>
       ),
     },
   ];
 
-  async function finish(then: '/' | '/dog/new' = '/') {
+  async function finish(then: '/' | '/dogs/new' = '/') {
     try {
       await update.mutateAsync({ onboarded_at: new Date().toISOString() });
       // the language chosen on the sign-in screen becomes the account's language
       if (userId) saveLangSetting(userId, lang).catch(() => {});
       router.replace('/');
-      if (then !== '/') router.push({ pathname: '/dog/[id]', params: { id: 'new' } });
+      if (then !== '/') router.push({ pathname: '/dogs/[id]', params: { id: 'new' } });
     } catch {
       toast(t('common.saveFailed'));
     }

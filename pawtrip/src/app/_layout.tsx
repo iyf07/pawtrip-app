@@ -109,14 +109,14 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
         <Stack.Protected guard={!!session && !needsOnboarding}>
           <Stack.Screen name="index" />
           <Stack.Screen name="calendar" />
-          <Stack.Screen name="buddies" />
-          <Stack.Screen name="dogs" />
+          <Stack.Screen name="friends" />
+          <Stack.Screen name="dogs/index" />
           <Stack.Screen name="settings" />
-          <Stack.Screen name="new-trip" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="trips/new" options={{ presentation: 'modal' }} />
           <Stack.Screen name="join" options={{ presentation: 'modal' }} />
           <Stack.Screen name="profile" />
-          <Stack.Screen name="dog/[id]" options={{ presentation: 'modal' }} />
-          <Stack.Screen name="trip/[id]" />
+          <Stack.Screen name="dogs/[id]" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="trips/[id]" />
         </Stack.Protected>
       </Stack>
       </DesktopShell>

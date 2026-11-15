@@ -134,7 +134,7 @@ export default function Join() {
     try {
       const id = await join.mutateAsync({ code: clean, dogIds: preview.already_member ? [] : chosen });
       toast(t('toast.joined', { name: preview.name }));
-      router.replace({ pathname: '/trip/[id]/plan', params: { id } });
+      router.replace({ pathname: '/trips/[id]/plan', params: { id } });
     } catch {
       toast(t('join.errNet'));
     }

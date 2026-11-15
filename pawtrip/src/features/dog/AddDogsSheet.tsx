@@ -38,7 +38,7 @@ export function AddDogsSheet({ visible, onClose, trip }: { visible: boolean; onC
   function create() {
     onClose();
     // the new dog is made in its own flow, which returns here afterwards
-    router.push({ pathname: '/dog/[id]', params: { id: 'new', returnTo: here } });
+    router.push({ pathname: '/dogs/[id]', params: { id: 'new', returnTo: here } });
   }
 
   return (

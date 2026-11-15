@@ -100,8 +100,8 @@ export function MonthCalendar() {
   function release(h: Hit, moved: boolean, startHit: Hit) {
     const s = live.current;
     if (!moved) {
-      if (startHit.seg) router.push({ pathname: '/trip/[id]/plan', params: { id: startHit.seg.tripId } });
-      else router.push({ pathname: '/new-trip', params: { start: startHit.iso, end: startHit.iso } });
+      if (startHit.seg) router.push({ pathname: '/trips/[id]/plan', params: { id: startHit.seg.tripId } });
+      else router.push({ pathname: '/trips/new', params: { start: startHit.iso, end: startHit.iso } });
       return;
     }
     if (startHit.seg) {
@@ -116,7 +116,7 @@ export function MonthCalendar() {
     const a = startHit.iso < h.iso ? startHit.iso : h.iso;
     let b = startHit.iso < h.iso ? h.iso : startHit.iso;
     if (daysBetween(a, b) + 1 > MAX_TRIP_DAYS) b = addDaysIso(a, MAX_TRIP_DAYS - 1);
-    router.push({ pathname: '/new-trip', params: { start: a, end: b } });
+    router.push({ pathname: '/trips/new', params: { start: a, end: b } });
   }
 
   // eslint-disable-next-line react-hooks/refs -- handlers only touch refs while a finger is down, never while rendering

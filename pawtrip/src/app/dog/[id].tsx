@@ -1,29 +1,7 @@
-import { useLocalSearchParams } from 'expo-router';
+import { Redirect, useLocalSearchParams } from 'expo-router';
 
-import { useDog } from '@/api/dogs';
-import { DogForm } from '@/features/dog/DogForm';
-import { DogWizard } from '@/features/dog/DogWizard';
-import { PageSkeleton } from '@/components/ui/Skeleton';
-import { BackButton, Header, Screen } from '@/components/ui/Screen';
-import { useT } from '@/i18n';
-import { goBack } from '@/lib/nav';
-
-export default function DogEditorRoute() {
-  const { t } = useT();
+/** Old link (/dog/<id>) → /dogs/<id>. */
+export default function LegacyDog() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const dog = useDog(id);
-  // A new dog is created through the one-question-at-a-time wizard; an existing dog is edited in a popup
-  // (this page only serves direct links).
-  if (id === 'new') return <DogWizard />;
-  // Mount the form only once the dog is loaded, so its fields start from the saved values.
-  if (!dog.data) return <Screen nav size="narrow"><PageSkeleton cards={4} /></Screen>;
-  return (
-    <DogForm key={dog.data.id} dog={dog.data} onClose={goBack}>
-      {({ body, footer }) => (
-        <Screen nav bottom={footer} top={<Header title={dog.data.name} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
-          {body}
-        </Screen>
-      )}
-    </DogForm>
-  );
+  return <Redirect href={{ pathname: '/dogs/[id]', params: { id } }} />;
 }

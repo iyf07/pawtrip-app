@@ -2,9 +2,8 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useAuth } from '@/auth/AuthProvider';
 import { useMyDogs } from '@/api/dogs';
-import { useBuddyGroups } from '@/api/buddies';
+import { useBuddies } from '@/api/buddies';
 import { useCreateTrip } from '@/api/trips';
 import { InterestPicker } from '@/components/InterestPicker';
 import { DestinationField } from '@/components/DestinationField';
@@ -12,7 +11,7 @@ import { RangeCalendar } from '@/components/RangeCalendar';
 import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
-import { Icon } from '@/components/ui/Icon';
+import { Avatar } from '@/components/ui/Avatar';
 import { DogIllo } from '@/components/ui/DogIllo';
 import { Field } from '@/components/ui/Field';
 import { Meta, Text } from '@/components/ui/Text';
@@ -28,8 +27,7 @@ export default function NewTrip() {
   const toast = useToast();
   const create = useCreateTrip();
   const myDogs = useMyDogs();
-  const { userId } = useAuth();
-  const buddyGroups = useBuddyGroups();
+  const buddies = useBuddies();
 
   const [name, setName] = useState('');
   const [dest, setDest] = useState('');
@@ -43,10 +41,7 @@ export default function NewTrip() {
   const [dogIds, setDogIds] = useState<string[] | null>(null); // null = all my dogs
   const [buddyIds, setBuddyIds] = useState<string[]>([]);
   const [buddyDogs, setBuddyDogs] = useState(true);
-  // groups where I am accepted and someone else has accepted too
-  const groups = (buddyGroups.data ?? []).filter(
-    (g) => g.buddy_members.some((m) => m.user_id === userId && m.status === 'accepted') && g.buddy_members.some((m) => m.user_id !== userId && m.status === 'accepted'),
-  );
+  const myBuddies = (buddies.data ?? []).filter((b) => b.status === 'accepted');
 
   const dogs = myDogs.data ?? [];
   const chosenDogs = dogIds ?? dogs.map((d) => d.id);
@@ -124,7 +119,7 @@ export default function NewTrip() {
         </View>
       ),
     },
-    ...(groups.length
+    ...(myBuddies.length
       ? [
           {
             key: 'buddies',
@@ -132,13 +127,13 @@ export default function NewTrip() {
             optional: true,
             content: (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-                {groups.map((g) => (
+                {myBuddies.map((b) => (
                   <Chip
-                    key={g.id}
-                    icon={<Icon name="tab-members" size={22} />}
-                    label={g.name}
-                    on={buddyIds.includes(g.id)}
-                    onPress={() => setBuddyIds((cur) => (cur.includes(g.id) ? cur.filter((x) => x !== g.id) : [...cur, g.id]))}
+                    key={b.userId}
+                    icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={24} border={2} />}
+                    label={b.name}
+                    on={buddyIds.includes(b.userId)}
+                    onPress={() => setBuddyIds((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
                   />
                 ))}
                 {buddyIds.length > 0 ? <Chip label={t('nt.buddies.dogs')} on={buddyDogs} onPress={() => setBuddyDogs((v) => !v)} /> : null}
@@ -189,7 +184,7 @@ export default function NewTrip() {
         end_date: end,
         interests,
         dogIds: chosenDogs,
-        buddyGroupIds: buddyIds,
+        buddyIds,
         buddyDogs,
       });
       toast(t('toast.tripCreated'));

@@ -117,8 +117,8 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         const first = dogs.data?.[0];
         router.navigate(first ? { pathname: '/dog/[id]', params: { id: first.id } } : { pathname: '/dog/[id]', params: { id: 'new' } });
       })}
-      <View style={{ flex: 1 }} />
       {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/buddies'))}
+      <View style={{ flex: 1 }} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
     </View>
   );

@@ -19,6 +19,7 @@ import { ConfirmSheet } from "@/components/ui/Sheet";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
+import { AddBuddiesSheet } from "@/features/buddies/AddBuddiesSheet";
 import { InviteSheet } from "@/features/trip/InviteSheet";
 import { TabBody, useTripCtx } from "@/features/trip/TripContext";
 import { useLayout } from "@/hooks/use-layout";
@@ -42,6 +43,7 @@ export default function Group() {
   const [editDog, setEditDog] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<null | "leave" | "delete">(null);
   const [inviteOpen, setInviteOpen] = useState(false);
+  const [buddiesOpen, setBuddiesOpen] = useState(false);
 
   const inTrip = new Set(trip.trip_dogs.map((d) => d.dog_id));
   const mineToAdd = (myDogs.data ?? []).filter((d) => !inTrip.has(d.id));
@@ -202,6 +204,7 @@ export default function Group() {
   const inviteBlock = (
     <>
       <SectionTitle>{t("group.invite")}</SectionTitle>
+      {isLeader ? <Button label={t("bd.addMine")} icon="ui-invite" variant="ghost" block onPress={() => setBuddiesOpen(true)} style={{ marginBottom: 10 }} /> : null}
       <Button label={t("group.inviteBtn")} icon="ui-invite" block onPress={() => setInviteOpen(true)} />
     </>
   );
@@ -298,6 +301,7 @@ export default function Group() {
           </>
         )}
         {dangerBlock}
+        <AddBuddiesSheet visible={buddiesOpen} onClose={() => setBuddiesOpen(false)} trip={trip} />
         <InviteSheet visible={inviteOpen} onClose={() => setInviteOpen(false)} trip={trip} isLeader={isLeader} />
 
         <ConfirmSheet

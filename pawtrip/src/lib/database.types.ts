@@ -23,41 +23,27 @@ export type Database = {
           }
         },"public": {
           Tables: {
-            "buddy_groups": {
+            "buddies": {
                   Row: {
-                    "created_at": string,"id": string,"name": string,"owner_id": string
+                    "addressee_id": string,"created_at": string,"requester_id": string,"status": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"id"?: string,"name": string,"owner_id"?: string
+                    "addressee_id": string,"created_at"?: string,"requester_id": string,"status"?: string
                   }
                   Update: {
-                    "created_at"?: string,"id"?: string,"name"?: string,"owner_id"?: string
-                  }
-                  Relationships: [
-                    
-                  ]
-                },"buddy_members": {
-                  Row: {
-                    "created_at": string,"group_id": string,"invited_by": string | null,"status": string,"user_id": string
-                  }
-                  ComputedFields: never
-                  Insert: {
-                    "created_at"?: string,"group_id": string,"invited_by"?: string | null,"status"?: string,"user_id": string
-                  }
-                  Update: {
-                    "created_at"?: string,"group_id"?: string,"invited_by"?: string | null,"status"?: string,"user_id"?: string
+                    "addressee_id"?: string,"created_at"?: string,"requester_id"?: string,"status"?: string
                   }
                   Relationships: [
                     {
-      foreignKeyName: "buddy_members_group_id_fkey"
-      columns: ["group_id"]
+      foreignKeyName: "buddies_addressee_id_fkey"
+      columns: ["addressee_id"]
 isOneToOne: false
-      referencedRelation: "buddy_groups"
+      referencedRelation: "profiles"
       referencedColumns: ["id"]
     },{
-      foreignKeyName: "buddy_members_profile_fk"
-      columns: ["user_id"]
+      foreignKeyName: "buddies_requester_id_fkey"
+      columns: ["requester_id"]
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
@@ -302,19 +288,16 @@ isOneToOne: false
           }
           Functions: {
             "add_buddies_to_trip":
-{ Args: { "p_dogs"?: boolean,"p_group": string,"p_trip": string }; Returns: number
+{ Args: { "p_buddies": (string)[],"p_dogs"?: boolean,"p_trip": string }; Returns: number
                            },
 "handle_available":
 { Args: { "p_handle": string }; Returns: boolean
                            },
-"in_buddy_group":
-{ Args: { "gid": string }; Returns: boolean
+"is_accepted_buddy":
+{ Args: { "uid": string }; Returns: boolean
                            },
-"invite_buddy":
-{ Args: { "p_group": string,"p_handle": string }; Returns: undefined
-                           },
-"is_buddy_owner":
-{ Args: { "gid": string }; Returns: boolean
+"is_buddy_of":
+{ Args: { "uid": string }; Returns: boolean
                            },
 "is_trip_leader":
 { Args: { "tid": string }; Returns: boolean
@@ -337,14 +320,14 @@ isOneToOne: false
 "peek_trip":
 { Args: { "p_code": string }; Returns: Json
                            },
+"request_buddy":
+{ Args: { "p_handle": string }; Returns: undefined
+                           },
 "respond_buddy":
-{ Args: { "p_accept": boolean,"p_group": string }; Returns: undefined
+{ Args: { "p_accept": boolean,"p_from": string }; Returns: undefined
                            },
 "rotate_invite_code":
 { Args: { "p_trip": string }; Returns: string
-                           },
-"shares_buddy_group_with":
-{ Args: { "uid": string }; Returns: boolean
                            },
 "shares_trip_with":
 { Args: { "uid": string }; Returns: boolean

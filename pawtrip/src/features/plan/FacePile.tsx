@@ -5,7 +5,8 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useTripCtx } from '@/features/trip/TripContext';
 
-import { DOG_MODE_ICON, MOODS, dogMode, type ItemView } from './model';
+import { Icon } from '@/components/ui/Icon';
+import { MOODS, dogMode, type ItemView } from './model';
 
 /**
  * Everyone's face for an item: full colour + green ring = going, faded = no reply / maybe, crossed = can't go.
@@ -48,15 +49,19 @@ export function FacePile({ item, size = 20 }: { item: ItemView; size?: number })
           {dogs.map((d) => {
             const mode = dogMode(item, d.id);
             const mood = item.mood[d.id];
-            const badge = mood ? MOODS.find((m) => m[0] === mood)?.[1] : mode === 'tbd' ? null : DOG_MODE_ICON[mode];
+            const moodEmoji = mood ? MOODS.find((m) => m[0] === mood)?.[1] : null;
             return (
               <View key={d.id} style={{ opacity: mode === 'tbd' ? 0.4 : 1 }}>
                 <DogAvatar url={d.photo} size={size} border={1.5} />
-                {badge ? (
+                {moodEmoji ? (
                   <View style={{ position: 'absolute', right: -5, bottom: -4, width: 13, height: 13, borderRadius: 7, backgroundColor: th.card, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: th.line }}>
                     <Text size={8} style={{ lineHeight: 11 }}>
-                      {badge}
+                      {moodEmoji}
                     </Text>
+                  </View>
+                ) : mode !== 'tbd' ? (
+                  <View style={{ position: 'absolute', right: -6, bottom: -5 }}>
+                    <Icon name={`dog-${mode}` as 'dog-with'} size={15} />
                   </View>
                 ) : null}
               </View>

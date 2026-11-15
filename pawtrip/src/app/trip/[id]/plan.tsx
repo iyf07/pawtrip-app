@@ -492,8 +492,8 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
         {!short ? <FacePile item={item} size={18} /> : null}
         <View style={{ position: 'absolute', top: 4, right: 4, flexDirection: 'row', gap: 4 }}>
           {withDog ? <Text size={14}>🐕</Text> : null}
-          {hasAlone ? <Text size={14} accessibilityLabel={t('item.assign')}>🐕⚠️</Text> : null}
-          {hasConflict ? <Text size={14}>⚠️</Text> : null}
+          {hasAlone ? <Icon name="ui-dog-warning" size={18} /> : null}
+          {hasConflict ? <Icon name="ui-warning" size={18} /> : null}
         </View>
         {canDrag ? (
           <View

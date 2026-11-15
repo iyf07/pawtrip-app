@@ -203,7 +203,13 @@ export default function Group() {
   // no code sits on the page: it is created when someone taps the button
   const inviteBlock = (
     <>
-      {isLeader ? <Button label={t("bd.addMine")} icon="ui-invite" variant="ghost" block onPress={() => setBuddiesOpen(true)} style={{ marginTop: 12, marginBottom: 10 }} /> : null}
+      {isLeader ? (
+        <Card dashed onPress={() => setBuddiesOpen(true)} style={{ alignItems: "center", marginTop: 12, marginBottom: 10 }}>
+          <Text weight={800} color="link">
+            {"+ " + t("bd.addMine")}
+          </Text>
+        </Card>
+      ) : null}
       <Button label={t("group.inviteBtn")} icon="ui-invite" block onPress={() => setInviteOpen(true)} style={isLeader ? undefined : { marginTop: 12 }} />
     </>
   );

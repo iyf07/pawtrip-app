@@ -44,6 +44,15 @@ const SOURCES = {
   'wx-fog': require('../../../assets/icons/wx-fog.png'),
   'wx-sunrise': require('../../../assets/icons/wx-sunrise.png'),
   'wx-sunset': require('../../../assets/icons/wx-sunset.png'),
+  'pin-stop': require('../../../assets/icons/pin-stop.png'),
+  'pin-stay': require('../../../assets/icons/pin-stay.png'),
+  'pin-idea': require('../../../assets/icons/pin-idea.png'),
+  'dog-with': require('../../../assets/icons/dog-with.png'),
+  'dog-sitter': require('../../../assets/icons/dog-sitter.png'),
+  'dog-alone': require('../../../assets/icons/dog-alone.png'),
+  'dog-tbd': require('../../../assets/icons/dog-tbd.png'),
+  'ui-warning': require('../../../assets/icons/ui-warning.png'),
+  'ui-dog-warning': require('../../../assets/icons/ui-dog-warning.png'),
 } as const;
 
 export type IconName = keyof typeof SOURCES;

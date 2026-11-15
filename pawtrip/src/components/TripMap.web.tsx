@@ -1,12 +1,19 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { useEffect, useRef, useState } from 'react';
+import { Asset } from 'expo-asset';
 
 import type { TripMapProps } from './TripMap.types';
 
 type MapboxGL = typeof import('mapbox-gl').default;
 type Map = import('mapbox-gl').Map;
 type Marker = import('mapbox-gl').Marker;
+
+const PINS: Record<string, number> = {
+  'pin-stop': require('../../assets/icons/pin-stop.png'),
+  'pin-stay': require('../../assets/icons/pin-stay.png'),
+  'pin-idea': require('../../assets/icons/pin-idea.png'),
+};
 
 const TOKEN = process.env.EXPO_PUBLIC_MAPBOX_TOKEN;
 
@@ -69,20 +76,19 @@ export function TripMap({ pins, line, center, dark, onPin, height }: TripMapProp
       const el = document.createElement('button');
       el.type = 'button';
       el.setAttribute('aria-label', p.label);
-      const base =
-        'display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;font:800 14px Nunito,system-ui,sans-serif;box-shadow:0 3px 6px -2px rgba(0,0,0,.4);padding:0;';
+      const pinUrl = (n: string) => Asset.fromModule(PINS[n] as number).uri;
+      const base = 'display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;border:0;background-color:transparent;background-repeat:no-repeat;background-size:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));';
       if (p.kind === 'stop') {
-        el.style.cssText = `${base}width:32px;height:32px;background:#FFC72C;color:#4A3628;border:3px solid #fff;`;
+        // the numbered stop sits in the empty circle of the pin
+        el.style.cssText = `${base}width:38px;height:46px;background-image:url(${pinUrl('pin-stop')});padding-bottom:10px;font:800 13px Nunito,system-ui,sans-serif;color:#4A3628;`;
         el.textContent = p.label;
       } else if (p.kind === 'stay') {
-        el.style.cssText = `${base}width:32px;height:32px;background:#CDE7F0;border:3px solid #fff;`;
-        el.textContent = '🏨';
+        el.style.cssText = `${base}width:36px;height:44px;background-image:url(${pinUrl('pin-stay')});`;
       } else {
-        el.style.cssText = `${base}width:28px;height:28px;background:#fff;border:3px solid #3D7590;`;
-        el.textContent = '💡';
+        el.style.cssText = `${base}width:36px;height:44px;background-image:url(${pinUrl('pin-idea')});`;
       }
       el.addEventListener('click', () => onPinRef.current(p.id));
-      return new mb.Marker({ element: el }).setLngLat([p.lon, p.lat]).addTo(map);
+      return new mb.Marker({ element: el, anchor: 'bottom' }).setLngLat([p.lon, p.lat]).addTo(map);
     });
 
     const draw = () => {

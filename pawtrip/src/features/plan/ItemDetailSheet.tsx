@@ -38,6 +38,8 @@ import {
   type Mood,
   type Rsvp,
 } from './model';
+import { Icon } from '@/components/ui/Icon';
+
 import { CatIcon } from './CatIcon';
 import { WhenFields, type When } from './TimeFields';
 
@@ -192,8 +194,9 @@ function Detail({ item }: { item: ItemView }) {
     </View>
   );
 
-  const alert = (bg: string, msg: string, action?: { label: string; onPress: () => void }) => (
+  const alert = (bg: string, msg: string, icon: 'ui-warning' | 'ui-dog-warning', action?: { label: string; onPress: () => void }) => (
     <View key={msg} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, padding: 12, borderRadius: 14, backgroundColor: bg, marginTop: 8 }}>
+      <Icon name={icon} size={24} />
       <Text size={14} weight={700} style={{ flex: 1 }}>
         {msg}
       </Text>
@@ -239,11 +242,12 @@ function Detail({ item }: { item: ItemView }) {
         <Meta style={{ flex: 1 }}>{t(item.confirmed ? 'item.isPlanned' : 'item.isIdea')}</Meta>
       </View>
 
-      {conflicts.map((o) => alert(th.dangerBg, `⚠️ ${t('item.overlap', { name: o.title, min: overlapMin(item, o) })}`))}
+      {conflicts.map((o) => alert(th.dangerBg, t('item.overlap', { name: o.title, min: overlapMin(item, o) }), 'ui-warning'))}
       {alone.map((a) =>
         alert(
           th.warnBg,
-          `🐕⚠️ ${t('item.aloneWarn', { dog: a.dog.name, dur: hrsLabel(a.mins, t), max: t(`scale.alone.${a.dog.alone ?? 3}` as Key) })}`,
+          t('item.aloneWarn', { dog: a.dog.name, dur: hrsLabel(a.mins, t), max: t(`scale.alone.${a.dog.alone ?? 3}` as Key) }),
+          'ui-dog-warning',
           { label: t('item.assign'), onPress: () => dogModeM.mutate({ itemId: item.id, dogId: a.dog.id, mode: 'sitter' }) },
         ),
       )}

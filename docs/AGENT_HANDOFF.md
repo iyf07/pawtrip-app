@@ -146,7 +146,7 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-2026-11-15 Neutral defaults / endpoint bios: implemented default 3 for missing person and dog scale answers, endpoint-only human bio summaries, shorter scale headings and sign-out paw icon. Browser desktop/375px verified neutral result/icon, 1 -> bio appears, 3 -> bio disappears, discard, sign-out icon. Frontend-only; no Supabase schema/function changes. Release pending.
+2026-11-15 Neutral defaults / endpoint bios: implemented default 3 for missing person and dog scale answers, endpoint-only human bio summaries, shorter scale headings and sign-out paw icon. Browser desktop/375px verified neutral result/icon, 1 -> bio appears, 3 -> bio disappears, discard, sign-out icon. Frontend-only; no Supabase schema/function changes. Live: e599cab, Expo deployment rt1ev1e77p.
 
 2026-11-15 Paw/personality/ID release: preserved current root-list, skeleton, friends lookup and plural URL updates. Backend 2760ebb pushed: recall migration 20261115191749 deployed with --include-all after already-applied find_buddy; id-login function deployed. 91 DB tests pass; local OTP integration/browser sign-in and unknown-ID cloud smoke checks pass. Frontend 140 stickers inspected after cleanup; desktop/375px checked, read-only 0 sliders, edit 6 human / 7 dog sliders; all test drafts discarded. Frontend 9679896 pushed and deployed to https://pawtrip.expo.app (nq7on1amix); tsc/eslint silent and 10 frontend tests pass.
 
@@ -212,7 +212,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 默认中间档、极端称号与退出图标 | options / scales / profile / i18n | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -305,3 +304,5 @@ Release result: frontend 9679896 committed/pushed and deployed successfully to E
 
 ### 2026-11-15 — Codex neutral defaults and endpoint bios
 Updated shared scale normalization to default missing answers to 3 for human/dog profile and wizards. Historic NULLs remain stored until saved; effective preference is neutral. Bio title selector shared by profile/friends/member cards now includes only 1 or 5. Removed parenthetical heading subtitles in Chinese/English and grey/unset UI; sign-out uses existing paw-arrow sticker. TDD: three relevant assertions failed before implementation and all 10 tests passed after. Desktop/375px browser checked default results, extreme bio appearance and disappearance on reset, discarded edits and sign-out icon. No backend changes.
+
+Release result: e599cab pushed and deployed to https://pawtrip.expo.app (rt1ev1e77p). Typecheck/lint silent; 10 frontend tests pass; desktop/375px verified. No Supabase deployment needed for this frontend-only change. Claim released.

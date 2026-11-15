@@ -13,7 +13,6 @@ import { AvatarEditor } from "@/components/AvatarEditor";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
 import { ProfileEditSheet } from "@/features/profile/ProfileEditSheet";
 import { InterestPicker } from "@/components/InterestPicker";
-import { GearButton } from "@/components/NavBar";
 import { ScaleInput } from "@/components/ScaleInput";
 import { DogAvatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
@@ -343,7 +342,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         <Header
           title={t("profile.title")}
           left={<BackButton label={t("nav.back")} onPress={goBack} />}
-          right={<GearButton />}
         />
       }
       bottom={

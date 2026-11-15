@@ -14,7 +14,11 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { useMyProfile } from '@/api/profile';
+import { useBuddies } from '@/api/buddies';
+import { useMyDogs } from '@/api/dogs';
+import { useMyProfile, useSettings } from '@/api/profile';
+import { useTrips } from '@/api/trips';
+import { preloadIcons } from '@/components/ui/Icon';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { FeedbackButton } from '@/components/FeedbackButton';
 import { DesktopShell } from '@/components/shell/DesktopShell';
@@ -64,6 +68,14 @@ export default function RootLayout() {
 function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   const { session, ready } = useAuth();
   const me = useMyProfile();
+  // warm the data and the icons every screen needs, so opening a screen for the first time does not flash empty
+  useMyDogs();
+  useBuddies();
+  useSettings();
+  useTrips();
+  useEffect(() => {
+    if (session) void preloadIcons();
+  }, [session]);
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
   const base = scheme === 'dark' ? DarkTheme : DefaultTheme;

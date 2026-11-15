@@ -4,7 +4,7 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 import { useAuth } from '@/auth/AuthProvider';
 import { Icon } from '@/components/ui/Icon';
 import { usePhotoUpload } from '@/components/PhotoField';
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
@@ -16,20 +16,22 @@ type Props = {
   url: string | null;
   size?: number;
   onChange: (url: string | null) => void | Promise<void>;
+  /** a dog's photo instead of a person's avatar */
+  kind?: 'avatar' | 'dog';
 };
 
 /** Avatar with a small pencil badge at its bottom-right corner; tapping it opens change / remove. */
-export function AvatarEditor({ name, url, size = 84, onChange }: Props) {
+export function AvatarEditor({ name, url, size = 84, onChange, kind = 'avatar' }: Props) {
   const { t } = useT();
   const th = useTheme();
   const { userId } = useAuth();
   const [menu, setMenu] = useState(false);
-  const { choose, busy, error, cropper } = usePhotoUpload('avatar', onChange);
+  const { choose, busy, error, cropper } = usePhotoUpload(kind, onChange);
 
   return (
     <View>
       <Pressable onPress={() => setMenu(true)} accessibilityRole="button" accessibilityLabel={t('pf.avatar.edit')}>
-        <Avatar id={userId ?? 'me'} name={name} url={url} size={size} />
+        {kind === 'dog' ? <DogAvatar url={url} size={size} /> : <Avatar id={userId ?? 'me'} name={name} url={url} size={size} />}
         <View
           style={{
             position: 'absolute',

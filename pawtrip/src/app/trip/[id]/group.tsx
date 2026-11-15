@@ -1,10 +1,8 @@
-import { router, usePathname } from "expo-router";
+import { router } from "expo-router";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
-import { useMyDogs } from "@/api/dogs";
 import {
-  useAddDogToTrip,
   useDeleteTrip,
   useLeaveTrip,
   useRemoveDogFromTrip,
@@ -19,6 +17,7 @@ import { ConfirmSheet } from "@/components/ui/Sheet";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
+import { AddDogsSheet } from "@/features/dog/AddDogsSheet";
 import { AddBuddiesSheet } from "@/features/buddies/AddBuddiesSheet";
 import { InviteSheet } from "@/features/trip/InviteSheet";
 import { TabBody, useTripCtx } from "@/features/trip/TripContext";
@@ -32,9 +31,7 @@ export default function Group() {
   const { wide } = useLayout();
   const toast = useToast();
   const { trip, userId, isLeader } = useTripCtx();
-  const myDogs = useMyDogs();
 
-  const addDog = useAddDogToTrip();
   const removeDog = useRemoveDogFromTrip();
   const leave = useLeaveTrip();
   const del = useDeleteTrip();
@@ -42,12 +39,10 @@ export default function Group() {
 
   const [editDog, setEditDog] = useState<string | null>(null);
   const [confirm, setConfirm] = useState<null | "leave" | "delete" | "archive">(null);
-  const here = usePathname();
   const [inviteOpen, setInviteOpen] = useState(false);
   const [buddiesOpen, setBuddiesOpen] = useState(false);
+  const [dogsOpen, setDogsOpen] = useState(false);
 
-  const inTrip = new Set(trip.trip_dogs.map((d) => d.dog_id));
-  const mineToAdd = (myDogs.data ?? []).filter((d) => !inTrip.has(d.id));
 
   async function run(p: Promise<unknown>, ok?: string) {
     try {
@@ -175,29 +170,9 @@ export default function Group() {
             </Card>
           );
         })}
-        {mineToAdd.map((d) => (
-          <Card
-            key={d.id}
-            dashed
-            onPress={() =>
-              run(addDog.mutateAsync({ tripId: trip.id, dogId: d.id }))
-            }
-            style={{ alignItems: "center" }}
-          >
-            <Text weight={800} color="link">
-              {t("group.addMyDog", { name: d.name })}
-            </Text>
-          </Card>
-        ))}
-        <Card
-          dashed
-          onPress={() =>
-            router.push({ pathname: "/dog/[id]", params: { id: "new", returnTo: here } })
-          }
-          style={{ alignItems: "center" }}
-        >
+        <Card dashed onPress={() => setDogsOpen(true)} style={{ alignItems: "center" }}>
           <Text weight={800} color="link">
-            {t("group.newDog")}
+            {"+ " + t("dogs.addMine")}
           </Text>
         </Card>
       </View>
@@ -268,6 +243,7 @@ export default function Group() {
             {dangerBlock}
           </>
         )}
+        <AddDogsSheet visible={dogsOpen} onClose={() => setDogsOpen(false)} trip={trip} />
         <AddBuddiesSheet visible={buddiesOpen} onClose={() => setBuddiesOpen(false)} trip={trip} />
         <InviteSheet visible={inviteOpen} onClose={() => setInviteOpen(false)} trip={trip} isLeader={isLeader} />
 

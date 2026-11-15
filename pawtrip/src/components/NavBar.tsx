@@ -6,7 +6,6 @@ import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar } from '@/components/ui/Avatar';
 import { Icon, type IconName } from '@/components/ui/Icon';
-import { useInShell } from '@/components/shell/ShellContext';
 import { COLUMN } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
@@ -63,22 +62,5 @@ export function NavBar() {
         </View>
       </View>
     </View>
-  );
-}
-
-/** Settings gear: only shown at the top right of the profile page. */
-export function GearButton({ size = 40 }: { size?: number }) {
-  const { t } = useT();
-  const inShell = useInShell();
-  const th = useTheme();
-  if (inShell) return null; // settings are in the rail
-  return (
-    <Pressable
-      onPress={() => router.push('/settings')}
-      accessibilityRole="button"
-      accessibilityLabel={t('trips.settings')}
-      style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center', justifyContent: 'center' }}>
-      <Icon name="nav-settings" size={Math.round(size * 0.8)} />
-    </Pressable>
   );
 }

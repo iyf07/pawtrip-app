@@ -1,5 +1,13 @@
 # Ready-to-send icon batches (copy one whole block into ChatGPT)
 
+## Batch 13 — 全站爪爪图标（2026-11-15）
+
+用户要求覆盖全站。130 个独立图标重新生成，保留 10 个已经具有爪爪元素且风格一致的图标，共 140 个注册图标。每次使用目标原图与已批准的咖啡／徒步图标作为真实图片参考，保持粗圆棕色描边、奶油色、暖色填充、白色贴纸边；爪爪融入物件本身（鞋面、杯子、项圈、云朵、印章、按钮轮廓），避免统一贴在角落。
+
+完整逐图提示词与参考文件：[icon-batch13-prompts.json](icon-batch13-prompts.json)。原图归档：`/Users/ivan/workplace/icons/batch-13-paw-family/raw`。透明底 1024px masters / 512px UI 图标使用现有 `clean-icons-white.py` 处理。新增 `scale-recall-1..5`、`diet-kosher`；欢迎页沿用同一套狗狗贴纸，邮箱装饰替换为爪爪便笺。
+
+检查记录：所有原始输出均通过 contact sheet 检查，图形完整、可辨识、爪爪可见。犹太洁食使用六芒星，清真使用新月，两者独立。保存／放弃使用爪形轮廓与勾／叉，保留操作含义。最终图集见 `icon-paw-family-batch13.png`。
+
 ## Batch 12 — six travel preferences and inline actions (2026-11-15)
 
 **Style correction:** Batch 11 lakes/dessert were rejected for not matching. Text-only style descriptions are insufficient: always attach the approved `int-hiking`, `cat-coffee`, and `scale-walk-3` masters as the style reference sheet. These actual images were supplied to built-in imagegen for Batch 12. Compare contact sheets against approved originals before integration. Morning 4/5 now mean noon/afternoon, never sunset/night. Temperature/pace/spending use human-neutral objects; no dog faces. Rebuild borders with the existing cleanup pipeline to keep white-rim thickness and visual size aligned.

@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { Icon } from '@/components/ui/Icon';
 import { useMyDogs } from '@/api/dogs';
 import { useBuddies } from '@/api/buddies';
 import { useCreateTrip } from '@/api/trips';
@@ -110,7 +111,8 @@ export default function NewTrip() {
           {dogs.map((d) => (
             <Chip
               key={d.id}
-              label={`🐕 ${d.name}`}
+              label={d.name}
+              icon={<Icon name="nav-dogs" size={22} />}
               on={chosenDogs.includes(d.id)}
               onPress={() => setDogIds(chosenDogs.includes(d.id) ? chosenDogs.filter((x) => x !== d.id) : [...chosenDogs, d.id])}
             />
@@ -161,7 +163,7 @@ export default function NewTrip() {
               <Meta weight={700} style={{ marginTop: 6 }}>
                 {dogs
                   .filter((d) => chosenDogs.includes(d.id))
-                  .map((d) => `🐕 ${d.name}`)
+                  .map((d) => d.name)
                   .join('  ')}
               </Meta>
             ) : null}

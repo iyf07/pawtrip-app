@@ -100,11 +100,11 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
           <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flex: 1 }}>{name}</Text>
           {editing ? (
             <View style={{ flexDirection: 'row', gap: 8 }}>
-              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.saveSection', { section: t('dog.name') })} disabled={save.isPending} onPress={submit}
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.saveSection', { section: name })} disabled={save.isPending} onPress={submit}
                 style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
                 {save.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={32} />}
               </Pressable>
-              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.discardSection', { section: t('dog.name') })} disabled={save.isPending} onPress={discard}
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.discardSection', { section: name })} disabled={save.isPending} onPress={discard}
                 style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
                 <Icon name="ui-discard" size={32} />
               </Pressable>

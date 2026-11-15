@@ -5,6 +5,7 @@ import { AVATAR_COLORS } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 import { Text } from './Text';
+import { Icon } from './Icon';
 
 const hash = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 
@@ -50,7 +51,7 @@ export function AvatarStack({ people, max = 4, size = 32 }: { people: { id: stri
   );
 }
 
-/** Dog avatar: photo or 🐕. */
+/** Dog avatar: photo or the shared paw dog sticker. */
 export function DogAvatar({ url, size = 44, border = 3 }: { url?: string | null; size?: number; border?: number }) {
   const t = useTheme();
   return (
@@ -69,7 +70,7 @@ export function DogAvatar({ url, size = 44, border = 3 }: { url?: string | null;
       {url ? (
         <Image source={{ uri: url }} style={{ width: '100%', height: '100%' }} contentFit="cover" />
       ) : (
-        <Text size={Math.round(size * 0.5)}>🐕</Text>
+        <Icon name="nav-dogs" size={Math.round(size * 0.8)} />
       )}
     </View>
   );

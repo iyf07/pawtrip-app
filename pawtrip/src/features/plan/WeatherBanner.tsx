@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 
+import { Icon } from '@/components/ui/Icon';
 import { Meta, Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
@@ -28,10 +29,13 @@ export function WeatherBanner({ wx, dogs, unit }: { wx: DayWx; dogs: TripDog[]; 
     <View style={{ marginTop: 10, flexDirection: 'row', gap: 10, alignItems: 'center', padding: 10, paddingHorizontal: 14, borderRadius: 14, backgroundColor: warn ? th.warnBg : th.goldBg }}>
       <WeatherIcon icon={wx.icon} size={32} />
       <View style={{ flex: 1 }}>
-        <Text weight={800}>
-          {tempOut(wx.hi, unit)}°/{tempOut(wx.lo, unit)}°
-          {wx.rainPct != null && wx.rainPct >= 30 ? `  ·  🌧 ${wx.rainPct}%` : ''}
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          {wx.rainPct != null && wx.rainPct >= 30 ? <Icon name="wx-rain" size={18} /> : null}
+          <Text weight={800}>
+            {tempOut(wx.hi, unit)}°/{tempOut(wx.lo, unit)}°
+            {wx.rainPct != null && wx.rainPct >= 30 ? `  ·  ${wx.rainPct}%` : ''}
+          </Text>
+        </View>
         {tips.map((tip) => (
           <Text key={tip} size={13} weight={700} color="warn">
             {tip}

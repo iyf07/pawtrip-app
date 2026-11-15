@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { Icon } from '@/components/ui/Icon';
 import { TripMap } from '@/components/TripMap';
 import type { MapPin } from '@/components/TripMap.types';
 import { Button } from '@/components/ui/Button';
@@ -36,8 +37,9 @@ export function PlanMap({ pins, line, center, stops, onPin }: Props) {
         accessibilityRole="button"
         accessibilityState={{ expanded: open }}
         style={{ flexDirection: 'row', alignItems: 'center', gap: 8, minHeight: 42, paddingHorizontal: 12, borderRadius: 14, borderWidth: 2, borderColor: th.line, backgroundColor: th.card }}>
+        <Icon name="pin-stop" size={22} />
         <Text weight={700} style={{ flex: 1 }}>
-          📍 {t('stops', { n: stops })} · <Text weight={800} color="link">{t('plan.map')}</Text>
+          {t('stops', { n: stops })} · <Text weight={800} color="link">{t('plan.map')}</Text>
         </Text>
         <Text weight={800}>{open ? '⌃' : '⌄'}</Text>
       </Pressable>

@@ -262,7 +262,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       </Text>
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Text size={20}>✉️</Text>
+          <Icon name="ui-note" size={24} />
           <View style={{ flex: 1 }}>
             <Text weight={800}>{t("set.methodEmail")}</Text>
             <Meta numberOfLines={1}>{email}</Meta>

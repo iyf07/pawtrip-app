@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { View } from 'react-native';
 
+import { Icon } from '@/components/ui/Icon';
 import { useMyDogs } from '@/api/dogs';
 import { peekTrip, useJoinTrip, type TripPreview } from '@/api/trips';
 import { Wizard, type WizardStep } from '@/components/Wizard';
@@ -119,7 +120,8 @@ export default function Join() {
           {dogs.map((d) => (
             <Chip
               key={d.id}
-              label={`🐕 ${d.name}`}
+              label={d.name}
+              icon={<Icon name="nav-dogs" size={22} />}
               on={chosen.includes(d.id)}
               onPress={() => setDogIds(chosen.includes(d.id) ? chosen.filter((x) => x !== d.id) : [...chosen, d.id])}
             />

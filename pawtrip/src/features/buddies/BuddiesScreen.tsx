@@ -45,7 +45,7 @@ export function BuddiesScreen() {
             <Card key={b.userId}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={40} />
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, minWidth: 0 }}>
                   <Text weight={800} size={15}>
                     {t('bd.wants', { who: b.name })}
                   </Text>
@@ -63,7 +63,7 @@ export function BuddiesScreen() {
             {mine.map((b) => (
               <View key={b.userId} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 7 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={38} />
-                <View style={{ flex: 1 }}>
+                <View style={{ flex: 1, minWidth: 0 }}>
                   <Text weight={800} size={15} numberOfLines={1}>
                     {b.name}
                   </Text>

@@ -85,7 +85,7 @@ export default function TripLayout() {
     return (
       <Screen nav scroll={false} top={<Header left={back} />}>
         <Card style={{ alignItems: 'center', marginTop: 24 }}>
-          <Text size={36}>📡</Text>
+          <Icon name="empty-offline" size={72} />
           <Text weight={800} size={18}>
             {t('common.loadFailed')}
           </Text>

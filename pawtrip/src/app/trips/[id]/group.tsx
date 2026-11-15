@@ -94,7 +94,7 @@ export default function Group() {
                 url={m.profiles?.avatar_url}
                 size={36}
               />
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, minWidth: 0 }}>
                 <Text weight={700} numberOfLines={1}>
                   {m.user_id === userId ? t("group.meTag", { name }) : name}
                 </Text>
@@ -143,7 +143,7 @@ export default function Group() {
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
             >
               <DogAvatar url={dog.photo_url} />
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, minWidth: 0 }}>
                 <Text weight={800}>{dog.name}</Text>
                 <Meta>{t("group.theirDog", { name: owner })}</Meta>
               </View>
@@ -221,7 +221,7 @@ export default function Group() {
   );
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, minWidth: 0 }}>
       <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
       <TabBody max={1100}>
         {wide ? (

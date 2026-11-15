@@ -3,6 +3,12 @@ import { Image, type ImageStyle, type StyleProp } from 'react-native';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
+  'diet-kosher': require('../../../assets/icons/diet-kosher.png'),
+  'scale-recall-1': require('../../../assets/icons/scale-recall-1.png'),
+  'scale-recall-2': require('../../../assets/icons/scale-recall-2.png'),
+  'scale-recall-3': require('../../../assets/icons/scale-recall-3.png'),
+  'scale-recall-4': require('../../../assets/icons/scale-recall-4.png'),
+  'scale-recall-5': require('../../../assets/icons/scale-recall-5.png'),
   'ui-save': require('../../../assets/icons/ui-save.png'),
   'ui-discard': require('../../../assets/icons/ui-discard.png'),
   'scale-temperature-1': require('../../../assets/icons/scale-temperature-1.png'),

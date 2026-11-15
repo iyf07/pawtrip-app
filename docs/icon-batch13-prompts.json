@@ -1,0 +1,656 @@
+{
+  "batch": 13,
+  "reference_rule": "First image is original target master; additional approved cat-coffee and int-hiking masters establish the shared style. One icon per generation.",
+  "icons": [
+    {
+      "key": "scale-morning-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-morning-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate the paw into the sun disk, cloud cutout, plate decoration or cup emblem, as appropriate to the existing subject. Do not alter the depicted time of day."
+    },
+    {
+      "key": "scale-morning-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-morning-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate the paw into the sun disk, cloud cutout, plate decoration or cup emblem, as appropriate to the existing subject. Do not alter the depicted time of day."
+    },
+    {
+      "key": "scale-morning-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-morning-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate the paw into the sun disk, cloud cutout, plate decoration or cup emblem, as appropriate to the existing subject. Do not alter the depicted time of day."
+    },
+    {
+      "key": "scale-morning-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-morning-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate the paw into the sun disk, cloud cutout, plate decoration or cup emblem, as appropriate to the existing subject. Do not alter the depicted time of day."
+    },
+    {
+      "key": "scale-noise-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-noise-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate a paw into a tree canopy, teacup glaze, cafe tabletop decoration, balloon shape or megaphone decoration, whichever matches this source."
+    },
+    {
+      "key": "scale-noise-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-noise-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate a paw into a tree canopy, teacup glaze, cafe tabletop decoration, balloon shape or megaphone decoration, whichever matches this source."
+    },
+    {
+      "key": "scale-noise-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-noise-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate a paw into a tree canopy, teacup glaze, cafe tabletop decoration, balloon shape or megaphone decoration, whichever matches this source."
+    },
+    {
+      "key": "scale-noise-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-noise-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate a paw into a tree canopy, teacup glaze, cafe tabletop decoration, balloon shape or megaphone decoration, whichever matches this source."
+    },
+    {
+      "key": "scale-noise-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-noise-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Integrate a paw into a tree canopy, teacup glaze, cafe tabletop decoration, balloon shape or megaphone decoration, whichever matches this source."
+    },
+    {
+      "key": "scale-walk-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-walk-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A playful paw-shaped cushion pattern or stitched shoe panel/tread. It must look manufactured into the object."
+    },
+    {
+      "key": "scale-walk-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-walk-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A playful paw-shaped cushion pattern or stitched shoe panel/tread. It must look manufactured into the object."
+    },
+    {
+      "key": "scale-walk-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-walk-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A playful paw-shaped cushion pattern or stitched shoe panel/tread. It must look manufactured into the object."
+    },
+    {
+      "key": "scale-walk-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-walk-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A playful paw-shaped cushion pattern or stitched shoe panel/tread. It must look manufactured into the object."
+    },
+    {
+      "key": "scale-walk-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-walk-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A playful paw-shaped cushion pattern or stitched shoe panel/tread. It must look manufactured into the object."
+    },
+    {
+      "key": "scale-temperature-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temperature-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A clear paw silhouette formed by the thermometer fluid inside its bulb; preserve the temperature level and cold/hot symbols."
+    },
+    {
+      "key": "scale-temperature-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temperature-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A clear paw silhouette formed by the thermometer fluid inside its bulb; preserve the temperature level and cold/hot symbols."
+    },
+    {
+      "key": "scale-temperature-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temperature-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A clear paw silhouette formed by the thermometer fluid inside its bulb; preserve the temperature level and cold/hot symbols."
+    },
+    {
+      "key": "scale-temperature-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temperature-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A clear paw silhouette formed by the thermometer fluid inside its bulb; preserve the temperature level and cold/hot symbols."
+    },
+    {
+      "key": "scale-temperature-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temperature-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A clear paw silhouette formed by the thermometer fluid inside its bulb; preserve the temperature level and cold/hot symbols."
+    },
+    {
+      "key": "scale-pace-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-pace-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Make the existing itinerary stop markers into small green PAW-PRINTS, maintaining the exact number of stops and card silhouette."
+    },
+    {
+      "key": "scale-pace-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-pace-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Make the existing itinerary stop markers into small green PAW-PRINTS, maintaining the exact number of stops and card silhouette."
+    },
+    {
+      "key": "scale-pace-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-pace-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Make the existing itinerary stop markers into small green PAW-PRINTS, maintaining the exact number of stops and card silhouette."
+    },
+    {
+      "key": "scale-pace-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-pace-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Make the existing itinerary stop markers into small green PAW-PRINTS, maintaining the exact number of stops and card silhouette."
+    },
+    {
+      "key": "scale-pace-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-pace-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Make the existing itinerary stop markers into small green PAW-PRINTS, maintaining the exact number of stops and card silhouette."
+    },
+    {
+      "key": "scale-spending-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-spending-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Replace the round gold wallet snap with a paw-shaped gold snap or embossed paw button. Keep wallet and coin count."
+    },
+    {
+      "key": "scale-spending-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-spending-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Replace the round gold wallet snap with a paw-shaped gold snap or embossed paw button. Keep wallet and coin count."
+    },
+    {
+      "key": "scale-spending-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-spending-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Replace the round gold wallet snap with a paw-shaped gold snap or embossed paw button. Keep wallet and coin count."
+    },
+    {
+      "key": "scale-spending-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-spending-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Replace the round gold wallet snap with a paw-shaped gold snap or embossed paw button. Keep wallet and coin count."
+    },
+    {
+      "key": "scale-spending-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-spending-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Replace the round gold wallet snap with a paw-shaped gold snap or embossed paw button. Keep wallet and coin count."
+    },
+    {
+      "key": "scale-energy-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-energy-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Work a paw into the battery casing or battery level graphic while keeping the same dog character and energy level."
+    },
+    {
+      "key": "scale-energy-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-energy-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Work a paw into the battery casing or battery level graphic while keeping the same dog character and energy level."
+    },
+    {
+      "key": "scale-energy-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-energy-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Work a paw into the battery casing or battery level graphic while keeping the same dog character and energy level."
+    },
+    {
+      "key": "scale-energy-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-energy-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Work a paw into the battery casing or battery level graphic while keeping the same dog character and energy level."
+    },
+    {
+      "key": "scale-energy-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-energy-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Work a paw into the battery casing or battery level graphic while keeping the same dog character and energy level."
+    },
+    {
+      "key": "scale-temp-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temp-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped scarf knit, collar tag, snow patch or sweat splash integrated naturally with this dog's state."
+    },
+    {
+      "key": "scale-temp-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temp-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped scarf knit, collar tag, snow patch or sweat splash integrated naturally with this dog's state."
+    },
+    {
+      "key": "scale-temp-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temp-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped scarf knit, collar tag, snow patch or sweat splash integrated naturally with this dog's state."
+    },
+    {
+      "key": "scale-temp-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temp-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped scarf knit, collar tag, snow patch or sweat splash integrated naturally with this dog's state."
+    },
+    {
+      "key": "scale-temp-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-temp-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped scarf knit, collar tag, snow patch or sweat splash integrated naturally with this dog's state."
+    },
+    {
+      "key": "scale-withdogs-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withdogs-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One clear paw-shaped collar tag, paw pads or paw-shaped shared toy integrated into the social scene. Preserve dog faces and social meaning."
+    },
+    {
+      "key": "scale-withdogs-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withdogs-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One clear paw-shaped collar tag, paw pads or paw-shaped shared toy integrated into the social scene. Preserve dog faces and social meaning."
+    },
+    {
+      "key": "scale-withdogs-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withdogs-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One clear paw-shaped collar tag, paw pads or paw-shaped shared toy integrated into the social scene. Preserve dog faces and social meaning."
+    },
+    {
+      "key": "scale-withdogs-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withdogs-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One clear paw-shaped collar tag, paw pads or paw-shaped shared toy integrated into the social scene. Preserve dog faces and social meaning."
+    },
+    {
+      "key": "scale-withdogs-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withdogs-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One clear paw-shaped collar tag, paw pads or paw-shaped shared toy integrated into the social scene. Preserve dog faces and social meaning."
+    },
+    {
+      "key": "scale-withpeople-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withpeople-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A natural paw-shaped collar tag or visible paw pad within the scene; preserve the interaction and gender-neutral humans."
+    },
+    {
+      "key": "scale-withpeople-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withpeople-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A natural paw-shaped collar tag or visible paw pad within the scene; preserve the interaction and gender-neutral humans."
+    },
+    {
+      "key": "scale-withpeople-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withpeople-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A natural paw-shaped collar tag or visible paw pad within the scene; preserve the interaction and gender-neutral humans."
+    },
+    {
+      "key": "scale-withpeople-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withpeople-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A natural paw-shaped collar tag or visible paw pad within the scene; preserve the interaction and gender-neutral humans."
+    },
+    {
+      "key": "scale-withpeople-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-withpeople-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A natural paw-shaped collar tag or visible paw pad within the scene; preserve the interaction and gender-neutral humans."
+    },
+    {
+      "key": "scale-alone-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-alone-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw embroidery on bedding, a paw-shaped door plaque or collar tag, integrated with this hotel scene; preserve this dog's anxiety/calm level."
+    },
+    {
+      "key": "scale-alone-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-alone-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw embroidery on bedding, a paw-shaped door plaque or collar tag, integrated with this hotel scene; preserve this dog's anxiety/calm level."
+    },
+    {
+      "key": "scale-alone-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-alone-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw embroidery on bedding, a paw-shaped door plaque or collar tag, integrated with this hotel scene; preserve this dog's anxiety/calm level."
+    },
+    {
+      "key": "scale-alone-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-alone-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw embroidery on bedding, a paw-shaped door plaque or collar tag, integrated with this hotel scene; preserve this dog's anxiety/calm level."
+    },
+    {
+      "key": "scale-alone-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-alone-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw embroidery on bedding, a paw-shaped door plaque or collar tag, integrated with this hotel scene; preserve this dog's anxiety/calm level."
+    },
+    {
+      "key": "scale-car-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-car-1.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw upholstery stitch, paw-shaped collar tag or visible paw pad integrated with the car scene; preserve car comfort level."
+    },
+    {
+      "key": "scale-car-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-car-2.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw upholstery stitch, paw-shaped collar tag or visible paw pad integrated with the car scene; preserve car comfort level."
+    },
+    {
+      "key": "scale-car-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-car-3.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw upholstery stitch, paw-shaped collar tag or visible paw pad integrated with the car scene; preserve car comfort level."
+    },
+    {
+      "key": "scale-car-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-car-4.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw upholstery stitch, paw-shaped collar tag or visible paw pad integrated with the car scene; preserve car comfort level."
+    },
+    {
+      "key": "scale-car-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/scale-car-5.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. Paw upholstery stitch, paw-shaped collar tag or visible paw pad integrated with the car scene; preserve car comfort level."
+    },
+    {
+      "key": "int-hiking",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-hiking.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A stitched paw emblem on the side of the hiking boot or paw-shaped tread."
+    },
+    {
+      "key": "int-beaches",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-beaches.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One paw-shaped footprint pressed into the sand, fully integrated with the island."
+    },
+    {
+      "key": "int-camping",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-camping.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped tent door opening or paw stitched into the tent fabric."
+    },
+    {
+      "key": "int-wildlife",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-wildlife.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A tiny paw-shaped collar/charm or naturally paw-shaped muzzle marking on the deer, no pasted corner badge."
+    },
+    {
+      "key": "int-lakes",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-lakes.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One tiny paw-shaped island inside the lake, matching the shore color and existing landscape."
+    },
+    {
+      "key": "int-museums",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-museums.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw relief carved into the triangular pediment."
+    },
+    {
+      "key": "int-viewpoints",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-viewpoints.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. One binocular lens has a soft paw-shaped reflective highlight, same lens shape."
+    },
+    {
+      "key": "cat-food",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-food.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A clear paw motif as part of the plate ceramic glaze."
+    },
+    {
+      "key": "int-dessert",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-dessert.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped strawberry cream topping or paw piped into the icing, no separate badge."
+    },
+    {
+      "key": "int-breweries",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/int-breweries.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. The beer foam forms a chubby paw silhouette above the mug, or a paw engraved in its glass."
+    },
+    {
+      "key": "cat-drinks",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-drinks.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A small paw-shaped highlight or paw etched into the wine glass bowl."
+    },
+    {
+      "key": "cat-fun",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-fun.png",
+      "prompt": "Edit the FIRST attached source icon. The other references are the approved PawTrip sticker family/style reference sheet. Preserve the source's main subject, pose, view angle, colors, level/meaning and chunky rounded style. Creatively integrate ONE clearly readable PAW PRINT (one pad plus toe pads) into the object's actual design, rather than adding a generic floating badge or corner overlay. Match the existing thick dark-brown outline, cream fills, muted warm palette, small white highlight and crisp white die-cut rim exactly. Keep details bold and readable at 24px. One complete standalone square icon, centered with equal margin, nothing cropped. Flat pure WHITE background. No text/numbers, no new frame, no realistic texture, no cast shadow, no extra unrelated objects. A paw-shaped die cut replacing the star-shaped ticket perforation."
+    },
+    {
+      "key": "scale-recall-1",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-recall.png",
+      "prompt": "Create one new PawTrip dog trait sticker using the exact cream-faced, golden-eared dog and thick rounded dark-brown outline shown in the FIRST source. Match the other approved style references exactly, with clean cream fills and white sticker rim, one small white highlight, same character proportions. An excited friendly cream-and-gold dog racing away with a loose leash trailing behind; one clear paw-shaped collar tag. Unreliable recall, escape artist. One square standalone icon, centered, readable at 24px. Flat pure white background. No text/numerals, no cast shadow, no frame, no cropped body."
+    },
+    {
+      "key": "scale-recall-2",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-recall.png",
+      "prompt": "Create one new PawTrip dog trait sticker using the exact cream-faced, golden-eared dog and thick rounded dark-brown outline shown in the FIRST source. Match the other approved style references exactly, with clean cream fills and white sticker rim, one small white highlight, same character proportions. A distracted cream-and-gold dog looking at a butterfly, a paw-shaped collar tag. Easily distracted recall. One square standalone icon, centered, readable at 24px. Flat pure white background. No text/numerals, no cast shadow, no frame, no cropped body."
+    },
+    {
+      "key": "scale-recall-3",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-recall.png",
+      "prompt": "Create one new PawTrip dog trait sticker using the exact cream-faced, golden-eared dog and thick rounded dark-brown outline shown in the FIRST source. Match the other approved style references exactly, with clean cream fills and white sticker rim, one small white highlight, same character proportions. A cream-and-gold dog playing calmly inside a small fenced grassy enclosure; a paw-shaped gate cutout. Safe only in enclosed space. One square standalone icon, centered, readable at 24px. Flat pure white background. No text/numerals, no cast shadow, no frame, no cropped body."
+    },
+    {
+      "key": "scale-recall-4",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-recall.png",
+      "prompt": "Create one new PawTrip dog trait sticker using the exact cream-faced, golden-eared dog and thick rounded dark-brown outline shown in the FIRST source. Match the other approved style references exactly, with clean cream fills and white sticker rim, one small white highlight, same character proportions. A cream-and-gold dog looking attentively back toward a person's boots, paw-shaped collar tag. Reliable return to owner. One square standalone icon, centered, readable at 24px. Flat pure white background. No text/numerals, no cast shadow, no frame, no cropped body."
+    },
+    {
+      "key": "scale-recall-5",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-recall.png",
+      "prompt": "Create one new PawTrip dog trait sticker using the exact cream-faced, golden-eared dog and thick rounded dark-brown outline shown in the FIRST source. Match the other approved style references exactly, with clean cream fills and white sticker rim, one small white highlight, same character proportions. A cream-and-gold dog sitting attentively beside a person's boots with a tiny golden paw-shaped medal. Very reliable recall. No actual rope, no face on the human. One square standalone icon, centered, readable at 24px. Flat pure white background. No text/numerals, no cast shadow, no frame, no cropped body."
+    },
+    {
+      "key": "ui-save",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-save.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Make the green confirm badge's outer silhouette a rounded paw print with the existing CHECK MARK in its central pad. It remains unmistakably SAVE, readable at 24px."
+    },
+    {
+      "key": "ui-discard",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-discard.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Make the cream cancel badge's outer silhouette a rounded paw print with the existing X in its central pad. It remains unmistakably CANCEL, readable at 24px."
+    },
+    {
+      "key": "nav-dogs",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/nav-dogs.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Give this same friendly dog a little raised forepaw with clearly visible paw pads beside its face, connected to the dog, not a floating badge."
+    },
+    {
+      "key": "nav-settings",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/nav-settings.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Replace the gear's circular inner hole with a clear paw-shaped hole; retain the gold gear teeth."
+    },
+    {
+      "key": "nav-profile",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/nav-profile.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A gender-neutral friendly round person bust, cream face, simple brown hair/cap, gold shirt with a clear paw-shaped fabric cutout. Same scale and friendly style."
+    },
+    {
+      "key": "tab-plan",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/tab-plan.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Turn the selected calendar day cell into a tiny golden paw-print date marker."
+    },
+    {
+      "key": "tab-ideas",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/tab-ideas.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Create a paw-shaped filament inside the golden lightbulb."
+    },
+    {
+      "key": "tab-members",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/tab-members.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A small paw emblem naturally printed on the front person's shirt; keep two gender-neutral people."
+    },
+    {
+      "key": "cat-outdoors",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-outdoors.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A small paw-shaped cutout/branch pattern within the pine foliage."
+    },
+    {
+      "key": "cat-stay",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-stay.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Paw embroidery woven into the blue bed blanket."
+    },
+    {
+      "key": "cat-transit",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-transit.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped cream emblem integrated into the bus front panel."
+    },
+    {
+      "key": "ui-pencil",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-pencil.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A clear paw engraving in the pencil's yellow body, part of its design."
+    },
+    {
+      "key": "ui-trash",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-trash.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. An embossed paw imprint on the trash bin's front face."
+    },
+    {
+      "key": "ui-archive",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-archive.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped handhold cutout in the front of the storage box. Preserve the downward arrow."
+    },
+    {
+      "key": "ui-copy",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-copy.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A clear paw watermark in the front blue sheet."
+    },
+    {
+      "key": "ui-share",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-share.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped cutout within the share button's base panel. Keep the share arrow fully clear."
+    },
+    {
+      "key": "ui-invite",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-invite.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw emblem on the person's chest; keep the plus badge distinct."
+    },
+    {
+      "key": "ui-zoom",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-zoom.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped glint inside the magnifying glass lens."
+    },
+    {
+      "key": "cat-sights",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-sights.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw etched into the camera front or lens reflective pattern."
+    },
+    {
+      "key": "wx-sun",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-sun.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped golden center within the sun disk; keep sun rays and sunny-weather meaning."
+    },
+    {
+      "key": "wx-partly",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-partly.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A very subtle paw-shaped cloud contour, one central cloud pad with four rounded toe bumps, with the sun still visibly behind the cloud."
+    },
+    {
+      "key": "wx-cloud",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-cloud.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Make the cloud itself a soft paw-shaped cloud, one central pad cloud and four connected toe-like billows. Keep it obviously cloudy weather."
+    },
+    {
+      "key": "wx-rain",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-rain.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. One of the large falling raindrops contains a small paw-shaped highlight. Keep cloud and clear rain drops."
+    },
+    {
+      "key": "wx-storm",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-storm.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A subtle paw-shaped patch within the storm cloud, with its lightning bolt fully preserved."
+    },
+    {
+      "key": "wx-snow",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-snow.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. One of the falling snowflakes is a small icy paw-shaped snow crystal. Keep the snow cloud and other flakes."
+    },
+    {
+      "key": "wx-fog",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-fog.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A pale paw shape subtly integrated into the top cloud; retain the horizontal fog bars."
+    },
+    {
+      "key": "wx-sunrise",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-sunrise.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped golden sun disk rising over the horizon, preserving the UP arrow and sunrise meaning."
+    },
+    {
+      "key": "wx-sunset",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/wx-sunset.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped orange sun disk over the horizon, preserving the DOWN arrow and sunset meaning."
+    },
+    {
+      "key": "pin-stop",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/pin-stop.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. The map pin's central circular cutout becomes a paw-shaped cutout; preserve teardrop map-pin silhouette."
+    },
+    {
+      "key": "pin-stay",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/pin-stay.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped doorway in the little house inside the pin."
+    },
+    {
+      "key": "pin-idea",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/pin-idea.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped filament inside the lightbulb in the map pin."
+    },
+    {
+      "key": "dog-sitter",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/dog-sitter.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw emblem on the sitter's shirt, integrated into fabric, preserve person holding dog."
+    },
+    {
+      "key": "dog-alone",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/dog-alone.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped plaque carved into the doghouse roof/gable, keep the dog visible."
+    },
+    {
+      "key": "dog-tbd",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/dog-tbd.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. One little raised dog forepaw with visible pads beside the face, preserve the question-mark thought bubble."
+    },
+    {
+      "key": "ui-warning",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-warning.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. The dot under the exclamation stroke is a tiny paw print; preserve warning triangle and exclamation readability."
+    },
+    {
+      "key": "ui-dog-warning",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-dog-warning.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Add a little raised paw with visible pads connected to the dog's body; retain the warning triangle."
+    },
+    {
+      "key": "mood-yay",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/mood-yay.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. This same happy dog raises a little paw beside its face with clearly visible pads, keep exact happy expression."
+    },
+    {
+      "key": "mood-ok",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/mood-ok.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. This same neutral dog holds a little paw beside its face with clearly visible pads, keep exact neutral expression."
+    },
+    {
+      "key": "mood-meh",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/mood-meh.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. This same sad dog holds a little paw low beside its face with visible pads, keep exact sad expression."
+    },
+    {
+      "key": "trait-runner",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-runner.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Visible paw pads on a rear foot mid-run, or a clear paw-shaped collar tag, naturally connected to the running dog."
+    },
+    {
+      "key": "trait-recall",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/trait-recall.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A small paw-shaped medal on this dog's collar, integrated with its happy recall pose."
+    },
+    {
+      "key": "ui-crown",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-crown.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Make the crown's central jewel a paw-shaped gold/cream jewel."
+    },
+    {
+      "key": "ui-chat",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-chat.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Replace the three typing dots with three tiny paw-shaped typing marks, keep speech bubble silhouette."
+    },
+    {
+      "key": "ui-clock",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-clock.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A subtle paw-shaped center pivot for the clock hands, preserve clock hands."
+    },
+    {
+      "key": "ui-note",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/ui-note.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A clear paw-shaped watermark/printed mark on the notepad, keep its lines and binding."
+    },
+    {
+      "key": "diet-vegetarian",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/diet-vegetarian.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A small paw shape formed by the leaf veins, keep it obviously a green leaf."
+    },
+    {
+      "key": "diet-vegan",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/diet-vegan.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. The sprout's base leaf or seed becomes a tiny paw silhouette inside the cream heart."
+    },
+    {
+      "key": "diet-glutenfree",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/diet-glutenfree.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A tiny paw imprint on a wheat grain. Preserve the wheat and its prohibition slash so GLUTEN-FREE remains obvious."
+    },
+    {
+      "key": "diet-dairyfree",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/diet-dairyfree.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw-shaped label printed on the milk bottle. Preserve the prohibition slash so DAIRY-FREE remains obvious."
+    },
+    {
+      "key": "diet-nutallergy",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/diet-nutallergy.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A small paw pattern etched into the peanut shell. Preserve the prohibition slash and peanut silhouette."
+    },
+    {
+      "key": "diet-halal",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/diet-halal.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A small paw engraving inside the green crescent. Preserve the crescent and star shapes exactly, do not replace with another religious symbol."
+    },
+    {
+      "key": "empty-map",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/empty-map.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. Paw-shaped trail marks printed into the unfolded map, integrated with the dog looking at it."
+    },
+    {
+      "key": "empty-day",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/empty-day.png",
+      "prompt": "Edit the FIRST source image into the exact approved PawTrip icon family. Preserve its meaning, main shapes, camera angle, thick rounded dark-brown outlines, muted warm colors, cream fills, little white highlight and crisp white die-cut rim. Integrate a recognizable PAW PRINT (one pad and toe pads) playfully into the actual object, not as a generic floating badge/corner logo. The other attached images are the approved style reference sheet. Keep chunky readable details at 24px, complete silhouette centered inside square canvas, equal margin. Pure flat WHITE background, no text, no crop, no cast shadow, no extra frame. A paw printed in one calendar day cell behind the sleeping dog, integrated with the illustration."
+    },
+    {
+      "key": "diet-kosher",
+      "src": "/Users/ivan/workplace/pawtrip-app/pawtrip/assets/icons/masters/cat-food.png",
+      "prompt": "Create one PawTrip KOSHER dietary sticker in the exact thick dark-brown rounded, cream/gold and white-rim style of the reference sheet. One simple cream dinner plate with a clearly readable dark-brown SIX-POINTED STAR at its center and a tiny paw engraved into the golden plate rim. No crescent, no cross, no Hebrew or other letters, no text, no food scene. Complete object, centered square, pure white background, no cast shadow."
+    }
+  ]
+}

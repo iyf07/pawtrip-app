@@ -313,7 +313,7 @@ export default function Plan() {
           <Text plain size={14} weight={800} color="muted">
             {mapOpen ? '▸' : '◂'}
           </Text>
-          <Text size={13}>🗺</Text>
+          <Icon name="empty-map" size={18} />
         </Pressable>
       </View>
       {showRight ? (
@@ -481,8 +481,8 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
         }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1, paddingRight: n > 1 ? 0 : 44 }}>
           <CatIcon cat={item.cat} size={short ? 20 : 24} />
+          {!item.confirmed ? <Icon name="tab-ideas" size={18} /> : null}
           <Text weight={item.confirmed ? 800 : 700} size={15} numberOfLines={short ? 1 : 2} style={{ flexShrink: 1 }}>
-            {item.confirmed ? '' : '💡 '}
             {item.title}
           </Text>
         </View>
@@ -492,7 +492,7 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
         </Text>
         {!short ? <FacePile item={item} size={18} /> : null}
         <View style={{ position: 'absolute', top: 4, right: 4, flexDirection: 'row', gap: 4 }}>
-          {withDog ? <Text size={14}>🐕</Text> : null}
+          {withDog ? <Icon name="nav-dogs" size={18} /> : null}
           {hasAlone ? <Icon name="ui-dog-warning" size={18} /> : null}
           {hasConflict ? <Icon name="ui-warning" size={18} /> : null}
         </View>

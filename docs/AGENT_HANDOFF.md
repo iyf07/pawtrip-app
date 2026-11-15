@@ -119,6 +119,9 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Full-site paw family: 140 registered stickers, 130 regenerated and 10 approved existing paw icons retained. Paw marks are integrated into each object. Batch 13 prompts/contact sheet in docs; raw archive /Users/ivan/workplace/icons/batch-13-paw-family. Dog avatar fallback, welcome illustration, maps and decorative emoji use the same stickers.
+- 2026-11-15 Human six / dog seven values remain nullable numeric 1–5 for future LLM input; UI uses exact playful titles and descriptions without score labels. Human titles form one small line under ID and on friends/member cards. Dog recall_level is separate from legacy recall text; never infer or rewrite old values.
+- 2026-11-15 Sign in accepts email or public ID. ID resolution happens only in id-login Edge Function; bound email receives existing Auth OTP. Send responses expose neither email nor account existence; a valid OTP is required for a session.
 - 2026-11-15 Profile editing supersedes the bottom SaveBar convention: each section has a right-aligned pencil, replaced in place by save/check and discard/X icons while editing, including identity. No bottom popup or bar on profile. Dietary needs support custom text; body font explicitly falls back to Simplified Chinese fonts (PingFang SC etc.) to fix 无 glyph rendering.
 - 2026-11-15 Travel preferences now have SIX nullable 1–5 scales in user-supplied order: morning, noise, walking, temperature, pace, spending. Questions, all five labels and selected-answer descriptions use the user’s exact Chinese copy plus English translations. Applies to profile and onboarding; descriptions explicitly requested, view mode still hides sliders. New columns are on profiles, not trips; budget is a personal preference.
 - 2026-11-15 Interests have text-only subgroup headings (outdoors, sights, food/drink, wineries/breweries, shopping, experiences), with the 14 specific sticker choices below. Retired broad choices no longer appear as iconless selectable chips; saving interests retains only specific choices.
@@ -141,6 +144,8 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+2026-11-15 Paw/personality/ID release: preserved current root-list, skeleton, friends lookup and plural URL updates. Backend 2760ebb pushed: recall migration 20261115191749 deployed with --include-all after already-applied find_buddy; id-login function deployed. 91 DB tests pass; local OTP integration/browser sign-in and unknown-ID cloud smoke checks pass. Frontend 140 stickers inspected after cleanup; desktop/375px checked, read-only 0 sliders, edit 6 human / 7 dog sliders; all test drafts discarded. Frontend release pending.
 
 2026-11-15 Codex context review: read root CLAUDE.md / AGENTS.md, app AGENTS.md, UI principles, TODO, dependency versions, auth/root routing, desktop shell, trip context and trip/item API/model. No app behavior changed. TODO design checkboxes lag behind shipped state; use this handoff and current code as the baseline.
 
@@ -288,3 +293,7 @@ Friends: adding a friend is now two steps (look the ID up with `find_buddy()`, s
 
 ### 2026-11-15 (later 9) — first agent
 Friends page: dashed "+ 添加好友" card opening a popup (look up ID, see who, confirm). URL rename to plural collections done (claim released); old URLs redirect.
+
+### 2026-11-15 — Codex full-site paw family and personality/ID continuation
+Re-read handoff and reviewed 605e13d through 30134d0: preserved root trip list, navigation prefetch/skeletons, find_buddy confirmation and plural routes. These commits already included earlier personality/ID frontend changes. Finished 130 individually generated paw icons (10 approved existing paw icons retained); cleaned masters/UI, registered recall1–5 and kosher, replaced decorative emoji and old welcome SVG. Prompts/source mapping in docs/icon-batch13-prompts.json; full contact sheet docs/icon-paw-family-batch13.png; raw archive /Users/ivan/workplace/icons/batch-13-paw-family.
+Backend 2760ebb pushed/deployed: nullable dogs.recall_level without legacy-data inference; ID -> bound-email OTP login. Auth OTP verification/rate limits retained. 91 pgTAP assertions pass; local integration verifies known/unknown/malformed ID, correct session and OTP replay rejection. Production unknown-ID smoke checks pass. Browser ID login with disposable Alex fixture succeeded; profile/dog drafts discarded, desktop and 375px verified. Frontend release result follows.

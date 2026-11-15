@@ -145,7 +145,7 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-2026-11-15 Paw/personality/ID release: preserved current root-list, skeleton, friends lookup and plural URL updates. Backend 2760ebb pushed: recall migration 20261115191749 deployed with --include-all after already-applied find_buddy; id-login function deployed. 91 DB tests pass; local OTP integration/browser sign-in and unknown-ID cloud smoke checks pass. Frontend 140 stickers inspected after cleanup; desktop/375px checked, read-only 0 sliders, edit 6 human / 7 dog sliders; all test drafts discarded. Frontend release pending.
+2026-11-15 Paw/personality/ID release: preserved current root-list, skeleton, friends lookup and plural URL updates. Backend 2760ebb pushed: recall migration 20261115191749 deployed with --include-all after already-applied find_buddy; id-login function deployed. 91 DB tests pass; local OTP integration/browser sign-in and unknown-ID cloud smoke checks pass. Frontend 140 stickers inspected after cleanup; desktop/375px checked, read-only 0 sliders, edit 6 human / 7 dog sliders; all test drafts discarded. Frontend 9679896 pushed and deployed to https://pawtrip.expo.app (nq7on1amix); tsc/eslint silent and 10 frontend tests pass.
 
 2026-11-15 Codex context review: read root CLAUDE.md / AGENTS.md, app AGENTS.md, UI principles, TODO, dependency versions, auth/root routing, desktop shell, trip context and trip/item API/model. No app behavior changed. TODO design checkboxes lag behind shipped state; use this handoff and current code as the baseline.
 
@@ -162,7 +162,7 @@ Process
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
 Ideas tab; members page (members, add my friends, invite, dogs with add-my-dogs popup); month calendar; friends page (requests, accept/decline, add by ID);
-dogs (list page on phone, profile view/edit); my profile (view/edit); settings; in-app feedback; pull-to-refresh; icon sets batches 1–9 (kosher missing, see below).
+dogs (list page on phone, profile view/edit); my profile (view/edit); settings; in-app feedback; pull-to-refresh; icon sets through Batch 13 (140 paw-family stickers including kosher).
 
 **Backend**: latest additive migration `20261115185057_profile_travel_preferences` adds nullable profiles.temperature/pace/spending with 1–5 checks (deployed; all 78 pgTAP tests pass). Earlier migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
 
@@ -170,13 +170,13 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 
 **Open / next (pick from here; claim in 8.2)**
 - Scale icons (batch 10, 45) are **done and live**: `scale-<key>-<1..5>` registered in `Icon.tsx`, shown by `ScaleInput` (nine sets sent as separate prompts 10a–10i after the all-in-one attempt failed). Scales stay `null` until chosen (grey knob, "还没选").
-- Icons: **kosher** redo (prompt "Batch 8b" in `docs/icon-batches.md`); batch 9 empty-state illustrations are **done and wired** (empty-trips, empty-map, empty-day, empty-offline; sign-in/onboarding/new-trip still use the old SVG `DogIllo`); dedicated icons for friends and calendar (currently reuse tab-members / tab-plan); `nav-profile` neutral redo.
+- Icons: Batch 13 paw refresh is done (including kosher, recall, welcome illustration and avatar fallback). Dedicated friends/calendar navigation art and a more neutral profile silhouette remain optional refinements; current navigation uses tab-members/tab-plan.
 - Feedback `d7b17312…` ("every screen flashes on first visit" on iPhone Chrome) is **triaged, not reproduced**: a warm-up of data/icons was added; ask the user for details if it persists.
 - Friend requests have no notification (no badge); add a dot on the nav icon.
 - Dark mode has not been reviewed on the newer pages (calendar, friends, dog profile).
 - Share thumbnail (og-image) is **not working**: `public/og-image.png` is not served and `Head` tags are client-side only; needs a proper fix.
 - Google Calendar: plan = step 1 an `.ics` subscription feed per user (small), step 2 OAuth two-way sync (large, needs Google review). Backlog item T33. Not started.
-- Product TODOs (`/TODO.md`): custom SMTP (Resend + domain) so email codes reach anyone — **blocks real friends**; sign in by ID; remove the temporary leader-vote policy; settings (units, week start, delete account); conflict "fix" suggestions; invite links; paid tier; LLM.
+- Product TODOs (`/TODO.md`): custom SMTP (Resend + domain) so email codes reach anyone — **blocks real friends**; sign in by ID is now implemented; remove the temporary leader-vote policy; settings (units, week start, delete account); conflict "fix" suggestions; invite links; paid tier; LLM.
 - Platform: iOS/Android native map + cropper, bundle id (permanent once published!), `eas.json`, TestFlight; GitHub CI (typecheck, lint, DB tests).
 - Decisions waiting for the user: root domain; iOS bundle id; Apple developer account; monitoring/analytics tool; rename "Paw Track" (too close to "Paw Trip") and alignment with the spouse's project (`docs/pm/10-cross-project.md`); first revenue hypothesis.
 - Product work to run **with the PM agent**: first user test (5 friends, task "plan a weekend trip and invite someone"), basic event tracking (sign-up, trip created, item added, invite sent, invite joined).
@@ -209,7 +209,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 人狗人格标签、爪爪图标及ID登录 | profile / dog / buddies / auth / backend / assets | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -297,3 +296,5 @@ Friends page: dashed "+ 添加好友" card opening a popup (look up ID, see who,
 ### 2026-11-15 — Codex full-site paw family and personality/ID continuation
 Re-read handoff and reviewed 605e13d through 30134d0: preserved root trip list, navigation prefetch/skeletons, find_buddy confirmation and plural routes. These commits already included earlier personality/ID frontend changes. Finished 130 individually generated paw icons (10 approved existing paw icons retained); cleaned masters/UI, registered recall1–5 and kosher, replaced decorative emoji and old welcome SVG. Prompts/source mapping in docs/icon-batch13-prompts.json; full contact sheet docs/icon-paw-family-batch13.png; raw archive /Users/ivan/workplace/icons/batch-13-paw-family.
 Backend 2760ebb pushed/deployed: nullable dogs.recall_level without legacy-data inference; ID -> bound-email OTP login. Auth OTP verification/rate limits retained. 91 pgTAP assertions pass; local integration verifies known/unknown/malformed ID, correct session and OTP replay rejection. Production unknown-ID smoke checks pass. Browser ID login with disposable Alex fixture succeeded; profile/dog drafts discarded, desktop and 375px verified. Frontend release result follows.
+
+Release result: frontend 9679896 committed/pushed and deployed successfully to Expo production (nq7on1amix). Backend 2760ebb clean/pushed/deployed; production dogs.recall_level verified nullable smallint. Final checks: tsc/eslint silent, 10 frontend tests and 91 DB assertions pass; all 140 registered UI assets verified 512px transparent with corresponding masters. Security advisor review reports existing authenticated SECURITY DEFINER RPC warnings (intended RPC/RLS helpers, including find_buddy) and existing leaked-password-protection setting; this release did not change either. Remediation references: https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable and https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection. No unresolved release blocker. Claim released.

@@ -279,3 +279,6 @@ Root is now the trip list everywhere; rail Trips icon and logo go to `/`; a fold
 
 ### 2026-11-15 (later 7) — first agent
 Smoothness pass: disabled async routes on web, prefetch of trips+items, mapbox preload, skeletons on profile/dog/trip/ideas/plan/settings/onboarding/lists.
+
+### 2026-11-15 (later 8) — first agent
+Friends: adding a friend is now two steps (look the ID up with `find_buddy()`, show who it is, then confirm). `20261115200000_find_buddy.sql` was applied to production directly (`db query -f` + `migration repair --status applied`) **on purpose, without pushing Codex's uncommitted `20261115191749_dog_recall_scale.sql`**. Heads-up for Codex: `supabase db push --linked` now fails with "migration before the last remote one" for your file — either push it with `--include-all` or rename it to a timestamp after `20261115200000`. Production profiles at this time: two users (`iyf07`, `user_9101`), no buddy rows. Self-add is blocked in three places (table CHECK, `request_buddy` raises `self`, UI shows "这是你自己").

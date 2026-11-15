@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { useBuddies, useRemoveBuddy, useRequestBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
+import { useBuddies, useFindBuddy, useRemoveBuddy, useRequestBuddy, useRespondBuddy, type Buddy, type FoundBuddy } from '@/api/buddies';
 import { isCode } from '@/api/types';
 import { PersonTraits } from '@/components/PersonTraits';
 import { Avatar } from '@/components/ui/Avatar';
@@ -12,14 +12,18 @@ import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
+import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
   const { t } = useT();
+  const th = useTheme();
   const toast = useToast();
   const buddies = useBuddies();
   const request = useRequestBuddy();
+  const find = useFindBuddy();
+  const [found, setFound] = useState<FoundBuddy | null>(null);
   const respond = useRespondBuddy();
   const remove = useRemoveBuddy();
   const [handle, setHandle] = useState('');
@@ -28,14 +32,27 @@ export function BuddiesScreen() {
   const incoming = all.filter((b) => b.status === 'pending' && b.incoming);
   const mine = all.filter((b) => !(b.status === 'pending' && b.incoming));
 
-  async function add() {
+  // step 1: look the ID up and show who it is; step 2: the user confirms
+  async function lookup() {
     if (!handle.trim()) return;
     try {
-      await request.mutateAsync(handle);
+      const res = await find.mutateAsync(handle);
+      if (!res) return void toast(t('bd.unknown'));
+      setFound(res);
+    } catch {
+      toast(t('common.saveFailed'));
+    }
+  }
+
+  async function confirmAdd() {
+    if (!found) return;
+    try {
+      await request.mutateAsync(found.handle);
+      setFound(null);
       setHandle('');
-      toast(t('bd.asked'));
+      toast(found.relation === 'pending_in' ? t('bd.joined', { name: found.display_name }) : t('bd.asked'));
     } catch (e) {
-      toast(isCode(e, 'unknown_handle') ? t('bd.unknown') : isCode(e, 'self') ? t('bd.self') : t('common.saveFailed'));
+      toast(isCode(e, 'self') ? t('bd.self') : t('common.saveFailed'));
     }
   }
 
@@ -93,10 +110,28 @@ export function BuddiesScreen() {
             ))}
             <View style={{ flexDirection: 'row', gap: 8, marginTop: mine.length ? 8 : 0, alignItems: 'center' }}>
               <View style={{ flex: 1 }}>
-                <Field value={handle} onChangeText={(v) => setHandle(v.toLowerCase())} placeholder={t('bd.idPh')} autoCapitalize="none" autoCorrect={false} onSubmitEditing={add} returnKeyType="send" />
+                <Field value={handle} onChangeText={(v) => { setHandle(v.toLowerCase()); setFound(null); }} placeholder={t('bd.idPh')} autoCapitalize="none" autoCorrect={false} onSubmitEditing={lookup} returnKeyType="search" />
               </View>
-              <Button label={t('bd.add')} small onPress={add} loading={request.isPending} disabled={!handle.trim()} />
+              <Button label={t('bd.find')} small onPress={lookup} loading={find.isPending} disabled={!handle.trim()} />
             </View>
+            {found ? (
+              <View style={{ marginTop: 12, padding: 12, borderRadius: 16, backgroundColor: th.goldBg, gap: 10 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  <Avatar id={found.id} name={found.display_name} url={found.avatar_url} size={52} />
+                  <View style={{ flex: 1 }}>
+                    <Text weight={800} size={17} numberOfLines={1}>
+                      {found.display_name}
+                    </Text>
+                    <Meta numberOfLines={1}>@{found.handle}</Meta>
+                  </View>
+                </View>
+                {found.relation === 'none' || found.relation === 'pending_in' ? (
+                  <Button label={found.relation === 'pending_in' ? t('bd.accept') : t('bd.confirmAdd')} block loading={request.isPending} onPress={confirmAdd} />
+                ) : (
+                  <Meta weight={700}>{found.relation === 'self' ? t('bd.isSelf') : found.relation === 'accepted' ? t('bd.isFriend') : t('bd.sentAlready')}</Meta>
+                )}
+              </View>
+            ) : null}
           </Card>
         </View>
       )}

@@ -48,6 +48,19 @@ function useBuddyMutation<V, R = void>(fn: (v: V) => Promise<R>) {
   return useMutation({ mutationFn: fn, onSuccess: () => qc.invalidateQueries({ queryKey: ['buddies'] }) });
 }
 
+export type FoundBuddy = { id: string; display_name: string; avatar_url: string | null; handle: string; relation: 'self' | 'accepted' | 'pending_out' | 'pending_in' | 'none' };
+
+/** Look someone up by public ID before asking them; null when nobody has that ID. */
+export function useFindBuddy() {
+  return useMutation({
+    mutationFn: async (handle: string): Promise<FoundBuddy | null> => {
+      const { data, error } = await supabase.rpc('find_buddy', { p_handle: handle });
+      if (error) throw error;
+      return ((data as unknown as FoundBuddy[])[0]) ?? null;
+    },
+  });
+}
+
 /** Ask someone by public ID; throws a message containing unknown_handle / self. */
 export const useRequestBuddy = () =>
   useBuddyMutation(async (handle: string) => {

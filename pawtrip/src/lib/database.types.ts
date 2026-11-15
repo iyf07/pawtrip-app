@@ -290,6 +290,11 @@ isOneToOne: false
             "add_buddies_to_trip":
 { Args: { "p_buddies": (string)[],"p_dogs"?: boolean,"p_trip": string }; Returns: number
                            },
+"find_buddy":
+{ Args: { "p_handle": string }; Returns: {
+              "avatar_url": string,"display_name": string,"handle": string,"id": string,"relation": string
+            }[]
+                           },
 "handle_available":
 { Args: { "p_handle": string }; Returns: boolean
                            },

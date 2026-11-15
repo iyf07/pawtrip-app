@@ -129,12 +129,12 @@ Process
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
 Ideas tab; members page (members, add my friends, invite, dogs with add-my-dogs popup); month calendar; friends page (requests, accept/decline, add by ID);
-dogs (list page on phone, profile view/edit); my profile (view/edit); settings; in-app feedback; pull-to-refresh; icon sets batches 1–8 (kosher missing, see below).
+dogs (list page on phone, profile view/edit); my profile (view/edit); settings; in-app feedback; pull-to-refresh; icon sets batches 1–9 (kosher missing, see below).
 
 **Backend**: migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
 
 **Open / next (pick from here; claim in 8.2)**
-- Icons: **kosher** redo (prompt "Batch 8b" in `docs/icon-batches.md`); **batch 9** empty-state illustrations (then wire into empty states); dedicated icons for friends and calendar (currently reuse tab-members / tab-plan); `nav-profile` neutral redo.
+- Icons: **kosher** redo (prompt "Batch 8b" in `docs/icon-batches.md`); batch 9 empty-state illustrations are **done and wired** (empty-trips, empty-map, empty-day, empty-offline; sign-in/onboarding/new-trip still use the old SVG `DogIllo`); dedicated icons for friends and calendar (currently reuse tab-members / tab-plan); `nav-profile` neutral redo.
 - Feedback `d7b17312…` ("every screen flashes on first visit" on iPhone Chrome) is **triaged, not reproduced**: a warm-up of data/icons was added; ask the user for details if it persists.
 - Friend requests have no notification (no badge); add a dot on the nav icon.
 - Dark mode has not been reviewed on the newer pages (calendar, friends, dog profile).
@@ -189,3 +189,6 @@ Built and deployed: calendar (month view, tap/drag to create, drag to move with 
 batch 1–8 icon integration, interests/diet redesign, dog and personal profile view/edit, nav and layout unification, feedback batch (settings only in nav, add-my-dogs popup, dog profile layout), UI principles doc.
 Unfinished / next for whoever continues: section 6 "Open / next". First thing to check: `git log -5`, then production feedback with `status='new'`.
 The first agent will re-read this file and `git log` when it comes back; **write anything it must know here, not in chat.**
+
+### 2026-11-15 (later) — first agent
+Batch 9 empty-state illustrations processed and wired (trips empty, ideas empty, empty day, map overlay, load-failed cards). Zip was in `~/Desktop`, copied to the icons folder.

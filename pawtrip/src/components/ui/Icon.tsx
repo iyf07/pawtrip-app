@@ -69,6 +69,10 @@ const SOURCES = {
   'diet-dairyfree': require('../../../assets/icons/diet-dairyfree.png'),
   'diet-nutallergy': require('../../../assets/icons/diet-nutallergy.png'),
   'diet-halal': require('../../../assets/icons/diet-halal.png'),
+  'empty-trips': require('../../../assets/icons/empty-trips.png'),
+  'empty-map': require('../../../assets/icons/empty-map.png'),
+  'empty-day': require('../../../assets/icons/empty-day.png'),
+  'empty-offline': require('../../../assets/icons/empty-offline.png'),
 } as const;
 
 export type IconName = keyof typeof SOURCES;

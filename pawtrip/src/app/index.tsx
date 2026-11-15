@@ -8,7 +8,6 @@ import { CalendarScreen } from '@/features/calendar/CalendarScreen';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { DogIllo } from '@/components/ui/DogIllo';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { COLUMN } from '@/constants/theme';
@@ -65,7 +64,7 @@ function Trips() {
         </View>
       ) : trips.isError ? (
         <Card style={{ alignItems: 'center', marginTop: 24 }}>
-          <Text size={36}>📡</Text>
+          <Icon name="empty-offline" size={110} />
           <Text weight={800} size={18}>
             {t('common.loadFailed')}
           </Text>
@@ -73,7 +72,7 @@ function Trips() {
         </Card>
       ) : trips.data.length === 0 ? (
         <View style={{ alignItems: 'center', paddingTop: 40 }}>
-          <DogIllo size={132} tilt={2} />
+          <Icon name="empty-trips" size={150} />
           <Text weight={800} size={20} style={{ marginTop: 20 }}>
             {t('trips.empty.title')}
           </Text>

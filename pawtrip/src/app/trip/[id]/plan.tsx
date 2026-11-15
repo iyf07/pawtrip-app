@@ -150,6 +150,7 @@ export default function Plan() {
           </View>
         ) : itemsError ? (
           <Card style={{ alignItems: 'center', marginTop: 16 }}>
+            <Icon name="empty-offline" size={96} />
             <Text weight={800}>{t('common.loadFailed')}</Text>
             <Button label={t('common.retry')} small onPress={refetchItems} style={{ marginTop: 8 }} />
           </Card>
@@ -157,7 +158,7 @@ export default function Plan() {
           <>
             {dayList.length === 0 ? (
               <Card style={{ alignItems: 'center', marginTop: 12 }}>
-                <Text size={30}>🦴</Text>
+                <Icon name="empty-day" size={110} />
                 <Text weight={800}>{t('plan.emptyDay.title', { day: weekdayShort(days[day], locale) })}</Text>
                 <Text size={13} color="muted" style={{ textAlign: 'center', marginTop: 2 }}>
                   {t('plan.emptyDay.body')}
@@ -323,7 +324,8 @@ export default function Plan() {
               <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
               {pins.length === 0 ? (
                 <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
-                  <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
+                  <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line, alignItems: 'center' }}>
+                    <Icon name="empty-map" size={72} />
                     <Meta>{t('map.empty.body')}</Meta>
                   </View>
                 </View>

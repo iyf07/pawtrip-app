@@ -3,8 +3,8 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useSetDeleted } from '@/api/items';
 import { Button } from '@/components/ui/Button';
+import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
-import { DogIllo } from '@/components/ui/DogIllo';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTimeFmt } from '@/hooks/use-prefs';
@@ -55,12 +55,13 @@ export default function Ideas() {
         </View>
       ) : itemsError ? (
         <Card style={{ alignItems: 'center', marginTop: 16 }}>
+          <Icon name="empty-offline" size={96} />
           <Text weight={800}>{t('common.loadFailed')}</Text>
           <Button label={t('common.retry')} small onPress={refetchItems} style={{ marginTop: 8 }} />
         </Card>
       ) : ideas.length === 0 ? (
         <View style={{ alignItems: 'center', paddingTop: 32 }}>
-          <DogIllo size={120} tilt={2} />
+          <Icon name="empty-map" size={140} />
           <Text weight={800} size={20} style={{ marginTop: 18 }}>
             {t('ideas.empty.title')}
           </Text>

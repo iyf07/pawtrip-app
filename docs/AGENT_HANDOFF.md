@@ -135,7 +135,7 @@ Process
 
 2026-11-15 Header typography: shared page titles enlarged to 26px / 32px (phone / desktop); typecheck and lint clean, profile checked at desktop and 375px and settings at desktop.
 
-2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Release authorized explicitly by user on 2026-11-15; latest layout includes grouped preferences above account and no feedback history.
+2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Live at https://pawtrip.expo.app: code commit 12220b5, deployment rkxe2m18ve. Includes grouped preferences above account and no feedback history.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -185,7 +185,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 发布主页修改 | profile / interests / i18n | 发布中 |
+| — | — | (none) | | |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -233,3 +233,5 @@ Split profile editing into identity/style/interests/diet with separate pencils a
 
 ### 2026-11-15 — Codex profile layout and release authorization
 Grouped preferences into one bordered section: desktop style left/interests right, dietary needs below on left; mobile stacks style/interests/dietary needs. Renamed dietary section 我的忌口 and preserved its pencil. Moved account below preferences. Removed profile feedback history and its query; global feedback composer retained. Browser checked 1280px and 375px, including dietary edit/discard. User explicitly reaffirmed automatic Expo and relevant Supabase deployment, superseding earlier approval blocker. No backend changes in this release.
+
+Release result: 12220b5 committed/pushed and deployed successfully to Expo production (rkxe2m18ve). No Supabase migrations/functions changed, so no backend deployment was necessary. Final typecheck/lint silent, two regression tests pass, git diff checks clean. Claim released.

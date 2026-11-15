@@ -13,6 +13,10 @@ const FAMILY = {
 export type TextWeight = keyof typeof FAMILY;
 
 /** Titles (extra-bold text from 18px up) use a playful rounded face; Latin letters from Fredoka, Chinese from ZCOOL KuaiLe. */
+const BODY = (weight: TextWeight) => Platform.OS === 'web'
+  ? `${FAMILY[weight]}, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif`
+  : FAMILY[weight];
+
 const DISPLAY = Platform.OS === 'web' ? 'Fredoka_700Bold, ZCOOLKuaiLe_400Regular, Nunito_800ExtraBold' : 'Fredoka_700Bold';
 
 export type AppTextProps = TextProps & {
@@ -29,7 +33,7 @@ export function Text({ weight = 600, size = 16, color = 'text', plain, style, ..
   return (
     <RNText
       {...rest}
-      style={[{ fontFamily: weight === 800 && size >= 18 && !plain ? DISPLAY : FAMILY[weight], fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color] }, style]}
+      style={[{ fontFamily: weight === 800 && size >= 18 && !plain ? DISPLAY : BODY(weight), fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color] }, style]}
     />
   );
 }

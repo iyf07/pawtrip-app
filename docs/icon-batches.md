@@ -1,5 +1,138 @@
 # Ready-to-send icon batches (copy one whole block into ChatGPT)
 
+## Batch 12 — six travel preferences and inline actions (2026-11-15)
+
+**Style correction:** Batch 11 lakes/dessert were rejected for not matching. Text-only style descriptions are insufficient: always attach the approved `int-hiking`, `cat-coffee`, and `scale-walk-3` masters as the style reference sheet. These actual images were supplied to built-in imagegen for Batch 12. Compare contact sheets against approved originals before integration. Morning 4/5 now mean noon/afternoon, never sunset/night. Temperature/pace/spending use human-neutral objects; no dog faces. Rebuild borders with the existing cleanup pipeline to keep white-rim thickness and visual size aligned.
+
+21 final icons, one independent image per call. Source archive: `/Users/ivan/workplace/icons/batch-12-six-scales/`; frontend masters/UI in `pawtrip/assets/icons/masters` and `pawtrip/assets/icons`; comparison sheet in `docs/icon-style-alignment-batch12.png`. Spending level 2 was refined against level 1 to remove an inconsistent paw mark and keep the exact wallet.
+
+### int-dessert.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. A simple small strawberry shortcake slice, muted cream and dusty pink, tiny red strawberry, on a small cream plate. Keep it as restrained, chunky and simple as the coffee reference. Replaces an overly bright detailed dessert icon.
+```
+
+### int-lakes.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One small tranquil blue lake with two broad cream ripple lines, one small green pine at the bank, a simple low grassy shore. Muted blue and green. Same simple object-like silhouette as the hiking boot reference; no big yellow bushes, no sun, no extra landscape frame.
+```
+
+### scale-morning-4.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. A simple cream lunch plate with a tiny golden sun directly overhead; depicts starting a trip at noon (12–14), not sunset. Amber and cream.
+```
+
+### scale-morning-5.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. A simple cream tea cup with a golden afternoon sun behind it; depicts starting a trip after 14:00, daylight, not moon/night. Amber and cream.
+```
+
+### scale-temperature-1.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One rounded thermometer with very low BLUE fluid, a chunky blue snowflake and a small scarf wrapped around its base: extremely sensitive to cold. Temperature set: fixed thermometer subject/size/angle across levels.
+```
+
+### scale-temperature-2.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. The SAME rounded thermometer with low blue fluid and a small cream scarf: slightly sensitive to cold. Temperature set: fixed thermometer subject/size/angle across levels.
+```
+
+### scale-temperature-3.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. The SAME rounded thermometer with fluid at the midpoint, a small sun and snowflake balanced on either side: adapts to both cold and heat. Temperature set: fixed thermometer subject/size/angle across levels.
+```
+
+### scale-temperature-4.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. The SAME rounded thermometer with high warm orange fluid and one sweat drop: slightly sensitive to heat. Temperature set: fixed thermometer subject/size/angle across levels.
+```
+
+### scale-temperature-5.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. The SAME rounded thermometer with very high red fluid, a small orange sun and two sweat drops: extremely sensitive to heat. Temperature set: fixed thermometer subject/size/angle across levels.
+```
+
+### scale-pace-1.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky cream itinerary card with rounded corners and a gold top clip. Only ONE large green circular stop with lots of empty cream space: extremely relaxed itinerary. Pace set: identical card shape, size and angle, no writing or digits; use only the stop dots to communicate density.
+```
+
+### scale-pace-2.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky cream itinerary card with rounded corners and a gold top clip. TWO large green circular stops connected by one short brown path: leisurely itinerary. Pace set: identical card shape, size and angle, no writing or digits; use only the stop dots to communicate density.
+```
+
+### scale-pace-3.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky cream itinerary card with rounded corners and a gold top clip. THREE large green circular stops connected by a short brown path: balanced itinerary. Pace set: identical card shape, size and angle, no writing or digits; use only the stop dots to communicate density.
+```
+
+### scale-pace-4.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky cream itinerary card with rounded corners and a gold top clip. FOUR large green circular stops connected by a brown winding path: full itinerary. Pace set: identical card shape, size and angle, no writing or digits; use only the stop dots to communicate density.
+```
+
+### scale-pace-5.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky cream itinerary card with rounded corners and a gold top clip. FIVE large green circular stops connected by a brown winding path, one small golden lightning badge: packed itinerary. Pace set: identical card shape, size and angle, no writing or digits; use only the stop dots to communicate density.
+```
+
+### scale-spending-1.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky muted brown travel wallet with a cream inner lining, simple gold snap and ONE small gold coin beside it: very frugal travel. Spending set: same wallet subject, size, angle and position at all five levels; vary coin count and small badge only, no currency letters or text.
+```
+
+### scale-spending-2.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky muted brown travel wallet with a cream inner lining, simple gold snap and TWO small stacked gold coins beside it: economical travel. Spending set: same wallet subject, size, angle and position at all five levels; vary coin count and small badge only, no currency letters or text.
+```
+
+### scale-spending-3.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky muted brown travel wallet with a cream inner lining, simple gold snap and THREE stacked gold coins beside it: comfortable travel. Spending set: same wallet subject, size, angle and position at all five levels; vary coin count and small badge only, no currency letters or text.
+```
+
+### scale-spending-4.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky muted brown travel wallet with a cream inner lining, simple gold snap and FOUR stacked gold coins beside it, small cream sparkle: premium travel. Spending set: same wallet subject, size, angle and position at all five levels; vary coin count and small badge only, no currency letters or text.
+```
+
+### scale-spending-5.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky muted brown travel wallet with a cream inner lining, simple gold snap and FIVE stacked gold coins beside it and one small golden crown: luxury travel. Spending set: same wallet subject, size, angle and position at all five levels; vary coin count and small badge only, no currency letters or text.
+```
+
+### ui-save.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky dark-green check mark inside a soft pale-green round badge, gold rim detail. Save/confirm control, unmistakable check mark, clean simple readable 24px.
+```
+
+### ui-discard.png
+
+```text
+Create ONE standalone PawTrip UI sticker icon as part of the exact EXISTING family shown in the attached reference images. Treat those images as the style reference sheet: match their thick rounded dark cocoa outline, creamy whites, gently shaded flat fills, muted warm palette, little white highlight, clean white die-cut rim, softly chubby silhouette and visual density exactly. No new art direction. Same outline weight and rim-to-object ratio as the references. Center complete subject in square 1024x1024 canvas, 80% fill, equal whitespace, nothing cropped. Pure flat WHITE background for the existing cleanup pipeline. No text, numerals, labels, realistic texture, shadows, glow, extra decorative blobs, specks or grids. No dog or human faces. One chunky dark-brown diagonal X inside a soft cream round badge, muted dusty-rose rim detail. Discard/cancel control, unmistakable X, clean simple readable 24px.
+```
+
+
 ## Batch 11 — lakes and desserts (2026-11-15)
 
 Generated with the built-in imagegen tool, one image per call. Transparent originals were composited onto white for the existing clean-icons-white pipeline; inspected and cleaned to rebuild crisp sticker borders. Sources archived at `/Users/ivan/workplace/icons/batch-11-interests/`; masters and UI assets at `pawtrip/assets/icons/{masters/,}int-{lakes,dessert}.png`.

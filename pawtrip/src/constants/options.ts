@@ -21,5 +21,24 @@ export const normalizeInterests = (list: string[]) => [...new Set(list
 export const DIETS = ['vegetarian', 'vegan', 'glutenfree', 'dairyfree', 'nutallergy', 'halal', 'kosher'] as const;
 
 /** Person travel-style scales (profile columns, 1-5). */
-export const PERSON_SCALES = ['walking', 'noise', 'morning'] as const;
+export const PERSON_SCALES = ['morning', 'noise', 'walking', 'temperature', 'pace', 'spending'] as const;
 export type PersonScale = (typeof PERSON_SCALES)[number];
+
+/** Read optional profile scales without assigning an answer to an unanswered question. */
+export const personScales = (profile: Partial<Record<PersonScale, number | null>>) =>
+  Object.fromEntries(PERSON_SCALES.map((field) => [field, profile[field] ?? null])) as Record<PersonScale, number | null>;
+
+export const INTEREST_SECTIONS = [
+  { key: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'lakes'] },
+  { key: 'sights', items: ['museums', 'viewpoints'] },
+  { key: 'food', items: ['food', 'cafes', 'dessert'] },
+  { key: 'drinks', items: ['breweries', 'wineries'] },
+  { key: 'shopping', items: ['shopping'] },
+  { key: 'fun', items: ['fun'] },
+] as const;
+
+export function addDietaryNeed(current: string[], input: string): string[] {
+  const custom = input.trim();
+  return !custom || current.some((item) => item.toLocaleLowerCase() === custom.toLocaleLowerCase())
+    ? current : [...current, custom];
+}

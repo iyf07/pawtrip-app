@@ -116,6 +116,10 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Profile editing supersedes the bottom SaveBar convention: each section has a right-aligned pencil, replaced in place by save/check and discard/X icons while editing, including identity. No bottom popup or bar on profile. Dietary needs support custom text; body font explicitly falls back to Simplified Chinese fonts (PingFang SC etc.) to fix 无 glyph rendering.
+- 2026-11-15 Travel preferences now have SIX nullable 1–5 scales in user-supplied order: morning, noise, walking, temperature, pace, spending. Questions, all five labels and selected-answer descriptions use the user’s exact Chinese copy plus English translations. Applies to profile and onboarding; descriptions explicitly requested, view mode still hides sliders. New columns are on profiles, not trips; budget is a personal preference.
+- 2026-11-15 Interests have text-only subgroup headings (outdoors, sights, food/drink, wineries/breweries, shopping, experiences), with the 14 specific sticker choices below. Retired broad choices no longer appear as iconless selectable chips; saving interests retains only specific choices.
+- 2026-11-15 Icon style: use actual approved masters as image references, matching the user’s ChatGPT style-reference-sheet workflow. Text-only Batch 11 lakes/dessert rejected; Batch 12 replaces both and morning noon/afternoon icons, adds 15 new scale and 2 inline action icons. Keep prompts and problems in docs/icon-batches.md; archive under /Users/ivan/workplace/icons/batch-12-six-scales.
 - 2026-11-15 Read-only ScaleInput displays question/result and selected sticker only; no slider track/thumb. Sliders mount only while editable (also applies to read-only dog traits through the shared component).
 - 2026-11-15 Interest refinement supersedes the seven-category picker: 14 independent options (hiking, beaches, camping, wildlife, lakes, museums, viewpoints, food, cafes, dessert, breweries, wineries, shopping, fun), each with a unique sticker. Retain saved broad outdoors/sights/coffee/drinks as removable text-only chips; do not invent detailed preferences from a broad selection. Older wine maps to wineries; detailed choices no longer collapse.
 - 2026-11-15 Follow-up: remove the outer preferences box and its padding; keep preferences and account as two sections separated by whitespace. Supersedes the bordered-group styling below, not its responsive placement.
@@ -143,6 +147,8 @@ Process
 2026-11-15 Interest refinement: 14 independent options implemented; three compatibility tests pass and desktop/375px browser checks passed. New lake/dessert icons generated with built-in imagegen, cleaned via existing pipeline and archived in /Users/ivan/workplace/icons/batch-11-interests. Live: code 8ab87c3, Expo deployment 5hgb9hu2d7.
 
 2026-11-15 Read-only scales: slider removed in view mode, result text/sticker retained. Browser verified desktop/375px and edit/discard toggling (0 sliders in view, 3 while editing); tsc/eslint silent. Live: d1983d2, Expo deployment z2to4noabm.
+
+2026-11-15 Six-scale/profile refinement release: implemented all six questions and 30 descriptions, temperature/pace/spending nullable DB columns, inline edit/save/discard controls, custom dietary needs, grouped interests and Simplified Chinese body fallback. Matched 21 icons against approved masters; comparison sheet docs/icon-style-alignment-batch12.png. Local DB: 78 tests pass; frontend: 6 tests pass; tsc/eslint silent. Browser drafts checked desktop/375px, six sliders, descriptions/icons, discard, custom diet add/discard, identity actions; view mode has 0 sliders and no bottom SaveBar. Release in progress.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -192,7 +198,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| — | — | (none) | | |
+| 2026-11-15 | Codex | 发布六项偏好、原位编辑与图标对齐 | profile / interests / assets / backend | 发布中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -257,3 +263,8 @@ Release result: 8ab87c3 pushed and deployed successfully to https://pawtrip.expo
 Shared ScaleInput now omits Slider entirely when readOnly; keeps question and selected result/icon, or unset text. Edit mode remains draggable. Browser verified desktop/375px; DOM counted zero sliders in view and three in style edit; discard restored view. Typecheck and lint silent. Frontend only, no Supabase changes.
 
 Release result: d1983d2 pushed and deployed to Expo production (z2to4noabm). No backend deployment required. Claim released.
+
+### 2026-11-15 — Codex six scales, inline editing, custom diet and style alignment
+Implemented user-supplied six-question/30-answer copy and descriptions, with new optional profiles.temperature/pace/spending fields (migration 20261115185057_profile_travel_preferences.sql). Updated onboarding/API/generated types and kept existing answers. Profile pencils moved to the right; active section swaps pencil for save/check + discard/X in place, no bottom SaveBar. Added custom diet text, trim/dedup logic and explicit Simplified Chinese body fallback for 无 glyph. Grouped 14 interests under plain text headings; iconless legacy category chips removed from rendering.
+Generated 21 final icons with actual approved int-hiking/cat-coffee/scale-walk-3 masters as image references; rebuilt borders with existing pipeline, inspected comparison sheet, refined spending-2 against spending-1. Replaced mismatched lakes/dessert and outdated morning4/5; added temperature/pace/spending sets and ui-save/ui-discard. Prompts and reference rules in Batch 12; source archive /Users/ivan/workplace/icons/batch-12-six-scales, UI/master assets in repo.
+Verification: tsc/eslint silent; 6 frontend tests and 78 database tests pass. Browser checked desktop/375px drafts (six sliders, chosen descriptions and icons, custom diet add/discard, identity editing, no bottom bar and zero sliders in view). A browser save-test action was automatically rejected as a possible persistent profile change; used draft/discard verification and transactional pgTAP persistence tests instead, no profile test changes saved.

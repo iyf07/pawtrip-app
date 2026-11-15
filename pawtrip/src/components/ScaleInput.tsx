@@ -19,12 +19,14 @@ type Props = {
   onChange: (v: number) => void;
   /** the surrounding screen already shows the question (wizard) */
   hideTitle?: boolean;
+  /** Description of the selected answer, when supplied by the question. */
+  description?: string;
   /** view mode: show the answer, not editable */
   readOnly?: boolean;
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Starts in the middle (3). */
-export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
@@ -32,6 +34,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
   const v = value ?? 3;
   const iconName = `scale-${ICON_KEY[stem] ?? stem}-${v}`;
   const showIcon = !unset && hasIcon(iconName);
+  const stacked = showIcon || !!description;
   return (
     <View
       style={{
@@ -44,17 +47,18 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
       }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
         {showIcon ? <Icon name={iconName as IconName} size={60} /> : null}
-        <View style={{ flex: 1, flexDirection: showIcon ? 'column' : 'row', justifyContent: 'space-between', alignItems: showIcon ? 'flex-start' : 'baseline', gap: showIcon ? 0 : 8 }}>
+        <View style={{ flex: 1, flexDirection: stacked ? 'column' : 'row', justifyContent: 'space-between', alignItems: stacked ? 'flex-start' : 'baseline', gap: stacked ? 0 : 8 }}>
           {hideTitle ? (showIcon ? null : <View style={{ flex: 1 }} />) : (
-            <Text weight={800} size={showIcon ? 13 : 14} color={showIcon ? 'muted' : 'text'} style={showIcon ? undefined : { flex: 1 }}>
+            <Text weight={800} size={stacked ? 13 : 14} color={stacked ? 'muted' : 'text'} style={stacked ? undefined : { flex: 1 }}>
               {t(`scale.${stem}` as Key)}
             </Text>
           )}
-          <Text weight={800} size={showIcon ? 17 : 14} color={unset ? 'muted' : 'link'}>
+          <Text weight={800} size={stacked ? 17 : 14} color={unset ? 'muted' : 'link'}>
             {unset ? t('scale.unset') : t(`scale.${stem}.${v}` as Key)}
           </Text>
         </View>
       </View>
+      {description ? <Text size={13} color="muted" style={{ marginTop: 8 }}>{description}</Text> : null}
       {!readOnly ? <Slider v={v} unset={unset} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}
     </View>
   );

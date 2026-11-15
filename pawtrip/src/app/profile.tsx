@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { ActivityIndicator, Pressable, View } from "react-native";
 
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
@@ -16,7 +16,6 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
-import { SaveBar } from "@/components/ui/SaveBar";
 import {
   BackButton,
   Header,
@@ -25,7 +24,7 @@ import {
 } from "@/components/ui/Screen";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
-import { DIETS, PERSON_SCALES, type PersonScale } from "@/constants/options";
+import { addDietaryNeed, DIETS, PERSON_SCALES, PROFILE_INTERESTS, personScales, type PersonScale } from "@/constants/options";
 import { useLayout } from "@/hooks/use-layout";
 import { useTheme } from "@/hooks/use-theme";
 import { useT, type Key } from "@/i18n";
@@ -52,12 +51,9 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const [handle, setHandle] = useState(profile.handle);
   const [handleOk, setHandleOk] = useState(true);
   const [interests, setInterests] = useState<string[]>(profile.interests);
+  const [customDiet, setCustomDiet] = useState("");
   const [diet, setDiet] = useState<string[]>(profile.diet);
-  const [scales, setScales] = useState<Record<PersonScale, number | null>>({
-    walking: profile.walking,
-    noise: profile.noise,
-    morning: profile.morning,
-  });
+  const [scales, setScales] = useState<Record<PersonScale, number | null>>(() => personScales(profile));
 
   const toggle = (list: string[], v: string) =>
     list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
@@ -71,11 +67,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     setHandleOk(true);
     setInterests(profile.interests);
     setDiet(profile.diet);
-    setScales({
-      walking: profile.walking,
-      noise: profile.noise,
-      morning: profile.morning,
-    });
+    setCustomDiet("");
+    setScales(personScales(profile));
     setEditing(null);
   }
 
@@ -84,9 +77,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       const patch = editing === "identity"
         ? { display_name: name.trim(), ...(handleChanged ? { handle } : {}) }
         : editing === "style" ? scales
-        : editing === "interests" ? { interests }
-        : { diet };
+        : editing === "interests" ? { interests: interests.filter((i) => (PROFILE_INTERESTS as readonly string[]).includes(i)) }
+        : { diet: addDietaryNeed(diet, customDietCode()) };
       await update.mutateAsync(patch);
+      if (editing === "diet") { setDiet(addDietaryNeed(diet, customDietCode())); setCustomDiet(""); }
       toast(t("toast.saved"));
       setEditing(null);
     } catch (e) {
@@ -105,6 +99,36 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     }
   }
 
+  type EditSection = "identity" | "style" | "interests" | "diet";
+
+  function editActions(section: EditSection, title: string) {
+    const active = editing === section;
+    const actionStyle = { width: 40, height: 40, borderRadius: 20, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: "center" as const, justifyContent: "center" as const };
+    return (
+      <View style={{ flexDirection: "row", gap: 8 }}>
+        {active ? (
+          <>
+            <Pressable accessibilityRole="button" accessibilityLabel={t("pf.saveSection", { section: title })}
+              disabled={update.isPending || !canSave} onPress={save}
+              style={[actionStyle, { opacity: canSave ? 1 : 0.45 }]}>
+              {update.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={28} />}
+            </Pressable>
+            <Pressable accessibilityRole="button" accessibilityLabel={t("pf.discardSection", { section: title })}
+              disabled={update.isPending} onPress={cancel} style={actionStyle}>
+              <Icon name="ui-discard" size={28} />
+            </Pressable>
+          </>
+        ) : (
+          <Pressable accessibilityRole="button" accessibilityLabel={section === "identity" ? t("pf.editName") : t("pf.editSection", { section: title })}
+            disabled={editing !== null || update.isPending} onPress={() => { cancel(); setEditing(section); }}
+            style={[actionStyle, { opacity: editing ? 0.45 : 1 }]}>
+            <Icon name="ui-pencil" size={24} />
+          </Pressable>
+        )}
+      </View>
+    );
+  }
+
   const identityBlock = (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginTop: 4 }}>
       {editing === "identity" ? (
@@ -112,35 +136,18 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       ) : (
         <Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} />
       )}
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+          <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flex: 1 }}>{profile.display_name}</Text>
+          {editActions("identity", t("pf.name"))}
+        </View>
         {editing === "identity" ? (
           <>
             <Field label={t("pf.name")} value={name} onChangeText={setName} maxLength={60} />
-            <View style={{ marginTop: 4 }}>
-              <HandleField label={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
-            </View>
+            <HandleField label={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
           </>
         ) : (
-          <>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-              <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flexShrink: 1 }}>
-                {profile.display_name}
-              </Text>
-              <Pressable
-                disabled={editing !== null}
-                onPress={() => { cancel(); setEditing("identity"); }}
-                accessibilityRole="button"
-                accessibilityLabel={t("pf.editName")}
-                hitSlop={8}
-                style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: "center", justifyContent: "center" }}
-              >
-                <Icon name="ui-pencil" size={20} />
-              </Pressable>
-            </View>
-            <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>
-              ID: {profile.handle}
-            </Text>
-          </>
+          <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>ID: {profile.handle}</Text>
         )}
       </View>
     </View>
@@ -148,20 +155,22 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   function sectionHeading(title: string, section: "style" | "interests" | "diet") {
     return (
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 12 }}>
-        <Text weight={800} size={20}>{title}</Text>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={t("pf.editSection", { section: title })}
-          disabled={editing !== null}
-          onPress={() => { cancel(); setEditing(section); }}
-          hitSlop={8}
-          style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: "center", justifyContent: "center", opacity: editing && editing !== section ? 0.45 : 1 }}>
-          <Icon name="ui-pencil" size={20} />
-        </Pressable>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        <Text weight={800} size={20} style={{ flexShrink: 1 }}>{title}</Text>
         <View style={{ flex: 1, borderTopWidth: 2, borderStyle: "dashed", borderColor: th.line }} />
+        {editActions(section, title)}
       </View>
     );
+  }
+
+  function customDietCode() {
+    const text = customDiet.trim();
+    return DIETS.find((d) => t(`diet.${d}` as Key).toLocaleLowerCase() === text.toLocaleLowerCase()) ?? text;
+  }
+
+  function addCustomDiet() {
+    setDiet((current) => addDietaryNeed(current, customDietCode()));
+    setCustomDiet("");
   }
 
   const styleBlock = (
@@ -172,6 +181,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           key={f}
           field={f}
           value={scales[f]}
+          description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
           readOnly={editing !== "style"}
           onChange={(v) => setScales((s) => ({ ...s, [f]: v }))}
         />
@@ -198,17 +208,26 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     <>
       {sectionHeading(t("profile.diet"), "diet")}
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {DIETS.map((d) => (
+        {[...DIETS, ...diet.filter((d) => !(DIETS as readonly string[]).includes(d))].map((d) => (
           <Chip
             key={d}
             icon={dietIcon(d)}
-            label={t(`diet.${d}` as Key)}
+            label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d}
             on={diet.includes(d)}
             onPress={editing === "diet" ? () => setDiet((c) => toggle(c, d)) : undefined}
             style={editing !== "diet" && !diet.includes(d) ? { opacity: 0.45 } : undefined}
           />
         ))}
       </View>
+      {editing === "diet" ? (
+        <View style={{ flexDirection: "row", alignItems: "flex-end", gap: 8 }}>
+          <View style={{ flex: 1 }}>
+            <Field accessibilityLabel={t("pf.customDiet")} placeholder={t("pf.customDiet")} value={customDiet}
+              onChangeText={setCustomDiet} maxLength={40} returnKeyType="done" onSubmitEditing={addCustomDiet} />
+          </View>
+          <Button label={t("pf.addDiet")} onPress={addCustomDiet} disabled={!customDiet.trim()} />
+        </View>
+      ) : null}
     </>
   );
 
@@ -270,7 +289,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           left={<BackButton label={t("nav.back")} onPress={goBack} />}
         />
       }
-      bottom={editing ? <SaveBar saving={update.isPending} canSave={canSave} onSave={save} onDiscard={cancel} /> : null}
     >
       {identityBlock}
       <View style={{ marginTop: 28 }}>

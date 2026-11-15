@@ -3,6 +3,23 @@ import { Image, type ImageStyle, type StyleProp } from 'react-native';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
+  'ui-save': require('../../../assets/icons/ui-save.png'),
+  'ui-discard': require('../../../assets/icons/ui-discard.png'),
+  'scale-temperature-1': require('../../../assets/icons/scale-temperature-1.png'),
+  'scale-temperature-2': require('../../../assets/icons/scale-temperature-2.png'),
+  'scale-temperature-3': require('../../../assets/icons/scale-temperature-3.png'),
+  'scale-temperature-4': require('../../../assets/icons/scale-temperature-4.png'),
+  'scale-temperature-5': require('../../../assets/icons/scale-temperature-5.png'),
+  'scale-pace-1': require('../../../assets/icons/scale-pace-1.png'),
+  'scale-pace-2': require('../../../assets/icons/scale-pace-2.png'),
+  'scale-pace-3': require('../../../assets/icons/scale-pace-3.png'),
+  'scale-pace-4': require('../../../assets/icons/scale-pace-4.png'),
+  'scale-pace-5': require('../../../assets/icons/scale-pace-5.png'),
+  'scale-spending-1': require('../../../assets/icons/scale-spending-1.png'),
+  'scale-spending-2': require('../../../assets/icons/scale-spending-2.png'),
+  'scale-spending-3': require('../../../assets/icons/scale-spending-3.png'),
+  'scale-spending-4': require('../../../assets/icons/scale-spending-4.png'),
+  'scale-spending-5': require('../../../assets/icons/scale-spending-5.png'),
   'int-lakes': require('../../../assets/icons/int-lakes.png'),
   'int-dessert': require('../../../assets/icons/int-dessert.png'),
   'logo-paw': require('../../../assets/icons/logo-paw.png'),

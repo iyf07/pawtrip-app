@@ -15,7 +15,7 @@ import { dietIcon } from '@/components/DietIcon';
 import { InterestPicker } from '@/components/InterestPicker';
 import { Field } from '@/components/ui/Field';
 import { useToast } from '@/components/ui/Toast';
-import { DIETS, PERSON_SCALES, type PersonScale } from '@/constants/options';
+import { DIETS, PERSON_SCALES, personScales, type PersonScale } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 import type { Profile } from '@/api/types';
@@ -39,7 +39,7 @@ function Onboarding({ profile }: { profile: Profile }) {
   const [photo, setPhoto] = useState<string | null>(profile.avatar_url);
   const [interests, setInterests] = useState<string[]>(profile.interests);
   const [diet, setDiet] = useState<string[]>(profile.diet);
-  const [scales, setScales] = useState<Record<PersonScale, number | null>>({ walking: profile.walking, noise: profile.noise, morning: profile.morning });
+  const [scales, setScales] = useState<Record<PersonScale, number | null>>(() => personScales(profile));
 
   const toggle = (list: string[], v: string) => (list.includes(v) ? list.filter((x) => x !== v) : [...list, v]);
   const save = async (patch: Parameters<typeof update.mutateAsync>[0]) => {
@@ -125,7 +125,7 @@ function Onboarding({ profile }: { profile: Profile }) {
         title: t(`scale.${f}` as Key),
         optional: true,
         onNext: () => save({ [f]: scales[f] }),
-        content: <ScaleInput field={f} hideTitle value={scales[f]} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />,
+        content: <ScaleInput field={f} hideTitle value={scales[f]} description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />,
       }),
     ),
     {

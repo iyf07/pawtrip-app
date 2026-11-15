@@ -157,14 +157,14 @@ isOneToOne: false
                   ]
                 },"profiles": {
                   Row: {
-                    "avatar_url": string | null,"created_at": string,"diet": (string)[],"display_name": string,"handle": string,"id": string,"interests": (string)[],"morning": number | null,"noise": number | null,"onboarded_at": string | null,"updated_at": string,"walking": number | null
+                    "avatar_url": string | null,"created_at": string,"diet": (string)[],"display_name": string,"handle": string,"id": string,"interests": (string)[],"morning": number | null,"noise": number | null,"onboarded_at": string | null,"pace": number | null,"spending": number | null,"temperature": number | null,"updated_at": string,"walking": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"handle": string,"id": string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"onboarded_at"?: string | null,"updated_at"?: string,"walking"?: number | null
+                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"handle": string,"id": string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"onboarded_at"?: string | null,"pace"?: number | null,"spending"?: number | null,"temperature"?: number | null,"updated_at"?: string,"walking"?: number | null
                   }
                   Update: {
-                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"handle"?: string,"id"?: string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"onboarded_at"?: string | null,"updated_at"?: string,"walking"?: number | null
+                    "avatar_url"?: string | null,"created_at"?: string,"diet"?: (string)[],"display_name"?: string,"handle"?: string,"id"?: string,"interests"?: (string)[],"morning"?: number | null,"noise"?: number | null,"onboarded_at"?: string | null,"pace"?: number | null,"spending"?: number | null,"temperature"?: number | null,"updated_at"?: string,"walking"?: number | null
                   }
                   Relationships: [
                     

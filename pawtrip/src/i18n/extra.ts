@@ -1,6 +1,18 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
+  'interest.hiking': '徒步',
+  'interest.beaches': '海滩',
+  'interest.camping': '露营',
+  'interest.wildlife': '动物',
+  'interest.lakes': '湖泊',
+  'interest.museums': '博物馆',
+  'interest.viewpoints': '观景',
+  'interest.cafes': '咖啡',
+  'interest.dessert': '甜点',
+  'interest.breweries': '精酿酒厂',
+  'interest.wineries': '酒庄',
+
   'profile.interests': '我的兴趣',
   'profile.diet': '我的忌口',
   'pf.editSection': '编辑{section}',
@@ -252,6 +264,18 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
+  'interest.hiking': 'Hiking',
+  'interest.beaches': 'Beaches',
+  'interest.camping': 'Camping',
+  'interest.wildlife': 'Wildlife',
+  'interest.lakes': 'Lakes',
+  'interest.museums': 'Museums',
+  'interest.viewpoints': 'Scenic views',
+  'interest.cafes': 'Coffee',
+  'interest.dessert': 'Desserts',
+  'interest.breweries': 'Breweries',
+  'interest.wineries': 'Wineries',
+
   'profile.interests': 'My interests',
   'profile.diet': 'My dietary needs',
   'pf.editSection': 'Edit {section}',

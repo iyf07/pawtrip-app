@@ -116,6 +116,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Interest refinement supersedes the seven-category picker: 14 independent options (hiking, beaches, camping, wildlife, lakes, museums, viewpoints, food, cafes, dessert, breweries, wineries, shopping, fun), each with a unique sticker. Retain saved broad outdoors/sights/coffee/drinks as removable text-only chips; do not invent detailed preferences from a broad selection. Older wine maps to wineries; detailed choices no longer collapse.
 - 2026-11-15 Follow-up: remove the outer preferences box and its padding; keep preferences and account as two sections separated by whitespace. Supersedes the bordered-group styling below, not its responsive placement.
 - 2026-11-15 Profile layout: identity above a single bordered preferences group. Desktop: travel style upper left, interests upper right, dietary needs lower left. Mobile: style → interests → dietary needs. Account section below the group on all sizes. Dietary heading 我的忌口; remove feedback history from profile, retain the global send-feedback button.
 - 2026-11-15 Profile edits are per section: identity, travel style, interests, diet. Each has a pencil and saves only its own fields; finish or discard the current section before opening another. Headings: 我的兴趣 / 我的账号. User approved neutral travel-preference wording (walking, atmosphere, departure time) in both languages.
@@ -137,6 +138,8 @@ Process
 2026-11-15 Header typography: shared page titles enlarged to 26px / 32px (phone / desktop); typecheck and lint clean, profile checked at desktop and 375px and settings at desktop.
 
 2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Live at https://pawtrip.expo.app: code commit 12220b5, deployment rkxe2m18ve. Includes preferences above account and no feedback history. Follow-up removes the outer preferences box; browser desktop/375px verified, typecheck/lint clean.
+
+2026-11-15 Interest refinement: 14 independent options implemented; three compatibility tests pass and desktop/375px browser checks passed. New lake/dessert icons generated with built-in imagegen, cleaned via existing pipeline and archived in /Users/ivan/workplace/icons/batch-11-interests. Release in progress.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -186,7 +189,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| — | — | (none) | | |
+| 2026-11-15 | Codex | 发布细分兴趣 | interests / assets | 发布中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -241,3 +244,6 @@ Release result: 12220b5 committed/pushed and deployed successfully to Expo produ
 Removed preferences outer border, radius and inset padding; increased whitespace before account. Existing desktop columns, mobile stack and per-section edits preserved. Typecheck/lint both silent; browser verified desktop and 375px. Frontend-only release; no Supabase changes.
 
 Release result: 4aac689 pushed and deployed to Expo production, deployment v0tonsmcse. Outer preferences box removed on desktop and phone. Claim released.
+
+### 2026-11-15 — Codex detailed interests
+Split winery/brewery, coffee/dessert and wildlife/hiking; added lakes, retained beaches/camping/museums/views/food/shopping/experiences (14 options). Unique icons for all 14; generated lakes and dessert with built-in imagegen and existing border-cleanup pipeline. Prompts in docs/icon-batches.md Batch 11; source archive in /Users/ivan/workplace/icons/batch-11-interests; 1024px masters and 512px UI in assets/icons. Preserve legacy broad choices without inventing specifics, preserve detailed choices and normalize wine to wineries. Three regression tests pass, tsc/eslint silent, browser desktop/375px and independent coffee/dessert multi-select/discard checked. Frontend-only; no Supabase change.

@@ -1,5 +1,22 @@
 # Ready-to-send icon batches (copy one whole block into ChatGPT)
 
+## Batch 11 — lakes and desserts (2026-11-15)
+
+Generated with the built-in imagegen tool, one image per call. Transparent originals were composited onto white for the existing clean-icons-white pipeline; inspected and cleaned to rebuild crisp sticker borders. Sources archived at `/Users/ivan/workplace/icons/batch-11-interests/`; masters and UI assets at `pawtrip/assets/icons/{masters/,}int-{lakes,dessert}.png`.
+
+### int-lakes.png
+
+```text
+Use case: stylized-concept. Asset type: PawTrip UI sticker icon, one complete icon only in one square 1024x1024 PNG. Cute chubby rounded die-cut sticker. Thick even dark brown #4A3628 outline, rounded corners/caps, flat fills at most 2 tones, tiny upper-left glossy white stripe and dot, thick crisp white sticker border. Warm gold #FFC72C, cream #FFF4D6, white with subject accent. No drop shadow, glow, texture, realistic shading, text or letters. Centered, fills 80%, equal margins, no crop, no grid. Genuine transparent background. A calm sky-blue #3D7590 oval lake with two chunky ripple lines and a small green reed clump on one bank. Readable at 24px. No mountains, no boat, no beach palm.
+```
+
+### int-dessert.png
+
+```text
+Use case: stylized-concept. Asset type: PawTrip UI sticker icon, one complete icon only in one square 1024x1024 PNG. Cute chubby rounded die-cut sticker. Thick even dark brown #4A3628 outline, rounded corners/caps, flat fills at most 2 tones, tiny upper-left glossy white stripe and dot, thick crisp white sticker border. Warm gold #FFC72C, cream #FFF4D6, white with subject accent. No drop shadow, glow, texture, realistic shading, text or letters. Centered, fills 80%, equal margins, no crop, no grid. Genuine transparent background. One chubby slice of strawberry shortcake on a tiny cream plate, pale pink cream layers, red strawberry on top. Readable at 24px. No cup, coffee, lettering.
+```
+
+
 Each block is **self-contained**: it carries the style, the one-icon-per-file rule and the file names, so you just paste it and send.
 Use a new chat for the first batch and **attach the approved icons** (`pawtrip/assets/icons/masters/*.png`, all 8 `logo`/`nav`/`tab` icons + the
 7 `cat-*` ones) so the style stays identical; stay in the **same chat** for the next batches. Put the finished ZIP in `/Users/ivan/workplace/icons/`.

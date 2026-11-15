@@ -244,10 +244,13 @@ Icons (create exactly these files):
 1) file "diet-kosher.png" — a simple six-pointed star (two overlapping triangles) made of chunky lines, with a small cream hexagon in the middle (kosher) — accent blue #3D7590 — the WHOLE star must be fully inside the image, centered, nothing cut off on any side
 ```
 
-## Batch 10 — scale icons (45 icons: 9 questions x 5 levels)
+## Batch 10 — scale icons (45 icons). SEND ONE PROMPT PER QUESTION (9 prompts x 5 icons)
 
-Questions: person (walking, noise, morning = walk, noise, morning) and dog (energy, temp, with other dogs, with people, alone in the hotel, car).
-After you generate: put the ZIP(s) in `/Users/ivan/workplace/icons/`. If ChatGPT stops early, answer "continue with the remaining icons, same rules".
+The first attempt (all 45 in one request) came back as broken tiles: every file was a small piece cut out of a larger sheet. So send the 9 prompts below one at a time,
+each in the same chat, and wait for the ZIP of 5 before sending the next. Put the ZIPs in `/Users/ivan/workplace/icons/` (or the Desktop) and tell me.
+If a file again shows only a piece of an icon, answer: "Each file must be ONE complete icon on its own 1024x1024 canvas; do not crop from a sheet. Regenerate."
+
+### Batch 10a — walking: how far can you walk?
 
 ```
 You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
@@ -264,53 +267,279 @@ image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background 
 on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
 stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
 CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
-exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions, do not stop early, do not summarize: generate ALL 45 icons below.
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
 
 GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
 the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
 faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
 
-Icons (create exactly these files, 45 in total):
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 1) file "scale-walk-1.png" — a small round stool with a soft cushion (sitting, no walking) — level 1 of 5 — accent green #3E8E57
 2) file "scale-walk-2.png" — a casual flat shoe — level 2 of 5 — accent green #3E8E57
 3) file "scale-walk-3.png" — a sporty sneaker — level 3 of 5 — accent green #3E8E57
 4) file "scale-walk-4.png" — a chunky hiking boot with laces — level 4 of 5 — accent green #3E8E57
 5) file "scale-walk-5.png" — a big hiking boot standing on a mountain peak with a tiny flag — level 5 of 5 — accent green #3E8E57
+```
+
+### Batch 10b — quiet or lively?
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 6) file "scale-noise-1.png" — a small quiet pine forest of three chunky trees — level 1 of 5 — accent purple #7B5EA7
 7) file "scale-noise-2.png" — a steaming tea cup — level 2 of 5 — accent purple #7B5EA7
 8) file "scale-noise-3.png" — a small cafe table with two drinks — level 3 of 5 — accent purple #7B5EA7
 9) file "scale-noise-4.png" — a bunch of party balloons with confetti — level 4 of 5 — accent purple #7B5EA7
 10) file "scale-noise-5.png" — a megaphone with music notes — level 5 of 5 — accent purple #7B5EA7
+```
+
+### Batch 10c — early bird or night owl?
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 11) file "scale-morning-1.png" — a big sun just rising over a horizon line (sunrise, clearly bigger and simpler than a weather icon) — level 1 of 5 — accent amber #E0A100
 12) file "scale-morning-2.png" — a morning coffee cup with a small sun behind it — level 2 of 5 — accent amber #E0A100
 13) file "scale-morning-3.png" — a bright sun high in the middle of a blue sky — level 3 of 5 — accent amber #E0A100
 14) file "scale-morning-4.png" — an orange evening sky with the sun setting behind a hill and a small cloud — level 4 of 5 — accent amber #E0A100
 15) file "scale-morning-5.png" — a crescent moon with three stars — level 5 of 5 — accent amber #E0A100
+```
+
+### Batch 10d — dog energy
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 16) file "scale-energy-1.png" — an empty red battery with a sleeping dog face on it, closed eyes — level 1 of 5 — accent gold #FFC72C
 17) file "scale-energy-2.png" — a low battery (one bar) with a dog face yawning — level 2 of 5 — accent gold #FFC72C
 18) file "scale-energy-3.png" — a half-full battery (two bars) with a calm dog face — level 3 of 5 — accent gold #FFC72C
 19) file "scale-energy-4.png" — a nearly full battery (four bars) with a happy dog face and perked ears — level 4 of 5 — accent gold #FFC72C
 20) file "scale-energy-5.png" — a full battery with a lightning bolt and an excited dog face, bouncing — level 5 of 5 — accent gold #FFC72C
+```
+
+### Batch 10e — dog: afraid of cold or heat
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 21) file "scale-temp-1.png" — a dog frozen like an ice pop with icicles on its head, shivering — level 1 of 5 — accent sky blue #3D7590
 22) file "scale-temp-2.png" — a dog wearing a scarf, slightly shivering — level 2 of 5 — accent sky blue #3D7590
 23) file "scale-temp-3.png" — a comfy dog sitting next to a small thermometer in the middle — level 3 of 5 — accent sky blue #3D7590
 24) file "scale-temp-4.png" — a panting dog with a sweat drop — level 4 of 5 — accent sky blue #3D7590
 25) file "scale-temp-5.png" — a dog melting into a puddle under a big hot sun — level 5 of 5 — accent sky blue #3D7590
+```
+
+### Batch 10f — dog with other dogs
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 26) file "scale-withdogs-1.png" — a dog hiding behind a bush, trembling — level 1 of 5 — accent orange #D9702E
 27) file "scale-withdogs-2.png" — a shy dog peeking out from the side while a small dog stands far away — level 2 of 5 — accent orange #D9702E
 28) file "scale-withdogs-3.png" — a dog with a thinking bubble (dots) above its head — level 3 of 5 — accent orange #D9702E
 29) file "scale-withdogs-4.png" — two dogs sniffing each other happily with a small heart — level 4 of 5 — accent orange #D9702E
 30) file "scale-withdogs-5.png" — three dogs together at a party with confetti — level 5 of 5 — accent orange #D9702E
+```
+
+### Batch 10g — dog with people
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 31) file "scale-withpeople-1.png" — a dog hiding behind a person's legs (only legs of a person) — level 1 of 5 — accent pink #E07A9A
 32) file "scale-withpeople-2.png" — a dog peeking from behind a person's leg, shy — level 2 of 5 — accent pink #E07A9A
 33) file "scale-withpeople-3.png" — a dog politely nodding next to a small waving hand — level 3 of 5 — accent pink #E07A9A
 34) file "scale-withpeople-4.png" — a dog looking up with a hand petting its head — level 4 of 5 — accent pink #E07A9A
 35) file "scale-withpeople-5.png" — a dog jumping up to hug a person with hearts (person shown only as arms) — level 5 of 5 — accent pink #E07A9A
+```
+
+### Batch 10h — dog alone in the hotel
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 36) file "scale-alone-1.png" — a dog howling at a closed door with music notes — level 1 of 5 — accent gray-blue #3D7590
 37) file "scale-alone-2.png" — a dog sitting by a door with a small tear — level 2 of 5 — accent gray-blue #3D7590
 38) file "scale-alone-3.png" — a dog lying beside a bed with a small clock — level 3 of 5 — accent gray-blue #3D7590
 39) file "scale-alone-4.png" — a dog sleeping quietly on a hotel bed with zzz — level 4 of 5 — accent gray-blue #3D7590
 40) file "scale-alone-5.png" — a dog with a golden halo sitting calmly like an angel — level 5 of 5 — accent gray-blue #3D7590
+```
+
+### Batch 10i — dog in the car
+
+```
+You are designing icons for a dog-friendly group trip planner app called PawTrip. Every icon must match the app's EXISTING icon
+style exactly (use the approved icons I attach as the reference; the style in words:)
+STYLE: cute die-cut sticker icon. One chubby, rounded, friendly object, centered. A thick, even, dark-brown (#4A3628) outline with
+rounded corners and rounded line caps (the same line thickness on every icon). Flat color fills with at most 2 tones plus a small
+glossy white highlight (a short curved stripe and a tiny dot) on the upper-left of the main shape. A thick, clean, crisp white
+sticker border around the whole silhouette (the same thickness on every icon). Warm palette: gold #FFC72C and amber, dark brown
+#4A3628, cream #FFF4D6, white; plus the accent color given per icon. Slightly chubby proportions, light from the top-left. NO drop
+shadow, NO glow, NO gradients other than the subtle tone shift, NO textures, NO realistic shading, NO text or letters, NO thin
+hairline details (chunky shapes only, readable at 24 px).
+FILES (very important): create EACH icon below as its OWN SEPARATE image file, never a sheet or a grid. One icon per image. Each
+image is square 1024x1024 with a perfectly flat pure white (#FFFFFF) background (no checkerboard, no noise, no shadow, no gradient
+on the background), the icon centered and filling about 80% of the image with equal empty margin on every side, nothing cut off, no
+stray specks. Use exactly the file names given. Deliver ALL files together as ONE downloadable ZIP containing only those PNGs.
+CONSISTENCY: match the existing icons' outline thickness, white border thickness, highlight style, level of detail and visual size
+exactly, so all icons look like one family. People and avatars are gender-neutral. Do not ask me questions; just generate.
+
+GROUPS: the 5 icons of one question are ONE SET (same subject, same size, same angle, only the state changes from level 1 to level 5), and
+the dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Person sets show no people
+faces. Keep each set instantly readable at 28 px and easy to tell apart from its neighbours in the set.
+
+SET RULE: the 5 icons are ONE SET: same subject, same size, same angle; only the state changes from level 1 to level 5. The dog sets use the SAME friendly dog face and fur colors in every icon (cream face, golden-orange ears and patch). Each icon is ONE complete picture that fits fully inside its own square image: nothing cropped, no part of another icon, no sheet, no grid.
+
+Icons (create exactly these 5 files):
 41) file "scale-car-1.png" — a green-faced carsick dog with swirly eyes — level 1 of 5 — accent green #3E8E57
 42) file "scale-car-2.png" — a dog on a car seat with a seat belt, gritting its teeth — level 2 of 5 — accent green #3E8E57
 43) file "scale-car-3.png" — a dog sitting calmly in a car — level 3 of 5 — accent green #3E8E57

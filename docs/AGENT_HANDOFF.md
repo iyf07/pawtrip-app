@@ -134,7 +134,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 **Backend**: migrations `20261112000100…001200` (schema, security, handle, feedback, invite 1h, temporary leader-vote policy), `20261114000100_move_trip`, `20261114000200/300` (groups — superseded), `20261114000400_buddies_people` (current buddies). pgTAP tests: rls, handle, feedback, move_trip, buddies (all pass).
 
 **Open / next (pick from here; claim in 8.2)**
-- **Scale icons (batch 10, 45 icons)**: the first all-in-one attempt came back as broken tiles (pieces of a sheet) and was discarded; the prompt is now split into nine 5-icon prompts (10a–10i) in `docs/icon-batches.md`, to be sent one at a time. Waiting for the user's ChatGPT output. The UI is ready: `ScaleInput` shows `scale-<key>-<1..5>` icons automatically once they are registered in `components/ui/Icon.tsx` (keys: walk, noise, morning, energy, temp, withdogs, withpeople, alone, car). Clean the zip with the icon pipeline (section 7), register all 45 names, deploy. Scales now stay `null` until chosen (grey knob, "还没选").
+- Scale icons (batch 10, 45) are **done and live**: `scale-<key>-<1..5>` registered in `Icon.tsx`, shown by `ScaleInput` (nine sets sent as separate prompts 10a–10i after the all-in-one attempt failed). Scales stay `null` until chosen (grey knob, "还没选").
 - Icons: **kosher** redo (prompt "Batch 8b" in `docs/icon-batches.md`); batch 9 empty-state illustrations are **done and wired** (empty-trips, empty-map, empty-day, empty-offline; sign-in/onboarding/new-trip still use the old SVG `DogIllo`); dedicated icons for friends and calendar (currently reuse tab-members / tab-plan); `nav-profile` neutral redo.
 - Feedback `d7b17312…` ("every screen flashes on first visit" on iPhone Chrome) is **triaged, not reproduced**: a warm-up of data/icons was added; ask the user for details if it persists.
 - Friend requests have no notification (no badge); add a dot on the nav icon.
@@ -202,3 +202,6 @@ Scale redesign: per-level icons (batch 10 prompt written, 45 icons), `ScaleInput
 
 ### 2026-11-15 (later 4) — first agent
 Batch 10 (45 scale icons) arrived broken: every file was a small cut-out piece of a larger sheet (checked with contact sheets), so nothing was registered and the cleaned files were deleted. Prompt split into 10a–10i (5 icons each).
+
+### 2026-11-15 (later 5) — first agent
+Batch 10 delivered as nine zips; all 45 icons checked on contact sheets (sharp, complete), cleaned (masters + UI) and registered; slider icon size 60. Note: cleaning 90 large PNGs takes several minutes — run it in the background and wait with a file-exists check.

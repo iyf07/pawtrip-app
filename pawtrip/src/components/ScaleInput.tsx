@@ -43,7 +43,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, readOnly }: Prop
         borderRadius: 18,
       }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-        {showIcon ? <Icon name={iconName as IconName} size={48} /> : null}
+        {showIcon ? <Icon name={iconName as IconName} size={60} /> : null}
         <View style={{ flex: 1, flexDirection: showIcon ? 'column' : 'row', justifyContent: 'space-between', alignItems: showIcon ? 'flex-start' : 'baseline', gap: showIcon ? 0 : 8 }}>
           {hideTitle ? (showIcon ? null : <View style={{ flex: 1 }} />) : (
             <Text weight={800} size={showIcon ? 13 : 14} color={showIcon ? 'muted' : 'text'} style={showIcon ? undefined : { flex: 1 }}>

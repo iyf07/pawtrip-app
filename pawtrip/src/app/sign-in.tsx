@@ -9,8 +9,8 @@ import { Field } from '@/components/ui/Field';
 import { Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useT, type Lang } from '@/i18n';
+import { parseLoginIdentifier } from '@/lib/login-identifier';
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const COOLDOWN = 60;
 
 export default function SignIn() {
@@ -30,7 +30,7 @@ export default function SignIn() {
   }, [wait]);
 
   async function send() {
-    if (!EMAIL_RE.test(email.trim())) return setError(t('auth.errEmail'));
+    if (!parseLoginIdentifier(email)) return setError(t('auth.errIdentifier'));
     setBusy(true);
     setError(null);
     try {
@@ -87,14 +87,14 @@ export default function SignIn() {
         {stage === 'email' ? (
           <>
             <Field
-              label={t('auth.emailLabel')}
+              label={t('auth.identifierLabel')}
               value={email}
               onChangeText={setEmail}
-              placeholder="you@example.com"
+              placeholder="ID / you@example.com"
               autoCapitalize="none"
-              autoComplete="email"
-              keyboardType="email-address"
-              textContentType="emailAddress"
+              autoComplete="username"
+              keyboardType="default"
+              textContentType="username"
               returnKeyType="go"
               onSubmitEditing={send}
               error={error}
@@ -107,7 +107,7 @@ export default function SignIn() {
               {t('auth.sentTitle')}
             </Text>
             <Text color="muted" style={{ marginTop: 6 }}>
-              {t('auth.sentBody', { email: email.trim() })}
+              {parseLoginIdentifier(email)?.kind === 'handle' ? t('auth.sentIdBody') : t('auth.sentBody', { email: email.trim() })}
             </Text>
             <Field
               label={t('auth.codeLabel')}
@@ -124,7 +124,7 @@ export default function SignIn() {
             />
             <Button label={t('auth.verify')} block loading={busy} onPress={verify} style={{ marginTop: 16 }} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
-              <Button label={t('auth.changeEmail')} variant="text" onPress={() => { setStage('email'); setCode(''); setError(null); }} />
+              <Button label={t('auth.changeIdentifier')} variant="text" onPress={() => { setStage('email'); setCode(''); setError(null); }} />
               <Button label={wait > 0 ? t('auth.resendIn', { n: wait }) : t('auth.resend')} variant="text" disabled={wait > 0} onPress={send} />
             </View>
           </>

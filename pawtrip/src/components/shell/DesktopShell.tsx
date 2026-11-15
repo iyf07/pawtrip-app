@@ -1,5 +1,5 @@
 import { router, usePathname } from 'expo-router';
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
@@ -25,7 +25,7 @@ const LIST_W = 232;
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|new-trip|join)(\/|$)/.test(p) || p === '/dog/new';
 
-const sectionOf = (p: string): Section => (p === '/' || p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/buddies') ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/buddies') ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the
@@ -34,22 +34,18 @@ const sectionOf = (p: string): Section => (p === '/' || p.startsWith('/calendar'
 export function DesktopShell({ enabled, children }: { enabled: boolean; children: ReactNode }) {
   const { wide } = useLayout();
   const path = usePathname();
-  // the trip list stays beside an open trip; the Trips button in the rail can fold it away and bring it back
-  const [listHidden, setListHidden] = useState(false);
-  const [lastTrip, setLastTrip] = useState<string | null>(null); // where the Trips button returns to
   const active = enabled && wide && !isFlow(path);
   const section = sectionOf(path);
   const tripId = /^\/trip\/([^/]+)/.exec(path)?.[1] ?? null;
   const dogId = /^\/dog\/([^/]+)/.exec(path)?.[1] ?? null;
-  if (tripId && tripId !== lastTrip) setLastTrip(tripId); // remember it (adjusting state while rendering)
-  const folded = !!tripId && listHidden;
-  const showList = active && (section === 'dogs' || (section === 'trips' && !folded));
+  // the trip list is a column only beside an open trip; on its own it is the page (cards), like on a phone
+  const showList = active && (section === 'dogs' || (section === 'trips' && !!tripId));
   const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
 
   return (
     <ShellContext.Provider value={active}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        {active ? <Rail section={section} onTrip={!!tripId} lastTrip={lastTrip} onToggleList={() => setListHidden((v) => !v)} /> : null}
+        {active ? <Rail section={section} /> : null}
         {showList ? section === 'dogs' ? <DogList selected={dogId} /> : <TripList selected={tripId} /> : null}
         {active && section === 'trips' && tripId ? <TripSections tripId={tripId} tab={tab} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>
@@ -69,13 +65,12 @@ function openTrip(id: string) {
   router.replace({ pathname: '/trip/[id]/plan', params: { id } });
 }
 
-function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; onTrip: boolean; lastTrip: string | null; onToggleList: () => void }) {
+function Rail({ section }: { section: Section }) {
   const { t } = useT();
   const th = useTheme();
   const { userId } = useAuth();
   const me = useMyProfile();
   const dogs = useMyDogs();
-  const trips = useTrips();
 
   const item = (key: Section, icon: IconName, label: string, onPress: () => void) => {
     const on = section === key;
@@ -98,13 +93,7 @@ function Rail({ section, onTrip, lastTrip, onToggleList }: { section: Section; o
         <Icon name="logo-paw" size={56} />
       </Pressable>
       {item('calendar', 'tab-plan', t('shell.calendar'), () => router.navigate('/calendar'))}
-      {item('trips', 'nav-trips', t('shell.trips'), () => {
-        if (section === 'trips' && onTrip) return onToggleList();
-        // straight back to the trip you were on (going through "/" left stray screens in the history)
-        const id = lastTrip ?? trips.data?.[0]?.id;
-        if (id) openTrip(id);
-        else router.navigate('/');
-      })}
+      {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
       {item('dogs', 'nav-dogs', t('shell.dogs'), () => {
         const first = dogs.data?.[0];
         router.navigate(first ? { pathname: '/dog/[id]', params: { id: first.id } } : { pathname: '/dog/[id]', params: { id: 'new' } });
@@ -220,6 +209,20 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
   const th = useTheme();
   return (
     <View style={{ width: 132, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
+      {/* like the map's handle: folds the trip away so only the trip list is left */}
+      <Pressable
+        onPress={() => router.navigate('/')}
+        accessibilityRole="button"
+        accessibilityLabel={t('shell.hideTrip')}
+        // @ts-expect-error web-only tooltip
+        title={t('shell.hideTrip')}
+        hitSlop={8}
+        style={{ position: 'absolute', left: -14, top: '45%', zIndex: 5, width: 26, height: 56, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: th.card, borderWidth: 2, borderColor: th.line }}>
+        <Text plain size={14} weight={800} color="muted">
+          ◂
+        </Text>
+        <Icon name="nav-trips" size={16} />
+      </Pressable>
       {SECTIONS.map((s) => (
         <Row
           key={s.key}

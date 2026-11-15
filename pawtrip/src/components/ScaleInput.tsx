@@ -7,7 +7,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 
 /** DB column name -> i18n key stem (the prototype used camelCase). */
-const STEM: Record<string, string> = { with_dogs: 'withDogs', with_people: 'withPeople' };
+const STEM: Record<string, string> = { with_dogs: 'withDogs', with_people: 'withPeople', recall_level: 'recall' };
 export const scaleStem = (col: string) => STEM[col] ?? col;
 /** file-name key of a scale's icons: scale-<key>-<1..5> */
 const ICON_KEY: Record<string, string> = { withDogs: 'withdogs', withPeople: 'withpeople', walking: 'walk' };

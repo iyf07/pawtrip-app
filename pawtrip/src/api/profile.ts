@@ -27,7 +27,12 @@ export function useUpdateProfile() {
       const { error } = await supabase.from('profiles').update(patch).eq('id', userId!);
       if (error) throw error;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['profile', userId] }),
+    onSuccess: () => Promise.all([
+      qc.invalidateQueries({ queryKey: ['profile', userId] }),
+      qc.invalidateQueries({ queryKey: ['trip'] }),
+      qc.invalidateQueries({ queryKey: ['trips'] }),
+      qc.invalidateQueries({ queryKey: ['buddies'] }),
+    ]),
   });
 }
 

@@ -5,16 +5,16 @@ import { View } from 'react-native';
 import { DOG_SCALES, useSaveDog, type DogScale } from '@/api/dogs';
 import { useSettings } from '@/api/profile';
 import { PhotoField } from '@/components/PhotoField';
-import { ScaleInput } from '@/components/ScaleInput';
+import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Wizard, type WizardStep } from '@/components/Wizard';
-import { Chip, Segmented } from '@/components/ui/Chip';
+import { Segmented } from '@/components/ui/Chip';
 import { DogAvatar } from '@/components/ui/Avatar';
-import { Icon } from '@/components/ui/Icon';
 import { Field } from '@/components/ui/Field';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT, type Key } from '@/i18n';
 import { goBack } from '@/lib/nav';
+import { dogScales } from '@/constants/options';
 
 const LB_PER_KG = 2.20462;
 const round1 = (x: number) => Math.round(x * 10) / 10;
@@ -32,8 +32,7 @@ export function DogWizard() {
   const [weight, setWeight] = useState('');
   const [unitPick, setUnitPick] = useState<'lb' | 'kg' | null>(null);
   const unit = unitPick ?? (settings.data?.weight_unit === 'kg' ? 'kg' : 'lb');
-  const [scales, setScales] = useState<Record<DogScale, number | null>>({ energy: null, temp: null, with_dogs: null, with_people: null, alone: null, car: null });
-  const [recall, setRecall] = useState<'runner' | 'comes' | null>(null);
+  const [scales, setScales] = useState<Record<DogScale, number | null>>(() => dogScales({}));
 
   const w = Number(weight);
   const weightOk = weight.trim() !== '' && Number.isFinite(w) && w > 0;
@@ -79,25 +78,11 @@ export function DogWizard() {
     ...DOG_SCALES.map(
       (f): WizardStep => ({
         key: f,
-        title: t(`scale.${f === 'with_dogs' ? 'withDogs' : f === 'with_people' ? 'withPeople' : f}` as Key),
+        title: t(`scale.${scaleStem(f)}` as Key),
         optional: true,
-        content: <ScaleInput field={f} hideTitle value={scales[f]} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />,
+        content: <ScaleInput field={f} hideTitle value={scales[f]} description={scales[f] == null ? undefined : t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />,
       }),
     ),
-    {
-      key: 'recall',
-      title: t('recall.q'),
-      optional: true,
-      content: (
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          {(['runner', 'comes'] as const).map((r) => (
-            <View key={r} style={{ flex: 1 }}>
-              <Chip icon={<Icon name={r === 'runner' ? 'trait-runner' : 'trait-recall'} size={30} />} label={t(`recall.${r}`)} on={recall === r} onPress={() => setRecall(recall === r ? null : r)} style={{ minHeight: 56, borderRadius: 16 }} />
-            </View>
-          ))}
-        </View>
-      ),
-    },
     {
       key: 'done',
       title: t('dw.done.title', { name: name.trim() }),
@@ -124,7 +109,6 @@ export function DogWizard() {
         weight_unit: unit,
         weight_lb: round1(unit === 'kg' ? w * LB_PER_KG : w),
         ...scales,
-        recall,
       });
       toast(t('toast.saved'));
       leave();

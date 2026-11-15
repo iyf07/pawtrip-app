@@ -5,8 +5,7 @@ import { supabase } from '@/lib/supabase';
 
 import type { Dog, DogInsert } from './types';
 
-export const DOG_SCALES = ['energy', 'temp', 'with_dogs', 'with_people', 'alone', 'car'] as const;
-export type DogScale = (typeof DOG_SCALES)[number];
+export { DOG_SCALES, type DogScale } from '@/constants/options';
 
 export function useMyDogs() {
   const { userId } = useAuth();

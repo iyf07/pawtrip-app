@@ -11,6 +11,7 @@ import { HandleField } from "@/components/HandleField";
 import { Field } from "@/components/ui/Field";
 import { dietIcon } from "@/components/DietIcon";
 import { InterestPicker } from "@/components/InterestPicker";
+import { PersonTraits } from "@/components/PersonTraits";
 import { ScaleInput } from "@/components/ScaleInput";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
@@ -147,7 +148,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
             <HandleField label={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
           </>
         ) : (
-          <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>ID: {profile.handle}</Text>
+          <>
+            <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>ID: {profile.handle}</Text>
+            <PersonTraits profile={editing === "style" ? scales : profile} />
+          </>
         )}
       </View>
     </View>

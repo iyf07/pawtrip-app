@@ -6,8 +6,9 @@ import { useAuth } from '@/auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
 
 import type { Dog, Trip } from './types';
+import type { PersonScale } from '@/constants/options';
 
-type PersonLite = { display_name: string; avatar_url: string | null; handle?: string };
+type PersonLite = Partial<Record<PersonScale, number | null>> & { display_name: string; avatar_url: string | null; handle?: string };
 
 export type TripListItem = Trip & {
   trip_members: { user_id: string; profiles: PersonLite | null }[];
@@ -41,7 +42,7 @@ export function useTrips() {
 async function fetchTrip(id: string): Promise<TripDetail> {
   const { data, error } = await supabase
     .from('trips')
-    .select('*, trip_members(user_id, joined_at, profiles(display_name, avatar_url, handle)), trip_dogs(dog_id, added_by, dogs(*, profiles(display_name, avatar_url)))')
+    .select('*, trip_members(user_id, joined_at, profiles(display_name, avatar_url, handle, morning, noise, walking, temperature, pace, spending)), trip_dogs(dog_id, added_by, dogs(*, profiles(display_name, avatar_url)))')
     .eq('id', id)
     .single();
   if (error) throw error;

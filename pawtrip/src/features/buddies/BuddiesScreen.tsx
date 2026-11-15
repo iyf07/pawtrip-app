@@ -3,6 +3,7 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRequestBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
 import { isCode } from '@/api/types';
+import { PersonTraits } from '@/components/PersonTraits';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -65,6 +66,7 @@ export function BuddiesScreen() {
                     {t('bd.wants', { who: b.name })}
                   </Text>
                   <Meta numberOfLines={1}>@{b.handle}</Meta>
+                  <PersonTraits profile={b.traits} />
                 </View>
               </View>
               <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
@@ -82,6 +84,7 @@ export function BuddiesScreen() {
                     {b.name}
                   </Text>
                   <Meta numberOfLines={1}>@{b.handle}</Meta>
+                  <PersonTraits profile={b.traits} />
                 </View>
                 {b.status === 'pending' ? <Meta weight={700}>{t('bd.pending')}</Meta> : null}
                 <Pressable onPress={() => remove.mutate(b.userId)} accessibilityRole="button" accessibilityLabel={t('bd.remove')} hitSlop={8}>

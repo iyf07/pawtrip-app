@@ -1,23 +1,23 @@
 import { useState, type ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { DOG_SCALES, useDeleteDog, useSaveDog, type DogScale } from '@/api/dogs';
 import type { Dog } from '@/api/types';
 import { AvatarEditor } from '@/components/AvatarEditor';
-import { ScaleInput } from '@/components/ScaleInput';
+import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
 import { DogAvatar } from '@/components/ui/Avatar';
-import { Chip, Segmented } from '@/components/ui/Chip';
+import { Segmented } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { Field } from '@/components/ui/Field';
-import { SaveBar } from '@/components/ui/SaveBar';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
-import { useT } from '@/i18n';
+import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
+import { dogScales } from '@/constants/options';
 
 const LB_PER_KG = 2.20462;
 const round1 = (x: number) => Math.round(x * 10) / 10;
@@ -38,22 +38,14 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
   const [weight, setWeight] = useState(
     dog.weight_lb != null ? String(dog.weight_unit === 'kg' ? round1(Number(dog.weight_lb) / LB_PER_KG) : Number(dog.weight_lb)) : '',
   );
-  const [scales, setScales] = useState<Record<DogScale, number | null>>({
-    energy: dog.energy,
-    temp: dog.temp,
-    with_dogs: dog.with_dogs,
-    with_people: dog.with_people,
-    alone: dog.alone,
-    car: dog.car,
-  });
-  const [recall, setRecall] = useState<'runner' | 'comes' | null>((dog.recall as 'runner' | 'comes' | null) ?? null);
+  const [scales, setScales] = useState<Record<DogScale, number | null>>(() => dogScales(dog));
   const [errs, setErrs] = useState<{ name?: string; weight?: string }>({});
   const [askDelete, setAskDelete] = useState(false);
   // read-only until the pencil is tapped
   const [editing, setEditing] = useState(false);
 
   // what the form started with, to know whether there is anything to save
-  const [init] = useState(() => ({ name, photo, unit, weight, scales, recall }));
+  const [init, setInit] = useState(() => ({ name, photo, unit, weight, scales }));
   function discard() {
     const i = init;
     setName(i.name);
@@ -61,7 +53,6 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     setUnit(i.unit);
     setWeight(i.weight);
     setScales(i.scales);
-    setRecall(i.recall);
     setErrs({});
     setEditing(false);
   }
@@ -81,9 +72,9 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         weight_unit: unit,
         weight_lb: round1(unit === 'kg' ? w * LB_PER_KG : w),
         ...scales,
-        recall,
       });
       if (dog.photo_url && dog.photo_url !== photo) await deletePhotoByUrl(dog.photo_url);
+      setInit({ name: name.trim(), photo, unit, weight, scales });
       toast(t('toast.saved'));
       setEditing(false);
     } catch {
@@ -104,47 +95,37 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
   const identity = (
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 4 }}>
       {editing ? <AvatarEditor kind="dog" name={name} url={photo} size={wide ? 128 : 84} onChange={setPhoto} /> : <DogAvatar url={photo} size={wide ? 128 : 84} />}
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, minWidth: 0 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flex: 1 }}>{name}</Text>
+          {editing ? (
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.saveSection', { section: t('dog.name') })} disabled={save.isPending} onPress={submit}
+                style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                {save.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={32} />}
+              </Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.discardSection', { section: t('dog.name') })} disabled={save.isPending} onPress={discard}
+                style={{ width: 40, height: 40, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="ui-discard" size={32} />
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable accessibilityRole="button" accessibilityLabel={t('dog.edit')} onPress={() => setEditing(true)}
+              style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center', justifyContent: 'center' }}>
+              <Icon name="ui-pencil" size={24} />
+            </Pressable>
+          )}
+        </View>
         {editing ? (
           <>
             <Field label={t('dog.name')} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} />
-            <Text weight={800} size={13} style={{ marginTop: 10, marginBottom: 6 }}>
-              {t('dog.weight')}
-            </Text>
+            <Text weight={800} size={13} style={{ marginTop: 10, marginBottom: 6 }}>{t('dog.weight')}</Text>
             <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
-              <View style={{ flex: 1, marginTop: -14 }}>
-                <Field value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} />
-              </View>
-              <Segmented
-                value={unit}
-                onChange={setUnit}
-                options={[
-                  { value: 'lb', label: 'lb' },
-                  { value: 'kg', label: 'kg' },
-                ]}
-              />
+              <View style={{ flex: 1, marginTop: -14 }}><Field value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
+              <Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} />
             </View>
           </>
-        ) : (
-          <>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-              <Text weight={800} size={wide ? 30 : 22} numberOfLines={1} style={{ flexShrink: 1 }}>
-                {name}
-              </Text>
-              <Pressable
-                onPress={() => setEditing(true)}
-                accessibilityRole="button"
-                accessibilityLabel={t('dog.edit')}
-                hitSlop={8}
-                style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center', justifyContent: 'center' }}>
-                <Icon name="ui-pencil" size={20} />
-              </Pressable>
-            </View>
-            <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>
-              {weight ? `${weight} ${unit}` : '—'}
-            </Text>
-          </>
-        )}
+        ) : <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>{weight ? `${weight} ${unit}` : '—'}</Text>}
       </View>
     </View>
   );
@@ -155,25 +136,8 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
 
       <View style={{ height: 18 }} />
       {DOG_SCALES.map((f) => (
-        <ScaleInput key={f} field={f} value={scales[f]} readOnly={!editing} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />
+        <ScaleInput key={f} field={f} value={scales[f]} description={scales[f] == null ? undefined : t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} readOnly={!editing} onChange={(v) => setScales((s) => ({ ...s, [f]: v }))} />
       ))}
-
-      <Text weight={800} size={13} style={{ marginTop: 18 }}>
-        {t('recall.q')}
-      </Text>
-      <View style={{ flexDirection: 'row', gap: 10, marginTop: 8 }}>
-        {(['runner', 'comes'] as const).map((r) => (
-          <View key={r} style={{ flex: 1 }}>
-            <Chip
-              icon={<Icon name={r === 'runner' ? 'trait-runner' : 'trait-recall'} size={30} />}
-              label={t(`recall.${r}`)}
-              on={recall === r}
-              onPress={editing ? () => setRecall(recall === r ? null : r) : undefined}
-              style={{ minHeight: 52, borderRadius: 16, opacity: !editing && recall !== r ? 0.45 : 1 }}
-            />
-          </View>
-        ))}
-      </View>
 
       {editing ? <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 24 }} /> : null}
 
@@ -189,6 +153,6 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       />
     </>
   );
-  const footer = editing ? <SaveBar saving={save.isPending} onSave={submit} onDiscard={discard} /> : null;
+  const footer = null;
   return <>{children({ body, footer })}</>;
 }

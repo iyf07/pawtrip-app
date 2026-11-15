@@ -3,30 +3,21 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
-import { useInShell } from '@/components/shell/ShellContext';
-import { CalendarScreen } from '@/features/calendar/CalendarScreen';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
-import { COLUMN } from '@/constants/theme';
-import { useColumns } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 
-/** The root: the month calendar on desktop; the trip list on phones (the calendar is one tap away in the top bar). */
-export default function Root() {
-  return useInShell() ? <CalendarScreen /> : <Trips />;
-}
-
-function Trips() {
+/** The root: always the trip list (cards), on every screen size. */
+export default function Trips() {
   const { t } = useT();
   const th = useTheme();
   const trips = useTrips();
-  const grid = useColumns(COLUMN.narrow);
 
   const header = (
     <Header
@@ -83,13 +74,11 @@ function Trips() {
           <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
         </View>
       ) : (
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: grid.gap, marginTop: 4 }}>
+        <View style={{ gap: 12, marginTop: 4 }}>
           {trips.data.map((trip) => (
-            <View key={trip.id} style={{ width: grid.cardWidth }}>
-              <TripCard trip={trip} />
-            </View>
+            <TripCard key={trip.id} trip={trip} />
           ))}
-          <View style={{ width: grid.cardWidth, justifyContent: 'center' }}>{joinButton}</View>
+          {joinButton}
         </View>
       )}
     </Screen>

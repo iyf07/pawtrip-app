@@ -1,9 +1,9 @@
 import type { Session } from '@supabase/supabase-js';
-import * as Linking from 'expo-linking';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Platform } from 'react-native';
 
 import { supabase } from '@/lib/supabase';
+import { parseLoginIdentifier } from '@/lib/login-identifier';
 
 type AuthCtx = {
   session: Session | null;
@@ -11,9 +11,9 @@ type AuthCtx = {
   ready: boolean;
   userId: string | null;
   email: string | null;
-  /** Email a sign-in link + code. Resolves when the email has been requested. */
-  sendCode: (email: string) => Promise<void>;
-  verifyCode: (email: string, code: string) => Promise<void>;
+  /** Request an email OTP using an email address or public ID. */
+  sendCode: (identifier: string) => Promise<void>;
+  verifyCode: (identifier: string, code: string) => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -40,22 +40,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const sendCode = useCallback(async (email: string) => {
-    const emailRedirectTo = Platform.OS === 'web' ? window.location.origin : Linking.createURL('/');
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: { shouldCreateUser: true, emailRedirectTo },
-    });
-    if (error) throw error;
+  const sendCode = useCallback(async (identifier: string) => {
+    const id = parseLoginIdentifier(identifier);
+    if (!id) throw new Error('invalid_identifier');
+    const redirectTo = Platform.OS === 'web' ? window.location.origin : 'pawtrip://';
+    if (id.kind === 'email') {
+      const { error } = await supabase.auth.signInWithOtp({ email: id.value, options: { shouldCreateUser: true, emailRedirectTo: redirectTo } });
+      if (error) throw error;
+    } else {
+      const { data, error } = await supabase.functions.invoke('id-login', { body: { action: 'send', identifier: id.value, redirectTo } });
+      if (error || data?.accepted !== true) throw error ?? new Error('send_failed');
+    }
   }, []);
 
-  const verifyCode = useCallback(async (email: string, code: string) => {
-    const { error } = await supabase.auth.verifyOtp({
-      email: email.trim().toLowerCase(),
-      token: code.trim(),
-      type: 'email',
-    });
-    if (error) throw error;
+  const verifyCode = useCallback(async (identifier: string, code: string) => {
+    const id = parseLoginIdentifier(identifier);
+    if (!id) throw new Error('invalid_identifier');
+    if (id.kind === 'email') {
+      const { error } = await supabase.auth.verifyOtp({ email: id.value, token: code.trim(), type: 'email' });
+      if (error) throw error;
+    } else {
+      const { data, error } = await supabase.functions.invoke('id-login', { body: { action: 'verify', identifier: id.value, token: code.trim() } });
+      if (error || !data?.session?.access_token || !data?.session?.refresh_token) throw error ?? new Error('invalid_code');
+      const { error: sessionError } = await supabase.auth.setSession(data.session);
+      if (sessionError) throw sessionError;
+    }
   }, []);
 
   const signOut = useCallback(async () => {

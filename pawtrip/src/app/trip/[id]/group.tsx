@@ -16,6 +16,7 @@ import { SectionTitle } from "@/components/ui/Screen";
 import { ConfirmSheet } from "@/components/ui/Sheet";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
+import { PersonTraits } from "@/components/PersonTraits";
 import { DogEditSheet } from "@/features/dog/DogEditSheet";
 import { AddDogsSheet } from "@/features/dog/AddDogsSheet";
 import { AddBuddiesSheet } from "@/features/buddies/AddBuddiesSheet";
@@ -100,6 +101,7 @@ export default function Group() {
                 {m.profiles?.handle ? (
                   <Meta numberOfLines={1}>@{m.profiles.handle}</Meta>
                 ) : null}
+                <PersonTraits profile={m.profiles} />
               </View>
               {m.user_id === trip.creator_id ? (
                 <View

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useAuth } from '@/auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
+import { personScales, type PersonScale } from '@/constants/options';
 
 export type Buddy = {
   /** the other person */
@@ -12,6 +13,7 @@ export type Buddy = {
   name: string;
   avatar: string | null;
   handle: string;
+  traits: Record<PersonScale, number | null>;
 };
 
 /** My buddies: accepted ones, plus requests in both directions that are still waiting. */
@@ -25,7 +27,7 @@ export function useBuddies() {
       if (error) throw error;
       const others = data.map((r) => ({ r, other: r.requester_id === userId ? r.addressee_id : r.requester_id }));
       if (!others.length) return [];
-      const { data: profs, error: e2 } = await supabase.from('profiles').select('id, display_name, avatar_url, handle').in('id', others.map((o) => o.other));
+      const { data: profs, error: e2 } = await supabase.from('profiles').select('id, display_name, avatar_url, handle, morning, noise, walking, temperature, pace, spending').in('id', others.map((o) => o.other));
       if (e2) throw e2;
       const byId = new Map(profs.map((p) => [p.id, p]));
       return others.map(({ r, other }) => ({
@@ -35,6 +37,7 @@ export function useBuddies() {
         name: byId.get(other)?.display_name ?? '?',
         avatar: byId.get(other)?.avatar_url ?? null,
         handle: byId.get(other)?.handle ?? '',
+        traits: personScales(byId.get(other) ?? {}),
       }));
     },
   });

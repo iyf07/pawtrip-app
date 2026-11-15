@@ -77,14 +77,14 @@ isOneToOne: false
                   ]
                 },"dogs": {
                   Row: {
-                    "alone": number | null,"car": number | null,"created_at": string,"energy": number | null,"id": string,"name": string,"owner_id": string,"photo_url": string | null,"recall": string | null,"temp": number | null,"updated_at": string,"weight_lb": number | null,"weight_unit": string,"with_dogs": number | null,"with_people": number | null
+                    "alone": number | null,"car": number | null,"created_at": string,"energy": number | null,"id": string,"name": string,"owner_id": string,"photo_url": string | null,"recall": string | null,"recall_level": number | null,"temp": number | null,"updated_at": string,"weight_lb": number | null,"weight_unit": string,"with_dogs": number | null,"with_people": number | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "alone"?: number | null,"car"?: number | null,"created_at"?: string,"energy"?: number | null,"id"?: string,"name": string,"owner_id"?: string,"photo_url"?: string | null,"recall"?: string | null,"temp"?: number | null,"updated_at"?: string,"weight_lb"?: number | null,"weight_unit"?: string,"with_dogs"?: number | null,"with_people"?: number | null
+                    "alone"?: number | null,"car"?: number | null,"created_at"?: string,"energy"?: number | null,"id"?: string,"name": string,"owner_id"?: string,"photo_url"?: string | null,"recall"?: string | null,"recall_level"?: number | null,"temp"?: number | null,"updated_at"?: string,"weight_lb"?: number | null,"weight_unit"?: string,"with_dogs"?: number | null,"with_people"?: number | null
                   }
                   Update: {
-                    "alone"?: number | null,"car"?: number | null,"created_at"?: string,"energy"?: number | null,"id"?: string,"name"?: string,"owner_id"?: string,"photo_url"?: string | null,"recall"?: string | null,"temp"?: number | null,"updated_at"?: string,"weight_lb"?: number | null,"weight_unit"?: string,"with_dogs"?: number | null,"with_people"?: number | null
+                    "alone"?: number | null,"car"?: number | null,"created_at"?: string,"energy"?: number | null,"id"?: string,"name"?: string,"owner_id"?: string,"photo_url"?: string | null,"recall"?: string | null,"recall_level"?: number | null,"temp"?: number | null,"updated_at"?: string,"weight_lb"?: number | null,"weight_unit"?: string,"with_dogs"?: number | null,"with_people"?: number | null
                   }
                   Relationships: [
                     {

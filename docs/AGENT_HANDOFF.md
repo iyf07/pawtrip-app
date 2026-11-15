@@ -81,7 +81,7 @@ triage, fix, deploy, then write back `status`, `resolution` (user-facing, Chines
 
 ```
 pawtrip/src/
-  app/                 routes (Expo Router). index = month calendar on desktop / trip list on phones; calendar, buddies, dogs,
+  app/                 routes (Expo Router). index = trip list (all sizes); calendar, buddies, dogs,
                        profile, settings, new-trip, join, onboarding, sign-in, dog/[id], trip/[id]/{plan,ideas,group}
   api/                 Supabase queries + mutations (trips, items, dogs, profile, buddies, feedback) as TanStack Query hooks
   components/          shared UI (ui/ = Button, Card, Chip, Sheet, Screen/Header/BackButton, SaveBar, Icon, Text…), shell/DesktopShell
@@ -126,6 +126,7 @@ Interface (details in `docs/pm/11-ui-principles.md`)
 - 2026-11-15 Profile layout: identity above a single bordered preferences group. Desktop: travel style upper left, interests upper right, dietary needs lower left. Mobile: style → interests → dietary needs. Account section below the group on all sizes. Dietary heading 我的忌口; remove feedback history from profile, retain the global send-feedback button.
 - 2026-11-15 Profile edits are per section: identity, travel style, interests, diet. Each has a pencil and saves only its own fields; finish or discard the current section before opening another. Headings: 我的兴趣 / 我的账号. User approved neutral travel-preference wording (walking, atmosphere, departure time) in both languages.
 - 2026-11-15 Page Header titles use 26px on phone/tablet and 32px on desktop; SectionTitle stays 20px so page titles are visibly larger.
+- **Root `/` = the trip list on every screen size** (single centered column; logo and the rail's Trips icon go there). Opening a trip on desktop shows list column | Plan/Ideas/Members | dates+timeline+map; a handle between the list and the sections folds the trip away (navigates to `/`). Calendar is its own nav item (`/calendar`). Supersedes "root = calendar on desktop".
 - Calendar page = month of today, trips as bars with members + dogs; tap/drag empty days → new trip with those dates; drag a trip bar → move it (confirm: scheduled plans become ideas; leader only; not for finished trips).
 - **Friends (好友)** are people, not groups: add by public ID → they accept → add to trips (new-trip step, and "添加我的好友" on the members page, optionally with their dogs). Replaced an earlier "groups" model.
 - Interests = grouped under the Ideas activity types (23 items, stay/transit are not interests, plain "restaurants" removed). **Superseded 2026-11-15:** seven broad categories (outdoors, sights, food, coffee, drinks, shopping, fun), one unique existing category icon each; legacy detailed choices map to broad categories on read.
@@ -198,7 +199,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| — | — | (none) | | |
+| 2026-11-15 | Codex | 人狗人格标签、爪爪图标及ID登录 | profile / dog / buddies / auth / backend / assets | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -270,3 +271,6 @@ Generated 21 final icons with actual approved int-hiking/cat-coffee/scale-walk-3
 Verification: tsc/eslint silent; 6 frontend tests and 78 database tests pass. Browser checked desktop/375px drafts (six sliders, chosen descriptions and icons, custom diet add/discard, identity editing, no bottom bar and zero sliders in view). A browser save-test action was automatically rejected as a possible persistent profile change; used draft/discard verification and transactional pgTAP persistence tests instead, no profile test changes saved.
 
 Release result: backend 9e8554a pushed and migration 20261115185057 applied to Supabase after dry run; read-only production schema verified all three new smallint columns nullable. Security advisors: no issues found. Frontend 8bbb2a4 pushed and deployed to Expo production https://pawtrip.expo.app (mc16wt3inq). All requested refinements included; no saved browser profile test edits. Claim released.
+
+### 2026-11-15 (later 6) — first agent
+Root is now the trip list everywhere; rail Trips icon and logo go to `/`; a fold handle on the trip's section column returns to the list. Trip list is a single-column page (no grid).

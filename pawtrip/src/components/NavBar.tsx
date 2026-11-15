@@ -1,11 +1,12 @@
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import { Image, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useMyDogs } from '@/api/dogs';
 import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
 import { Avatar } from '@/components/ui/Avatar';
-import { Icon } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { useInShell } from '@/components/shell/ShellContext';
 import { COLUMN } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -23,22 +24,43 @@ export function NavBar() {
   const insets = useSafeAreaInsets();
   const { userId } = useAuth();
   const me = useMyProfile();
+  const dogs = useMyDogs();
+  const path = usePathname();
+  // the same entries as the desktop rail; settings sit next to the avatar
+  const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
+    { key: 'cal', icon: 'tab-plan', label: t('shell.calendar'), go: () => router.navigate('/calendar'), match: (p) => p.startsWith('/calendar') },
+    { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => router.navigate('/'), match: (p) => p === '/' || p.startsWith('/trip') },
+    {
+      key: 'dogs',
+      icon: 'nav-dogs',
+      label: t('shell.dogs'),
+      go: () => {
+        const first = dogs.data?.[0];
+        router.navigate({ pathname: '/dog/[id]', params: { id: first?.id ?? 'new' } });
+      },
+      match: (p) => p.startsWith('/dog'),
+    },
+    { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/buddies'), match: (p) => p.startsWith('/buddies') },
+    { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => router.navigate('/settings'), match: (p) => p.startsWith('/settings') },
+  ];
   return (
     <View style={{ width: '100%', backgroundColor: th.card, borderBottomWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: insets.top }}>
       <View style={{ height: NAV_HEIGHT, width: '100%', maxWidth: COLUMN.full, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 }}>
         <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel={t('trips.title')} hitSlop={8}>
-          <Image source={require('../../assets/logos/wordmark-trip.png')} accessibilityLabel="Paw Trip" resizeMode="contain" style={{ height: 52, width: 81, borderRadius: 8, backgroundColor: '#FFFFFF' }} />
+          <Image source={require('../../assets/logos/wordmark-trip.png')} accessibilityLabel="Paw Trip" resizeMode="contain" style={{ height: 46, width: 72, borderRadius: 8, backgroundColor: '#FFFFFF' }} />
         </Pressable>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-        <Pressable onPress={() => router.navigate('/buddies')} accessibilityRole="button" accessibilityLabel={t('shell.buddies')} hitSlop={8}>
-          <Icon name="tab-members" size={34} />
-        </Pressable>
-        <Pressable onPress={() => router.navigate('/calendar')} accessibilityRole="button" accessibilityLabel={t('shell.calendar')} hitSlop={8}>
-          <Icon name="tab-plan" size={34} />
-        </Pressable>
-        <Pressable onPress={() => router.navigate('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} hitSlop={8}>
-          <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={36} />
-        </Pressable>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+          {items.map((it) => {
+            const on = it.match(path);
+            return (
+              <Pressable key={it.key} onPress={it.go} accessibilityRole="button" accessibilityLabel={it.label} hitSlop={4} style={{ width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: on ? th.gold : 'transparent' }}>
+                <Icon name={it.icon} size={28} />
+              </Pressable>
+            );
+          })}
+          <Pressable onPress={() => router.navigate('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} hitSlop={8} style={{ marginLeft: 6 }}>
+            <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={34} border={path.startsWith('/profile') ? 3 : 2} />
+          </Pressable>
         </View>
       </View>
     </View>

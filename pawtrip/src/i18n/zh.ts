@@ -1,7 +1,7 @@
 // Generated from the prototype. Chinese is the source of truth for keys.
 export const zh = {
   "app.name": "Dog Trip Planner",
-  "signin.tagline": "和朋友一起，规划带狗出行",
+  "signin.tagline": "和好友一起，规划带狗出行",
   "signin.apple": "通过 Apple 登录",
   "signin.email": "使用邮箱继续",
   "trips.title": "我的行程",
@@ -171,7 +171,7 @@ export const zh = {
   "group.members": "成员",
   "group.you": "（我）",
   "group.organizer": "👑 组长",
-  "group.invite": "✉️ 邀请朋友",
+  "group.invite": "✉️ 邀请好友",
   "group.code": "邀请码",
   "group.share": "分享邀请",
   "group.newCode": "换个新码",
@@ -526,7 +526,7 @@ export const zh = {
   "toast.archived": "行程已归档",
   "toast.left": "已退出行程",
   "toast.inviteCopied": "邀请已复制",
-  "toast.shareCode": "把这个代码发给朋友：{code}",
+  "toast.shareCode": "把这个代码发给好友：{code}",
   "toast.newCode": "新邀请码已生成，旧码失效。",
   "toast.dogLeft": "{name}已移出行程",
   "toast.dogJoined": "{name}加入了行程 🐾",

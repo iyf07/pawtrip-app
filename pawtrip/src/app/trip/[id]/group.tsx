@@ -203,9 +203,8 @@ export default function Group() {
   // no code sits on the page: it is created when someone taps the button
   const inviteBlock = (
     <>
-      <SectionTitle>{t("group.invite")}</SectionTitle>
-      {isLeader ? <Button label={t("bd.addMine")} icon="ui-invite" variant="ghost" block onPress={() => setBuddiesOpen(true)} style={{ marginBottom: 10 }} /> : null}
-      <Button label={t("group.inviteBtn")} icon="ui-invite" block onPress={() => setInviteOpen(true)} />
+      {isLeader ? <Button label={t("bd.addMine")} icon="ui-invite" variant="ghost" block onPress={() => setBuddiesOpen(true)} style={{ marginTop: 12, marginBottom: 10 }} /> : null}
+      <Button label={t("group.inviteBtn")} icon="ui-invite" block onPress={() => setInviteOpen(true)} style={isLeader ? undefined : { marginTop: 12 }} />
     </>
   );
 
@@ -281,23 +280,22 @@ export default function Group() {
       <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
       <TabBody max={1100}>
         {wide ? (
-          // desktop: people and dogs on the left, inviting and settings on the right
+          // desktop: people, the add / invite buttons and dogs in one column
           <View
             style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}
           >
             <View style={{ flex: 1 }}>
               {membersBlock}
+              {inviteBlock}
               {dogsBlock}
             </View>
-            <View style={{ flex: 1 }}>
-              {inviteBlock}
-            </View>
+            <View style={{ flex: 1 }} />
           </View>
         ) : (
           <>
             {membersBlock}
-            {dogsBlock}
             {inviteBlock}
+            {dogsBlock}
           </>
         )}
         {dangerBlock}

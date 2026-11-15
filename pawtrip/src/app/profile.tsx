@@ -172,16 +172,16 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
       <SectionTitle>{t("profile.diet")}</SectionTitle>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {(editing ? DIETS : DIETS.filter((d) => diet.includes(d))).map((d) => (
+        {DIETS.map((d) => (
           <Chip
             key={d}
             icon={dietIcon(d)}
             label={t(`diet.${d}` as Key)}
-            on={editing ? diet.includes(d) : false}
+            on={diet.includes(d)}
             onPress={editing ? () => setDiet((c) => toggle(c, d)) : undefined}
+            style={!editing && !diet.includes(d) ? { opacity: 0.45 } : undefined}
           />
         ))}
-        {!editing && diet.length === 0 ? <Meta>—</Meta> : null}
       </View>
     </>
   );

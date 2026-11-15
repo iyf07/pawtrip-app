@@ -192,3 +192,6 @@ The first agent will re-read this file and `git log` when it comes back; **write
 
 ### 2026-11-15 (later) — first agent
 Batch 9 empty-state illustrations processed and wired (trips empty, ideas empty, empty day, map overlay, load-failed cards). Zip was in `~/Desktop`, copied to the icons folder.
+
+### 2026-11-15 (later 2) — first agent
+Fixes after user feedback: desktop trip list column no longer folds away beside an open trip (the rail Trips button folds/unfolds it; the plan map starts folded below 1300px width); members page is one centered 560px column; profile/dog view mode shows ALL interests/diets/traits (chosen highlighted, others dimmed, none tappable). Note: the user calls 行程 "计划" sometimes.

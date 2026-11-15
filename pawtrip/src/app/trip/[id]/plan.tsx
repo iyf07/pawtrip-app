@@ -32,14 +32,14 @@ const GUTTER = 46;
 
 export default function Plan() {
   const { t, locale } = useT();
-  const { wide } = useLayout();
+  const { wide, width } = useLayout();
   const dark = useColorScheme() === 'dark';
   const { fmtMin, hourLabel } = useTimeFmt();
   const th = useTheme();
   const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
   const [show, setShow] = useState<'all' | 'confirmed'>('all');
   // desktop: the map can be folded away; the right half then shows only the open entry's detail, or nothing (calendar fills the width)
-  const [mapOpen, setMapOpen] = useState(true);
+  const [mapOpen, setMapOpen] = useState(() => width >= 1300);
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
 
   const dayList = dayItems(items, day).filter((i) => show === 'all' || i.confirmed);

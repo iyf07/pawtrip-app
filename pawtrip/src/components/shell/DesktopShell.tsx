@@ -20,9 +20,7 @@ import { ShellContext } from './ShellContext';
 type Section = 'calendar' | 'trips' | 'dogs' | 'buddies' | 'profile' | 'settings';
 
 const RAIL_W = 76;
-const LIST_W = 252;
-// below this width the trip list folds away while a trip is open, to leave room for the plan
-const FULL_WIDTH = 1400;
+const LIST_W = 232;
 
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|new-trip|join)(\/|$)/.test(p) || p === '/dog/new';
@@ -34,23 +32,24 @@ const sectionOf = (p: string): Section => (p === '/' || p.startsWith('/calendar'
  * selected section, and the routed screen as the main area. On narrower windows it renders nothing but the screen.
  */
 export function DesktopShell({ enabled, children }: { enabled: boolean; children: ReactNode }) {
-  const { wide, width } = useLayout();
+  const { wide } = useLayout();
   const path = usePathname();
-  const [expanded, setExpanded] = useState(false);
+  // the trip list stays beside an open trip; the Trips button in the rail can fold it away and bring it back
+  const [listHidden, setListHidden] = useState(false);
   const [lastTrip, setLastTrip] = useState<string | null>(null); // where the Trips button returns to
   const active = enabled && wide && !isFlow(path);
   const section = sectionOf(path);
   const tripId = /^\/trip\/([^/]+)/.exec(path)?.[1] ?? null;
   const dogId = /^\/dog\/([^/]+)/.exec(path)?.[1] ?? null;
   if (tripId && tripId !== lastTrip) setLastTrip(tripId); // remember it (adjusting state while rendering)
-  const folded = width < FULL_WIDTH && !!tripId && !expanded;
+  const folded = !!tripId && listHidden;
   const showList = active && (section === 'dogs' || (section === 'trips' && !folded));
   const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
 
   return (
     <ShellContext.Provider value={active}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        {active ? <Rail section={section} onTrip={!!tripId} lastTrip={lastTrip} onToggleList={() => setExpanded((v) => !v)} /> : null}
+        {active ? <Rail section={section} onTrip={!!tripId} lastTrip={lastTrip} onToggleList={() => setListHidden((v) => !v)} /> : null}
         {showList ? section === 'dogs' ? <DogList selected={dogId} /> : <TripList selected={tripId} /> : null}
         {active && section === 'trips' && tripId ? <TripSections tripId={tripId} tab={tab} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>

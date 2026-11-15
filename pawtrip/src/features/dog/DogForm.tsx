@@ -162,18 +162,17 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         {t('recall.q')}
       </Text>
       <View style={{ flexDirection: 'row', gap: 10, marginTop: 8 }}>
-        {(editing ? (['runner', 'comes'] as const) : recall ? ([recall] as const) : ([] as const)).map((r) => (
-          <View key={r} style={{ flex: editing ? 1 : undefined }}>
+        {(['runner', 'comes'] as const).map((r) => (
+          <View key={r} style={{ flex: 1 }}>
             <Chip
               icon={<Icon name={r === 'runner' ? 'trait-runner' : 'trait-recall'} size={30} />}
               label={t(`recall.${r}`)}
-              on={editing ? recall === r : false}
+              on={recall === r}
               onPress={editing ? () => setRecall(recall === r ? null : r) : undefined}
-              style={{ minHeight: 52, borderRadius: 16 }}
+              style={{ minHeight: 52, borderRadius: 16, opacity: !editing && recall !== r ? 0.45 : 1 }}
             />
           </View>
         ))}
-        {!editing && !recall ? <Text color="muted">—</Text> : null}
       </View>
 
       {editing ? <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 24 }} /> : null}

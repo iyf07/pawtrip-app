@@ -223,17 +223,12 @@ export default function Group() {
       <DogEditSheet dogId={editDog} onClose={() => setEditDog(null)} />
       <TabBody max={1100}>
         {wide ? (
-          // desktop: people, the add / invite buttons and dogs in one column
-          <View
-            style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}
-          >
-            <View style={{ flex: 1 }}>
-              {membersBlock}
-              {inviteBlock}
-              {dogsBlock}
-              {dangerBlock}
-            </View>
-            <View style={{ flex: 1 }} />
+          // desktop: one centered column, the same width as the other pages
+          <View style={{ width: "100%", maxWidth: 560, alignSelf: "center" }}>
+            {membersBlock}
+            {inviteBlock}
+            {dogsBlock}
+            {dangerBlock}
           </View>
         ) : (
           <>

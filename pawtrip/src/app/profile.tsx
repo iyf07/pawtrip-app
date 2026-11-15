@@ -273,7 +273,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       bottom={editing ? <SaveBar saving={update.isPending} canSave={canSave} onSave={save} onDiscard={cancel} /> : null}
     >
       {identityBlock}
-      <View style={{ marginTop: 28, padding: wide ? 24 : 16, borderWidth: 2, borderColor: th.line, borderRadius: 24 }}>
+      <View style={{ marginTop: 28 }}>
         {wide ? (
           <>
             <View style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}>
@@ -293,7 +293,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         )}
       </View>
-      <View style={{ marginTop: 12 }}>
+      <View style={{ marginTop: 28 }}>
         {accountBlock}
         {signOutBlock}
       </View>

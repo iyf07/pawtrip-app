@@ -116,6 +116,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Follow-up: remove the outer preferences box and its padding; keep preferences and account as two sections separated by whitespace. Supersedes the bordered-group styling below, not its responsive placement.
 - 2026-11-15 Profile layout: identity above a single bordered preferences group. Desktop: travel style upper left, interests upper right, dietary needs lower left. Mobile: style → interests → dietary needs. Account section below the group on all sizes. Dietary heading 我的忌口; remove feedback history from profile, retain the global send-feedback button.
 - 2026-11-15 Profile edits are per section: identity, travel style, interests, diet. Each has a pencil and saves only its own fields; finish or discard the current section before opening another. Headings: 我的兴趣 / 我的账号. User approved neutral travel-preference wording (walking, atmosphere, departure time) in both languages.
 - 2026-11-15 Page Header titles use 26px on phone/tablet and 32px on desktop; SectionTitle stays 20px so page titles are visibly larger.
@@ -135,7 +136,7 @@ Process
 
 2026-11-15 Header typography: shared page titles enlarged to 26px / 32px (phone / desktop); typecheck and lint clean, profile checked at desktop and 375px and settings at desktop.
 
-2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Live at https://pawtrip.expo.app: code commit 12220b5, deployment rkxe2m18ve. Includes grouped preferences above account and no feedback history.
+2026-11-15 Profile update: independent section editing and broad interests implemented; neutral scale copy approved by user. Tests cover legacy interest mapping; browser verified 375px and desktop, save/reload and discard isolation. No new icons or DB migration needed. Live at https://pawtrip.expo.app: code commit 12220b5, deployment rkxe2m18ve. Includes preferences above account and no feedback history. Follow-up removes the outer preferences box; browser desktop/375px verified, typecheck/lint clean.
 
 **Shipped (live)**: sign-in/onboarding; trips (new-trip wizard incl. friends step, join by code, 1-hour invite code popup, archive/delete/leave with confirm);
 Plan timeline (24h, overlaps, stays, drag-to-move, hourly weather, sunrise/sunset, map with sticker pins, collapsible map, item detail with RSVPs/dog modes/moods/comments/notes);
@@ -185,7 +186,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| — | — | (none) | | |
+| 2026-11-15 | Codex | 发布主页无外框布局 | profile | 发布中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -235,3 +236,6 @@ Split profile editing into identity/style/interests/diet with separate pencils a
 Grouped preferences into one bordered section: desktop style left/interests right, dietary needs below on left; mobile stacks style/interests/dietary needs. Renamed dietary section 我的忌口 and preserved its pencil. Moved account below preferences. Removed profile feedback history and its query; global feedback composer retained. Browser checked 1280px and 375px, including dietary edit/discard. User explicitly reaffirmed automatic Expo and relevant Supabase deployment, superseding earlier approval blocker. No backend changes in this release.
 
 Release result: 12220b5 committed/pushed and deployed successfully to Expo production (rkxe2m18ve). No Supabase migrations/functions changed, so no backend deployment was necessary. Final typecheck/lint silent, two regression tests pass, git diff checks clean. Claim released.
+
+### 2026-11-15 — Codex remove profile outer box
+Removed preferences outer border, radius and inset padding; increased whitespace before account. Existing desktop columns, mobile stack and per-section edits preserved. Typecheck/lint both silent; browser verified desktop and 375px. Frontend-only release; no Supabase changes.

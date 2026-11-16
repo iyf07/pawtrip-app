@@ -7,13 +7,6 @@ import { useTheme } from '@/hooks/use-theme';
 import { Text } from './Text';
 import { Icon } from './Icon';
 
-/** A darker shade of a #rrggbb colour (for a tone-on-tone ring instead of a heavy dark outline). */
-const darken = (hex: string, amount: number) => {
-  const n = parseInt(hex.slice(1), 16);
-  const ch = (shift: number) => Math.round(((n >> shift) & 255) * (1 - amount));
-  return `rgb(${ch(16)}, ${ch(8)}, ${ch(0)})`;
-};
-
 const hash = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 
 type PersonProps = { id: string; name?: string | null; url?: string | null; size?: number; border?: number };
@@ -30,7 +23,7 @@ export function Avatar({ id, name, url, size = 32, border = 3 }: PersonProps) {
         borderRadius: size / 2,
         backgroundColor: bg,
         borderWidth: border > 0 ? Math.max(border, Math.round(size * 0.045)) : 0,
-        borderColor: darken(bg, 0.22),
+        borderColor: t.gold,
         boxShadow: border > 0 ? `0 0 0 ${Math.max(2, Math.round(size * 0.025))}px ${t.sticker}` : undefined,
         alignItems: 'center',
         justifyContent: 'center',
@@ -70,7 +63,7 @@ export function DogAvatar({ url, size = 44, border = 3 }: { url?: string | null;
         borderRadius: size / 2,
         backgroundColor: t.blueBg,
         borderWidth: border > 0 ? Math.max(border, Math.round(size * 0.045)) : 0,
-        borderColor: darken(t.blueBg.length === 7 ? t.blueBg : '#CDE7F0', 0.18),
+        borderColor: t.gold,
         boxShadow: border > 0 ? `0 0 0 ${Math.max(2, Math.round(size * 0.025))}px ${t.sticker}` : undefined,
         alignItems: 'center',
         justifyContent: 'center',

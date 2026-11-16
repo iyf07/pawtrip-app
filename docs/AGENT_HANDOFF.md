@@ -225,6 +225,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-15 | first agent | Phone profile visual pass (light icon tabs, no duplicate section titles, 2-column habit cards, ID row, feedback bubble) | `src/app/profile.tsx`, new `ProfileTabs`, `ScaleInput` (compact mode), `FeedbackButton` | 进行中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.

@@ -44,6 +44,8 @@ function enableBrowserPullToReload() {
   style.textContent = [
     'html,body{height:100%;overscroll-behavior-y:auto;scrollbar-width:none}',
     'html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}',
+    'html,body{background-color:#FCF8F0}',
+    '@media (prefers-color-scheme: dark){html,body{background-color:#231B15}}',
     'body{overflow-y:auto!important;overflow-x:hidden}',
     '#root{height:calc(100% + 1px)!important;min-height:calc(100% + 1px)}',
     '[style*="overflow-y: auto"],[style*="overflow-y: scroll"],[style*="overflow: auto"],[style*="overflow: scroll"]{overscroll-behavior-y:auto!important}',
@@ -107,6 +109,12 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   }, [session]);
   const scheme = useColorScheme();
   const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
+  // the area revealed by a pull / bounce is the document itself: paint it like the app so it is never white
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined') return;
+    document.documentElement.style.backgroundColor = colors.bg;
+    document.body.style.backgroundColor = colors.bg;
+  }, [colors.bg]);
   const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
 
   useEffect(() => {

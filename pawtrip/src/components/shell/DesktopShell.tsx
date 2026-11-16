@@ -1,7 +1,9 @@
-import { router, usePathname } from 'expo-router';
+import { router, useGlobalSearchParams, usePathname } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
+import { useBuddies } from '@/api/buddies';
+import { collectionDetail } from '@/lib/collection-layout';
 import { useMyDogs } from '@/api/dogs';
 import { useMyProfile } from '@/api/profile';
 import { useTrips, type TripListItem } from '@/api/trips';
@@ -38,15 +40,17 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   const section = sectionOf(path);
   const tripId = /^\/trips\/([^/]+)/.exec(path)?.[1] ?? null;
   const dogId = /^\/dogs\/([^/]+)/.exec(path)?.[1] ?? null;
-  // the trip list is a column only beside an open trip; on its own it is the page (cards), like on a phone
-  const showList = active && ((section === 'dogs' && !!dogId) || (section === 'trips' && !!tripId));
+  const { friend } = useGlobalSearchParams<{ friend?: string }>();
+  const detail = collectionDetail(path, friend);
+  const showList = active && !!detail;
   const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
 
   return (
     <ShellContext.Provider value={active}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
         {active ? <Rail section={section} /> : null}
-        {showList ? section === 'dogs' ? <DogList selected={dogId} /> : <TripList selected={tripId} /> : null}
+        {showList ? section === 'dogs' ? <DogList selected={dogId} /> : section === 'buddies' ? <FriendList selected={friend} /> : <TripList selected={tripId} /> : null}
+        {showList && detail ? <CollapseList home={detail.home} /> : null}
         {active && section === 'trips' && tripId ? <TripSections tripId={tripId} tab={tab} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>
       </View>
@@ -70,8 +74,6 @@ function Rail({ section }: { section: Section }) {
   const th = useTheme();
   const { userId } = useAuth();
   const me = useMyProfile();
-  const dogs = useMyDogs();
-
   const item = (key: Section, icon: IconName, label: string, onPress: () => void) => {
     const on = section === key;
     return (
@@ -94,11 +96,8 @@ function Rail({ section }: { section: Section }) {
       </Pressable>
       {item('calendar', 'tab-plan', t('shell.calendar'), () => router.navigate('/calendar'))}
       {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
-      {item('dogs', 'nav-dogs', t('shell.dogs'), () => {
-        const first = dogs.data?.[0];
-        router.navigate(first ? { pathname: '/dogs/[id]', params: { id: first.id } } : '/dogs');
-      })}
-      {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/friends'))}
+      {item('dogs', 'nav-dogs', t('shell.dogs'), () => router.navigate('/dogs'))}
+      {item('buddies', 'tab-members', t('shell.buddies'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/friends'); })}
       <View style={{ flex: 1 }} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
       <Pressable
@@ -144,8 +143,9 @@ function Row({ on, onPress, children, label }: { on: boolean; onPress: () => voi
 }
 
 function AddLink({ label, onPress }: { label: string; onPress: () => void }) {
+  const th = useTheme();
   return (
-    <Pressable onPress={onPress} accessibilityRole="button" style={{ padding: 10, borderRadius: 14, borderWidth: 2, borderStyle: 'dashed', borderColor: 'transparent' }}>
+    <Pressable onPress={onPress} accessibilityRole="button" style={{ padding: 10, borderRadius: 14, borderWidth: 2, borderStyle: 'dashed', borderColor: th.line }}>
       <Text weight={800} color="link" size={14}>
         {label}
       </Text>
@@ -196,6 +196,29 @@ function DogList({ selected }: { selected: string | null }) {
   );
 }
 
+function FriendList({ selected }: { selected?: string }) {
+  const { t } = useT();
+  const buddies = useBuddies();
+  return <ListFrame title={t('bd.title')}>
+    {(buddies.data ?? []).map((b) => <Row key={b.userId} on={selected === b.userId} onPress={() => router.replace({ pathname: '/friends', params: { friend: b.userId } })}>
+      <Avatar id={b.userId} name={b.name} url={b.avatar} size={36} />
+      <View style={{ flex: 1, minWidth: 0 }}><Text weight={800} numberOfLines={1}>{b.name}</Text><Meta numberOfLines={1}>@{b.handle}</Meta></View>
+    </Row>)}
+    <AddLink label={`+ ${t('bd.addTitle')}`} onPress={() => router.setParams({ add: '1' })} />
+  </ListFrame>;
+}
+
+function CollapseList({ home }: { home: '/' | '/dogs' | '/friends' }) {
+  const { t } = useT();
+  const th = useTheme();
+  return <View style={{ width: 0, zIndex: 5 }}>
+    <Pressable onPress={() => { if (home === '/friends') router.setParams({ friend: undefined, add: undefined }); router.replace(home); }} accessibilityRole="button" accessibilityLabel={t('collection.collapse')} hitSlop={8}
+      style={{ position: 'absolute', left: -14, top: '45%', width: 26, height: 56, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: th.card, borderWidth: 2, borderColor: th.line }}>
+      <Text plain size={20} weight={800} color="muted">◂</Text>
+    </Pressable>
+  </View>;
+}
+
 const SECTIONS = [
   { key: 'plan', icon: 'tab-plan', label: 'tab.plan' },
   { key: 'ideas', icon: 'tab-ideas', label: 'tab.ideas' },
@@ -208,20 +231,6 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
   const th = useTheme();
   return (
     <View style={{ width: 132, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: 18, paddingHorizontal: 10, gap: 6 }}>
-      {/* like the map's handle: folds the trip away so only the trip list is left */}
-      <Pressable
-        onPress={() => router.navigate('/')}
-        accessibilityRole="button"
-        accessibilityLabel={t('shell.hideTrip')}
-        // @ts-expect-error web-only tooltip
-        title={t('shell.hideTrip')}
-        hitSlop={8}
-        style={{ position: 'absolute', left: -14, top: '45%', zIndex: 5, width: 26, height: 56, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: th.card, borderWidth: 2, borderColor: th.line }}>
-        <Text plain size={14} weight={800} color="muted">
-          ◂
-        </Text>
-        <Icon name="nav-trips" size={16} />
-      </Pressable>
       {SECTIONS.map((s) => (
         <Row
           key={s.key}

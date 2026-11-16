@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Desktop collections share list-first navigation: trips/dogs/friends only show a secondary list after explicit selection, with bottom add action and collapse returning to root collection. Dog rail never auto-selects first dog. Clear friend/add query params explicitly when collapsing; same-route replace retains them. Phone friends remain a popup.
 - 2026-11-15 Dog homepage: title {name}的主页, identity and travel preferences have independent inline pencil/save/discard controls. Seven preferences use the existing compact component in two columns on phone and desktop (odd last card remains half width), matching the latest display-font/44px desktop and 56px phone design. Only exact 1/5 dog answers become name-area traits; missing defaults remain 3. Questions and results shortened in both languages, playful titles retained. Identity save never writes scales; preferences save never writes identity fields. Sign-out is text-only.
 - 2026-11-15 Phone profile travel-habit stickers use 48px; tablet/desktop remain 60px. Shared ScaleInput default 60px remains for dog profiles and wizards.
 - 2026-11-15 Friend cards now include selected interests and dog avatar/name/weight; dog opens a read-only seven-scale sheet. Shared across list, exact-ID lookup, existing-trip invite chooser, new-trip chooser and friend members. Confirmed friends can SELECT dog rows without sharing a trip; never UPDATE/DELETE. User explicitly requested dog information in pre-friend ID lookup too: authenticated exact-ID find_friend_profile returns explicit profile/dog fields, not a global dog listing; anonymous calls denied.
@@ -153,6 +154,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-15: Desktop trips/dogs/friends now start at collection lists with shared top-right +. Selection opens secondary list + detail, bottom add link and common collapse-to-list handle. Desktop friends use /friends?friend=ID; phone retains popup. Empty trips matches other collections. Frontend-only, verified; deployment follows.
+
 
 2026-11-15 Dog-home refinement: reviewed user commits through 658c3e0 and follow-ups f832f12/6ff2887; preserved gold avatar rings, light friend list/FriendSheet, icon tabs, personal preference compact grid, native pull-to-reload and background painting. Dog homepage has named title, 2-column compact preferences, endpoint-only traits and separate identity/preferences editing. Short dog copy shared with wizard/read-only previews. Sign-out icon removed as requested. 12 frontend tests pass, tsc/eslint silent; browser desktop/375px checks passed, draft edits discarded. Frontend-only live: 28b0db6, Expo ev1p9ykmuu.
 
@@ -228,6 +232,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -365,3 +370,6 @@ DogForm now separates identity from travel preferences, each right-aligned penci
 Verification: endpoint tag test red before helper, all 12 tests green after; tsc/eslint silent. Browser 375px: two columns, no view sliders; preferences edit has seven sliders and disables identity pencil; endpoint choice adds label, neutral removes it; discard restores original; identity edit has name/weight and no sliders, preference pencil disabled. Desktop cards share y with distinct x; named page title confirmed. Sign-out DOM has zero images and only 退出登录 text. No saved browser dog edits. Dev server had stopped; started a new Expo offline web process on :8081. No Supabase migrations/functions changed; release follows.
 
 Release result: 28b0db6 pushed and deployed successfully to https://pawtrip.expo.app (ev1p9ykmuu). All user changes through 6ff2887 retained. 12 tests pass; tsc/eslint silent; desktop/375px drafts checked and discarded. No Supabase change required. Claim released.
+
+### 2026-11-15 — Codex unified desktop collections
+Shared top-right AddAction; dogs root and rail remain list-first. Desktop selection creates secondary list, bottom + action and common collapse handle. Friend detail reuses FriendSheet inline with dog preview and sidebar add popup; phone preserves modal. Empty trips displays empty title and dashed create. Collection-layout regression red first, then all 15 frontend tests pass; tsc/eslint silent. Browser desktop verified three selection/collapse flows, friend header/sidebar add dialogs canceled, empty local fixture trip state; 375px friends modal and dogs list verified. Caught same-route query retention in browser, fixed explicit clearing and reverified. No records modified; no backend changes. Claim released; release follows.

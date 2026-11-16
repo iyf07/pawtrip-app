@@ -16,15 +16,12 @@ import { useT, type Key } from '@/i18n';
 const lb = (d: FriendDog) => (d.weight_lb == null ? null : `${Math.round((d.weight_unit === 'kg' ? d.weight_lb / 2.20462 : d.weight_lb) * 10) / 10} ${d.weight_unit}`);
 
 /** A friend's profile in a popup: who they are, their interests and dogs. The list itself stays light. */
-export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void }) {
+export function FriendSheet({ buddy, onClose, onRemove, inline = false }: { inline?: boolean; buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void }) {
   const { t } = useT();
   const th = useTheme();
   const [dog, setDog] = useState<FriendDog | null>(null);
   const scales = dogScales(dog ?? {});
-  return (
-    <>
-      <Sheet visible={!!buddy && !dog} onClose={onClose}>
-        {buddy ? (
+  const profile = buddy ? (
           <View style={{ gap: 14 }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
               <Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={64} />
@@ -68,11 +65,12 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
 
             <View style={{ gap: 4, marginTop: 4 }}>
               {onRemove ? <Button label={t('bd.removeFriend')} variant="danger" small onPress={() => { onRemove(buddy); onClose(); }} /> : null}
-              <Button label={t('common.close')} variant="text" block onPress={onClose} />
+              {!inline ? <Button label={t('common.close')} variant="text" block onPress={onClose} /> : null}
             </View>
           </View>
-        ) : null}
-      </Sheet>
+        ) : null;
+  return <>
+      {inline ? profile : <Sheet visible={!!buddy && !dog} onClose={onClose}>{profile}</Sheet>}
       <Sheet visible={!!dog} onClose={() => setDog(null)}>
         {dog ? (
           <>
@@ -85,6 +83,5 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
           </>
         ) : null}
       </Sheet>
-    </>
-  );
+    </>;
 }

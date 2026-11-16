@@ -1,8 +1,8 @@
-import { Redirect, router } from 'expo-router';
+import { router } from 'expo-router';
 import { View } from 'react-native';
 
 import { useMyDogs } from '@/api/dogs';
-import { useInShell } from '@/components/shell/ShellContext';
+import { AddAction } from '@/components/ui/AddAction';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
@@ -11,18 +11,13 @@ import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { useT } from '@/i18n';
 
-/** Phone: all my dogs first; tap one to see and edit its profile. (On desktop the dog list is a column of the shell.) */
+/** All sizes start with the collection; selecting a dog opens its profile. */
 export default function Dogs() {
   const { t } = useT();
-  const inShell = useInShell();
   const dogs = useMyDogs();
 
-  if (inShell && dogs.data?.length) {
-    return <Redirect href={{ pathname: '/dogs/[id]', params: { id: dogs.data[0].id } }} />;
-  }
-
   return (
-    <Screen nav top={<Header title={t('profile.myDogs')} />} size="narrow">
+    <Screen nav top={<Header title={t('profile.myDogs')} right={<AddAction label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
       {dogs.isPending ? (
         <PageSkeleton cards={3} />
       ) : (

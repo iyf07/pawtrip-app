@@ -1,6 +1,8 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
+  'collection.emptyTrips': '行程列表空空如也',
+  'collection.collapse': '收起详情，返回列表',
   'dog.home': '{name}的主页',
   'dog.basic': '基本资料',
   'dog.preferences': '旅行偏好',
@@ -455,6 +457,8 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
+  'collection.emptyTrips': 'No trips yet',
+  'collection.collapse': 'Collapse details and return to list',
   'dog.home': '{name}’s profile',
   'dog.basic': 'Basic details',
   'dog.preferences': 'Travel preferences',

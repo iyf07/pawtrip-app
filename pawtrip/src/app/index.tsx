@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
+import { AddAction } from '@/components/ui/AddAction';
 import { useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
 import { AvatarStack } from '@/components/ui/Avatar';
@@ -17,21 +18,13 @@ import { cityState } from '@/lib/place';
 /** The root: always the trip list (cards), on every screen size. */
 export default function Trips() {
   const { t } = useT();
-  const th = useTheme();
   const trips = useTrips();
 
   const header = (
     <Header
       title={t('trips.title')}
       right={
-        <Pressable
-          onPress={() => router.push('/trips/new')}
-          accessibilityLabel={t('trips.new')}
-          style={{ width: 40, height: 40, borderRadius: 20, backgroundColor: th.gold, borderWidth: 3, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center', boxShadow: `0 3px 8px -2px ${th.shadow}` }}>
-          <Text plain size={24} weight={800} color="onGold" style={{ lineHeight: 28 }}>
-            +
-          </Text>
-        </Pressable>
+        <AddAction label={t('trips.new')} onPress={() => router.push('/trips/new')} />
       }
     />
   );
@@ -52,7 +45,7 @@ export default function Trips() {
       {trips.isPending ? (
         <PageSkeleton cards={3} />
       ) : trips.isError ? (
-        <Card style={{ alignItems: 'center', marginTop: 24 }}>
+        <Card style={{ alignItems: 'center', alignSelf: 'stretch', marginTop: 24 }}>
           <Icon name="empty-offline" size={110} />
           <Text weight={800} size={18}>
             {t('common.loadFailed')}
@@ -63,12 +56,11 @@ export default function Trips() {
         <View style={{ alignItems: 'center', paddingTop: 40 }}>
           <Icon name="empty-trips" size={150} />
           <Text weight={800} size={20} style={{ marginTop: 20 }}>
-            {t('trips.empty.title')}
+            {t('collection.emptyTrips')}
           </Text>
-          <Text color="muted" style={{ marginTop: 4, marginBottom: 18, textAlign: 'center' }}>
-            {t('trips.empty.body')}
-          </Text>
-          <Button label={t('trips.new')} onPress={() => router.push('/trips/new')} style={{ alignSelf: 'center' }} />
+          <Card dashed onPress={() => router.push('/trips/new')} style={{ alignItems: 'center', alignSelf: 'stretch', marginTop: 24 }}>
+            <Text weight={800} color="link">+ {t('trips.new')}</Text>
+          </Card>
           <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
         </View>
       ) : (

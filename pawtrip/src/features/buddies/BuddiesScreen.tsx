@@ -1,3 +1,6 @@
+import { router, useLocalSearchParams } from 'expo-router';
+import { useLayout } from '@/hooks/use-layout';
+import { AddAction } from '@/components/ui/AddAction';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -23,6 +26,12 @@ export function BuddiesScreen() {
   const [adding, setAdding] = useState(false);
   const [open, setOpen] = useState<Buddy | null>(null);
   const th = useTheme();
+  const { wide } = useLayout();
+  const { friend, add } = useLocalSearchParams<{ friend?: string; add?: string }>();
+  const selected = buddies.data?.find((b) => b.userId === friend);
+  const addingVisible = adding || add === '1';
+  function closeAdd() { setAdding(false); if (add) router.setParams({ add: undefined }); }
+  function openBuddy(b: Buddy) { if (wide) router.push({ pathname: '/friends', params: { friend: b.userId } }); else setOpen(b); }
   const respond = useRespondBuddy();
   const remove = useRemoveBuddy();
 
@@ -39,8 +48,15 @@ export function BuddiesScreen() {
     }
   }
 
+  if (wide && friend && selected) return (
+    <Screen nav size="narrow" top={<Header title={selected.name} />}>
+      <FriendSheet inline buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
+      <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
+    </Screen>
+  );
+
   return (
-    <Screen nav top={<Header title={t('bd.title')} />} size="narrow">
+    <Screen nav top={<Header title={t('bd.title')} right={<AddAction label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (
@@ -52,7 +68,7 @@ export function BuddiesScreen() {
         <View style={{ gap: 14, marginTop: 8 }}>
           {incoming.map((b) => (
             <Card key={b.userId}>
-              <Pressable onPress={() => setOpen(b)} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+              <Pressable onPress={() => openBuddy(b)} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text weight={800} size={16}>
@@ -78,7 +94,7 @@ export function BuddiesScreen() {
             {mine.map((b, i) => (
               <Pressable
                 key={b.userId}
-                onPress={() => setOpen(b)}
+                onPress={() => openBuddy(b)}
                 accessibilityRole="button"
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
@@ -109,7 +125,7 @@ export function BuddiesScreen() {
           </Card>
         </View>
       )}
-      <AddFriendSheet visible={adding} onClose={() => setAdding(false)} />
+      <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
       <FriendSheet buddy={open} onClose={() => setOpen(null)} onRemove={(b) => remove.mutate(b.userId)} />
     </Screen>
   );

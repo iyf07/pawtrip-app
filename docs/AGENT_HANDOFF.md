@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Phone profile travel-habit stickers use 48px; tablet/desktop remain 60px. Shared ScaleInput default 60px remains for dog profiles and wizards.
 - 2026-11-15 Friend cards now include selected interests and dog avatar/name/weight; dog opens a read-only seven-scale sheet. Shared across list, exact-ID lookup, existing-trip invite chooser, new-trip chooser and friend members. Confirmed friends can SELECT dog rows without sharing a trip; never UPDATE/DELETE. User explicitly requested dog information in pre-friend ID lookup too: authenticated exact-ID find_friend_profile returns explicit profile/dog fields, not a global dog listing; anonymous calls denied.
 - 2026-11-15 Mobile profile uses four tabs (习惯 / 兴趣 / 忌口 / 账号) beneath persistent identity. Desktop retains the existing two-column layout. Prevent tab changes during an unfinished edit with a save/discard toast. Remove account UUID display; top public handle has copy/share icons, sharing ID text with clipboard fallback when native Web Share is unavailable. Avatar family now has thick cocoa stroke and white outer rim. Profile bio 12px; scale right-hand titles 13px.
 - 2026-11-15 Add dogs/friends CTAs use the same full-width dashed Card with centered + text in both empty and populated lists; no sticker/emoji inside buttons. Supersedes the gold icon buttons in empty states. Empty-state illustrations remain.
@@ -152,7 +153,7 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-2026-11-15 Friend details/profile navigation: implemented selected-interest and dog previews at all friend surfaces, exact-ID pre-friend preview, read-only dog sheets; accepted-friend dog SELECT policy and authenticated exact-ID RPC. Mobile profile four tabs, public-ID copy/share, removed account UUID, thicker avatar outline and slightly larger traits. Desktop/375px checked; local fixture preview verifies non-friend interests and 12kg dog; no request sent. ID copy verified by paste into name draft, then discarded. DB 106 assertions pass; frontend 11 tests pass, tsc/eslint silent. Backend 0bf9868 deployed; frontend fa294ee deployed to Expo uky2euawuh. Follow-up mobile habit icon size 48px in progress.
+2026-11-15 Friend details/profile navigation: implemented selected-interest and dog previews at all friend surfaces, exact-ID pre-friend preview, read-only dog sheets; accepted-friend dog SELECT policy and authenticated exact-ID RPC. Mobile profile four tabs, public-ID copy/share, removed account UUID, thicker avatar outline and slightly larger traits. Desktop/375px checked; local fixture preview verifies non-friend interests and 12kg dog; no request sent. ID copy verified by paste into name draft, then discarded. DB 106 assertions pass; frontend 11 tests pass, tsc/eslint silent. Backend 0bf9868 deployed; frontend fa294ee deployed to Expo uky2euawuh. Final follow-up live: phone habit icons 48px (tablet/desktop 60px), d41c130, Expo grdx4nvruy.
 
 2026-11-15 Add-entry styling: empty and populated friends/dogs now share one dashed + add Card per screen. Desktop/375px browser checked, tsc/eslint silent. Frontend-only; live a64b59f, Expo ryzuaayy8n.
 
@@ -224,7 +225,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 好友兴趣与狗狗资料展示 | buddies / trip pickers / backend RLS | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -338,3 +338,5 @@ Backend: additive dogs_select_accepted_friends policy and find_friend_profile ex
 Follow-up UI: person avatars thick cocoa + white rim, remove account UUID card, copy/share saved public ID at top (Web Share when supported, otherwise copy ID message), 4 mobile profile tabs retaining identity; editing blocks tab switch until save/discard. Slightly larger bio (12) and scale title (13). Browser desktop/375px: friend list dog, non-friend lookup with synthetic Preview Fixture interests and Preview Pup (12kg), seven-scale read-only popup, member friend info, all four profile tabs, edit switching protection, UUID absent and public-ID copied then pasted into draft name; discarded without save. Synthetic local lookup fixture only; no production user changes, friend requests or dog edits. 11 frontend tests pass and tsc/eslint silent. Release follows.
 
 Release result: backend 0bf9868 pushed and migrations deployed, exact-ID RPC grants verified authenticated-only. Frontend fa294ee pushed and deployed to Expo production (uky2euawuh). Follow-up requested during release: phone profile habit icons 60 -> 48px; tablet/desktop and dog/wizard defaults remain 60px.
+
+Final release result: d41c130 pushed and deployed to Expo production (grdx4nvruy), including all fa294ee friend/profile changes. Backend 0bf9868 deployed; all 106 DB assertions and 11 frontend tests pass. Final tsc/eslint silent; phone/desktop image dimensions verified 48/60 in browser. Clipboard integration confirmed by actual UI paste (browser clipboard read helper itself returned empty), draft discarded. No production test profile edits. Both repos clean before release notes; claim released.

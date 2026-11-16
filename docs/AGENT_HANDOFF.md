@@ -352,3 +352,6 @@ Phone profile: habits are two compact columns in view **and** edit mode (`ScaleI
 
 ### 2026-11-15 (later 13) — first agent
 Profile: "习惯"→"偏好" (tab and "我的旅行偏好" heading), compact two-column cards use the display (title) font again, desktop habit icons 44px. Friends page: the list is light (avatar, name, @ID, up to 3 dog avatars, chevron); tapping a row opens `FriendSheet` (name/ID/traits, interests, dogs → dog profile, remove friend). `FriendDetails` is unchanged and still used by the members page and the add-friend popup.
+
+### 2026-11-15 (later 14) — first agent
+Avatars: the heavy dark-brown ring was replaced by a tone-on-tone ring (the avatar's own colour, 22% darker; dogs: light blue 18% darker) with the white outer edge kept (`Avatar.tsx`).

@@ -56,3 +56,11 @@ export const personTraitKeys = (profile: Partial<Record<PersonScale, number | nu
     const value = profile[field];
     return (value === 1 || value === 5) ? [`scale.${field}.${value}`] : [];
   });
+
+/** Only endpoint answers become a dog personality tag. */
+export const dogTraitKeys = (dog: Partial<Record<DogScale, number | null>>) =>
+  DOG_SCALES.flatMap((field) => {
+    const value = dog[field];
+    const stem = ({ with_dogs: 'withDogs', with_people: 'withPeople', recall_level: 'recall' } as Record<string, string>)[field] ?? field;
+    return value === 1 || value === 5 ? [`scale.${stem}.${value}`] : [];
+  });

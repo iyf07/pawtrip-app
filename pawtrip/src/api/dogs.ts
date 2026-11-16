@@ -5,6 +5,9 @@ import { supabase } from '@/lib/supabase';
 
 import type { Dog, DogInsert } from './types';
 
+type DogFields = Omit<DogInsert, 'owner_id' | 'id'>;
+type DogSaveInput = (DogFields & { id?: undefined }) | (Partial<DogFields> & { id: string });
+
 export { DOG_SCALES, type DogScale } from '@/constants/options';
 
 export function useMyDogs() {
@@ -35,10 +38,10 @@ export function useDog(id: string | undefined) {
 export function useSaveDog() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, ...body }: Omit<DogInsert, 'owner_id'> & { id?: string }): Promise<Dog> => {
+    mutationFn: async ({ id, ...body }: DogSaveInput): Promise<Dog> => {
       const q = id
         ? supabase.from('dogs').update(body).eq('id', id)
-        : supabase.from('dogs').insert(body);
+        : supabase.from('dogs').insert(body as DogFields);
       const { data, error } = await q.select('*').single();
       if (error) throw error;
       return data;

@@ -346,3 +346,6 @@ Phone profile visual pass (claim released): light icon tabs (`ProfileTabs`: icon
 
 ### 2026-11-15 (later 11) — first agent
 Correction after user feedback: my phone-profile pass had changed things outside the tabs. Reverted `profile.tsx` (section titles with the ✓/✕ paw-icon save/discard buttons, full-width habit cards, ID row), `ScaleInput.tsx` and `FeedbackButton.tsx` to their previous state; **only the tab strip changed** (`ProfileTabs`: icon above label + gold underline, replaces the pill `Segmented`). Lesson: when asked to change one thing, read the existing behaviour first and leave everything else as it is.
+
+### 2026-11-15 (later 12) — first agent
+Phone profile: habits are two compact columns in **view mode only** (`ScaleInput compact`); editing a section still shows the full-width cards with sliders and the ✓/✕ paw-icon buttons in the section heading. Nothing else was changed.

@@ -3,6 +3,7 @@ import { Image, type ImageStyle, type StyleProp } from 'react-native';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
+  'empty-discover': require('../../../assets/icons/empty-discover.png'),
   'dog-int-swimming': require('../../../assets/icons/dog-int-swimming.png'),
   'dog-int-fetch': require('../../../assets/icons/dog-int-fetch.png'),
   'int-chinese': require('../../../assets/icons/int-chinese.png'),

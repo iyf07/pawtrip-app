@@ -339,7 +339,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         )}
       </View>
-      {wide ? <View style={{ marginTop: 28 }}>
+      {wide ? <View style={{ marginTop: 28, maxWidth: 500 }}>
         {accountBlock}
         {signOutBlock}
       </View> : null}

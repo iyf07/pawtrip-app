@@ -415,7 +415,7 @@ export const zh = {
   "recall.runner": "💨 撒手没",
   "recall.comes": "🧲 一叫就回来",
   "dog.req": "* 只有名字和体重必填",
-  "dog.remove": "删除狗狗",
+  "dog.remove": "移除狗狗",
   "new.title": "新建行程",
   "new.name": "行程名称",
   "new.namePh": "比如：蓝岭周末",

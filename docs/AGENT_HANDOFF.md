@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-16 Friend homepage uses four icon tabs 偏好/兴趣/忌口/狗狗 on desktop and phone; headings name the friend, and dogs tab expands full read-only dog profiles without clicks. Removal is styled as sign-out with confirmation. Dog homepage desktop uses two columns (preferences left/interests right), with visible remove button and existing deletion confirmation. Profile account/sign-out limited to 500px on desktop. Empty interests/diet show playful neutral sticker chips; unset diet does not imply absence of restrictions. New empty-discover paw sticker Batch17.
 - 2026-11-16 Dog interests: 13 ungrouped independent choices (dog parks/trails/camping/swimming/paddling/snow/sand/sun/sniffing/fetch/treats/sleep/off-leash), own pencil/save/discard and new-dog wizard step. Named headings {name}的旅行偏好 / {name}的兴趣. Remove recall_level from UI scales and endpoint traits everywhere; keep both legacy recall columns/data untouched, never infer off-leash interest or recall ability. Interest saves only interests.
 - 2026-11-16 All ScaleInput stickers default 28px, including human/dog profile, friend preview and wizards, matching interests. Friends homepage title {name}的主页; desktop preference left, selected interests/diet right, dog section below; phone keeps the modal and compact preference grid. Read-only; includes custom diets. New-trip action uses nav-trips sticker and join uses ui-key, including desktop sidebar.
 - 2026-11-15 Desktop collections share list-first navigation: trips/dogs/friends only show a secondary list after explicit selection, with bottom add action and collapse returning to root collection. Dog rail never auto-selects first dog. Clear friend/add query params explicitly when collapsing; same-route replace retains them. Phone friends remain a popup.
@@ -156,6 +157,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-16: Friend profile tabs, inline dog details, named headings, playful empty chips, dog two-column desktop, removal buttons and narrower account implemented; frontend-only release follows.
+
 
 - 2026-11-16: Dog empty interests now says 兴趣空空如也. User reports missing scale and pencil icons; local desktop/375px renders them and production asset URLs return 200. User-device/browser reproduction still needed; do not claim icon issue fixed.
 
@@ -240,6 +244,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -397,3 +402,6 @@ Release result: frontend6ec025a pushed and deployed to https://pawtrip.expo.app 
 User reported missing scale stickers and blank pencil circles. Local 375px and desktop rendered all six and pencils; naturalWidth512/complete true, production hashed pencil and scale-energy-3 URLs return 200 image/png. IAB production showed blank screen during investigation, so could not verify authenticated production dog page; root cause remains unknown. Changed empty dog interests copy to 兴趣空空如也. tsc/eslint silent and local browser desktop/375px verified. No backend changes. Claim released; release follows.
 
 Release: 9b48b1a deployed to Expo (40jqoc5eh2). Empty copy fixed; missing icon report remains unresolved pending device/browser reproduction.
+
+### 2026-11-16 — Codex friend and dog profile redesign
+Friend profile uses four tabs with named headings and dog detail inline including six preferences/interests; remove friend confirmation. Dog page desktop wide content with two-column preferences and interests; always-visible remove dog retains destructive confirmation. Desktop profile account width limited500. Empty friend interests/diet and dog interests show new paw-family empty-discover sticker and neutral playful label, no assumptions about unfilled restrictions. Generated built-in reference-based sticker; UI512/master1024 archived icons/batch-17-empty-discovery and prompt in docs/icon-batches.md. Browser desktop and375px checked four tabs, inline Noodle data, dog two-column heading positions, empty chips, friend/dog removal dialogs canceled. 16 tests pass, tsc/eslint silent, diff check clean. No backend changes or test records modified. Previous separate icon loading issue remains unresolved pending reproduction. Claim released; release follows.

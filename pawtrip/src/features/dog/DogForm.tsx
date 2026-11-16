@@ -144,7 +144,8 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     <>
       {identity}
 
-      <View style={{ marginTop: 28 }}>
+      <View style={{ flexDirection: wide ? 'row' : 'column', gap: wide ? 32 : 0, alignItems: 'flex-start' }}>
+      <View style={{ marginTop: 28, flex: wide ? 1 : undefined, width: wide ? undefined : '100%', minWidth: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <Text weight={800} size={20} style={{ flexShrink: 1 }}>{t('dog.preferences', { name: init.name })}</Text>
           <View style={{ flex: 1, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line }} />
@@ -163,14 +164,15 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
           ))}
         </View>
       </View>
-      <View style={{ marginTop: 28 }}>
+      <View style={{ marginTop: 28, flex: wide ? 1 : undefined, width: wide ? undefined : '100%', minWidth: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <Text weight={800} size={20} style={{ flex: 1 }}>{t('dog.interests', { name: init.name })}</Text>
           {editActions('interests', t('dog.interests', { name: init.name }))}
         </View>
         <DogInterests values={interests} onChange={editing === 'interests' ? setInterests : undefined} />
       </View>
-      {editing === 'identity' ? <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 24 }} /> : null}
+      </View>
+      <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 28, maxWidth: wide ? 500 : undefined }} />
 
       <ConfirmSheet
         visible={askDelete}

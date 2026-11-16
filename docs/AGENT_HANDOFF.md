@@ -154,7 +154,7 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-2026-11-15 Dog-home refinement: reviewed user commits through 658c3e0 and follow-ups f832f12/6ff2887; preserved gold avatar rings, light friend list/FriendSheet, icon tabs, personal preference compact grid, native pull-to-reload and background painting. Dog homepage has named title, 2-column compact preferences, endpoint-only traits and separate identity/preferences editing. Short dog copy shared with wizard/read-only previews. Sign-out icon removed as requested. 12 frontend tests pass, tsc/eslint silent; browser desktop/375px checks passed, draft edits discarded. Frontend-only release pending.
+2026-11-15 Dog-home refinement: reviewed user commits through 658c3e0 and follow-ups f832f12/6ff2887; preserved gold avatar rings, light friend list/FriendSheet, icon tabs, personal preference compact grid, native pull-to-reload and background painting. Dog homepage has named title, 2-column compact preferences, endpoint-only traits and separate identity/preferences editing. Short dog copy shared with wizard/read-only previews. Sign-out icon removed as requested. 12 frontend tests pass, tsc/eslint silent; browser desktop/375px checks passed, draft edits discarded. Frontend-only live: 28b0db6, Expo ev1p9ykmuu.
 
 2026-11-15 Friend details/profile navigation: implemented selected-interest and dog previews at all friend surfaces, exact-ID pre-friend preview, read-only dog sheets; accepted-friend dog SELECT policy and authenticated exact-ID RPC. Mobile profile four tabs, public-ID copy/share, removed account UUID, thicker avatar outline and slightly larger traits. Desktop/375px checked; local fixture preview verifies non-friend interests and 12kg dog; no request sent. ID copy verified by paste into name draft, then discarded. DB 106 assertions pass; frontend 11 tests pass, tsc/eslint silent. Backend 0bf9868 deployed; frontend fa294ee deployed to Expo uky2euawuh. Final follow-up live: phone habit icons 48px (tablet/desktop 60px), d41c130, Expo grdx4nvruy.
 
@@ -228,7 +228,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 狗狗双列主页和分区编辑 | DogForm / dog route / dog copy / traits | 开发中；保留658c3e0及之前的新UI |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -364,3 +363,5 @@ Avatars: the heavy dark-brown ring was replaced by a **gold ring (`theme.gold`) 
 Read current handoff, CLAUDE/app instructions, git history and latest profile/compact ScaleInput/Avatar/FriendSheet. Preserved 587afa7/e6d24a6/658c3e0 and later f832f12/6ff2887: personal preferences wording, light icon tabs, view/edit compact grid, gold rings, light friends popup flow, browser-native refresh and theme background. Those source components were not reverted or restyled.
 DogForm now separates identity from travel preferences, each right-aligned pencil swapping to inline save/discard. Partial-save typing on useSaveDog retains required name for inserts while permitting id-scoped partial updates. Identity writes only name/photo/weight; preferences write only seven scales. Dog page/popup title {name}的主页; endpoint-only DogTraits beneath name, seven compact cards in two columns including edits; final odd card stays half width. All 35 dog results and seven questions shortened in Chinese/English for page, wizard and previews, playful trait titles retained. Profile sign-out icon removed (text only).
 Verification: endpoint tag test red before helper, all 12 tests green after; tsc/eslint silent. Browser 375px: two columns, no view sliders; preferences edit has seven sliders and disables identity pencil; endpoint choice adds label, neutral removes it; discard restores original; identity edit has name/weight and no sliders, preference pencil disabled. Desktop cards share y with distinct x; named page title confirmed. Sign-out DOM has zero images and only 退出登录 text. No saved browser dog edits. Dev server had stopped; started a new Expo offline web process on :8081. No Supabase migrations/functions changed; release follows.
+
+Release result: 28b0db6 pushed and deployed successfully to https://pawtrip.expo.app (ev1p9ykmuu). All user changes through 6ff2887 retained. 12 tests pass; tsc/eslint silent; desktop/375px drafts checked and discarded. No Supabase change required. Claim released.

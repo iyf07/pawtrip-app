@@ -210,13 +210,13 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const styleBlock = (
     <>
       {sectionHeading(t("profile.travelStyle"), "style")}
-      <View style={!wide && editing !== "style" ? { flexDirection: "row", flexWrap: "wrap", gap: 10 } : undefined}>
+      <View style={!wide ? { flexDirection: "row", flexWrap: "wrap", gap: 10 } : undefined}>
       {PERSON_SCALES.map((f) => (
         <ScaleInput
           key={f}
           field={f}
-          compact={!wide && editing !== "style"}
-          iconSize={!wide && editing !== "style" ? 56 : medium ? 60 : 48}
+          compact={!wide}
+          iconSize={!wide ? 56 : medium ? 60 : 48}
           value={scales[f]}
           description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
           readOnly={editing !== "style"}

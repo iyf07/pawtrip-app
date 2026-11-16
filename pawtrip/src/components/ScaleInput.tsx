@@ -43,6 +43,11 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
         {showIcon ? <Icon name={iconName as IconName} size={iconSize} /> : null}
         <Text weight={700} size={14} color="link" numberOfLines={2} style={{ textAlign: 'center' }}>{description ?? t(`scale.${stem}.${v}` as Key)}</Text>
         <Text size={11} color="muted" numberOfLines={1} style={{ textAlign: 'center' }}>{t(`scale.${stem}.${v}` as Key)}</Text>
+        {!readOnly ? (
+          <View style={{ width: '100%' }}>
+            <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} />
+          </View>
+        ) : null}
       </View>
     );
   }

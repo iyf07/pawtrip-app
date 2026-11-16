@@ -157,6 +157,9 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-16: Dog empty interests now says 兴趣空空如也. User reports missing scale and pencil icons; local desktop/375px renders them and production asset URLs return 200. User-device/browser reproduction still needed; do not claim icon issue fixed.
+
+
 - 2026-11-16: Dog interests and six visible preferences implemented; friend homepage/preferences/interests/diet, 28px scale icons and trip create/join stickers verified. Backend beaaff1 migration deployed; Expo release follows.
 
 
@@ -237,6 +240,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -388,3 +392,6 @@ Follow-up: friend profile title {name}的主页; six human preferences left and 
 TDD frontend tests failed before removal/new helper, then all16 pass; DB new column test failed before migration, then112 pass. tsc/eslint silent. Browser desktop/375px: dog named titles, six scales/no recall, interests edit13choices/no categories, selected swimming/off-leash and discarded (no saved fixture edits), independent edit disabled others. Friend named page/modal, six readonly preferences, interests/diet/dogs; desktop heading positions x330/888 at same y159; scale images28px. Own mobile icons28px, four tabs preserved; new/join buttons each have image. Security advisors show existing authenticated SECURITY DEFINER RPC and leaked-password warnings documented earlier; RPC grants/identity check unchanged. Backend beaaff1 pushed and migration20261116045624 deployed after dry run. Claim released; frontend release follows.
 
 Release result: frontend6ec025a pushed and deployed to https://pawtrip.expo.app (lo7ir78dx0). Backend beaaff1 pushed/deployed; production dogs.interests verified non-null array with empty default. Frontend16/DB112 tests pass, tsc/eslint silent. Claim released.
+
+### 2026-11-16 — Codex dog icon investigation
+User reported missing scale stickers and blank pencil circles. Local 375px and desktop rendered all six and pencils; naturalWidth512/complete true, production hashed pencil and scale-energy-3 URLs return 200 image/png. IAB production showed blank screen during investigation, so could not verify authenticated production dog page; root cause remains unknown. Changed empty dog interests copy to 兴趣空空如也. tsc/eslint silent and local browser desktop/375px verified. No backend changes. Claim released; release follows.

@@ -373,3 +373,5 @@ Release result: 28b0db6 pushed and deployed successfully to https://pawtrip.expo
 
 ### 2026-11-15 — Codex unified desktop collections
 Shared top-right AddAction; dogs root and rail remain list-first. Desktop selection creates secondary list, bottom + action and common collapse handle. Friend detail reuses FriendSheet inline with dog preview and sidebar add popup; phone preserves modal. Empty trips displays empty title and dashed create. Collection-layout regression red first, then all 15 frontend tests pass; tsc/eslint silent. Browser desktop verified three selection/collapse flows, friend header/sidebar add dialogs canceled, empty local fixture trip state; 375px friends modal and dogs list verified. Caught same-route query retention in browser, fixed explicit clearing and reverified. No records modified; no backend changes. Claim released; release follows.
+
+Release result: 3e678db pushed and deployed to https://pawtrip.expo.app (mfo2bhtlvu). 15 frontend tests pass, tsc/eslint silent; no Supabase deployment required. Claim released.

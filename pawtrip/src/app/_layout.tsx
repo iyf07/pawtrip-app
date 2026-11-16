@@ -31,7 +31,28 @@ import { I18nProvider } from '@/i18n';
 
 SplashScreen.preventAutoHideAsync();
 
+/**
+ * Let the browser's own pull-to-reload work on the web. The app lays itself out at a fixed viewport height with its
+ * own inner scrollers, so the document never scrolled and Chrome never started its pull gesture. Making the root 1px
+ * taller than the viewport makes the document scrollable (so the pull can start at its top) without any visible change,
+ * and the inner scrollers hand the overscroll to the document instead of swallowing it.
+ */
+function enableBrowserPullToReload() {
+  if (Platform.OS !== 'web' || typeof document === 'undefined' || document.getElementById('pull-to-reload')) return;
+  const style = document.createElement('style');
+  style.id = 'pull-to-reload';
+  style.textContent = [
+    'html,body{height:100%;overscroll-behavior-y:auto;scrollbar-width:none}',
+    'html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}',
+    'body{overflow-y:auto!important;overflow-x:hidden}',
+    '#root{height:calc(100% + 1px)!important;min-height:calc(100% + 1px)}',
+    '[style*="overflow-y: auto"],[style*="overflow-y: scroll"],[style*="overflow: auto"],[style*="overflow: scroll"]{overscroll-behavior-y:auto!important}',
+  ].join('');
+  document.head.appendChild(style);
+}
+
 export default function RootLayout() {
+  useEffect(enableBrowserPullToReload, []);
   const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold });
   // playful title fonts (Latin + Chinese); loaded in the background, the page shows without waiting for them
   useFonts({ Fredoka_700Bold, ZCOOLKuaiLe_400Regular });

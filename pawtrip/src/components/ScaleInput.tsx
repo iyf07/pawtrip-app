@@ -21,12 +21,13 @@ type Props = {
   hideTitle?: boolean;
   /** Description of the selected answer, when supplied by the question. */
   description?: string;
+  iconSize?: number;
   /** view mode: show the answer, not editable */
   readOnly?: boolean;
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Defaults to the middle (3). */
-export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 60 }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
@@ -48,7 +49,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
         <Text size={13} color="muted" style={{ maxWidth: '50%', textAlign: 'right' }}>{t(`scale.${stem}.${v}` as Key)}</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 }}>
-        {showIcon ? <Icon name={iconName as IconName} size={60} /> : null}
+        {showIcon ? <Icon name={iconName as IconName} size={iconSize} /> : null}
         <Text weight={700} size={17} color="link" style={{ flex: 1, minWidth: 0 }}>{description ?? t(`scale.${stem}.${v}` as Key)}</Text>
       </View>
       {!readOnly ? <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}

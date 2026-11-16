@@ -225,7 +225,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | first agent | Phone profile visual pass (light icon tabs, no duplicate section titles, 2-column habit cards, ID row, feedback bubble) | `src/app/profile.tsx`, new `ProfileTabs`, `ScaleInput` (compact mode), `FeedbackButton` | 进行中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -341,3 +340,6 @@ Follow-up UI: person avatars thick cocoa + white rim, remove account UUID card, 
 Release result: backend 0bf9868 pushed and migrations deployed, exact-ID RPC grants verified authenticated-only. Frontend fa294ee pushed and deployed to Expo production (uky2euawuh). Follow-up requested during release: phone profile habit icons 60 -> 48px; tablet/desktop and dog/wizard defaults remain 60px.
 
 Final release result: d41c130 pushed and deployed to Expo production (grdx4nvruy), including all fa294ee friend/profile changes. Backend 0bf9868 deployed; all 106 DB assertions and 11 frontend tests pass. Final tsc/eslint silent; phone/desktop image dimensions verified 48/60 in browser. Clipboard integration confirmed by actual UI paste (browser clipboard read helper itself returned empty), draft discarded. No production test profile edits. Both repos clean before release notes; claim released.
+
+### 2026-11-15 (later 10) — first agent
+Phone profile visual pass (claim released): light icon tabs (`ProfileTabs`: icon above label, gold underline, no pill), section titles dropped on phone (the tab names the section; only the pencil remains), habits as two-column compact cards in view mode (`ScaleInput compact`), a bottom save bar while editing on phone, tidier ID row, smaller feedback bubble on phones. Desktop layout unchanged.

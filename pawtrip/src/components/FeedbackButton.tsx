@@ -37,19 +37,19 @@ export function FeedbackButton() {
             accessibilityRole="button"
             accessibilityLabel={t('fdbk.button')}
             style={{
-              marginRight: 6,
-              width: 36,
-              height: 36,
-              borderRadius: 18,
+              marginRight: wide ? 6 : 2,
+              width: wide ? 36 : 30,
+              height: wide ? 36 : 30,
+              borderRadius: wide ? 18 : 15,
               backgroundColor: th.card,
               borderWidth: 2,
               borderColor: th.line,
               alignItems: 'center',
               justifyContent: 'center',
-              opacity: 0.92,
+              opacity: wide ? 0.92 : 0.75,
               boxShadow: `0 3px 8px -2px ${th.shadow}`,
             }}>
-            <Icon name="ui-chat" size={26} />
+            <Icon name="ui-chat" size={wide ? 26 : 22} />
           </Pressable>
         </View>
       </View>

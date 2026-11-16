@@ -6,6 +6,8 @@ import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
 import { Icon } from "@/components/ui/Icon";
+import { SaveBar } from "@/components/ui/SaveBar";
+import { ProfileTabs } from "@/components/ProfileTabs";
 import { AvatarEditor } from "@/components/AvatarEditor";
 import { HandleField } from "@/components/HandleField";
 import { Field } from "@/components/ui/Field";
@@ -17,7 +19,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Chip, Segmented } from "@/components/ui/Chip";
+import { Chip } from "@/components/ui/Chip";
 import {
   BackButton,
   Header,
@@ -170,12 +172,12 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         ) : (
           <>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
-              <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>ID: {profile.handle}</Text>
-              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.copyPublicId')} onPress={copyPublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+              <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1} style={{ flexShrink: 1, marginRight: 4 }}>ID: {profile.handle}</Text>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.copyPublicId')} onPress={copyPublicId} hitSlop={6} style={{ width: 34, height: 34, alignItems: 'center', justifyContent: 'center' }}>
                 <Icon name="ui-copy" size={24} />
               </Pressable>
-              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.sharePublicId')} onPress={sharePublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.sharePublicId')} onPress={sharePublicId} hitSlop={6} style={{ width: 34, height: 34, alignItems: 'center', justifyContent: 'center' }}>
                 <Icon name="ui-share" size={24} />
               </Pressable>
             </View>
@@ -187,6 +189,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   );
 
   function sectionHeading(title: string, section: "style" | "interests" | "diet") {
+    // phone: the tab already names the section, so only the edit control is shown (saving is the bottom bar)
+    if (!wide) {
+      return editing === section ? null : <View style={{ flexDirection: "row", justifyContent: "flex-end", marginBottom: 8 }}>{editActions(section, title)}</View>;
+    }
     return (
       <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 }}>
         <Text weight={800} size={20} style={{ flexShrink: 1 }}>{title}</Text>
@@ -209,18 +215,20 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const styleBlock = (
     <>
       {sectionHeading(t("profile.travelStyle"), "style")}
+      <View style={!wide && editing !== "style" ? { flexDirection: "row", flexWrap: "wrap", gap: 10 } : undefined}>
       {PERSON_SCALES.map((f) => (
         <ScaleInput
           key={f}
           field={f}
-          iconSize={medium ? 60 : 48}
+          compact={!wide && editing !== "style"}
+          iconSize={!wide && editing !== "style" ? 56 : medium ? 60 : 48}
           value={scales[f]}
           description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
           readOnly={editing !== "style"}
           onChange={(v) => setScales((s) => ({ ...s, [f]: v }))}
         />
       ))}
-
+      </View>
     </>
   );
 
@@ -307,9 +315,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           left={<BackButton label={t("nav.back")} onPress={goBack} />}
         />
       }
+      bottom={!wide && editing ? <SaveBar saving={update.isPending} canSave={canSave} onSave={save} onDiscard={cancel} /> : undefined}
     >
       {identityBlock}
-      <View style={{ marginTop: 28 }}>
+      <View style={{ marginTop: wide ? 28 : 16 }}>
         {wide ? (
           <>
             <View style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}>
@@ -322,16 +331,16 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         ) : (
           <>
-            <Segmented wide value={profileTab} options={[
-              { value: 'style', label: t('pf.tab.style') },
-              { value: 'interests', label: t('pf.tab.interests') },
-              { value: 'diet', label: t('pf.tab.diet') },
-              { value: 'account', label: t('pf.tab.account') },
+            <ProfileTabs value={profileTab} tabs={[
+              { value: 'style', label: t('pf.tab.style'), icon: 'scale-walk-4' },
+              { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
+              { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
+              { value: 'account', label: t('pf.tab.account'), icon: 'ui-key' },
             ]} onChange={(next) => {
               if (editing && next !== profileTab) { toast(t('pf.finishSection')); return; }
               setProfileTab(next);
             }} />
-            <View style={{ marginTop: 24 }}>
+            <View style={{ marginTop: 16 }}>
               {profileTab === 'style' ? styleBlock : profileTab === 'interests' ? interestsBlock : profileTab === 'diet' ? dietBlock : <>{accountBlock}{signOutBlock}</>}
             </View>
           </>

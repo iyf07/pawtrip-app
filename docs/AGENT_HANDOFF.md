@@ -395,3 +395,5 @@ Release result: frontend6ec025a pushed and deployed to https://pawtrip.expo.app 
 
 ### 2026-11-16 — Codex dog icon investigation
 User reported missing scale stickers and blank pencil circles. Local 375px and desktop rendered all six and pencils; naturalWidth512/complete true, production hashed pencil and scale-energy-3 URLs return 200 image/png. IAB production showed blank screen during investigation, so could not verify authenticated production dog page; root cause remains unknown. Changed empty dog interests copy to 兴趣空空如也. tsc/eslint silent and local browser desktop/375px verified. No backend changes. Claim released; release follows.
+
+Release: 9b48b1a deployed to Expo (40jqoc5eh2). Empty copy fixed; missing icon report remains unresolved pending device/browser reproduction.

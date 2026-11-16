@@ -40,7 +40,7 @@ export function FriendSheet({ buddy, onClose, onRemove, inline = false }: { inli
   const { t } = useT();
   const th = useTheme();
   const { wide } = useLayout();
-  const [tab, setTab] = useState<'style' | 'interests' | 'diet' | 'dogs'>('style');
+  const [tab, setTab] = useState<'style' | 'interests' | 'diet' | 'dogs' | 'friend'>('style');
   const [confirm, setConfirm] = useState(false);
   const profile = buddy ? <View style={{ gap: 24 }}>
     {!inline ? <Text weight={800} size={26}>{t('friend.home', { name: buddy.name })}</Text> : null}
@@ -50,12 +50,13 @@ export function FriendSheet({ buddy, onClose, onRemove, inline = false }: { inli
       { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
       { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
       { value: 'dogs', label: t('friend.dogs'), icon: 'nav-dogs' },
+      { value: 'friend', label: t('friend.tab'), icon: 'tab-members' },
     ]} />
-    {tab === 'style' ? <View><Text weight={800} size={20}>{t('friend.namedPreferences', { name: buddy.name })}</Text>{PERSON_SCALES.map((f) => <ScaleInput key={f} field={f} value={buddy.traits[f]} readOnly description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}</View> : null}
+    {tab === 'style' ? <View style={{ gap: 12 }}><Text weight={800} size={20}>{t('friend.namedPreferences', { name: buddy.name })}</Text><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>{PERSON_SCALES.map((f) => <ScaleInput key={f} compact field={f} value={buddy.traits[f]} readOnly description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}</View></View> : null}
     {tab === 'interests' ? <View style={{ gap: 12 }}><Text weight={800} size={20}>{t('friend.namedInterests', { name: buddy.name })}</Text><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{buddy.interests.length ? buddy.interests.map((i) => <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 16, borderWidth: 2, borderColor: th.line }}><InterestIcon interest={i} size={28} /><Text size={14} weight={700}>{t(`interest.${i}` as Key)}</Text></View>) : <Chip icon={<Icon name="empty-discover" size={28} />} label={t('friend.emptyInterests')} />}</View></View> : null}
-    {tab === 'diet' ? <View style={{ gap: 12 }}><Text weight={800} size={20}>{t('friend.namedDiet', { name: buddy.name })}</Text><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{buddy.diet.length ? buddy.diet.map((d) => <Chip key={d} icon={dietIcon(d, 28)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} />) : <Chip icon={<Icon name="empty-discover" size={28} />} label={t('friend.emptyDiet')} />}</View></View> : null}
+    {tab === 'diet' ? <View style={{ gap: 12 }}><Text weight={800} size={20}>{t('friend.namedDiet', { name: buddy.name })}</Text><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{buddy.diet.length ? buddy.diet.map((d) => <Chip key={d} icon={dietIcon(d, 28)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} />) : <Chip icon={<Icon name="cat-food" size={28} />} label={t('friend.emptyDiet')} />}</View></View> : null}
     {tab === 'dogs' ? <View style={{ gap: 12 }}><Text weight={800} size={20}>{t('friend.namedDogs', { name: buddy.name })}</Text>{buddy.dogs.length ? buddy.dogs.map((dog) => <DogProfile key={dog.id} dog={dog} />) : <Meta>{t('friend.noDogs')}</Meta>}</View> : null}
-    {onRemove ? <Button label={t('bd.removeFriend')} variant="danger" block style={{ maxWidth: wide ? 500 : undefined }} onPress={() => setConfirm(true)} /> : null}
+    {tab === 'friend' ? <View style={{ gap: 16 }}><Text weight={800} size={20}>{t('friend.relationship')}</Text><View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text weight={700}>{t('friend.status')}</Text><Meta>{buddy.status === 'accepted' ? t('friend.accepted') : t('bd.pending')}</Meta></View>{onRemove ? <Button label={t('bd.removeFriend')} variant="danger" block style={{ maxWidth: wide ? 500 : undefined }} onPress={() => setConfirm(true)} /> : null}</View> : null}
     {!inline ? <Button label={t('common.close')} variant="text" block onPress={onClose} /> : null}
     <ConfirmSheet visible={confirm} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: buddy.name })} confirmLabel={t('bd.removeFriend')} danger onConfirm={() => { setConfirm(false); onRemove?.(buddy); onClose(); }} onClose={() => setConfirm(false)} />
   </View> : null;

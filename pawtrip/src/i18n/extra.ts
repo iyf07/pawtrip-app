@@ -1,12 +1,16 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
+  'friend.tab': '好友',
+  'friend.relationship': '好友关系',
+  'friend.status': '关系状态',
+  'friend.accepted': '已成为好友',
   'friend.namedPreferences': '{name}的旅行偏好',
   'friend.namedInterests': '{name}的兴趣',
   'friend.namedDiet': '{name}的忌口',
   'friend.namedDogs': '{name}的狗狗',
   'friend.emptyInterests': '兴趣待探索',
-  'friend.emptyDiet': '美食地图待点亮',
+  'friend.emptyDiet': '无忌口',
   'friend.removeConfirm': '移除这位好友？',
   'friend.removeBody': '确定要移除 {name} 吗？',
   'dog.emptyInterests': '兴趣待探索',
@@ -487,12 +491,16 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
+  'friend.tab': 'Friend',
+  'friend.relationship': 'Friendship',
+  'friend.status': 'Status',
+  'friend.accepted': 'Friends',
   'friend.namedPreferences': '{name}’s travel preferences',
   'friend.namedInterests': '{name}’s interests',
   'friend.namedDiet': '{name}’s dietary needs',
   'friend.namedDogs': '{name}’s dogs',
   'friend.emptyInterests': 'Interests to explore',
-  'friend.emptyDiet': 'Food preferences to discover',
+  'friend.emptyDiet': 'No dietary restrictions',
   'friend.removeConfirm': 'Remove this friend?',
   'friend.removeBody': 'Remove {name} from your friends?',
   'dog.emptyInterests': 'Interests to explore',

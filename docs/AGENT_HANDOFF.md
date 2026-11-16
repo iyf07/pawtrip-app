@@ -149,7 +149,7 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-2026-11-15 Profile/friends/dogs refinement: lookup alignment and request wording, explicit friends/dog empty states, question-first scales, right-column diet, 3 clarified scale icons (Batch 14), user-approved 29 interests with 17 new icons (Batch 15) implemented. Browser desktop/375px verified; dedicated local empty fixture confirms both empty states and click-only popup/wizard, lookup result shows 申请; no friend request submitted or dog created. All draft selections discarded. 11 frontend tests pass; tsc/eslint silent. Frontend-only, no Supabase migration/function change. Release pending.
+2026-11-15 Profile/friends/dogs refinement: lookup alignment and request wording, explicit friends/dog empty states, question-first scales, right-column diet, 3 clarified scale icons (Batch 14), user-approved 29 interests with 17 new icons (Batch 15) implemented. Browser desktop/375px verified; dedicated local empty fixture confirms both empty states and click-only popup/wizard, lookup result shows 申请; no friend request submitted or dog created. All draft selections discarded. 11 frontend tests pass; tsc/eslint silent. Frontend-only, no Supabase migration/function change. Live: 2104fc9, Expo 5gf3lm6vbs.
 
 2026-11-15 Neutral defaults / endpoint bios: implemented default 3 for missing person and dog scale answers, endpoint-only human bio summaries, shorter scale headings and sign-out paw icon. Browser desktop/375px verified neutral result/icon, 1 -> bio appears, 3 -> bio disappears, discard, sign-out icon. Frontend-only; no Supabase schema/function changes. Live: e599cab, Expo deployment rt1ev1e77p.
 
@@ -217,7 +217,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 好友空状态、量表层级与图标细化 | buddies / dogs / profile / ScaleInput / assets | 开发中；兴趣待用户确认 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -317,3 +316,5 @@ Release result: e599cab pushed and deployed to https://pawtrip.expo.app (rt1ev1e
 Fixed AddFriendSheet alignment by making Field container margin configurable and zero in lookup row, matching 46px control heights; button says 申请. Friends no longer render an empty bordered list; friends/dogs show an empty-state title and centered add CTA. Desktop rail and /dogs preserve empty state until add is tapped. Profile scale question is prominent, trait title small/right, result beside sticker; shared dog/wizard layout follows. Desktop diet moved under interests right column.
 Generated Batch 14 replacements: morning2 alarm clock, morning5 afternoon teapot, noise2 secluded garden bench; originals had near-duplicate coffee/sun motifs and weak environmental meaning. User approved proposed interest taxonomy before changes: 11 cuisine/meal choices plus separate coffee/dessert and 6 experience choices, 29 total. Generated/inspected/cleaned 17 unique paw icons (Batch 15), preserved stored broad food/fun without inventing specifics, updated both languages and compatibility test. Raw archives in /Users/ivan/workplace/icons/batch-14-scale-clarity and batch-15-cuisines-experiences. Prompt JSONs and contact sheet in docs.
 Verification: 11 frontend tests pass (new taxonomy regression failed before implementation), tsc/eslint silent. Browser desktop/375px: measured lookup field/button same y and 46px height; lookup result 申请 without sending; empty states and CTA -> popup/wizard; new independent selections/discard; question/result hierarchy; diet same x as interests below it. Dedicated disposable local empty_ui_20261115 fixture created with no dogs/friends for checks, no production test data or existing profiles changed. Frontend release follows; no backend deployment needed.
+
+Release result: 2104fc9 committed/pushed and deployed to https://pawtrip.expo.app (5gf3lm6vbs). Final tsc/eslint silent, 11 tests pass, new/updated 20 icon UI files checked 512px transparent and masters 1024px. User-approved interests implemented, total registered icon family now 157. No Supabase deployment necessary. Worktree clean before release-note update; claim released.

@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Add dogs/friends CTAs use the same full-width dashed Card with centered + text in both empty and populated lists; no sticker/emoji inside buttons. Supersedes the gold icon buttons in empty states. Empty-state illustrations remain.
 - 2026-11-15 User approved interest expansion after proposal: 11 cuisines/meals (Chinese/Japanese/Korean/Thai/Vietnamese/Indian/Italian/pizza/American/Mexican/Mediterranean-Middle Eastern), separate coffee/dessert, 6 experiences (markets/live music/workshops/amusement/water/spa). 29 concrete choices total. Preserve legacy food/fun and other broad codes in stored arrays without inferring new choices; hide retired broad choices from picker. 17 distinct new paw stickers, Batch 15. Winery means grape winery, not red wine only.
 - 2026-11-15 Scale hierarchy: question 18px bold at left, playful title 12px muted/right, actual selected description/result 17px beside sticker. Applies to human/dog forms and wizards. Desktop diet sits directly below interests in right column; phone remains style -> interests -> diet.
 - 2026-11-15 Empty friends/dogs: explicit empty-state heading and centered add button; popup/wizard opens only on add. Desktop empty dogs route must stay /dogs rather than auto-opening /dogs/new. Friend lookup field/button share 46px height/vertical alignment; confirmation wording is 申请 / Send request.
@@ -148,6 +149,8 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+2026-11-15 Add-entry styling: empty and populated friends/dogs now share one dashed + add Card per screen. Desktop/375px browser checked, tsc/eslint silent. Frontend-only; release pending.
 
 2026-11-15 Profile/friends/dogs refinement: lookup alignment and request wording, explicit friends/dog empty states, question-first scales, right-column diet, 3 clarified scale icons (Batch 14), user-approved 29 interests with 17 new icons (Batch 15) implemented. Browser desktop/375px verified; dedicated local empty fixture confirms both empty states and click-only popup/wizard, lookup result shows 申请; no friend request submitted or dog created. All draft selections discarded. 11 frontend tests pass; tsc/eslint silent. Frontend-only, no Supabase migration/function change. Live: 2104fc9, Expo 5gf3lm6vbs.
 
@@ -217,6 +220,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-15 | Codex | 添加入口统一虚线加号 | dogs / buddies | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -318,3 +322,6 @@ Generated Batch 14 replacements: morning2 alarm clock, morning5 afternoon teapot
 Verification: 11 frontend tests pass (new taxonomy regression failed before implementation), tsc/eslint silent. Browser desktop/375px: measured lookup field/button same y and 46px height; lookup result 申请 without sending; empty states and CTA -> popup/wizard; new independent selections/discard; question/result hierarchy; diet same x as interests below it. Dedicated disposable local empty_ui_20261115 fixture created with no dogs/friends for checks, no production test data or existing profiles changed. Frontend release follows; no backend deployment needed.
 
 Release result: 2104fc9 committed/pushed and deployed to https://pawtrip.expo.app (5gf3lm6vbs). Final tsc/eslint silent, 11 tests pass, new/updated 20 icon UI files checked 512px transparent and masters 1024px. User-approved interests implemented, total registered icon family now 157. No Supabase deployment necessary. Worktree clean before release-note update; claim released.
+
+### 2026-11-15 — Codex dashed add-entry alignment
+Removed gold icon CTAs from empty dogs/friends states; reused the existing full-width dashed Card below both empty and populated lists, centered + text only. Empty illustrations and click-only wizard/popup behavior retained. Desktop/375px browser verified; tsc/eslint silent, diff check clean. No backend change.

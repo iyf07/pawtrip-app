@@ -4,7 +4,6 @@ import { View } from 'react-native';
 import { useMyDogs } from '@/api/dogs';
 import { useInShell } from '@/components/shell/ShellContext';
 import { DogAvatar } from '@/components/ui/Avatar';
-import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
 import { PageSkeleton } from '@/components/ui/Skeleton';
@@ -32,7 +31,6 @@ export default function Dogs() {
             <View style={{ alignItems: 'center', paddingVertical: 40, gap: 18 }}>
               <Icon name="nav-dogs" size={88} />
               <Text weight={800} size={20}>{t('dogs.emptyTitle')}</Text>
-              <Button style={{ alignSelf: 'center' }} label={t('profile.addDog')} icon="nav-dogs" onPress={() => router.push('/dogs/new')} />
             </View>
           ) : null}
           {(dogs.data ?? []).map((d) => (
@@ -46,11 +44,11 @@ export default function Dogs() {
               </Text>
             </Card>
           ))}
-          {dogs.data?.length ? <Card dashed onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
+          <Card dashed onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
             <Text weight={800} color="link">
               {t('profile.addDog')}
             </Text>
-          </Card> : null}
+          </Card>
         </View>
       )}
     </Screen>

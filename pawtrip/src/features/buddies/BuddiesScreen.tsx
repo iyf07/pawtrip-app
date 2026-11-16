@@ -64,7 +64,6 @@ export function BuddiesScreen() {
             <View style={{ alignItems: 'center', paddingVertical: 40, gap: 18 }}>
               <Icon name="tab-members" size={88} />
               <Text weight={800} size={20}>{t('bd.emptyTitle')}</Text>
-              <Button style={{ alignSelf: 'center' }} label={t('bd.addTitle')} icon="ui-invite" onPress={() => setAdding(true)} />
             </View>
           ) : null}
           {mine.length > 0 ? <Card>
@@ -87,11 +86,11 @@ export function BuddiesScreen() {
               </View>
             ))}
           </Card> : null}
-          {all.length > 0 ? <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>
+          <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>
             <Text weight={800} color="link">
               {'+ ' + t('bd.addTitle')}
             </Text>
-          </Card> : null}
+          </Card>
         </View>
       )}
       <AddFriendSheet visible={adding} onClose={() => setAdding(false)} />

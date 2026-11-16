@@ -415,3 +415,5 @@ Release: 6d1f89c deployed to Expo production (eb4b4ouuer); 16 tests pass, typech
 
 ### 2026-11-16 — Codex friend homepage correction
 User corrected prior empty-diet wording: no diet entries means 无忌口. Changed Chinese/English and uses existing cat-food paw plate, not question icon. Friend preference cards compact two-column on desktop/phone. Added 好友 tab showing existing accepted/pending status and remove button with existing confirmation; no invented relationship settings or dates. Desktop browser checked two card headings at same y and different x; diet label and friend status/removal. 375px browser checked five tabs and compact cards. tsc/eslint silent; no backend change. Claim released; release follows.
+
+Release: 147badf deployed to Expo (7omtv99nry). tsc/eslint silent; no Supabase changes. Claim released.

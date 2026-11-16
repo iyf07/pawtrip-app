@@ -150,7 +150,7 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-2026-11-15 Add-entry styling: empty and populated friends/dogs now share one dashed + add Card per screen. Desktop/375px browser checked, tsc/eslint silent. Frontend-only; release pending.
+2026-11-15 Add-entry styling: empty and populated friends/dogs now share one dashed + add Card per screen. Desktop/375px browser checked, tsc/eslint silent. Frontend-only; live a64b59f, Expo ryzuaayy8n.
 
 2026-11-15 Profile/friends/dogs refinement: lookup alignment and request wording, explicit friends/dog empty states, question-first scales, right-column diet, 3 clarified scale icons (Batch 14), user-approved 29 interests with 17 new icons (Batch 15) implemented. Browser desktop/375px verified; dedicated local empty fixture confirms both empty states and click-only popup/wizard, lookup result shows 申请; no friend request submitted or dog created. All draft selections discarded. 11 frontend tests pass; tsc/eslint silent. Frontend-only, no Supabase migration/function change. Live: 2104fc9, Expo 5gf3lm6vbs.
 
@@ -220,7 +220,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-15 | Codex | 添加入口统一虚线加号 | dogs / buddies | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -325,3 +324,5 @@ Release result: 2104fc9 committed/pushed and deployed to https://pawtrip.expo.ap
 
 ### 2026-11-15 — Codex dashed add-entry alignment
 Removed gold icon CTAs from empty dogs/friends states; reused the existing full-width dashed Card below both empty and populated lists, centered + text only. Empty illustrations and click-only wizard/popup behavior retained. Desktop/375px browser verified; tsc/eslint silent, diff check clean. No backend change.
+
+Release result: a64b59f pushed and deployed successfully to Expo production (ryzuaayy8n). No Supabase changes. Claim released.

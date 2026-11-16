@@ -119,6 +119,9 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 User approved interest expansion after proposal: 11 cuisines/meals (Chinese/Japanese/Korean/Thai/Vietnamese/Indian/Italian/pizza/American/Mexican/Mediterranean-Middle Eastern), separate coffee/dessert, 6 experiences (markets/live music/workshops/amusement/water/spa). 29 concrete choices total. Preserve legacy food/fun and other broad codes in stored arrays without inferring new choices; hide retired broad choices from picker. 17 distinct new paw stickers, Batch 15. Winery means grape winery, not red wine only.
+- 2026-11-15 Scale hierarchy: question 18px bold at left, playful title 12px muted/right, actual selected description/result 17px beside sticker. Applies to human/dog forms and wizards. Desktop diet sits directly below interests in right column; phone remains style -> interests -> diet.
+- 2026-11-15 Empty friends/dogs: explicit empty-state heading and centered add button; popup/wizard opens only on add. Desktop empty dogs route must stay /dogs rather than auto-opening /dogs/new. Friend lookup field/button share 46px height/vertical alignment; confirmation wording is 申请 / Send request.
 - 2026-11-15 Neutral defaults supersede unset/grey scales: missing or NULL person/dog answers read as 3; new/saved forms write numeric middle values. No historic DB backfill. Bio summaries on profile/friends/members show ONLY exact endpoint values 1 or 5, never 2/3/4. Remove parenthetical subtitles from all human/dog scale headings in both languages. Sign-out uses the paw arrow sticker.
 - 2026-11-15 Full-site paw family: 140 registered stickers, 130 regenerated and 10 approved existing paw icons retained. Paw marks are integrated into each object. Batch 13 prompts/contact sheet in docs; raw archive /Users/ivan/workplace/icons/batch-13-paw-family. Dog avatar fallback, welcome illustration, maps and decorative emoji use the same stickers.
 - 2026-11-15 Human six / dog seven values remain nullable numeric 1–5 for future LLM input; UI uses exact playful titles and descriptions without score labels. Human titles form one small line under ID and on friends/member cards. Dog recall_level is separate from legacy recall text; never infer or rewrite old values.
@@ -145,6 +148,8 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+2026-11-15 Profile/friends/dogs refinement: lookup alignment and request wording, explicit friends/dog empty states, question-first scales, right-column diet, 3 clarified scale icons (Batch 14), user-approved 29 interests with 17 new icons (Batch 15) implemented. Browser desktop/375px verified; dedicated local empty fixture confirms both empty states and click-only popup/wizard, lookup result shows 申请; no friend request submitted or dog created. All draft selections discarded. 11 frontend tests pass; tsc/eslint silent. Frontend-only, no Supabase migration/function change. Release pending.
 
 2026-11-15 Neutral defaults / endpoint bios: implemented default 3 for missing person and dog scale answers, endpoint-only human bio summaries, shorter scale headings and sign-out paw icon. Browser desktop/375px verified neutral result/icon, 1 -> bio appears, 3 -> bio disappears, discard, sign-out icon. Frontend-only; no Supabase schema/function changes. Live: e599cab, Expo deployment rt1ev1e77p.
 
@@ -212,6 +217,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-15 | Codex | 好友空状态、量表层级与图标细化 | buddies / dogs / profile / ScaleInput / assets | 开发中；兴趣待用户确认 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -306,3 +312,8 @@ Release result: frontend 9679896 committed/pushed and deployed successfully to E
 Updated shared scale normalization to default missing answers to 3 for human/dog profile and wizards. Historic NULLs remain stored until saved; effective preference is neutral. Bio title selector shared by profile/friends/member cards now includes only 1 or 5. Removed parenthetical heading subtitles in Chinese/English and grey/unset UI; sign-out uses existing paw-arrow sticker. TDD: three relevant assertions failed before implementation and all 10 tests passed after. Desktop/375px browser checked default results, extreme bio appearance and disappearance on reset, discarded edits and sign-out icon. No backend changes.
 
 Release result: e599cab pushed and deployed to https://pawtrip.expo.app (rt1ev1e77p). Typecheck/lint silent; 10 frontend tests pass; desktop/375px verified. No Supabase deployment needed for this frontend-only change. Claim released.
+
+### 2026-11-15 — Codex friends/empty states, scale hierarchy and approved interests
+Fixed AddFriendSheet alignment by making Field container margin configurable and zero in lookup row, matching 46px control heights; button says 申请. Friends no longer render an empty bordered list; friends/dogs show an empty-state title and centered add CTA. Desktop rail and /dogs preserve empty state until add is tapped. Profile scale question is prominent, trait title small/right, result beside sticker; shared dog/wizard layout follows. Desktop diet moved under interests right column.
+Generated Batch 14 replacements: morning2 alarm clock, morning5 afternoon teapot, noise2 secluded garden bench; originals had near-duplicate coffee/sun motifs and weak environmental meaning. User approved proposed interest taxonomy before changes: 11 cuisine/meal choices plus separate coffee/dessert and 6 experience choices, 29 total. Generated/inspected/cleaned 17 unique paw icons (Batch 15), preserved stored broad food/fun without inventing specifics, updated both languages and compatibility test. Raw archives in /Users/ivan/workplace/icons/batch-14-scale-clarity and batch-15-cuisines-experiences. Prompt JSONs and contact sheet in docs.
+Verification: 11 frontend tests pass (new taxonomy regression failed before implementation), tsc/eslint silent. Browser desktop/375px: measured lookup field/button same y and 46px height; lookup result 申请 without sending; empty states and CTA -> popup/wizard; new independent selections/discard; question/result hierarchy; diet same x as interests below it. Dedicated disposable local empty_ui_20261115 fixture created with no dogs/friends for checks, no production test data or existing profiles changed. Frontend release follows; no backend deployment needed.

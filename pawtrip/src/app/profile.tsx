@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/Screen";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
-import { addDietaryNeed, DIETS, PERSON_SCALES, PROFILE_INTERESTS, personScales, type PersonScale } from "@/constants/options";
+import { addDietaryNeed, DIETS, PERSON_SCALES, normalizeInterests, personScales, type PersonScale } from "@/constants/options";
 import { useLayout } from "@/hooks/use-layout";
 import { useTheme } from "@/hooks/use-theme";
 import { useT, type Key } from "@/i18n";
@@ -79,7 +79,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       const patch = editing === "identity"
         ? { display_name: name.trim(), ...(handleChanged ? { handle } : {}) }
         : editing === "style" ? scales
-        : editing === "interests" ? { interests: interests.filter((i) => (PROFILE_INTERESTS as readonly string[]).includes(i)) }
+        : editing === "interests" ? { interests: normalizeInterests(interests) }
         : { diet: addDietaryNeed(diet, customDietCode()) };
       await update.mutateAsync(patch);
       if (editing === "diet") { setDiet(addDietaryNeed(diet, customDietCode())); setCustomDiet(""); }
@@ -302,11 +302,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           <>
             <View style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}>
               <View style={{ flex: 1, minWidth: 0 }}>{styleBlock}</View>
-              <View style={{ flex: 1, minWidth: 0 }}>{interestsBlock}</View>
-            </View>
-            <View style={{ flexDirection: "row", gap: 32, marginTop: 28 }}>
-              <View style={{ flex: 1, minWidth: 0 }}>{dietBlock}</View>
-              <View style={{ flex: 1 }} />
+              <View style={{ flex: 1, minWidth: 0 }}>
+                {interestsBlock}
+                <View style={{ marginTop: 28 }}>{dietBlock}</View>
+              </View>
             </View>
           </>
         ) : (

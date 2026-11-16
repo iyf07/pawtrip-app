@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { TextInput, View, type TextInputProps } from 'react-native';
+import { TextInput, View, type StyleProp, type ViewStyle, type TextInputProps } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
 
 import { Text } from './Text';
 
 type Props = TextInputProps & {
+  containerStyle?: StyleProp<ViewStyle>;
   label?: string;
   hint?: string;
   error?: string | null;
@@ -14,11 +15,11 @@ type Props = TextInputProps & {
 };
 
 /** Labelled text input with an inline error line. */
-export function Field({ label, hint, error, invalid, style, onFocus, onBlur, ...rest }: Props) {
+export function Field({ containerStyle, label, hint, error, invalid, style, onFocus, onBlur, ...rest }: Props) {
   const t = useTheme();
   const [focus, setFocus] = useState(false);
   return (
-    <View style={{ marginTop: 14 }}>
+    <View style={[{ marginTop: 14 }, containerStyle]}>
       {label ? (
         <Text weight={800} size={13} style={{ marginBottom: 6 }}>
           {label}

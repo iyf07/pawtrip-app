@@ -3,15 +3,17 @@
 /** Curated interests are independently selectable, with one distinct sticker each. */
 export const PROFILE_INTERESTS = [
   'hiking', 'beaches', 'camping', 'wildlife', 'lakes', 'museums', 'viewpoints',
-  'food', 'cafes', 'dessert', 'breweries', 'wineries', 'shopping', 'fun',
+  'chinese', 'japanese', 'korean', 'thai', 'vietnamese', 'indian', 'italian', 'pizza', 'american', 'mexican', 'mediterranean',
+  'cafes', 'dessert', 'breweries', 'wineries', 'shopping',
+  'markets', 'live_music', 'workshops', 'amusement', 'water_sports', 'spa',
 ] as const;
 
-/** Earlier broad selections stay visible only when saved; never infer all their sub-interests. */
-export const LEGACY_INTERESTS = ['outdoors', 'sights', 'coffee', 'drinks'] as const;
+/** Keep legacy broad selections in storage; never infer their sub-interests. */
+export const LEGACY_INTERESTS = ['outdoors', 'sights', 'coffee', 'drinks', 'food', 'fun'] as const;
 const RETIRED: Record<string, string> = {
   parks: 'outdoors', dogparks: 'outdoors', landmarks: 'sights', gardens: 'sights',
   brunch: 'food', patios: 'food', bakeries: 'dessert', wine: 'wineries', cocktails: 'drinks',
-  markets: 'shopping', petstores: 'shopping', events: 'fun', workshops: 'fun', boating: 'fun',
+  petstores: 'shopping', events: 'fun', boating: 'fun',
 };
 const INTEREST_CODES = new Set<string>([...PROFILE_INTERESTS, ...LEGACY_INTERESTS]);
 export const normalizeInterests = (list: string[]) => [...new Set(list
@@ -31,10 +33,11 @@ export const personScales = (profile: Partial<Record<PersonScale, number | null>
 export const INTEREST_SECTIONS = [
   { key: 'outdoors', items: ['hiking', 'beaches', 'camping', 'wildlife', 'lakes'] },
   { key: 'sights', items: ['museums', 'viewpoints'] },
-  { key: 'food', items: ['food', 'cafes', 'dessert'] },
+  { key: 'food', items: ['chinese', 'japanese', 'korean', 'thai', 'vietnamese', 'indian', 'italian', 'pizza', 'american', 'mexican', 'mediterranean'] },
+  { key: 'cafes', items: ['cafes', 'dessert'] },
   { key: 'drinks', items: ['breweries', 'wineries'] },
   { key: 'shopping', items: ['shopping'] },
-  { key: 'fun', items: ['fun'] },
+  { key: 'fun', items: ['markets', 'live_music', 'workshops', 'amusement', 'water_sports', 'spa'] },
 ] as const;
 
 export function addDietaryNeed(current: string[], input: string): string[] {

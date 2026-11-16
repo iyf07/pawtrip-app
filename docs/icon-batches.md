@@ -1,5 +1,13 @@
 # Ready-to-send icon batches (copy one whole block into ChatGPT)
 
+## Batch 15 — 已批准的菜系与活动兴趣（2026-11-15）
+
+用户明确确认 11 类饮食与 6 类活动，咖啡和甜点独立保留。生成 17 个独立爪爪图标：中餐、日料、韩餐、泰餐、越南菜、印度菜、意大利菜、披萨、美式餐、墨西哥菜、地中海／中东菜；市集、演出／现场音乐、手作体验、游乐园、水上活动、温泉／SPA。参考实际 `cat-food`、`int-dessert`、`cat-fun` masters，爪爪融入食物、餐具或物件。逐图提示词：[icon-batch15-prompts.json](icon-batch15-prompts.json)。图集：[icon-interests-batch15.png](icon-interests-batch15.png)。归档 `/Users/ivan/workplace/icons/batch-15-cuisines-experiences`。原图 contact sheet 全部通过完整性与风格检查；保留旧 food/fun 数据，不推断新偏好。
+
+## Batch 14 — 早晨／午后与清静环境区分（2026-11-15）
+
+问题：早晨与午后都使用咖啡＋太阳，难以区分；偏爱人少的咖啡杯没有表达环境氛围。更换为早晨床头闹钟（八点、爪爪轴心）、午后茶壶茶点（爪爪壶身）和清静小花园单张座椅（爪爪椅背）。使用 Batch 13 实际图像作风格参考，保留粗棕描边、暖色、白边并经过现有清理流程。逐图提示词：[icon-batch14-prompts.json](icon-batch14-prompts.json)。归档 `/Users/ivan/workplace/icons/batch-14-scale-clarity`。仅替换这三个量表图标；后续用户已确认兴趣方案，见 Batch 15。
+
 ## Batch 13 — 全站爪爪图标（2026-11-15）
 
 用户要求覆盖全站。130 个独立图标重新生成，保留 10 个已经具有爪爪元素且风格一致的图标，共 140 个注册图标。每次使用目标原图与已批准的咖啡／徒步图标作为真实图片参考，保持粗圆棕色描边、奶油色、暖色填充、白色贴纸边；爪爪融入物件本身（鞋面、杯子、项圈、云朵、印章、按钮轮廓），避免统一贴在角落。

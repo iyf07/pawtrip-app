@@ -58,6 +58,7 @@ export function AddFriendSheet({ visible, onClose }: { visible: boolean; onClose
       <View style={{ flexDirection: 'row', gap: 8, marginTop: 14, alignItems: 'center' }}>
         <View style={{ flex: 1 }}>
           <Field
+            containerStyle={{ marginTop: 0 }}
             value={handle}
             onChangeText={(v) => {
               setHandle(v.toLowerCase());
@@ -71,7 +72,7 @@ export function AddFriendSheet({ visible, onClose }: { visible: boolean; onClose
             returnKeyType="search"
           />
         </View>
-        <Button label={t('bd.find')} small onPress={lookup} loading={find.isPending} disabled={!handle.trim()} />
+        <Button label={t('bd.find')} style={{ alignSelf: 'center', minHeight: 46 }} small onPress={lookup} loading={find.isPending} disabled={!handle.trim()} />
       </View>
       {found ? (
         <View style={{ marginTop: 12, padding: 12, borderRadius: 16, backgroundColor: th.goldBg, gap: 10 }}>

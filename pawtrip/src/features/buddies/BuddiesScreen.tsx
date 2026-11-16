@@ -6,6 +6,7 @@ import { AddFriendSheet } from './AddFriendSheet';
 import { PersonTraits } from '@/components/PersonTraits';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
+import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
@@ -59,7 +60,14 @@ export function BuddiesScreen() {
               </View>
             </Card>
           ))}
-          <Card>
+          {all.length === 0 ? (
+            <View style={{ alignItems: 'center', paddingVertical: 40, gap: 18 }}>
+              <Icon name="tab-members" size={88} />
+              <Text weight={800} size={20}>{t('bd.emptyTitle')}</Text>
+              <Button style={{ alignSelf: 'center' }} label={t('bd.addTitle')} icon="ui-invite" onPress={() => setAdding(true)} />
+            </View>
+          ) : null}
+          {mine.length > 0 ? <Card>
             {mine.map((b) => (
               <View key={b.userId} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 7 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={38} />
@@ -78,12 +86,12 @@ export function BuddiesScreen() {
                 </Pressable>
               </View>
             ))}
-          </Card>
-          <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>
+          </Card> : null}
+          {all.length > 0 ? <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>
             <Text weight={800} color="link">
               {'+ ' + t('bd.addTitle')}
             </Text>
-          </Card>
+          </Card> : null}
         </View>
       )}
       <AddFriendSheet visible={adding} onClose={() => setAdding(false)} />

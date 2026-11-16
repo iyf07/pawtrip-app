@@ -33,7 +33,6 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
   const v = value ?? 3;
   const iconName = `scale-${ICON_KEY[stem] ?? stem}-${v}`;
   const showIcon = hasIcon(iconName);
-  const stacked = showIcon || !!description;
   return (
     <View
       style={{
@@ -44,20 +43,14 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
         borderColor: th.line,
         borderRadius: 18,
       }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-        {showIcon ? <Icon name={iconName as IconName} size={60} /> : null}
-        <View style={{ flex: 1, flexDirection: stacked ? 'column' : 'row', justifyContent: 'space-between', alignItems: stacked ? 'flex-start' : 'baseline', gap: stacked ? 0 : 8 }}>
-          {hideTitle ? (showIcon ? null : <View style={{ flex: 1 }} />) : (
-            <Text weight={800} size={stacked ? 13 : 14} color={stacked ? 'muted' : 'text'} style={stacked ? undefined : { flex: 1 }}>
-              {t(`scale.${stem}` as Key)}
-            </Text>
-          )}
-          <Text weight={800} size={stacked ? 17 : 14} color="link">
-            {t(`scale.${stem}.${v}` as Key)}
-          </Text>
-        </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+        {!hideTitle ? <Text weight={800} size={18} style={{ flex: 1 }}>{t(`scale.${stem}` as Key)}</Text> : <View style={{ flex: 1 }} />}
+        <Text size={12} color="muted" style={{ maxWidth: '50%', textAlign: 'right' }}>{t(`scale.${stem}.${v}` as Key)}</Text>
       </View>
-      {description ? <Text size={13} color="muted" style={{ marginTop: 8 }}>{description}</Text> : null}
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 }}>
+        {showIcon ? <Icon name={iconName as IconName} size={60} /> : null}
+        <Text weight={700} size={17} color="link" style={{ flex: 1, minWidth: 0 }}>{description ?? t(`scale.${stem}.${v}` as Key)}</Text>
+      </View>
       {!readOnly ? <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}
     </View>
   );

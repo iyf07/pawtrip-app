@@ -3,6 +3,24 @@ import { Image, type ImageStyle, type StyleProp } from 'react-native';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
+  'int-chinese': require('../../../assets/icons/int-chinese.png'),
+  'int-japanese': require('../../../assets/icons/int-japanese.png'),
+  'int-korean': require('../../../assets/icons/int-korean.png'),
+  'int-thai': require('../../../assets/icons/int-thai.png'),
+  'int-vietnamese': require('../../../assets/icons/int-vietnamese.png'),
+  'int-indian': require('../../../assets/icons/int-indian.png'),
+  'int-italian': require('../../../assets/icons/int-italian.png'),
+  'int-pizza': require('../../../assets/icons/int-pizza.png'),
+  'int-american': require('../../../assets/icons/int-american.png'),
+  'int-mexican': require('../../../assets/icons/int-mexican.png'),
+  'int-mediterranean': require('../../../assets/icons/int-mediterranean.png'),
+  'int-markets': require('../../../assets/icons/int-markets.png'),
+  'int-live_music': require('../../../assets/icons/int-live_music.png'),
+  'int-workshops': require('../../../assets/icons/int-workshops.png'),
+  'int-amusement': require('../../../assets/icons/int-amusement.png'),
+  'int-water_sports': require('../../../assets/icons/int-water_sports.png'),
+  'int-spa': require('../../../assets/icons/int-spa.png'),
+
   'diet-kosher': require('../../../assets/icons/diet-kosher.png'),
   'scale-recall-1': require('../../../assets/icons/scale-recall-1.png'),
   'scale-recall-2': require('../../../assets/icons/scale-recall-2.png'),

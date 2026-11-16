@@ -39,7 +39,7 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   const tripId = /^\/trips\/([^/]+)/.exec(path)?.[1] ?? null;
   const dogId = /^\/dogs\/([^/]+)/.exec(path)?.[1] ?? null;
   // the trip list is a column only beside an open trip; on its own it is the page (cards), like on a phone
-  const showList = active && (section === 'dogs' || (section === 'trips' && !!tripId));
+  const showList = active && ((section === 'dogs' && !!dogId) || (section === 'trips' && !!tripId));
   const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
 
   return (
@@ -96,7 +96,7 @@ function Rail({ section }: { section: Section }) {
       {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
       {item('dogs', 'nav-dogs', t('shell.dogs'), () => {
         const first = dogs.data?.[0];
-        router.navigate(first ? { pathname: '/dogs/[id]', params: { id: first.id } } : { pathname: '/dogs/[id]', params: { id: 'new' } });
+        router.navigate(first ? { pathname: '/dogs/[id]', params: { id: first.id } } : '/dogs');
       })}
       {item('buddies', 'tab-members', t('shell.buddies'), () => router.navigate('/friends'))}
       <View style={{ flex: 1 }} />

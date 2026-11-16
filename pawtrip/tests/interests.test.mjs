@@ -12,5 +12,10 @@ test('keeps earlier broad preferences without inventing specific selections', ()
 });
 test('maps retired detail codes, deduplicates and ignores unknown values', () => {
   assert.deepEqual(normalizeInterests(['parks', 'hiking', 'hiking', 'brunch', 'bakeries', 'markets', 'events', 'unknown']),
-    ['outdoors', 'hiking', 'food', 'dessert', 'shopping', 'fun']);
+    ['outdoors', 'hiking', 'food', 'dessert', 'markets', 'fun']);
+});
+
+test('keeps approved cuisine and activity choices independent while preserving broad legacy answers', () => {
+  assert.deepEqual(normalizeInterests(['food','fun','chinese','pizza','italian','markets','live_music','water_sports','spa','pizza']),
+    ['food','fun','chinese','pizza','italian','markets','live_music','water_sports','spa']);
 });

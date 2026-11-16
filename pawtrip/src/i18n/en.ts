@@ -307,7 +307,7 @@ export const en: Partial<Dict> = {
   "profile.interests": "Interests",
   "profile.diet": "Dietary needs",
   "profile.photoAdd": "Add a photo",
-  "profile.travelStyle": "My travel style",
+  "profile.travelStyle": "My travel preferences",
   "scale.pace": "What pace feels right?",
   "scale.walking": "How much walking?",
   "scale.crowds": "Okay with crowds?",

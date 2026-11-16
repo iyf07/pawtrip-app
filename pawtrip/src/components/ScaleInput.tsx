@@ -39,7 +39,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
   if (compact) {
     return (
       <View style={{ width: '48%', flexGrow: 1, padding: 12, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, borderRadius: 18, alignItems: 'center', gap: 6 }}>
-        <Text weight={800} size={14} numberOfLines={1} style={{ textAlign: 'center' }}>{t(`scale.${stem}` as Key)}</Text>
+        <Text weight={800} size={18} numberOfLines={1} style={{ textAlign: 'center' }}>{t(`scale.${stem}` as Key)}</Text>
         {showIcon ? <Icon name={iconName as IconName} size={iconSize} /> : null}
         <Text weight={700} size={14} color="link" numberOfLines={2} style={{ textAlign: 'center' }}>{description ?? t(`scale.${stem}.${v}` as Key)}</Text>
         <Text size={11} color="muted" numberOfLines={1} style={{ textAlign: 'center' }}>{t(`scale.${stem}.${v}` as Key)}</Text>

@@ -1,7 +1,7 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
-  'pf.tab.style': '习惯',
+  'pf.tab.style': '偏好',
   'pf.tab.interests': '兴趣',
   'pf.tab.diet': '忌口',
   'pf.tab.account': '账号',
@@ -272,6 +272,7 @@ export const zhExtra = {
   'bd.joined': '{name} 成为了你的好友',
   'bd.declined': '已拒绝',
   'bd.remove': '移除',
+  'bd.removeFriend': '移除好友',
   'bd.addMine': '添加我的好友',
   'bd.addBtn': '添加到行程',
   'bd.addedToTrip': '已添加到行程',
@@ -450,7 +451,7 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
-  'pf.tab.style': 'Habits',
+  'pf.tab.style': 'Preferences',
   'pf.tab.interests': 'Interests',
   'pf.tab.diet': 'Diet',
   'pf.tab.account': 'Account',
@@ -720,6 +721,7 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'bd.joined': '{name} is now your friend',
   'bd.declined': 'Declined',
   'bd.remove': 'Remove',
+  'bd.removeFriend': 'Remove friend',
   'bd.addMine': 'Add my friends',
   'bd.addBtn': 'Add to trip',
   'bd.addedToTrip': 'Added to the trip',

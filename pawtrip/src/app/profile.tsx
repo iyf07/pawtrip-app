@@ -47,7 +47,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const toast = useToast();
   const { email, signOut } = useAuth();
   const update = useUpdateProfile();
-  const { wide, medium } = useLayout();
+  const { wide } = useLayout();
   // everything is read-only until the pencil is tapped; Save / Cancel then end the edit
   const [profileTab, setProfileTab] = useState<'style' | 'interests' | 'diet' | 'account'>('style');
   const [editing, setEditing] = useState<"identity" | "style" | "interests" | "diet" | null>(null);
@@ -216,7 +216,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           key={f}
           field={f}
           compact={!wide}
-          iconSize={!wide ? 56 : medium ? 60 : 48}
+          iconSize={!wide ? 56 : 44}
           value={scales[f]}
           description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
           readOnly={editing !== "style"}

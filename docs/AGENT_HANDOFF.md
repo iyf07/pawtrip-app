@@ -349,3 +349,6 @@ Correction after user feedback: my phone-profile pass had changed things outside
 
 ### 2026-11-15 (later 12) — first agent
 Phone profile: habits are two compact columns in view **and** edit mode (`ScaleInput compact`; in edit mode each card has its slider at the bottom). The ✓/✕ paw-icon buttons stay in the section heading. Nothing else was changed.
+
+### 2026-11-15 (later 13) — first agent
+Profile: "习惯"→"偏好" (tab and "我的旅行偏好" heading), compact two-column cards use the display (title) font again, desktop habit icons 44px. Friends page: the list is light (avatar, name, @ID, up to 3 dog avatars, chevron); tapping a row opens `FriendSheet` (name/ID/traits, interests, dogs → dog profile, remove friend). `FriendDetails` is unchanged and still used by the members page and the add-friend popup.

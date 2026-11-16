@@ -307,7 +307,7 @@ export const zh = {
   "profile.interests": "兴趣",
   "profile.diet": "饮食需求",
   "profile.photoAdd": "上传头像",
-  "profile.travelStyle": "我的旅行小习惯",
+  "profile.travelStyle": "我的旅行偏好",
   "scale.pace": "想要什么节奏？",
   "scale.walking": "能走多少路？",
   "scale.crowds": "人多的地方OK吗？",

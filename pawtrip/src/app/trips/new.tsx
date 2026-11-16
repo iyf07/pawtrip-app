@@ -12,7 +12,7 @@ import { RangeCalendar } from '@/components/RangeCalendar';
 import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
-import { Avatar } from '@/components/ui/Avatar';
+import { FriendChoice } from '@/features/buddies/FriendChoice';
 import { DogIllo } from '@/components/ui/DogIllo';
 import { Field } from '@/components/ui/Field';
 import { Meta, Text } from '@/components/ui/Text';
@@ -130,11 +130,10 @@ export default function NewTrip() {
             content: (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
                 {myBuddies.map((b) => (
-                  <Chip
+                  <FriendChoice
                     key={b.userId}
-                    icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={24} border={2} />}
-                    label={b.name}
-                    on={buddyIds.includes(b.userId)}
+                    buddy={b}
+                    selected={buddyIds.includes(b.userId)}
                     onPress={() => setBuddyIds((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
                   />
                 ))}

@@ -44,6 +44,7 @@ export function useSaveDog() {
       return data;
     },
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['buddies'] });
       qc.invalidateQueries({ queryKey: ['dogs'] });
       qc.invalidateQueries({ queryKey: ['dog'] });
       qc.invalidateQueries({ queryKey: ['trip'] });
@@ -60,6 +61,7 @@ export function useDeleteDog() {
       if (error) throw error;
     },
     onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['buddies'] });
       qc.invalidateQueries({ queryKey: ['dogs'] });
       qc.invalidateQueries({ queryKey: ['trip'] });
       qc.invalidateQueries({ queryKey: ['trips'] });

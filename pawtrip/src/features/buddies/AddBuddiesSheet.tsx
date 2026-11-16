@@ -3,9 +3,10 @@ import { View } from 'react-native';
 
 import { useAddBuddiesToTrip, useBuddies } from '@/api/buddies';
 import type { TripDetail } from '@/api/trips';
-import { Avatar } from '@/components/ui/Avatar';
+import { FriendChoice } from '@/features/buddies/FriendChoice';
 import { Button } from '@/components/ui/Button';
 import { Chip } from '@/components/ui/Chip';
+import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -40,15 +41,14 @@ export function AddBuddiesSheet({ visible, onClose, trip }: { visible: boolean; 
         {t('bd.addMine')}
       </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-        {free.length === 0 ? (
+        {buddies.isPending ? <PageSkeleton cards={1} /> : buddies.isError && !buddies.data ? <Button label={t('common.retry')} onPress={() => buddies.refetch()} /> : free.length === 0 ? (
           <Text color="muted">{t('bd.none')}</Text>
         ) : (
           free.map((b) => (
-            <Chip
+            <FriendChoice
               key={b.userId}
-              icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={24} border={2} />}
-              label={b.name}
-              on={picked.includes(b.userId)}
+              buddy={b}
+              selected={picked.includes(b.userId)}
               onPress={() => setPicked((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
             />
           ))

@@ -1,6 +1,22 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
+  'pf.tab.style': '习惯',
+  'pf.tab.interests': '兴趣',
+  'pf.tab.diet': '忌口',
+  'pf.tab.account': '账号',
+  'pf.finishSection': '请先保存或放弃当前修改',
+
+  'pf.copyPublicId': '复制我的 ID',
+  'pf.sharePublicId': '分享我的 ID',
+  'pf.shareIdMessage': '我是 {name}，我的 PawTrip ID 是 {id}。在 PawTrip 通过 ID 查找我，一起规划带狗旅行。',
+
+  'friend.interests': '兴趣',
+  'friend.dogs': '狗狗',
+  'friend.noInterests': '尚未填写兴趣',
+  'friend.noDogs': '还没有狗狗档案',
+  'friend.viewDog': '查看 {name} 的资料',
+
   'interest.chinese': '中餐',
   'interest.japanese': '日料',
   'interest.korean': '韩餐',
@@ -434,6 +450,22 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
+  'pf.tab.style': 'Habits',
+  'pf.tab.interests': 'Interests',
+  'pf.tab.diet': 'Diet',
+  'pf.tab.account': 'Account',
+  'pf.finishSection': 'Save or discard your current changes first',
+
+  'pf.copyPublicId': 'Copy my ID',
+  'pf.sharePublicId': 'Share my ID',
+  'pf.shareIdMessage': 'I am {name}. My PawTrip ID is {id}. Find me by ID in PawTrip to plan a trip with our dogs.',
+
+  'friend.interests': 'Interests',
+  'friend.dogs': 'Dogs',
+  'friend.noInterests': 'No interests shared yet',
+  'friend.noDogs': 'No dog profiles yet',
+  'friend.viewDog': 'View {name}’s profile',
+
   'interest.chinese': 'Chinese',
   'interest.japanese': 'Japanese',
   'interest.korean': 'Korean',

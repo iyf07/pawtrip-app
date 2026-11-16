@@ -2,7 +2,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useAuth } from '@/auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
-import { personScales, type PersonScale } from '@/constants/options';
+import type { Dog } from './types';
+import { normalizeInterests, personScales, type DogScale, type PersonScale } from '@/constants/options';
+
+export type FriendDog = Pick<Dog, 'id' | 'name' | 'photo_url' | 'weight_lb' | 'weight_unit' | DogScale>;
 
 export type Buddy = {
   /** the other person */
@@ -14,6 +17,8 @@ export type Buddy = {
   avatar: string | null;
   handle: string;
   traits: Record<PersonScale, number | null>;
+  interests: string[];
+  dogs: FriendDog[];
 };
 
 /** My buddies: accepted ones, plus requests in both directions that are still waiting. */
@@ -27,8 +32,13 @@ export function useBuddies() {
       if (error) throw error;
       const others = data.map((r) => ({ r, other: r.requester_id === userId ? r.addressee_id : r.requester_id }));
       if (!others.length) return [];
-      const { data: profs, error: e2 } = await supabase.from('profiles').select('id, display_name, avatar_url, handle, morning, noise, walking, temperature, pace, spending').in('id', others.map((o) => o.other));
+      const { data: profs, error: e2 } = await supabase.from('profiles').select('id, display_name, avatar_url, handle, interests, morning, noise, walking, temperature, pace, spending').in('id', others.map((o) => o.other));
       if (e2) throw e2;
+      const acceptedIds = others.filter(({ r }) => r.status === 'accepted').map(({ other }) => other);
+      const { data: dogs, error: dogError } = acceptedIds.length
+        ? await supabase.from('dogs').select('*').in('owner_id', acceptedIds).order('created_at')
+        : { data: [], error: null };
+      if (dogError) throw dogError;
       const byId = new Map(profs.map((p) => [p.id, p]));
       return others.map(({ r, other }) => ({
         userId: other,
@@ -38,6 +48,8 @@ export function useBuddies() {
         avatar: byId.get(other)?.avatar_url ?? null,
         handle: byId.get(other)?.handle ?? '',
         traits: personScales(byId.get(other) ?? {}),
+        interests: normalizeInterests(byId.get(other)?.interests ?? []),
+        dogs: (dogs ?? []).filter((dog) => dog.owner_id === other),
       }));
     },
   });
@@ -48,15 +60,16 @@ function useBuddyMutation<V, R = void>(fn: (v: V) => Promise<R>) {
   return useMutation({ mutationFn: fn, onSuccess: () => qc.invalidateQueries({ queryKey: ['buddies'] }) });
 }
 
-export type FoundBuddy = { id: string; display_name: string; avatar_url: string | null; handle: string; relation: 'self' | 'accepted' | 'pending_out' | 'pending_in' | 'none' };
+export type FoundBuddy = { id: string; display_name: string; avatar_url: string | null; handle: string; relation: 'self' | 'accepted' | 'pending_out' | 'pending_in' | 'none'; interests: string[]; dogs: FriendDog[] };
 
 /** Look someone up by public ID before asking them; null when nobody has that ID. */
 export function useFindBuddy() {
   return useMutation({
     mutationFn: async (handle: string): Promise<FoundBuddy | null> => {
-      const { data, error } = await supabase.rpc('find_buddy', { p_handle: handle });
+      const { data, error } = await supabase.rpc('find_friend_profile', { p_handle: handle });
       if (error) throw error;
-      return ((data as unknown as FoundBuddy[])[0]) ?? null;
+      const found = (data as unknown as FoundBuddy[])[0];
+      return found ? { ...found, interests: normalizeInterests(found.interests), dogs: found.dogs ?? [] } : null;
     },
   });
 }

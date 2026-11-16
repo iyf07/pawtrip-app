@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useFindBuddy, useRequestBuddy, type FoundBuddy } from '@/api/buddies';
+import { FriendDetails } from './FriendDetails';
 import { isCode } from '@/api/types';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -85,6 +86,7 @@ export function AddFriendSheet({ visible, onClose }: { visible: boolean; onClose
               <Meta numberOfLines={1}>@{found.handle}</Meta>
             </View>
           </View>
+          <FriendDetails buddy={{ interests: found.interests, dogs: found.dogs, status: 'accepted' }} />
           {found.relation === 'none' || found.relation === 'pending_in' ? (
             <Button label={found.relation === 'pending_in' ? t('bd.accept') : t('bd.confirmAdd')} block loading={request.isPending} onPress={confirmAdd} />
           ) : (

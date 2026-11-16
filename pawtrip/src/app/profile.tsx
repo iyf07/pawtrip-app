@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import { ActivityIndicator, Pressable, View } from "react-native";
+import { ActivityIndicator, Platform, Pressable, Share, View } from "react-native";
 
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
@@ -17,7 +17,7 @@ import { Avatar } from "@/components/ui/Avatar";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Chip } from "@/components/ui/Chip";
+import { Chip, Segmented } from "@/components/ui/Chip";
 import {
   BackButton,
   Header,
@@ -44,10 +44,11 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const { t } = useT();
   const th = useTheme();
   const toast = useToast();
-  const { userId, email, signOut } = useAuth();
+  const { email, signOut } = useAuth();
   const update = useUpdateProfile();
   const { wide } = useLayout();
   // everything is read-only until the pencil is tapped; Save / Cancel then end the edit
+  const [profileTab, setProfileTab] = useState<'style' | 'interests' | 'diet' | 'account'>('style');
   const [editing, setEditing] = useState<"identity" | "style" | "interests" | "diet" | null>(null);
   const [name, setName] = useState(profile.display_name);
   const [handle, setHandle] = useState(profile.handle);
@@ -131,6 +132,25 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     );
   }
 
+  async function copyPublicId() {
+    try {
+      if (!await Clipboard.setStringAsync(profile.handle)) throw new Error("copy_failed");
+      toast(t("group.copied"));
+    } catch { toast(t("common.saveFailed")); }
+  }
+
+  async function sharePublicId() {
+    const message = t("pf.shareIdMessage", { name: profile.display_name, id: profile.handle });
+    try {
+      if (Platform.OS === 'web' && !navigator.share) {
+        if (!await Clipboard.setStringAsync(message)) throw new Error("copy_failed");
+        toast(t("group.copied"));
+      } else await Share.share({ message });
+    } catch (error) {
+      if ((error as { name?: string }).name !== 'AbortError') toast(t("common.saveFailed"));
+    }
+  }
+
   const identityBlock = (
     <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginTop: 4 }}>
       {editing === "identity" ? (
@@ -150,8 +170,16 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         ) : (
           <>
-            <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>ID: {profile.handle}</Text>
-            <PersonTraits profile={editing === "style" ? scales : profile} />
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+              <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>ID: {profile.handle}</Text>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.copyPublicId')} onPress={copyPublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="ui-copy" size={24} />
+              </Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.sharePublicId')} onPress={sharePublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name="ui-share" size={24} />
+              </Pressable>
+            </View>
+            <PersonTraits size={12} profile={editing === "style" ? scales : profile} />
           </>
         )}
       </View>
@@ -239,23 +267,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const accountBlock = (
     <>
       <SectionTitle>{t("pf.account")}</SectionTitle>
-      <Card>
-        <Meta>{t("set.accountId")}</Meta>
-        <Text selectable weight={700} size={14} style={{ marginTop: 4 }}>
-          {userId}
-        </Text>
-        <View style={{ marginTop: 8 }}>
-          <Button
-            label={t("set.copyId")}
-            small
-            variant="ghost"
-            onPress={async () => {
-              await Clipboard.setStringAsync(userId ?? "");
-              toast(t("group.copied"));
-            }}
-          />
-        </View>
-      </Card>
 
       <Text weight={800} size={13} style={{ marginTop: 20, marginBottom: 8 }}>
         {t("set.methods")}
@@ -310,16 +321,25 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         ) : (
           <>
-            {styleBlock}
-            <View style={{ marginTop: 28 }}>{interestsBlock}</View>
-            <View style={{ marginTop: 28 }}>{dietBlock}</View>
+            <Segmented wide value={profileTab} options={[
+              { value: 'style', label: t('pf.tab.style') },
+              { value: 'interests', label: t('pf.tab.interests') },
+              { value: 'diet', label: t('pf.tab.diet') },
+              { value: 'account', label: t('pf.tab.account') },
+            ]} onChange={(next) => {
+              if (editing && next !== profileTab) { toast(t('pf.finishSection')); return; }
+              setProfileTab(next);
+            }} />
+            <View style={{ marginTop: 24 }}>
+              {profileTab === 'style' ? styleBlock : profileTab === 'interests' ? interestsBlock : profileTab === 'diet' ? dietBlock : <>{accountBlock}{signOutBlock}</>}
+            </View>
           </>
         )}
       </View>
-      <View style={{ marginTop: 28 }}>
+      {wide ? <View style={{ marginTop: 28 }}>
         {accountBlock}
         {signOutBlock}
-      </View>
+      </View> : null}
     </Screen>
   );
 }

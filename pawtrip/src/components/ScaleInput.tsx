@@ -45,7 +45,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
       }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
         {!hideTitle ? <Text weight={800} size={18} style={{ flex: 1 }}>{t(`scale.${stem}` as Key)}</Text> : <View style={{ flex: 1 }} />}
-        <Text size={12} color="muted" style={{ maxWidth: '50%', textAlign: 'right' }}>{t(`scale.${stem}.${v}` as Key)}</Text>
+        <Text size={13} color="muted" style={{ maxWidth: '50%', textAlign: 'right' }}>{t(`scale.${stem}.${v}` as Key)}</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginTop: 10 }}>
         {showIcon ? <Icon name={iconName as IconName} size={60} /> : null}

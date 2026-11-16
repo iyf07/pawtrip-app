@@ -1,3 +1,5 @@
+import { useBuddies } from '@/api/buddies';
+import { FriendDetails } from '@/features/buddies/FriendDetails';
 import { router } from "expo-router";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
@@ -32,6 +34,7 @@ export default function Group() {
   const { wide } = useLayout();
   const toast = useToast();
   const { trip, userId, isLeader } = useTripCtx();
+  const buddies = useBuddies();
 
   const removeDog = useRemoveDogFromTrip();
   const leave = useLeaveTrip();
@@ -76,8 +79,8 @@ export default function Group() {
         {trip.trip_members.map((m, i) => {
           const name = m.profiles?.display_name || "?";
           return (
+            <View key={m.user_id}>
             <View
-              key={m.user_id}
               style={{
                 flexDirection: "row",
                 alignItems: "center",
@@ -120,6 +123,8 @@ export default function Group() {
                   </View>
                 </View>
               ) : null}
+            </View>
+            {buddies.data?.filter((b) => b.userId === m.user_id && b.status === 'accepted').map((b) => <FriendDetails key={b.userId} buddy={b} />)}
             </View>
           );
         })}

@@ -295,6 +295,11 @@ isOneToOne: false
               "avatar_url": string,"display_name": string,"handle": string,"id": string,"relation": string
             }[]
                            },
+"find_friend_profile":
+{ Args: { "p_handle": string }; Returns: {
+              "avatar_url": string,"display_name": string,"dogs": Json,"handle": string,"id": string,"interests": (string)[],"relation": string
+            }[]
+                           },
 "handle_available":
 { Args: { "p_handle": string }; Returns: boolean
                            },

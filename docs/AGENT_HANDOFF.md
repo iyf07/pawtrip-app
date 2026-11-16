@@ -119,6 +119,8 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-15 Friend cards now include selected interests and dog avatar/name/weight; dog opens a read-only seven-scale sheet. Shared across list, exact-ID lookup, existing-trip invite chooser, new-trip chooser and friend members. Confirmed friends can SELECT dog rows without sharing a trip; never UPDATE/DELETE. User explicitly requested dog information in pre-friend ID lookup too: authenticated exact-ID find_friend_profile returns explicit profile/dog fields, not a global dog listing; anonymous calls denied.
+- 2026-11-15 Mobile profile uses four tabs (习惯 / 兴趣 / 忌口 / 账号) beneath persistent identity. Desktop retains the existing two-column layout. Prevent tab changes during an unfinished edit with a save/discard toast. Remove account UUID display; top public handle has copy/share icons, sharing ID text with clipboard fallback when native Web Share is unavailable. Avatar family now has thick cocoa stroke and white outer rim. Profile bio 12px; scale right-hand titles 13px.
 - 2026-11-15 Add dogs/friends CTAs use the same full-width dashed Card with centered + text in both empty and populated lists; no sticker/emoji inside buttons. Supersedes the gold icon buttons in empty states. Empty-state illustrations remain.
 - 2026-11-15 User approved interest expansion after proposal: 11 cuisines/meals (Chinese/Japanese/Korean/Thai/Vietnamese/Indian/Italian/pizza/American/Mexican/Mediterranean-Middle Eastern), separate coffee/dessert, 6 experiences (markets/live music/workshops/amusement/water/spa). 29 concrete choices total. Preserve legacy food/fun and other broad codes in stored arrays without inferring new choices; hide retired broad choices from picker. 17 distinct new paw stickers, Batch 15. Winery means grape winery, not red wine only.
 - 2026-11-15 Scale hierarchy: question 18px bold at left, playful title 12px muted/right, actual selected description/result 17px beside sticker. Applies to human/dog forms and wizards. Desktop diet sits directly below interests in right column; phone remains style -> interests -> diet.
@@ -149,6 +151,8 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+2026-11-15 Friend details/profile navigation: implemented selected-interest and dog previews at all friend surfaces, exact-ID pre-friend preview, read-only dog sheets; accepted-friend dog SELECT policy and authenticated exact-ID RPC. Mobile profile four tabs, public-ID copy/share, removed account UUID, thicker avatar outline and slightly larger traits. Desktop/375px checked; local fixture preview verifies non-friend interests and 12kg dog; no request sent. ID copy verified by paste into name draft, then discarded. DB 106 assertions pass; frontend 11 tests pass, tsc/eslint silent. Backend 0bf9868 deployment in progress; frontend release pending.
 
 2026-11-15 Add-entry styling: empty and populated friends/dogs now share one dashed + add Card per screen. Desktop/375px browser checked, tsc/eslint silent. Frontend-only; live a64b59f, Expo ryzuaayy8n.
 
@@ -220,6 +224,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-15 | Codex | 好友兴趣与狗狗资料展示 | buddies / trip pickers / backend RLS | 开发中 |
 
 ### 8.3 Rules
 - **Pull before you start, push small and often**; if `git push` is rejected, rebase and re-check, never force-push.
@@ -326,3 +331,8 @@ Release result: 2104fc9 committed/pushed and deployed to https://pawtrip.expo.ap
 Removed gold icon CTAs from empty dogs/friends states; reused the existing full-width dashed Card below both empty and populated lists, centered + text only. Empty illustrations and click-only wizard/popup behavior retained. Desktop/375px browser verified; tsc/eslint silent, diff check clean. No backend change.
 
 Release result: a64b59f pushed and deployed successfully to Expo production (ryzuaayy8n). No Supabase changes. Claim released.
+
+### 2026-11-15 — Codex friend profiles, mobile tabs and identity controls
+Added FriendDetails/FriendChoice shared UI. Friends list and requests display selected interests; accepted friends show dogs; exact ID lookup explicitly shows interests/dogs even before friendship, per follow-up instruction. Dog previews show avatar/name/weight and open seven numeric preferences as read-only results. Reused in trip member friend cards, add-friends chooser and new-trip chooser; batched profile/dog fetching and dog cache invalidation. Added initial fetch-error/retry states rather than false-empty cards.
+Backend: additive dogs_select_accepted_friends policy and find_friend_profile exact-handle RPC, fixed search_path, explicit dog JSON allowlist, authenticated grant + auth.uid check. Pending/stranger direct dog table reads still denied; no owner-only write policies changed. TDD red first (accepted dog absent / new RPC missing), then all 106 DB assertions pass: accepted read, interest read, write/delete denied, removal revokes direct read, exact lookup works before friendship, unknown ID empty, private timestamps excluded, anonymous/identity-less callers denied.
+Follow-up UI: person avatars thick cocoa + white rim, remove account UUID card, copy/share saved public ID at top (Web Share when supported, otherwise copy ID message), 4 mobile profile tabs retaining identity; editing blocks tab switch until save/discard. Slightly larger bio (12) and scale title (13). Browser desktop/375px: friend list dog, non-friend lookup with synthetic Preview Fixture interests and Preview Pup (12kg), seven-scale read-only popup, member friend info, all four profile tabs, edit switching protection, UUID absent and public-ID copied then pasted into draft name; discarded without save. Synthetic local lookup fixture only; no production user changes, friend requests or dog edits. 11 frontend tests pass and tsc/eslint silent. Release follows.

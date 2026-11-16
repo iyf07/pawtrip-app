@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
+import { FriendDetails } from './FriendDetails';
 import { AddFriendSheet } from './AddFriendSheet';
 import { PersonTraits } from '@/components/PersonTraits';
 import { Avatar } from '@/components/ui/Avatar';
@@ -40,6 +41,11 @@ export function BuddiesScreen() {
     <Screen nav top={<Header title={t('bd.title')} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
+      ) : buddies.isError && !buddies.data ? (
+        <View style={{ gap: 12, marginTop: 20 }}>
+          <Text>{t('common.loadFailed')}</Text>
+          <Button label={t('common.retry')} onPress={() => buddies.refetch()} />
+        </View>
       ) : (
         <View style={{ gap: 14, marginTop: 8 }}>
           {incoming.map((b) => (
@@ -54,6 +60,7 @@ export function BuddiesScreen() {
                   <PersonTraits profile={b.traits} />
                 </View>
               </View>
+              <FriendDetails buddy={b} />
               <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
                 <Button label={t('bd.accept')} small onPress={() => answer(b, true)} loading={respond.isPending} />
                 <Button label={t('bd.decline')} small variant="ghost" onPress={() => answer(b, false)} />
@@ -68,7 +75,8 @@ export function BuddiesScreen() {
           ) : null}
           {mine.length > 0 ? <Card>
             {mine.map((b) => (
-              <View key={b.userId} style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 7 }}>
+              <View key={b.userId} style={{ paddingVertical: 8 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 7 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={38} />
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text weight={800} size={15} numberOfLines={1}>
@@ -83,6 +91,8 @@ export function BuddiesScreen() {
                     ×
                   </Text>
                 </Pressable>
+              </View>
+              <FriendDetails buddy={b} />
               </View>
             ))}
           </Card> : null}

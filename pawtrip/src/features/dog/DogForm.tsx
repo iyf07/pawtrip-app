@@ -3,6 +3,8 @@ import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { DOG_SCALES, useDeleteDog, useSaveDog, type DogScale } from '@/api/dogs';
 import type { Dog } from '@/api/types';
+import { DogInterests } from '@/components/DogInterests';
+import { normalizeDogInterests } from '@/constants/dog-interests';
 import { DogTraits } from '@/components/DogTraits';
 import { AvatarEditor } from '@/components/AvatarEditor';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
@@ -40,13 +42,14 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     dog.weight_lb != null ? String(dog.weight_unit === 'kg' ? round1(Number(dog.weight_lb) / LB_PER_KG) : Number(dog.weight_lb)) : '',
   );
   const [scales, setScales] = useState<Record<DogScale, number | null>>(() => dogScales(dog));
+  const [interests, setInterests] = useState<string[]>(() => normalizeDogInterests(dog.interests));
   const [errs, setErrs] = useState<{ name?: string; weight?: string }>({});
   const [askDelete, setAskDelete] = useState(false);
   // read-only until the pencil is tapped
-  const [editing, setEditing] = useState<'identity' | 'preferences' | null>(null);
+  const [editing, setEditing] = useState<'identity' | 'preferences' | 'interests' | null>(null);
 
   // what the form started with, to know whether there is anything to save
-  const [init, setInit] = useState(() => ({ name, photo, unit, weight, scales }));
+  const [init, setInit] = useState(() => ({ name, photo, unit, weight, scales, interests }));
   function discard() {
     const i = init;
     setName(i.name);
@@ -54,6 +57,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     setUnit(i.unit);
     setWeight(i.weight);
     setScales(i.scales);
+    setInterests(i.interests);
     setErrs({});
     setEditing(null);
   }
@@ -73,17 +77,17 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       await save.mutateAsync({ id, ...(section === 'identity' ? {
         name: name.trim(), photo_url: photo, weight_unit: unit,
         weight_lb: round1(unit === 'kg' ? w * LB_PER_KG : w),
-      } : scales) });
+      } : section === 'interests' ? { interests } : scales) });
       if (section === 'identity' && init.photo && init.photo !== photo) await deletePhotoByUrl(init.photo);
       setInit((current) => section === 'identity'
         ? { ...current, name: name.trim(), photo, unit, weight }
-        : { ...current, scales });
+        : section === 'interests' ? { ...current, interests } : { ...current, scales });
       toast(t('toast.saved'));
       setEditing(null);
     } catch { toast(t('common.saveFailed')); }
   }
 
-  function editActions(section: 'identity' | 'preferences', title: string) {
+  function editActions(section: 'identity' | 'preferences' | 'interests', title: string) {
     const active = editing === section;
     const actionStyle = { width: 40, height: 40, borderRadius: 20, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center' as const, justifyContent: 'center' as const };
     return (
@@ -142,15 +146,15 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
 
       <View style={{ marginTop: 28 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <Text weight={800} size={20}>{t('dog.preferences')}</Text>
+          <Text weight={800} size={20} style={{ flexShrink: 1 }}>{t('dog.preferences', { name: init.name })}</Text>
           <View style={{ flex: 1, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line }} />
-          {editActions('preferences', t('dog.preferences'))}
+          {editActions('preferences', t('dog.preferences', { name: init.name }))}
         </View>
         <View style={{ gap: 10 }}>
           {Array.from({ length: Math.ceil(DOG_SCALES.length / 2) }, (_, row) => (
             <View key={row} style={{ flexDirection: 'row', gap: 10, alignItems: 'stretch' }}>
               {DOG_SCALES.slice(row * 2, row * 2 + 2).map((f) => (
-                <ScaleInput key={f} compact iconSize={wide ? 44 : 56} field={f} value={scales[f]}
+                <ScaleInput key={f} compact iconSize={28} field={f} value={scales[f]}
                   description={t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} readOnly={editing !== 'preferences'}
                   onChange={(v) => setScales((current) => ({ ...current, [f]: v }))} />
               ))}
@@ -158,6 +162,13 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
             </View>
           ))}
         </View>
+      </View>
+      <View style={{ marginTop: 28 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+          <Text weight={800} size={20} style={{ flex: 1 }}>{t('dog.interests', { name: init.name })}</Text>
+          {editActions('interests', t('dog.interests', { name: init.name }))}
+        </View>
+        <DogInterests values={interests} onChange={editing === 'interests' ? setInterests : undefined} />
       </View>
       {editing === 'identity' ? <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 24 }} /> : null}
 

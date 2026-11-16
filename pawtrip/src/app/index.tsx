@@ -24,7 +24,7 @@ export default function Trips() {
     <Header
       title={t('trips.title')}
       right={
-        <AddAction label={t('trips.new')} onPress={() => router.push('/trips/new')} />
+        <AddAction icon="nav-trips" label={t('trips.new')} onPress={() => router.push('/trips/new')} />
       }
     />
   );
@@ -59,7 +59,7 @@ export default function Trips() {
             {t('collection.emptyTrips')}
           </Text>
           <Card dashed onPress={() => router.push('/trips/new')} style={{ alignItems: 'center', alignSelf: 'stretch', marginTop: 24 }}>
-            <Text weight={800} color="link">+ {t('trips.new')}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-trips" size={28} /><Text weight={800} color="link">{t('trips.new')}</Text></View>
           </Card>
           <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
         </View>

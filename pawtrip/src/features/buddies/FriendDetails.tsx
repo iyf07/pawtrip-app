@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import type { Buddy, FriendDog } from '@/api/buddies';
+import { DogInterests } from '@/components/DogInterests';
 import { InterestIcon } from '@/components/InterestIcon';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { DogAvatar } from '@/components/ui/Avatar';
@@ -54,6 +55,9 @@ export function FriendDetails({ buddy }: { buddy: Pick<Buddy, 'interests' | 'dog
               <DogAvatar url={selectedDog.photo_url} size={60} />
               <Text size={22} weight={800}>{selectedDog.name}</Text>
             </View>
+            <Text weight={800} size={20}>{t('dog.interests', { name: selectedDog.name })}</Text>
+            <DogInterests values={selectedDog.interests} />
+            <Text weight={800} size={20}>{t('dog.preferences', { name: selectedDog.name })}</Text>
             {DOG_SCALES.map((field) => <ScaleInput key={field} field={field} value={scales[field]} description={t(`scale.${scaleStem(field)}.${scales[field]}.description` as Key)} readOnly onChange={() => {}} />)}
             <Button label={t('common.close')} variant="text" block onPress={() => setSelectedDog(null)} style={{ marginTop: 16 }} />
           </>

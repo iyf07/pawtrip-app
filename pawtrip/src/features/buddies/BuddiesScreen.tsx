@@ -49,7 +49,7 @@ export function BuddiesScreen() {
   }
 
   if (wide && friend && selected) return (
-    <Screen nav size="narrow" top={<Header title={selected.name} />}>
+    <Screen nav size="wide" top={<Header title={t('friend.home', { name: selected.name })} />}>
       <FriendSheet inline buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
     </Screen>

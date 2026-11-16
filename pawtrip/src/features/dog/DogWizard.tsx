@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import { DOG_SCALES, useSaveDog, type DogScale } from '@/api/dogs';
 import { useSettings } from '@/api/profile';
+import { DogInterests } from '@/components/DogInterests';
 import { PhotoField } from '@/components/PhotoField';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Wizard, type WizardStep } from '@/components/Wizard';
@@ -34,6 +35,7 @@ export function DogWizard() {
   const unit = unitPick ?? (settings.data?.weight_unit === 'kg' ? 'kg' : 'lb');
   const [scales, setScales] = useState<Record<DogScale, number | null>>(() => dogScales({}));
 
+  const [interests, setInterests] = useState<string[]>([]);
   const w = Number(weight);
   const weightOk = weight.trim() !== '' && Number.isFinite(w) && w > 0;
 
@@ -84,6 +86,12 @@ export function DogWizard() {
       }),
     ),
     {
+      key: 'interests',
+      title: t('dog.interests', { name: name.trim() }),
+      optional: true,
+      content: <DogInterests values={interests} onChange={setInterests} />,
+    },
+    {
       key: 'done',
       title: t('dw.done.title', { name: name.trim() }),
       hint: t('dw.done.body'),
@@ -109,6 +117,7 @@ export function DogWizard() {
         weight_unit: unit,
         weight_lb: round1(unit === 'kg' ? w * LB_PER_KG : w),
         ...scales,
+        interests,
       });
       toast(t('toast.saved'));
       leave();

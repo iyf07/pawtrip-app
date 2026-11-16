@@ -719,3 +719,7 @@ Icons (create exactly these 5 files):
 44) file "scale-car-4.png" — a happy dog looking out of a car window — level 4 of 5 — accent green #3E8E57
 45) file "scale-car-5.png" — a dog wearing sunglasses in the front passenger seat — level 5 of 5 — accent green #3E8E57
 ```
+
+## Batch 16 — dog interests (2026-11-16)
+Built-in image_gen generated two separate transparent PNGs using approved scale-recall-1 and trait-runner as style references (not a sheet). dog-int-swimming: cream/gold dog paddling in blue waves, no boat. dog-int-fetch: same dog chasing a visible golden tennis ball. Both include paw-shaped collar charms, thick cocoa outlines, white sticker rims, glossy upper-left highlights; no text/shadows. UI files 512px, masters 1024px, archived in /Users/ivan/workplace/icons/batch-16-dog-interests. Remaining eleven dog activity icons reuse distinct approved paw-family assets.
+Prompt: Create one new PawTrip icon, one complete square picture; supplied images are STYLE REFERENCES only. Match chubby cream dog, golden orange ears/head patch, cocoa #4A3628 thick uniform rounded outline, cream #FFF4D6, gold #FFC72C, tiny glossy white highlight, thick crisp white sticker rim. Flat colors, no realistic shading, shadow or text. Integrated golden paw collar charm. Centered 80% silhouette, equal margin, transparent PNG. Subject A: happy dog swimming with front paws paddling in small blue waves, head/upper body above water, no boat/life ring. Subject B: happy dog chasing a prominent round golden tennis ball beside raised front paws, playful running pose, no leash.

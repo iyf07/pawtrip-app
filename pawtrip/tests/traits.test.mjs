@@ -9,11 +9,11 @@ test('bio shows only extreme answers, excluding middle values and unanswered dim
 });
 test('dog defaults to neutral without inferring recall from its old binary flag', () => {
   assert.deepEqual(dogScales({energy:4, recall:'comes'}),
-    {energy:4,temp:3,with_dogs:3,with_people:3,alone:3,car:3,recall_level:3});
+    {energy:4,temp:3,with_dogs:3,with_people:3,alone:3,car:3});
 });
 
 test('dog bio includes only endpoint traits with correct translation stems', () => {
   assert.deepEqual(dogTraitKeys({energy:1,temp:2,with_dogs:5,with_people:3,alone:null,car:0,recall_level:5}),
-    ['scale.energy.1','scale.withDogs.5','scale.recall.5']);
+    ['scale.energy.1','scale.withDogs.5']);
   assert.deepEqual(dogTraitKeys({energy:3,temp:4}), []);
 });

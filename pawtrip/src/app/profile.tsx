@@ -216,7 +216,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           key={f}
           field={f}
           compact={!wide}
-          iconSize={!wide ? 56 : 44}
+          iconSize={28}
           value={scales[f]}
           description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
           readOnly={editing !== "style"}

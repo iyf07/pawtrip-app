@@ -119,6 +119,8 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-16 Dog interests: 13 ungrouped independent choices (dog parks/trails/camping/swimming/paddling/snow/sand/sun/sniffing/fetch/treats/sleep/off-leash), own pencil/save/discard and new-dog wizard step. Named headings {name}的旅行偏好 / {name}的兴趣. Remove recall_level from UI scales and endpoint traits everywhere; keep both legacy recall columns/data untouched, never infer off-leash interest or recall ability. Interest saves only interests.
+- 2026-11-16 All ScaleInput stickers default 28px, including human/dog profile, friend preview and wizards, matching interests. Friends homepage title {name}的主页; desktop preference left, selected interests/diet right, dog section below; phone keeps the modal and compact preference grid. Read-only; includes custom diets. New-trip action uses nav-trips sticker and join uses ui-key, including desktop sidebar.
 - 2026-11-15 Desktop collections share list-first navigation: trips/dogs/friends only show a secondary list after explicit selection, with bottom add action and collapse returning to root collection. Dog rail never auto-selects first dog. Clear friend/add query params explicitly when collapsing; same-route replace retains them. Phone friends remain a popup.
 - 2026-11-15 Dog homepage: title {name}的主页, identity and travel preferences have independent inline pencil/save/discard controls. Seven preferences use the existing compact component in two columns on phone and desktop (odd last card remains half width), matching the latest display-font/44px desktop and 56px phone design. Only exact 1/5 dog answers become name-area traits; missing defaults remain 3. Questions and results shortened in both languages, playful titles retained. Identity save never writes scales; preferences save never writes identity fields. Sign-out is text-only.
 - 2026-11-15 Phone profile travel-habit stickers use 48px; tablet/desktop remain 60px. Shared ScaleInput default 60px remains for dog profiles and wizards.
@@ -154,6 +156,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-16: Dog interests and six visible preferences implemented; friend homepage/preferences/interests/diet, 28px scale icons and trip create/join stickers verified. Backend beaaff1 migration deployed; Expo release follows.
+
 
 - 2026-11-15: Desktop trips/dogs/friends now start at collection lists with shared top-right +. Selection opens secondary list + detail, bottom add link and common collapse-to-list handle. Desktop friends use /friends?friend=ID; phone retains popup. Empty trips matches other collections. Frontend-only, verified; deployment follows.
 
@@ -232,6 +237,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 ### 8.3 Rules
@@ -375,3 +381,8 @@ Release result: 28b0db6 pushed and deployed successfully to https://pawtrip.expo
 Shared top-right AddAction; dogs root and rail remain list-first. Desktop selection creates secondary list, bottom + action and common collapse handle. Friend detail reuses FriendSheet inline with dog preview and sidebar add popup; phone preserves modal. Empty trips displays empty title and dashed create. Collection-layout regression red first, then all 15 frontend tests pass; tsc/eslint silent. Browser desktop verified three selection/collapse flows, friend header/sidebar add dialogs canceled, empty local fixture trip state; 375px friends modal and dogs list verified. Caught same-route query retention in browser, fixed explicit clearing and reverified. No records modified; no backend changes. Claim released; release follows.
 
 Release result: 3e678db pushed and deployed to https://pawtrip.expo.app (mfo2bhtlvu). 15 frontend tests pass, tsc/eslint silent; no Supabase deployment required. Claim released.
+
+### 2026-11-16 — Codex dog interests and friend homepage
+Added independently saved dogs.interests array (13 codes, DB allowlist/default empty), optional wizard step, shared read-only dog interest chips in friend previews/lookup/member surfaces. Named dog headings. Removed recall_level from DOG_SCALES so wizards, forms, previews and endpoint labels all use six dimensions; old data preserved, off_leash never inferred. Two new referenced paw stickers (swimming/fetch), built-in image_gen, Batch 16 documented and archived in icons folder; UI512/master1024.
+Follow-up: friend profile title {name}的主页; six human preferences left and selected interests/diets right on desktop; custom diets from existing profile query, phone compact/modal retained. All ScaleInput icons28px, including profile explicit overrides. Trip create top/empty/sidebar uses nav-trips sticker; join root/sidebar ui-key.
+TDD frontend tests failed before removal/new helper, then all16 pass; DB new column test failed before migration, then112 pass. tsc/eslint silent. Browser desktop/375px: dog named titles, six scales/no recall, interests edit13choices/no categories, selected swimming/off-leash and discarded (no saved fixture edits), independent edit disabled others. Friend named page/modal, six readonly preferences, interests/diet/dogs; desktop heading positions x330/888 at same y159; scale images28px. Own mobile icons28px, four tabs preserved; new/join buttons each have image. Security advisors show existing authenticated SECURITY DEFINER RPC and leaked-password warnings documented earlier; RPC grants/identity check unchanged. Backend beaaff1 pushed and migration20261116045624 deployed after dry run. Claim released; frontend release follows.

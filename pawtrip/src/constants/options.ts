@@ -46,7 +46,7 @@ export function addDietaryNeed(current: string[], input: string): string[] {
     ? current : [...current, custom];
 }
 
-export const DOG_SCALES = ['energy', 'temp', 'with_dogs', 'with_people', 'alone', 'car', 'recall_level'] as const;
+export const DOG_SCALES = ['energy', 'temp', 'with_dogs', 'with_people', 'alone', 'car'] as const;
 export type DogScale = (typeof DOG_SCALES)[number];
 export const dogScales = (dog: Partial<Record<DogScale, number | null>>) =>
   Object.fromEntries(DOG_SCALES.map((field) => [field, dog[field] ?? 3])) as Record<DogScale, number | null>;

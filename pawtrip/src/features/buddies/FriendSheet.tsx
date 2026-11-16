@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import type { Buddy, FriendDog } from '@/api/buddies';
+import { DogInterests } from '@/components/DogInterests';
 import { InterestIcon } from '@/components/InterestIcon';
 import { PersonTraits } from '@/components/PersonTraits';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
@@ -9,7 +10,10 @@ import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
-import { DOG_SCALES, dogScales } from '@/constants/options';
+import { dietIcon } from '@/components/DietIcon';
+import { Chip } from '@/components/ui/Chip';
+import { useLayout } from '@/hooks/use-layout';
+import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 
@@ -19,10 +23,13 @@ const lb = (d: FriendDog) => (d.weight_lb == null ? null : `${Math.round((d.weig
 export function FriendSheet({ buddy, onClose, onRemove, inline = false }: { inline?: boolean; buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void }) {
   const { t } = useT();
   const th = useTheme();
+  const { wide } = useLayout();
+  const columns = inline && wide;
   const [dog, setDog] = useState<FriendDog | null>(null);
   const scales = dogScales(dog ?? {});
   const profile = buddy ? (
-          <View style={{ gap: 14 }}>
+          <View style={{ gap: 24 }}>
+            {!inline ? <Text weight={800} size={26}>{t('friend.home', { name: buddy.name })}</Text> : null}
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
               <Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={64} />
               <View style={{ flex: 1, minWidth: 0 }}>
@@ -32,18 +39,36 @@ export function FriendSheet({ buddy, onClose, onRemove, inline = false }: { inli
               </View>
             </View>
 
+            <View style={{ flexDirection: columns ? 'row' : 'column', gap: 28 }}>
+              <View style={{ flex: columns ? 1 : undefined, minWidth: 0 }}>
+                <Text weight={800} size={20}>{t('friend.preferences')}</Text>
+                <View style={!columns ? { flexDirection: 'row', flexWrap: 'wrap', gap: 10, marginTop: 12 } : undefined}>
+                  {PERSON_SCALES.map((f) => <ScaleInput key={f} field={f} value={buddy.traits[f]} compact={!columns} readOnly
+                    description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}
+                </View>
+              </View>
+              <View style={{ flex: columns ? 1 : undefined, minWidth: 0, gap: 28 }}>
             <View style={{ gap: 8 }}>
-              <Text weight={800} size={14} color="muted">{t('friend.interests')}</Text>
+              <Text weight={800} size={20}>{t('friend.interests')}</Text>
               {buddy.interests.length ? (
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
                   {buddy.interests.map((i) => (
                     <View key={i} style={{ flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 16, borderWidth: 2, borderColor: th.line }}>
-                      <InterestIcon interest={i} size={22} />
+                      <InterestIcon interest={i} size={28} />
                       <Text size={14} weight={700}>{t(`interest.${i}` as Key)}</Text>
                     </View>
                   ))}
                 </View>
               ) : <Meta size={14}>{t('friend.noInterests')}</Meta>}
+            </View>
+
+                <View style={{ gap: 10 }}>
+                  <Text weight={800} size={20}>{t('friend.diet')}</Text>
+                  {buddy.diet.length ? <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+                    {buddy.diet.map((d) => <Chip key={d} icon={dietIcon(d, 28)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} />)}
+                  </View> : <Meta size={14}>{t('friend.noDiet')}</Meta>}
+                </View>
+              </View>
             </View>
 
             {buddy.status === 'accepted' ? (
@@ -78,6 +103,9 @@ export function FriendSheet({ buddy, onClose, onRemove, inline = false }: { inli
               <DogAvatar url={dog.photo_url} size={60} />
               <Text size={22} weight={800}>{dog.name}</Text>
             </View>
+            <Text weight={800} size={20}>{t('dog.interests', { name: dog.name })}</Text>
+            <DogInterests values={dog.interests} />
+            <Text weight={800} size={20}>{t('dog.preferences', { name: dog.name })}</Text>
             {DOG_SCALES.map((field) => <ScaleInput key={field} field={field} value={scales[field]} description={t(`scale.${scaleStem(field)}.${scales[field]}.description` as Key)} readOnly onChange={() => {}} />)}
             <Button label={t('common.close')} variant="text" block onPress={() => setDog(null)} style={{ marginTop: 16 }} />
           </>

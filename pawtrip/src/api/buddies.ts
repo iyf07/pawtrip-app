@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import type { Dog } from './types';
 import { normalizeInterests, personScales, type DogScale, type PersonScale } from '@/constants/options';
 
-export type FriendDog = Pick<Dog, 'id' | 'name' | 'photo_url' | 'weight_lb' | 'weight_unit' | DogScale>;
+export type FriendDog = Pick<Dog, 'id' | 'name' | 'photo_url' | 'weight_lb' | 'weight_unit' | 'interests' | DogScale>;
 
 export type Buddy = {
   /** the other person */
@@ -18,6 +18,7 @@ export type Buddy = {
   handle: string;
   traits: Record<PersonScale, number | null>;
   interests: string[];
+  diet: string[];
   dogs: FriendDog[];
 };
 
@@ -32,7 +33,7 @@ export function useBuddies() {
       if (error) throw error;
       const others = data.map((r) => ({ r, other: r.requester_id === userId ? r.addressee_id : r.requester_id }));
       if (!others.length) return [];
-      const { data: profs, error: e2 } = await supabase.from('profiles').select('id, display_name, avatar_url, handle, interests, morning, noise, walking, temperature, pace, spending').in('id', others.map((o) => o.other));
+      const { data: profs, error: e2 } = await supabase.from('profiles').select('id, display_name, avatar_url, handle, interests, diet, morning, noise, walking, temperature, pace, spending').in('id', others.map((o) => o.other));
       if (e2) throw e2;
       const acceptedIds = others.filter(({ r }) => r.status === 'accepted').map(({ other }) => other);
       const { data: dogs, error: dogError } = acceptedIds.length
@@ -49,6 +50,7 @@ export function useBuddies() {
         handle: byId.get(other)?.handle ?? '',
         traits: personScales(byId.get(other) ?? {}),
         interests: normalizeInterests(byId.get(other)?.interests ?? []),
+        diet: byId.get(other)?.diet ?? [],
         dogs: (dogs ?? []).filter((dog) => dog.owner_id === other),
       }));
     },

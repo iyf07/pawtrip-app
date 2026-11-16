@@ -29,7 +29,7 @@ type Props = {
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Defaults to the middle (3). */
-export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 60, compact }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 28, compact }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);

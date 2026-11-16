@@ -142,10 +142,11 @@ function Row({ on, onPress, children, label }: { on: boolean; onPress: () => voi
   );
 }
 
-function AddLink({ label, onPress }: { label: string; onPress: () => void }) {
+function AddLink({ label, onPress, icon }: { label: string; onPress: () => void; icon?: IconName }) {
   const th = useTheme();
   return (
-    <Pressable onPress={onPress} accessibilityRole="button" style={{ padding: 10, borderRadius: 14, borderWidth: 2, borderStyle: 'dashed', borderColor: th.line }}>
+    <Pressable onPress={onPress} accessibilityRole="button" style={{ padding: 10, borderRadius: 14, borderWidth: 2, borderStyle: 'dashed', borderColor: th.line, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+      {icon ? <Icon name={icon} size={26} /> : null}
       <Text weight={800} color="link" size={14}>
         {label}
       </Text>
@@ -172,8 +173,8 @@ function TripList({ selected }: { selected: string | null }) {
           </View>
         </Row>
       ))}
-      <AddLink label={`+ ${t('trips.new')}`} onPress={() => router.push('/trips/new')} />
-      <AddLink label={noEmoji(t('trips.join'))} onPress={() => router.push('/join')} />
+      <AddLink icon="nav-trips" label={t('trips.new')} onPress={() => router.push('/trips/new')} />
+      <AddLink icon="ui-key" label={noEmoji(t('trips.join'))} onPress={() => router.push('/join')} />
     </ListFrame>
   );
 }

@@ -118,7 +118,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
   }
 
   const identity = (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 16, marginTop: 4 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 16, marginTop: 4 }}>
       {editing === 'identity' ? <AvatarEditor kind="dog" name={name} url={photo} size={wide ? 128 : 84} onChange={setPhoto} /> : <DogAvatar url={photo} size={wide ? 128 : 84} />}
       <View style={{ flex: 1, minWidth: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>

@@ -23,7 +23,6 @@ import {
   BackButton,
   Header,
   Screen,
-  SectionTitle,
 } from "@/components/ui/Screen";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
@@ -153,7 +152,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   }
 
   const identityBlock = (
-    <View style={{ flexDirection: "row", alignItems: "center", gap: 16, marginTop: 4 }}>
+    <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 16, marginTop: 4 }}>
       {editing === "identity" ? (
         <AvatarEditor name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} onChange={changeAvatar} />
       ) : (
@@ -270,7 +269,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
 
   const accountBlock = (
     <>
-      <SectionTitle>{t("pf.account")}</SectionTitle>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10, minHeight: 40, marginBottom: 12 }}>
+        <Text weight={800} size={20}>{t("pf.account")}</Text>
+        <View style={{ flex: 1, borderTopWidth: 2, borderStyle: "dashed", borderColor: th.line }} />
+      </View>
 
       <Text weight={800} size={13} style={{ marginTop: 20, marginBottom: 8 }}>
         {t("set.methods")}

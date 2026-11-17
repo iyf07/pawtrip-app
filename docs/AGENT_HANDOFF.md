@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-17 Profile and dog identity rows top-align avatars in view/edit, keeping position fixed as form expands. Account heading uses same 40px title row as profile tab section headings.
 - 2026-11-17 Dog detail uses narrow Screen on non-wide viewports, same as profile and dog list; keeps wide Screen on desktop.
 - 2026-11-17 Move remove dog into identity pencil edit mode, beneath weight; existing confirmation remains. Supersedes always-visible dog remove button.
 - 2026-11-17: Stop eager preloading all 160 icon PNGs at login (about 31 MB); render icons on demand. This reduces requests during startup but Chrome screenshot root cause is unconfirmed and requires user verification.
@@ -161,6 +162,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-17: Profile and dog avatars remain fixed when identity editing; account tab title aligns with other section titles.
+
 
 - 2026-11-17: Dog detail uses the same narrow width as profile and dog list below desktop breakpoint.
 
@@ -260,6 +264,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -445,3 +450,6 @@ User confirmed Chrome icons restored. Moved remove dog button into identity penc
 Dog detail used wide Screen unconditionally, unlike profile and dog list. Changed to narrow below wide breakpoint, retains desktop wide. Browser 375px: all three content widths 343px/x16; at 700px dog detail and list both width528/x86. tsc/eslint silent; no backend changes. Claim released; release follows.
 
 Release: 9ee44ed deployed to Expo (fod1vqoz5d), including 58c6a9c removal action. tsc/eslint silent, desktop and phone verified; no Supabase changes. Claims released.
+
+### 2026-11-17 — Codex stable identity avatars
+Top-aligned identity row on human/dog profiles to stop avatar moving when form expands. Account heading uses 40px title row without extra top margin. Browser verified personal avatar x16/y114 before/after mobile edit, desktop dog avatar x324/y75 before/after, mobile preference and account headings both y321; drafts discarded. tsc/eslint silent; no backend changes. Claim released; release follows.

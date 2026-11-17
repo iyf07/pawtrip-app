@@ -10,6 +10,7 @@ import { AddAction } from '@/components/ui/AddAction';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
@@ -28,12 +29,9 @@ export default function Dogs() {
       {dogs.isPending ? (
         <PageSkeleton cards={3} />
       ) : (
-        <View style={{ gap: 10, marginTop: 8 }}>
+        <View style={{ gap: 12, marginTop: 8 }}>
           {dogs.data?.length === 0 ? (
-            <View style={{ alignItems: 'center', paddingVertical: 40, gap: 18 }}>
-              <Icon name="nav-dogs" size={88} />
-              <Text weight={800} size={20}>{t('dogs.emptyTitle')}</Text>
-            </View>
+            <EmptyState icon="nav-dogs" title={t('dogs.emptyTitle')} />
           ) : null}
           {(dogs.data ?? []).map((d) => (
             <Card key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>

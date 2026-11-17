@@ -124,7 +124,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         ) : (
           <Pressable accessibilityRole="button" accessibilityLabel={section === "identity" ? t("pf.editName") : t("pf.editSection", { section: title })}
-            disabled={editing !== null || update.isPending} onPress={() => { cancel(); setEditing(section); }}
+            disabled={update.isPending} onPress={() => { if (editing !== null) { toast(t("pf.finishSection")); return; } cancel(); setEditing(section); }}
+            accessibilityState={{ disabled: editing !== null }}
             style={[actionStyle, { opacity: editing ? 0.45 : 1 }]}>
             <Icon name="ui-pencil" size={24} />
           </Pressable>

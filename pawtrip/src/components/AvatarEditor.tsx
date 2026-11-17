@@ -75,7 +75,6 @@ export function AvatarEditor({ name, url, size = 84, onChange, kind = 'avatar' }
               }}
             />
           ) : null}
-          <Button label={t('common.cancel')} variant="text" block onPress={() => setMenu(false)} />
         </View>
       </Sheet>
       {error ? <Meta color="danger" style={{ marginTop: 4, maxWidth: size + 40 }}>{error}</Meta> : null}

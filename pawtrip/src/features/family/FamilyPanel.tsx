@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { Icon } from '@/components/ui/Icon';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { ConfirmSheet, Sheet } from '@/components/ui/Sheet';
@@ -62,11 +63,8 @@ export function FamilyPanel() {
   const state = fam.data;
   if (!state?.family) {
     return (
-      <View style={{ gap: 14, marginTop: 8 }}>
-        <View style={{ alignItems: 'center', paddingVertical: 24, gap: 18 }}>
-          <Icon name="nav-family" size={88} />
-          <Text weight={800} size={20}>{t('family.empty')}</Text>
-        </View>
+      <View style={{ gap: 12, marginTop: 8 }}>
+        <EmptyState icon="nav-family" title={t('family.empty')} />
         {(state?.invites ?? []).map((i) => (
           <Card key={i.familyId}>
             <Text weight={800} size={16}>{t('family.invitesYou', { who: i.inviterName, name: i.familyName })}</Text>
@@ -103,7 +101,7 @@ export function FamilyPanel() {
   const invitable = (buddies.data ?? []).filter((b) => b.status === 'accepted' && !memberIds.has(b.userId));
 
   return (
-    <View style={{ gap: 14, marginTop: 8 }}>
+    <View style={{ gap: 12, marginTop: 8 }}>
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
           <Text weight={800} size={20} style={{ flex: 1 }} numberOfLines={1}>{state.family.name}</Text>

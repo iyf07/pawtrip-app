@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { useBuddies, useRespondBuddy, type Buddy } from '@/api/buddies';
+import { useBuddies, useRespondBuddy, useRespondBuddyRelation, type Buddy } from '@/api/buddies';
 import { useFamily, useRespondFamilyInvite } from '@/api/family';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -10,7 +10,7 @@ import { Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
-import { useT } from '@/i18n';
+import { useT, type Key } from '@/i18n';
 
 /** Notifications above settings in the nav. For now: friend requests waiting for my answer. */
 export function NotificationBell({ size, box, radius }: { size: number; box: number; radius: number }) {
@@ -19,17 +19,28 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
   const toast = useToast();
   const buddies = useBuddies();
   const respond = useRespondBuddy();
+  const respondRelation = useRespondBuddyRelation();
   const family = useFamily();
   const respondFamily = useRespondFamilyInvite();
   const [open, setOpen] = useState(false);
   const requests = (buddies.data ?? []).filter((b) => b.status === 'pending' && b.incoming);
   const invites = family.data?.invites ?? [];
-  const count = requests.length + invites.length;
+  const relationAsks = (buddies.data ?? []).filter((b) => b.status === 'accepted' && b.relationProposed && !b.relationProposedByMe);
+  const count = requests.length + invites.length + relationAsks.length;
 
   async function answer(b: Buddy, accept: boolean) {
     try {
       await respond.mutateAsync({ from: b.userId, accept });
       toast(accept ? t('bd.joined', { name: b.name }) : t('bd.declined'));
+    } catch {
+      toast(t('common.saveFailed'));
+    }
+  }
+
+  async function answerRelation(b: Buddy, accept: boolean) {
+    try {
+      await respondRelation.mutateAsync({ other: b.userId, accept });
+      toast(accept ? t('friend.relNow', { rel: t(`rel.${b.relationProposed}` as Key) }) : t('bd.declined'));
     } catch {
       toast(t('common.saveFailed'));
     }
@@ -72,6 +83,18 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
                 <View style={{ flexDirection: 'row', gap: 8 }}>
                   <Button label={t('family.accept')} small loading={respondFamily.isPending} onPress={() => answerFamily(i.familyId, i.familyName, true)} />
                   <Button label={t('bd.decline')} small variant="ghost" onPress={() => answerFamily(i.familyId, i.familyName, false)} />
+                </View>
+              </View>
+            ))}
+            {relationAsks.map((b) => (
+              <View key={`rel-${b.userId}`} style={{ gap: 8, paddingVertical: 12, borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
+                  <Text weight={800} size={16} style={{ flex: 1 }}>{t('friend.relAsks', { name: b.name, rel: t(`rel.${b.relationProposed}` as Key) })}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', gap: 8, paddingLeft: 56 }}>
+                  <Button label={t('bd.accept')} small onPress={() => answerRelation(b, true)} />
+                  <Button label={t('bd.decline')} small variant="ghost" onPress={() => answerRelation(b, false)} />
                 </View>
               </View>
             ))}

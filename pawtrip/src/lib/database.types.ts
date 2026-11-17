@@ -25,19 +25,25 @@ export type Database = {
           Tables: {
             "buddies": {
                   Row: {
-                    "accepted_at": string | null,"addressee_id": string,"created_at": string,"relation": string | null,"requester_id": string,"status": string
+                    "accepted_at": string | null,"addressee_id": string,"created_at": string,"relation": string | null,"relation_proposed": string | null,"relation_proposed_by": string | null,"requester_id": string,"status": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "accepted_at"?: string | null,"addressee_id": string,"created_at"?: string,"relation"?: string | null,"requester_id": string,"status"?: string
+                    "accepted_at"?: string | null,"addressee_id": string,"created_at"?: string,"relation"?: string | null,"relation_proposed"?: string | null,"relation_proposed_by"?: string | null,"requester_id": string,"status"?: string
                   }
                   Update: {
-                    "accepted_at"?: string | null,"addressee_id"?: string,"created_at"?: string,"relation"?: string | null,"requester_id"?: string,"status"?: string
+                    "accepted_at"?: string | null,"addressee_id"?: string,"created_at"?: string,"relation"?: string | null,"relation_proposed"?: string | null,"relation_proposed_by"?: string | null,"requester_id"?: string,"status"?: string
                   }
                   Relationships: [
                     {
       foreignKeyName: "buddies_addressee_id_fkey"
       columns: ["addressee_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "buddies_relation_proposed_by_fkey"
+      columns: ["relation_proposed_by"]
 isOneToOne: false
       referencedRelation: "profiles"
       referencedColumns: ["id"]
@@ -418,6 +424,9 @@ isOneToOne: false
 "respond_buddy":
 { Args: { "p_accept": boolean,"p_from": string }; Returns: undefined
                            },
+"respond_buddy_relation":
+{ Args: { "p_accept": boolean,"p_other": string }; Returns: undefined
+                           },
 "respond_family_invite":
 { Args: { "p_accept": boolean,"p_family": string }; Returns: undefined
                            },
@@ -432,6 +441,9 @@ isOneToOne: false
                            },
 "shares_trip_with":
 { Args: { "uid": string }; Returns: boolean
+                           },
+"withdraw_buddy_relation":
+{ Args: { "p_other": string }; Returns: undefined
                            }
           }
           Enums: {

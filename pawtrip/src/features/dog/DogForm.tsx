@@ -103,7 +103,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
             <Icon name="ui-discard" size={28} />
           </Pressable>
         </> : <Pressable accessibilityRole="button" accessibilityLabel={t('pf.editSection', { section: title })}
-          disabled={editing !== null || save.isPending} onPress={() => setEditing(section)} style={[actionStyle, { opacity: editing ? 0.45 : 1 }]}>
+          disabled={save.isPending} onPress={() => { if (editing) toast(t('pf.finishSection')); else setEditing(section); }} accessibilityState={{ disabled: !!editing }} style={[actionStyle, { opacity: editing ? 0.45 : 1 }]}>
           <Icon name="ui-pencil" size={24} />
         </Pressable>}
       </View>
@@ -131,7 +131,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         {editing === 'identity' ? (
           <>
             <InlineFieldRow label={t('dog.shortName')}><Field accessibilityLabel={t('dog.name')} containerStyle={{ marginTop: 0 }} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} /></InlineFieldRow>
-            <InlineFieldRow label={t('dog.weight')}>
+            <InlineFieldRow label={t('dog.shortWeight')}>
               <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
                 <View style={{ flex: 1, minWidth: 0 }}><Field containerStyle={{ marginTop: 0 }} value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
                 <View style={{ paddingTop: 2 }}><Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} /></View>

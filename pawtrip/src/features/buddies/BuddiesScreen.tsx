@@ -15,6 +15,7 @@ import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
@@ -82,7 +83,7 @@ export function BuddiesScreen() {
           <Button label={t('common.retry')} onPress={() => buddies.refetch()} />
         </View>
       ) : (
-        <View style={{ gap: 14, marginTop: 8 }}>
+        <View style={{ gap: 12, marginTop: 8 }}>
           {incoming.map((b) => (
             <Card key={b.userId}>
               <Pressable onPress={() => openBuddy(b)} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
@@ -103,10 +104,7 @@ export function BuddiesScreen() {
             </Card>
           ))}
           {all.length === 0 ? (
-            <View style={{ alignItems: 'center', paddingVertical: 40, gap: 18 }}>
-              <Icon name="tab-members" size={88} />
-              <Text weight={800} size={20}>{t('bd.emptyTitle')}</Text>
-            </View>
+            <EmptyState icon="tab-members" title={t('bd.emptyTitle')} />
           ) : null}
           {mine.length > 0 ? <Card>
             {mine.map((b, i) => (

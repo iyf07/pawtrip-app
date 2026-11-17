@@ -15,6 +15,10 @@ export type Buddy = {
   since: string;
   /** shared label of the relationship, e.g. bestie */
   relation: string | null;
+  /** a label somebody proposed and the other has not answered yet */
+  relationProposed: string | null;
+  /** true when I proposed it (so the other friend has to answer), false when they did */
+  relationProposedByMe: boolean;
   /** a pending request: did I send it, or did they send it to me? */
   incoming: boolean;
   name: string;
@@ -50,6 +54,8 @@ export function useBuddies() {
         status: r.status as Buddy['status'],
         since: r.accepted_at ?? r.created_at,
         relation: r.relation ?? null,
+        relationProposed: r.relation_proposed ?? null,
+        relationProposedByMe: r.relation_proposed_by === userId,
         incoming: r.addressee_id === userId,
         name: byId.get(other)?.display_name ?? '?',
         avatar: byId.get(other)?.avatar_url ?? null,
@@ -129,5 +135,18 @@ export const RELATIONS = ['brother', 'sister', 'bestie', 'pal', 'lover', 'spouse
 export const useSetBuddyRelation = () =>
   useBuddyMutation(async ({ other, relation }: { other: string; relation: string | null }) => {
     const { error } = await supabase.rpc('set_buddy_relation', { p_other: other, p_relation: relation ?? '' });
+    if (error) throw error;
+  });
+
+/** The friend who did not propose the label answers it. */
+export const useRespondBuddyRelation = () =>
+  useBuddyMutation(async ({ other, accept }: { other: string; accept: boolean }) => {
+    const { error } = await supabase.rpc('respond_buddy_relation', { p_other: other, p_accept: accept });
+    if (error) throw error;
+  });
+
+export const useWithdrawBuddyRelation = () =>
+  useBuddyMutation(async (other: string) => {
+    const { error } = await supabase.rpc('withdraw_buddy_relation', { p_other: other });
     if (error) throw error;
   });

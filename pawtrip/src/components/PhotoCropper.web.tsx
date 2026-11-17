@@ -157,7 +157,6 @@ function CropBody({ photo, onCancel, onDone }: { photo: PickedPhoto; onCancel: (
 
       <View style={{ alignSelf: 'stretch', marginTop: 18, gap: 8 }}>
         <Button label={t('dog.cropUse')} block onPress={done} />
-        <Button label={t('nav.cancel')} variant="text" block onPress={onCancel} />
       </View>
     </View>
   );

@@ -547,3 +547,11 @@ User opened the site in an incognito window and could not sign in: a signed-out 
 
 ### 2026-11-17 (later 11) — first agent
 AddFriendSheet ("添加好友" popup) no longer has a 取消 button (user request; close by tapping outside). Convention unchanged: only destructive confirmations keep 取消.
+
+### 2026-11-17 (later 12) — first agent: relation consent, popups, audit, pencils
+- **Relationship label needs consent**: one friend proposes (`set_buddy_relation`), the other accepts/declines in the friend page 关系 tab or in the bell (`respond_buddy_relation`); the proposer can withdraw (`withdraw_buddy_relation`); tapping the current label clears it. Migrations `20261117220000_buddy_relation_consent.sql`, `…220100_withdraw_relation.sql`; tests updated (11 assertions in buddy-relation.test.sql). Pushed to production.
+- 移除好友 is now the same `Button variant="danger"` as 移除狗狗.
+- **Popups without 取消** (convention extended): 添加好友, avatar change menu, photo cropper. Only destructive ConfirmSheets keep it.
+- **Audit (phone, 375px)**: trips, dogs, friends, calendar, profile, settings all have the title at y=66 and first content at y=118. New shared `components/ui/EmptyState.tsx` (icon 88, padding 40, gap 18, title 20) used by trips, dogs, friends and family empty states (family was 16px higher and used another icon size); collection lists share `gap 12, marginTop 8`. Please reuse `EmptyState` and these spacings for new collection pages. Desktop was not re-audited.
+- **Pencils**: while one section is being edited, tapping another section's (greyed) pencil shows the toast 请先保存或放弃当前修改 instead of doing nothing (profile and dog page).
+- Dog identity edit row labelled 体重 (shorter) so the weight field has room next to the unit switch.

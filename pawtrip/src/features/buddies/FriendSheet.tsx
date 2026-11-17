@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
-import { RELATIONS, useSetBuddyRelation, type Buddy, type FriendDog } from '@/api/buddies';
+import { RELATIONS, useRespondBuddyRelation, useSetBuddyRelation, useWithdrawBuddyRelation, type Buddy, type FriendDog } from '@/api/buddies';
 import { DogInterests } from '@/components/DogInterests';
 import { InterestPicker } from '@/components/InterestPicker';
 import { PersonTraits } from '@/components/PersonTraits';
@@ -9,6 +9,7 @@ import { DogTraits } from '@/components/DogTraits';
 import { ProfileTabs } from '@/components/ProfileTabs';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
+import { Button } from '@/components/ui/Button';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { dietIcon } from '@/components/DietIcon';
@@ -61,6 +62,8 @@ export function FriendSheet({ buddy, onClose, onRemove, tab: tabProp, onTab, ext
   const { t, locale } = useT();
   const { wide } = useLayout();
   const setRelation = useSetBuddyRelation();
+  const respondRelation = useRespondBuddyRelation();
+  const withdrawRelation = useWithdrawBuddyRelation();
   const [now] = useState(() => Date.now());
   const [ownTab, setOwnTab] = useState<FriendTab>('dogs');
   const tab = tabProp ?? ownTab;
@@ -84,13 +87,25 @@ export function FriendSheet({ buddy, onClose, onRemove, tab: tabProp, onTab, ext
         <Text weight={800} size={18} style={{ textAlign: 'center' }}>{t('friend.since', { date: new Date(buddy.since).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' }) })}</Text>
         <Meta weight={700}>{days > 0 ? t('friend.days', { n: days }) : t('friend.daysToday')}</Meta>
       </View> : <Meta style={{ textAlign: 'center' }}>{t('bd.pending')}</Meta>}
-      {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 10 }}>
-        <Text weight={800} size={15}>{t('friend.relationIs')}</Text>
+      {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 12 }}>
+        {buddy.relation ? <Text weight={800} size={18}>{t('friend.relNow', { rel: t(`rel.${buddy.relation}` as Key) })}</Text> : null}
+        {buddy.relationProposed && !buddy.relationProposedByMe ? <View style={{ alignItems: 'center', gap: 8 }}>
+          <Text weight={700} style={{ textAlign: 'center' }}>{t('friend.relAsks', { name: buddy.name, rel: t(`rel.${buddy.relationProposed}` as Key) })}</Text>
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+            <Button label={t('bd.accept')} small onPress={() => respondRelation.mutate({ other: buddy.userId, accept: true })} />
+            <Button label={t('bd.decline')} small variant="ghost" onPress={() => respondRelation.mutate({ other: buddy.userId, accept: false })} />
+          </View>
+        </View> : null}
+        {buddy.relationProposed && buddy.relationProposedByMe ? <View style={{ alignItems: 'center', gap: 4 }}>
+          <Meta weight={700} style={{ textAlign: 'center' }}>{t('friend.relProposedMe', { rel: t(`rel.${buddy.relationProposed}` as Key) })}</Meta>
+          <Button label={t('friend.relWithdraw')} small variant="text" onPress={() => withdrawRelation.mutate(buddy.userId)} style={{ alignSelf: 'center' }} />
+        </View> : null}
+        <Text weight={800} size={15}>{t('friend.relPick')}</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
-          {RELATIONS.map((r) => <Chip key={r} label={t(`rel.${r}` as Key)} on={buddy.relation === r} onPress={() => setRelation.mutate({ other: buddy.userId, relation: buddy.relation === r ? null : r })} />)}
+          {RELATIONS.map((r) => <Chip key={r} label={t(`rel.${r}` as Key)} on={buddy.relation === r || (buddy.relationProposedByMe && buddy.relationProposed === r)} onPress={() => setRelation.mutate({ other: buddy.userId, relation: buddy.relation === r ? null : r })} />)}
         </View>
       </View> : null}
-      {onRemove ? <View style={{ alignItems: 'center', marginTop: 8 }}><Pressable onPress={() => setConfirm(true)} accessibilityRole="button" hitSlop={8} style={{ paddingVertical: 10, paddingHorizontal: 16 }}><Text weight={800} color="danger">{t('bd.removeFriend')}</Text></Pressable></View> : null}
+      {onRemove ? <View style={{ alignItems: 'center', marginTop: 8 }}><Button label={t('bd.removeFriend')} variant="danger" onPress={() => setConfirm(true)} style={{ alignSelf: 'center' }} /></View> : null}
     </View> : null}
     <ConfirmSheet visible={confirm} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: buddy.name })} confirmLabel={t('bd.removeFriend')} danger onConfirm={() => { setConfirm(false); onRemove?.(buddy); onClose(); }} onClose={() => setConfirm(false)} />
   </View> : null;

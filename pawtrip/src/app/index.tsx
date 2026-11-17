@@ -7,6 +7,7 @@ import { Icon } from '@/components/ui/Icon';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { EmptyState } from '@/components/ui/EmptyState';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
@@ -52,16 +53,13 @@ export default function Trips() {
           <Button label={t('common.retry')} onPress={() => trips.refetch()} style={{ marginTop: 12 }} />
         </Card>
       ) : trips.data.length === 0 ? (
-        <View style={{ alignItems: 'center', paddingTop: 40 }}>
-          <Icon name="empty-trips" size={150} />
-          <Text weight={800} size={20} style={{ marginTop: 20 }}>
-            {t('collection.emptyTrips')}
-          </Text>
-          <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{createButton}</View>
-          <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
+        <View style={{ gap: 12, marginTop: 8 }}>
+          <EmptyState icon="nav-trips" title={t('collection.emptyTrips')} />
+          <View style={{ alignSelf: 'stretch' }}>{createButton}</View>
+          <View style={{ alignSelf: 'stretch' }}>{joinButton}</View>
         </View>
       ) : (
-        <View style={{ gap: 12, marginTop: 4 }}>
+        <View style={{ gap: 12, marginTop: 8 }}>
           {trips.data.map((trip) => (
             <TripCard key={trip.id} trip={trip} />
           ))}

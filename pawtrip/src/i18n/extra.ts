@@ -1,6 +1,11 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
+  'plan.previousDates': '查看更早日期',
+  'plan.nextDates': '查看更多日期',
+  'trip.openInfo': '查看{name}的时间和地点',
+  'trip.date': '时间',
+  'trip.location': '地点',
   'dog.shortName': '名字',
   'friend.tab': '关系',
   'friend.relationship': '好友关系',
@@ -492,6 +497,11 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
+  'plan.previousDates': 'Show earlier dates',
+  'plan.nextDates': 'Show later dates',
+  'trip.openInfo': 'View dates and location for {name}',
+  'trip.date': 'Dates',
+  'trip.location': 'Location',
   'dog.shortName': 'Name',
   'friend.tab': 'Connection',
   'friend.relationship': 'Friendship',

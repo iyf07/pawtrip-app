@@ -39,6 +39,11 @@ export default function Plan() {
   // desktop: the map can be folded away; the right half then shows only the open entry's detail, or nothing (calendar fills the width)
   const [mapOpen, setMapOpen] = useState(() => width >= 1300);
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
+  const dayScroller = useRef<ComponentRef<typeof ScrollView>>(null);
+  const [dayWidth, setDayWidth] = useState(0);
+  const [dayContentWidth, setDayContentWidth] = useState(0);
+  const [dayOffset, setDayOffset] = useState(0);
+  const canScrollDays = dayContentWidth > dayWidth + 1;
 
   const dayList = dayItems(items, day);
   const stays = items.filter((i) => isLive(i) && i.type === 'stay' && i.stayFrom != null && day >= i.stayFrom && day <= (i.stayTo ?? i.stayFrom));
@@ -76,7 +81,11 @@ export default function Plan() {
     <View style={{ flex: 1 }}>
       <View style={{ paddingHorizontal: 16 }}>
         {wide ? null : (
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -16, flexGrow: 0 }} contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 }}>
+        <View style={{ marginHorizontal: -16 }}>
+        <ScrollView ref={dayScroller} horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }}
+          onLayout={(e) => setDayWidth(e.nativeEvent.layout.width)} onContentSizeChange={(w) => setDayContentWidth(w)}
+          onScroll={(e) => setDayOffset(e.nativeEvent.contentOffset.x)} scrollEventThrottle={32}
+          contentContainerStyle={{ gap: 8, paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4 }}>
           {days.map((iso, i) => {
             const on = i === day;
             const dw = weather.data?.[iso];
@@ -88,7 +97,7 @@ export default function Plan() {
                 accessibilityRole="tab"
                 accessibilityState={{ selected: on }}
                 style={{
-                  minWidth: 72,
+                  minWidth: 64,
                   paddingVertical: 6,
                   paddingHorizontal: 12,
                   borderRadius: 18,
@@ -101,7 +110,7 @@ export default function Plan() {
                 <Text size={11} weight={800} color={on ? 'onGold' : 'muted'}>
                   {weekdayShort(iso, locale)}
                 </Text>
-                <Text plain size={20} weight={800} color={on ? 'onGold' : 'text'}>
+                <Text plain size={16} weight={800} color={on ? 'onGold' : 'text'}>
                   {`${d.getMonth() + 1}/${d.getDate()}`}
                 </Text>
                 {dw ? (
@@ -116,6 +125,11 @@ export default function Plan() {
             );
           })}
         </ScrollView>
+        {canScrollDays && dayOffset > 1 ? <Pressable accessibilityRole="button" accessibilityLabel={t('plan.previousDates')} onPress={() => dayScroller.current?.scrollTo({ x: Math.max(0, dayOffset - dayWidth * 0.7), animated: true })}
+          style={{ position: 'absolute', left: 2, top: '35%', width: 28, height: 36, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: th.card, borderWidth: 2, borderColor: th.line }}><Text plain size={22} weight={800}>‹</Text></Pressable> : null}
+        {canScrollDays && dayOffset + dayWidth < dayContentWidth - 1 ? <Pressable accessibilityRole="button" accessibilityLabel={t('plan.nextDates')} onPress={() => dayScroller.current?.scrollTo({ x: dayOffset + dayWidth * 0.7, animated: true })}
+          style={{ position: 'absolute', right: 2, top: '35%', width: 28, height: 36, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: th.card, borderWidth: 2, borderColor: th.line }}><Text plain size={22} weight={800}>›</Text></Pressable> : null}
+        </View>
         )}
 
         {wide ? null : (

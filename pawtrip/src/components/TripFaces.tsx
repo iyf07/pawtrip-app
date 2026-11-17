@@ -7,7 +7,7 @@ import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
-const MAX = 8;
+const MAX = 4;
 
 /** Everyone on the trip as overlapping avatars: people first, then dogs. Extra faces collapse into "+N". */
 export function TripFaces({ trip }: { trip: TripDetail }) {

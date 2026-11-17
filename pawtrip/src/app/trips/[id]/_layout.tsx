@@ -1,5 +1,5 @@
 import { Tabs, useLocalSearchParams } from 'expo-router';
-import type { ComponentProps } from 'react';
+import { useState, type ComponentProps } from 'react';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -8,6 +8,7 @@ import { TripFaces } from '@/components/TripFaces';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { Sheet } from '@/components/ui/Sheet';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
@@ -66,6 +67,7 @@ export default function TripLayout() {
   const { t, locale } = useT();
   const th = useTheme();
   const { wide, medium } = useLayout();
+  const [showInfo, setShowInfo] = useState(false);
   useTripRealtime(id);
   const q = useTrip(id);
 
@@ -106,16 +108,11 @@ export default function TripLayout() {
         top={
           <Header
             left={back}
-            sideWidth={wide ? 64 : 40}
+            sideWidth={wide ? 144 : 68}
             title={trip.name}
-            subtitleNode={
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, maxWidth: '100%', marginTop: 2 }}>
-                <Text weight={700} size={wide ? 17 : 14} color="muted" numberOfLines={1} style={{ flexShrink: 1 }}>
-                  {[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join('  ·  ')}
-                </Text>
-                <TripFaces trip={trip} />
-              </View>
-            }
+            onTitlePress={() => setShowInfo(true)}
+            titleAccessibilityLabel={t('trip.openInfo', { name: trip.name })}
+            right={<TripFaces trip={trip} />}
           />
         }>
         <Tabs tabBar={(props) => <TripTabBar {...props} />} screenOptions={{ headerShown: false, tabBarPosition: wide ? 'top' : 'bottom', sceneStyle: { backgroundColor: th.bg } }}>
@@ -123,6 +120,14 @@ export default function TripLayout() {
           <Tabs.Screen name="ideas" />
           <Tabs.Screen name="group" />
         </Tabs>
+        <Sheet visible={showInfo} onClose={() => setShowInfo(false)}>
+          <Text weight={800} size={22}>{trip.name}</Text>
+          <Text weight={800} size={14} color="muted" style={{ marginTop: 16 }}>{t('trip.date')}</Text>
+          <Text>{datesLabel(trip.start_date, trip.end_date, locale)}</Text>
+          <Text weight={800} size={14} color="muted" style={{ marginTop: 12 }}>{t('trip.location')}</Text>
+          <Text>{cityState(trip.place) || '—'}</Text>
+          <Button label={t('common.close')} variant="text" block onPress={() => setShowInfo(false)} style={{ marginTop: 16 }} />
+        </Sheet>
         <ItemDetailSheet />
         <AddItemSheet />
       </Screen>

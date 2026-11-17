@@ -62,6 +62,8 @@ type HeaderProps = {
   title?: string;
   titleSize?: number;
   sideWidth?: number;
+  onTitlePress?: () => void;
+  titleAccessibilityLabel?: string;
   subtitle?: string;
   /** replaces the subtitle text (e.g. a row of avatars) */
   subtitleNode?: ReactNode;
@@ -70,7 +72,7 @@ type HeaderProps = {
 };
 
 /** 3-column header: left action, centred title, right action. */
-export function Header({ title, titleSize, sideWidth = 64, subtitle, subtitleNode, left, right }: HeaderProps) {
+export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAccessibilityLabel, subtitle, subtitleNode, left, right }: HeaderProps) {
   const t = useTheme();
   const inShell = useInShell(); // no back links beside the rail
   const { wide } = useLayout();
@@ -88,9 +90,9 @@ export function Header({ title, titleSize, sideWidth = 64, subtitle, subtitleNod
       <View style={{ minWidth: sideWidth, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
-          <Text weight={800} size={titleSize ?? (wide ? 32 : 26)} numberOfLines={1}>
-            {title}
-          </Text>
+          onTitlePress ? <Pressable onPress={onTitlePress} accessibilityRole="button" accessibilityLabel={titleAccessibilityLabel ?? title} style={{ maxWidth: '100%' }}>
+            <Text weight={800} size={titleSize ?? (wide ? 32 : 26)} numberOfLines={1}>{title}</Text>
+          </Pressable> : <Text weight={800} size={titleSize ?? (wide ? 32 : 26)} numberOfLines={1}>{title}</Text>
         ) : null}
         {subtitleNode ??
           (subtitle ? (

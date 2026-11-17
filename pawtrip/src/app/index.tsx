@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
+import { AddAction } from '@/components/ui/AddAction';
 import { useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
 import { AvatarStack } from '@/components/ui/Avatar';
@@ -19,7 +20,7 @@ export default function Trips() {
   const { t } = useT();
   const trips = useTrips();
 
-  const header = <Header title={t('trips.title')} />;
+  const header = <Header title={t('trips.title')} right={<AddAction label={t('trips.new')} onPress={() => router.push('/trips/new')} />} />;
 
   const createButton = (
     <Card dashed onPress={() => router.push('/trips/new')} style={{ alignItems: 'center' }}>

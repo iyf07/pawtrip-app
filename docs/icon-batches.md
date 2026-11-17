@@ -741,3 +741,17 @@ After delivery: clean with `scripts/clean-icons-white.py` (master 1024 + UI 512 
 Shown next to the admin in the family member list (`nav-admin`, 28 px); currently the placeholder `ui-crown.png`. One icon, file `nav-admin.png`.
 Prompt (self-contained): Create ONE icon for a dog travel app, a single complete square 1024x1024 picture on a flat pure white (#FFFFFF) background, icon centered filling about 80% with equal margin, nothing cut off. Style: cute glossy sticker, thick uniform rounded dark-cocoa (#4A3628) outline, thick crisp white sticker border, flat warm colors (golden yellow #FFC72C, cream #FFF4D6), one tiny glossy white highlight at the upper left, chubby proportions, no drop shadow, no glow, no text, no thin hairlines, readable at 24 px. Subject: a chubby golden shield-shaped badge with a small cream paw print in the middle and a tiny golden star above the paw, meaning "family admin"; it must look clearly different from a crown, a trophy and the other paw icons. Deliver as one PNG file named "nav-admin.png".
 After delivery: clean with `scripts/clean-icons-white.py` (master 1024 + UI 512 into `assets/icons`), point `'nav-admin'` in `src/components/ui/Icon.tsx` to the new file.
+
+## Batch 21 — friend relationship icons (2026-11-17)
+One icon per relationship label in the friend page 关系 tab (`rel-<key>.png`, shown on each relation chip and in the request notifications, 28 px). Generate each as ONE separate image. Common prompt prefix for every one: "Create ONE icon for a dog travel app, a single complete square 1024x1024 picture on a flat pure white (#FFFFFF) background, icon centered filling about 80% with equal margin, nothing cut off. Style: cute glossy sticker, thick uniform rounded dark-cocoa (#4A3628) outline, thick crisp white sticker border, flat warm colors (golden yellow #FFC72C, cream #FFF4D6, soft blue #BFE3F5, blush #FFC9D4), one tiny glossy white highlight at the upper left, chubby proportions, no drop shadow, no glow, no text, no thin hairlines, readable at 28 px. Subject: " + the line below + ". Deliver as one PNG file named \"<file>\"."
+- `rel-brother.png` (兄弟): two chubby cartoon boys side by side, one arm over the other's shoulder.
+- `rel-sister.png` (姐妹): two chubby cartoon girls side by side with matching hair bows, holding hands.
+- `rel-bestie.png` (闺蜜): two chubby cartoon girls cheek to cheek taking a selfie, tiny heart above.
+- `rel-pal.png` (死党): two chubby cartoon friends bumping fists, tiny sparkle between the fists.
+- `rel-lover.png` (情侣): two chubby cartoon people facing each other with one big heart between them.
+- `rel-spouse.png` (夫妻): two matching golden rings linked together with a tiny heart above.
+- `rel-family.png` (家人): a chubby cartoon house with a heart on the door and two small figures in the window.
+- `rel-classmate.png` (同学): a chubby cartoon backpack with a pencil and a book peeking out.
+- `rel-colleague.png` (同事): a chubby cartoon briefcase with a small id badge hanging on the handle.
+- `rel-neighbor.png` (邻居): two chubby cartoon houses side by side with a tiny fence and a wave between them.
+After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI 512 into `assets/icons`), register `rel-<key>` in `src/components/ui/Icon.tsx`, and show it on the relation Chips in `FriendSheet.tsx` and in `NotificationBell.tsx`.

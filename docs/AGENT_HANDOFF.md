@@ -463,3 +463,5 @@ Release: 146498e deployed to Expo (zakuet5tij); browser checks and tsc/eslint pa
 
 ### 2026-11-17 — Codex profile subheading consistency
 Login method heading now matches interest subgroup typography and spacing. Browser 375px: 户外 and 登录方式 both x16/y367, font14px/line20/muted/800 font; desktop checked. tsc/eslint silent; no backend changes. Claim released; release follows.
+
+Release: 2ff620b deployed to Expo (exad9atcpy); browser and tsc/eslint verified. No Supabase change. Claim released.

@@ -236,7 +236,7 @@ export function FamilyPanel() {
       <ConfirmSheet
         visible={askRemove !== null}
         title={t('family.removeTitle', { name: askRemove?.name ?? '' })}
-        body={t('family.removeBody')}
+        body={t('family.removeBody', { name: askRemove?.name ?? '' })}
         confirmLabel={t('family.remove')}
         danger
         busy={remove.isPending}

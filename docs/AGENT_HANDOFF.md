@@ -582,3 +582,6 @@ Family page: members and dogs are one card/section. The 改名 button is gone; a
 
 ### later 18 (Claude)
 Handoff only: added TODO + Batch 21 prompts for 10 friend-relationship icons (user request). No code change.
+
+### later 19 (Claude)
+Convention: confirmation popups (ConfirmSheet) have a short verb-object title with **no question mark** (移除好友, 移除狗狗, 移出家庭, 解散家庭, 退出家庭, 归档/删除/退出/移动行程) and a muted, centered subtitle sentence below (e.g. 确定要移除 Morgan 吗). Title and subtitle are centered in ConfirmSheet. New confirmations follow this.

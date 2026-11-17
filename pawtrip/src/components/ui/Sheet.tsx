@@ -131,10 +131,10 @@ type ConfirmProps = {
 export function ConfirmSheet({ visible, title, body, confirmLabel, danger, busy, onConfirm, onClose }: ConfirmProps) {
   return (
     <Sheet visible={visible} onClose={onClose}>
-      <Text weight={800} size={20}>
+      <Text weight={800} size={20} style={{ textAlign: 'center' }}>
         {title}
       </Text>
-      {body ? <Text style={{ marginTop: 8 }}>{body}</Text> : null}
+      {body ? <Text color="muted" style={{ marginTop: 8, textAlign: 'center' }}>{body}</Text> : null}
       <View style={{ marginTop: 16, gap: 8 }}>
         <Button label={confirmLabel} variant={danger ? 'danger' : 'gold'} block loading={busy} onPress={onConfirm} />
       </View>

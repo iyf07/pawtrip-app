@@ -575,3 +575,6 @@ Friends and family share ONE navigation button but are two pages with two URLs a
 
 ### later 16 (Claude)
 Removed every remaining cancel/close/✕ from popups: ConfirmSheet, AddDogsSheet, AddBuddiesSheet, InviteSheet, trip info, friend dog detail, DogEditSheet. Supersedes the earlier "destructive ConfirmSheets keep 取消" convention. Checked locally that switching 好友→家庭 changes the URL to /family. tsc/eslint silent.
+
+### later 17 (Claude)
+Family page: members and dogs are one card/section. The 改名 button is gone; admin gets a pencil (same ui-pencil/ui-save/ui-discard pattern as profile) that turns on edit mode: inline name field, red 移出家庭 per member, red 解散家庭 at the bottom. Non-admins keep a red 退出家庭 button. Friends' dog weights (FriendSheet, FriendDetails) now use the viewer's own weight_unit setting via `weightIn()` in `lib/dog-weight.ts`, not the owner's stored unit (own dogs still use their own unit). Checked in browser at desktop width: merged card and edit mode; remove-member button not seen (only one member locally). tsc/eslint silent.

@@ -5,6 +5,8 @@ import type { Buddy, FriendDog } from '@/api/buddies';
 import { DogInterests } from '@/components/DogInterests';
 import { InterestIcon } from '@/components/InterestIcon';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
+import { useSettings } from '@/api/profile';
+import { weightIn } from '@/lib/dog-weight';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
@@ -16,6 +18,7 @@ import { useT, type Key } from '@/i18n';
 export function FriendDetails({ buddy }: { buddy: Pick<Buddy, 'interests' | 'dogs' | 'status'> }) {
   const { t } = useT();
   const th = useTheme();
+  const unit = useSettings().data?.weight_unit === 'kg' ? 'kg' : 'lb';
   const [selectedDog, setSelectedDog] = useState<FriendDog | null>(null);
   const scales = dogScales(selectedDog ?? {});
   return (
@@ -40,7 +43,7 @@ export function FriendDetails({ buddy }: { buddy: Pick<Buddy, 'interests' | 'dog
               <DogAvatar url={dog.photo_url} size={36} />
               <View style={{ flex: 1, minWidth: 0 }}>
                 <Text size={14} weight={800}>{dog.name}</Text>
-                {dog.weight_lb != null ? <Text size={12} color="muted">{Math.round((dog.weight_unit === 'kg' ? dog.weight_lb / 2.20462 : dog.weight_lb) * 10) / 10} {dog.weight_unit}</Text> : null}
+                {dog.weight_lb != null ? <Text size={12} color="muted">{weightIn(dog.weight_lb, unit)}</Text> : null}
               </View>
               <Text plain color="muted" size={20}>›</Text>
             </Pressable>

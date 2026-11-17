@@ -15,6 +15,8 @@ import { Meta, Text } from '@/components/ui/Text';
 import { dietIcon } from '@/components/DietIcon';
 import { Chip } from '@/components/ui/Chip';
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { useSettings } from '@/api/profile';
+import { weightIn } from '@/lib/dog-weight';
 import { useLayout } from '@/hooks/use-layout';
 import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
 import { useTheme } from '@/hooks/use-theme';
@@ -29,10 +31,11 @@ function DogProfile({ dog }: { dog: FriendDog }) {
   const { t } = useT();
   const { wide } = useLayout();
   const scales = dogScales(dog);
+  const unit = useSettings().data?.weight_unit === 'kg' ? 'kg' : 'lb';
   const [width, setWidth] = useState(0);
   const cols = Math.max(1, Math.min(4, Math.floor((width + 10) / 170)));
   const cardWidth = width ? (width - (cols - 1) * 10) / cols : undefined;
-  const weight = dog.weight_lb == null ? null : `${Math.round((dog.weight_unit === 'kg' ? dog.weight_lb / 2.20462 : dog.weight_lb) * 10) / 10} ${dog.weight_unit}`;
+  const weight = weightIn(dog.weight_lb, unit);
   return <View style={{ gap: 16, marginTop: 12 }}>
     <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}><DogAvatar url={dog.photo_url} size={60} /><View style={{ flex: 1 }}><Text weight={800} size={20}>{dog.name}</Text>{weight ? <Meta>{weight}</Meta> : null}<DogTraits dog={dog} /></View></View>
     <View style={{ flexDirection: wide ? 'row' : 'column', gap: 24 }}>

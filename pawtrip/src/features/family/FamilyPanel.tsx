@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import { router } from 'expo-router';
 import { useBuddies } from '@/api/buddies';
@@ -52,8 +52,10 @@ export function FamilyPanel() {
   const [joining, setJoining] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [inviting, setInviting] = useState(false);
-  const [renaming, setRenaming] = useState<string | null>(null);
+  // pencil edit mode (admin): rename, remove members, disband
+  const [editName, setEditName] = useState<string | null>(null);
   const [askLeave, setAskLeave] = useState(false);
+  const actionStyle = { width: 40, height: 40, borderRadius: 20, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center' as const, justifyContent: 'center' as const };
   const [askRemove, setAskRemove] = useState<{ id: string; name: string } | null>(null);
 
   async function run(fn: () => Promise<unknown>, done?: string) {
@@ -123,14 +125,28 @@ export function FamilyPanel() {
   }
 
   const memberIds = new Set(state.members.map((m) => m.userId));
+  const editing = editName !== null && state.isAdmin;
   const invitable = (buddies.data ?? []).filter((b) => b.status === 'accepted' && !memberIds.has(b.userId));
 
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
       <Card>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-          <Text weight={800} size={20} style={{ flex: 1 }} numberOfLines={1}>{state.family.name}</Text>
-          {state.isAdmin ? <Button label={t('family.rename')} small variant="ghost" onPress={() => { setRenaming(state.family!.name); }} /> : null}
+          {editing ? <View style={{ flex: 1, minWidth: 0 }}><Field value={editName ?? ''} onChangeText={setEditName} placeholder={t('family.namePh')} maxLength={40} containerStyle={{ marginTop: 0 }} /></View> : <Text weight={800} size={20} style={{ flex: 1 }} numberOfLines={1}>{state.family.name}</Text>}
+          {state.isAdmin ? (editing ? (
+            <View style={{ flexDirection: 'row', gap: 8 }}>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('nav.save')} disabled={rename.isPending || !editName?.trim()} onPress={() => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); setEditName(null); })} style={actionStyle}>
+                {rename.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={28} />}
+              </Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.discardSection', { section: state.family.name })} onPress={() => setEditName(null)} style={actionStyle}>
+                <Icon name="ui-discard" size={28} />
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={actionStyle}>
+              <Icon name="ui-pencil" size={24} />
+            </Pressable>
+          )) : null}
         </View>
         <Meta weight={700} style={{ marginTop: 4 }}>{t('family.members')}</Meta>
         <View style={{ marginTop: 6 }}>
@@ -142,15 +158,13 @@ export function FamilyPanel() {
                 <Meta size={12} numberOfLines={1}>@{m.handle}</Meta>
               </View>
               {m.status === 'pending' ? <Meta weight={700}>{t('family.pending')}</Meta> : m.role === 'admin' ? <View accessible accessibilityLabel={t('family.adminBadge')}><Icon name="nav-admin" size={28} /></View> : null}
-              {state.isAdmin && m.userId !== userId ? (
-                <Button label={t('family.remove')} small variant="text" onPress={() => setAskRemove({ id: m.userId, name: m.name })} />
+              {editing && m.userId !== userId ? (
+                <Button label={t('family.remove')} small variant="danger" onPress={() => setAskRemove({ id: m.userId, name: m.name })} />
               ) : null}
             </View>
           ))}
         </View>
-      </Card>
-      <Card>
-        <Meta weight={700}>{t('family.dogs')}</Meta>
+        <Meta weight={700} style={{ marginTop: 14 }}>{t('family.dogs')}</Meta>
         {(dogs.data ?? []).length === 0 ? <Text color="muted" weight={700} style={{ marginTop: 8 }}>{t('family.noDogs')}</Text> : (
           <View style={{ marginTop: 6 }}>
             {(dogs.data ?? []).map((d, i) => (
@@ -165,6 +179,7 @@ export function FamilyPanel() {
             ))}
           </View>
         )}
+        {editing ? <View style={{ alignItems: 'center', marginTop: 14 }}><Button label={t('family.disband')} variant="danger" onPress={() => setAskLeave(true)} /></View> : null}
       </Card>
       {state.isAdmin ? (
         <Card dashed onPress={() => setInviting(true)} style={{ alignItems: 'center' }}>
@@ -177,7 +192,7 @@ export function FamilyPanel() {
         </Card>
       ) : null}
       <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
-      <Button label={t(state.isAdmin ? 'family.disband' : 'family.leave')} variant="text" block onPress={() => setAskLeave(true)} />
+      {state.isAdmin ? null : <Button label={t('family.leave')} variant="danger" onPress={() => setAskLeave(true)} style={{ alignSelf: 'center' }} />}
 
       <Sheet visible={inviting} onClose={() => { setInviting(false); setPicked([]); }}>
         <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.inviteTitle')}</Text>
@@ -206,19 +221,6 @@ export function FamilyPanel() {
             />
           </>
         )}
-      </Sheet>
-
-      <Sheet visible={renaming !== null} onClose={() => setRenaming(null)}>
-        <Text weight={800} size={20}>{t('family.rename')}</Text>
-        <Field value={renaming ?? ''} onChangeText={setRenaming} placeholder={t('family.namePh')} maxLength={40} autoFocus />
-        <Button
-          label={t('nav.save')}
-          block
-          disabled={!renaming?.trim()}
-          loading={rename.isPending}
-          onPress={() => run(async () => { await rename.mutateAsync((renaming ?? '').trim()); setRenaming(null); })}
-          style={{ marginTop: 12 }}
-        />
       </Sheet>
 
       <ConfirmSheet

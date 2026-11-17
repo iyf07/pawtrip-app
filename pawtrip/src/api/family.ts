@@ -93,3 +93,29 @@ export const useLeaveFamily = () =>
     const { error } = await supabase.rpc('leave_family');
     if (error) throw error;
   });
+
+export type FamilyPreview = { name: string; members: number; expired: boolean; already_in_family: boolean };
+
+/** Look a family up by its invite code before joining; null when no family has that code. */
+export async function peekFamily(code: string): Promise<FamilyPreview | null> {
+  const { data, error } = await supabase.rpc('peek_family', { p_code: code });
+  if (error) throw error;
+  return (data as unknown as FamilyPreview | null) ?? null;
+}
+
+export const useJoinFamily = () =>
+  useFamilyMutation(async (code: string) => {
+    const { error } = await supabase.rpc('join_family', { p_code: code });
+    if (error) throw error;
+  });
+
+/** Admin: a brand-new code (valid one hour); every call replaces the previous one. */
+export function useRotateFamilyCode() {
+  return useMutation({
+    mutationFn: async (): Promise<{ code: string; expires: string }> => {
+      const { data, error } = await supabase.rpc('rotate_family_code');
+      if (error) throw error;
+      return data as unknown as { code: string; expires: string };
+    },
+  });
+}

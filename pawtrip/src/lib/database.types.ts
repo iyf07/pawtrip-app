@@ -97,14 +97,14 @@ isOneToOne: false
                   ]
                 },"families": {
                   Row: {
-                    "created_at": string,"created_by": string,"id": string,"name": string
+                    "created_at": string,"created_by": string,"id": string,"invite_code": string | null,"invite_expires": string | null,"name": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "created_at"?: string,"created_by": string,"id"?: string,"name": string
+                    "created_at"?: string,"created_by": string,"id"?: string,"invite_code"?: string | null,"invite_expires"?: string | null,"name": string
                   }
                   Update: {
-                    "created_at"?: string,"created_by"?: string,"id"?: string,"name"?: string
+                    "created_at"?: string,"created_by"?: string,"id"?: string,"invite_code"?: string | null,"invite_expires"?: string | null,"name"?: string
                   }
                   Relationships: [
                     {
@@ -379,6 +379,9 @@ isOneToOne: false
 "is_trip_member":
 { Args: { "tid": string }; Returns: boolean
                            },
+"join_family":
+{ Args: { "p_code": string }; Returns: string
+                           },
 "join_trip":
 { Args: { "p_code": string }; Returns: string
                            },
@@ -397,6 +400,9 @@ isOneToOne: false
 "new_invite_code":
 { Args: Record<PropertyKey, never>; Returns: string
                            },
+"peek_family":
+{ Args: { "p_code": string }; Returns: Json
+                           },
 "peek_trip":
 { Args: { "p_code": string }; Returns: Json
                            },
@@ -414,6 +420,9 @@ isOneToOne: false
                            },
 "respond_family_invite":
 { Args: { "p_accept": boolean,"p_family": string }; Returns: undefined
+                           },
+"rotate_family_code":
+{ Args: Record<PropertyKey, never>; Returns: Json
                            },
 "rotate_invite_code":
 { Args: { "p_trip": string }; Returns: string

@@ -11,6 +11,7 @@ import {
   useRemoveFamilyMember,
   useRenameFamily,
 } from '@/api/family';
+import { FamilyCodeSheet, JoinFamilySheet } from './FamilyCodeSheets';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -41,6 +42,8 @@ export function FamilyPanel() {
   const respond = useRespondFamilyInvite();
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
+  const [joining, setJoining] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
   const [inviting, setInviting] = useState(false);
   const [renaming, setRenaming] = useState<string | null>(null);
   const [askLeave, setAskLeave] = useState(false);
@@ -76,6 +79,10 @@ export function FamilyPanel() {
         <Card dashed onPress={() => setCreating(true)} style={{ alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-family" size={28} /><Text weight={800} color="link">{t('family.createTitle')}</Text></View>
         </Card>
+        <Card dashed onPress={() => setJoining(true)} style={{ alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="ui-key" size={28} /><Text weight={800} color="muted">{t('family.joinCode')}</Text></View>
+        </Card>
+        <JoinFamilySheet visible={joining} onClose={() => setJoining(false)} />
         <Sheet visible={creating} onClose={() => setCreating(false)}>
           <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.createTitle')}</Text>
           <Field value={name} onChangeText={setName} placeholder={t('family.namePh')} maxLength={40} autoFocus />
@@ -124,6 +131,12 @@ export function FamilyPanel() {
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="tab-members" size={28} /><Text weight={800} color="link">{t('family.invite')}</Text></View>
         </Card>
       ) : null}
+      {state.isAdmin ? (
+        <Card dashed onPress={() => setCodeOpen(true)} style={{ alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="ui-key" size={28} /><Text weight={800} color="muted">{t('family.inviteCode')}</Text></View>
+        </Card>
+      ) : null}
+      <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
       <Button label={t('family.leave')} variant="text" block onPress={() => setAskLeave(true)} />
 
       <Sheet visible={inviting} onClose={() => setInviting(false)}>

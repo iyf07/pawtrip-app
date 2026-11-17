@@ -10,15 +10,23 @@ type DogSaveInput = (DogFields & { id?: undefined }) | (Partial<DogFields> & { i
 
 export { DOG_SCALES, type DogScale } from '@/constants/options';
 
+/** My dogs, then the dogs of my family (accepted members share theirs). */
 export function useMyDogs() {
   const { userId } = useAuth();
   return useQuery({
     queryKey: ['dogs', userId],
     enabled: !!userId,
     queryFn: async (): Promise<Dog[]> => {
-      const { data, error } = await supabase.from('dogs').select('*').eq('owner_id', userId!).order('created_at');
+      const { data: mine, error: e0 } = await supabase.from('family_members').select('family_id').eq('user_id', userId!).eq('status', 'accepted').maybeSingle();
+      if (e0) throw e0;
+      const { data: mates, error: e1 } = mine
+        ? await supabase.from('family_members').select('user_id').eq('family_id', mine.family_id).eq('status', 'accepted').neq('user_id', userId!)
+        : { data: [], error: null };
+      if (e1) throw e1;
+      const owners = [userId!, ...(mates ?? []).map((m) => m.user_id)];
+      const { data, error } = await supabase.from('dogs').select('*').in('owner_id', owners).order('created_at');
       if (error) throw error;
-      return data;
+      return [...data.filter((d) => d.owner_id === userId), ...data.filter((d) => d.owner_id !== userId)];
     },
   });
 }

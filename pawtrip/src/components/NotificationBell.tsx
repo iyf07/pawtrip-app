@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRespondBuddy, type Buddy } from '@/api/buddies';
+import { useFamily, useRespondFamilyInvite } from '@/api/family';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
@@ -18,13 +19,26 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
   const toast = useToast();
   const buddies = useBuddies();
   const respond = useRespondBuddy();
+  const family = useFamily();
+  const respondFamily = useRespondFamilyInvite();
   const [open, setOpen] = useState(false);
   const requests = (buddies.data ?? []).filter((b) => b.status === 'pending' && b.incoming);
+  const invites = family.data?.invites ?? [];
+  const count = requests.length + invites.length;
 
   async function answer(b: Buddy, accept: boolean) {
     try {
       await respond.mutateAsync({ from: b.userId, accept });
       toast(accept ? t('bd.joined', { name: b.name }) : t('bd.declined'));
+    } catch {
+      toast(t('common.saveFailed'));
+    }
+  }
+
+  async function answerFamily(familyId: string, name: string, accept: boolean) {
+    try {
+      await respondFamily.mutateAsync({ familyId, accept });
+      toast(accept ? t('family.joined', { name }) : t('bd.declined'));
     } catch {
       toast(t('common.saveFailed'));
     }
@@ -39,19 +53,29 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
         hitSlop={4}
         style={{ width: box, height: box, borderRadius: radius, alignItems: 'center', justifyContent: 'center' }}>
         <Icon name="nav-notifications" size={size} />
-        {requests.length > 0 ? (
+        {count > 0 ? (
           <View style={{ position: 'absolute', top: 0, right: 0, minWidth: 18, height: 18, borderRadius: 9, paddingHorizontal: 4, backgroundColor: th.danger, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: th.card }}>
-            <Text plain weight={800} size={11} style={{ color: '#FFFFFF' }}>{requests.length}</Text>
+            <Text plain weight={800} size={11} style={{ color: '#FFFFFF' }}>{count}</Text>
           </View>
         ) : null}
       </Pressable>
       <Sheet visible={open} onClose={() => setOpen(false)}>
         <Text weight={800} size={22}>{t('notif.title')}</Text>
         <View style={{ gap: 14, marginTop: 16 }}>
-          {requests.length === 0 ? (
+          {count === 0 ? (
             <Text color="muted" weight={700}>{t('notif.empty')}</Text>
           ) : (
-            requests.map((b) => (
+            <>
+            {invites.map((i) => (
+              <View key={i.familyId} style={{ gap: 10 }}>
+                <Text weight={800} size={16}>{t('family.invitesYou', { who: i.inviterName, name: i.familyName })}</Text>
+                <View style={{ flexDirection: 'row', gap: 8 }}>
+                  <Button label={t('family.accept')} small loading={respondFamily.isPending} onPress={() => answerFamily(i.familyId, i.familyName, true)} />
+                  <Button label={t('bd.decline')} small variant="ghost" onPress={() => answerFamily(i.familyId, i.familyName, false)} />
+                </View>
+              </View>
+            ))}
+            {requests.map((b) => (
               <View key={b.userId} style={{ gap: 10 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
                   <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
@@ -65,7 +89,8 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
                   <Button label={t('bd.decline')} small variant="ghost" onPress={() => answer(b, false)} />
                 </View>
               </View>
-            ))
+            ))}
+            </>
           )}
         </View>
       </Sheet>

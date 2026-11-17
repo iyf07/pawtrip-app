@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
 
+import { useAuth } from '@/auth/AuthProvider';
 import { DOG_SCALES, useDeleteDog, useSaveDog, type DogScale } from '@/api/dogs';
 import type { Dog } from '@/api/types';
 import { DogInterests } from '@/components/DogInterests';
@@ -35,6 +36,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
   const th = useTheme();
   const { wide } = useLayout();
   const del = useDeleteDog();
+  const { userId } = useAuth();
 
   const [photo, setPhoto] = useState<string | null>(dog.photo_url ?? null);
   const [name, setName] = useState(dog.name ?? '');
@@ -134,7 +136,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
               <View style={{ flex: 1, marginTop: -14 }}><Field value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
               <Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} />
             </View>
-            <Button label={t('dog.remove')} variant="danger" onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} />
+            {!dog.owner_id || dog.owner_id === userId ? <Button label={t('dog.remove')} variant="danger" onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} /> : null}
           </>
         ) : <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>{weight ? `${weight} ${unit}` : '—'}</Text>}
         <DogTraits dog={editing === 'preferences' ? scales : init.scales} />

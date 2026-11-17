@@ -95,6 +95,58 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"families": {
+                  Row: {
+                    "created_at": string,"created_by": string,"id": string,"name": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"created_by": string,"id"?: string,"name": string
+                  }
+                  Update: {
+                    "created_at"?: string,"created_by"?: string,"id"?: string,"name"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "families_created_by_fkey"
+      columns: ["created_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"family_members": {
+                  Row: {
+                    "created_at": string,"family_id": string,"invited_by": string | null,"role": string,"status": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"family_id": string,"invited_by"?: string | null,"role"?: string,"status"?: string,"user_id": string
+                  }
+                  Update: {
+                    "created_at"?: string,"family_id"?: string,"invited_by"?: string | null,"role"?: string,"status"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "family_members_family_id_fkey"
+      columns: ["family_id"]
+isOneToOne: false
+      referencedRelation: "families"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "family_members_invited_by_fkey"
+      columns: ["invited_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "family_members_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"feedback": {
                   Row: {
                     "app_version": string | null,"created_at": string,"fixed_in": string | null,"handled_at": string | null,"id": string,"kind": string,"lang": string | null,"message": string,"platform": string | null,"resolution": string | null,"route": string | null,"screenshot_path": string | null,"status": string,"updated_at": string,"user_id": string
@@ -290,6 +342,9 @@ isOneToOne: false
             "add_buddies_to_trip":
 { Args: { "p_buddies": (string)[],"p_dogs"?: boolean,"p_trip": string }; Returns: number
                            },
+"create_family":
+{ Args: { "p_name": string }; Returns: string
+                           },
 "find_buddy":
 { Args: { "p_handle": string }; Returns: {
               "avatar_url": string,"display_name": string,"handle": string,"id": string,"relation": string
@@ -303,11 +358,20 @@ isOneToOne: false
 "handle_available":
 { Args: { "p_handle": string }; Returns: boolean
                            },
+"invite_to_family":
+{ Args: { "p_user": string }; Returns: undefined
+                           },
 "is_accepted_buddy":
 { Args: { "uid": string }; Returns: boolean
                            },
 "is_buddy_of":
 { Args: { "uid": string }; Returns: boolean
+                           },
+"is_family_mate":
+{ Args: { "uid": string }; Returns: boolean
+                           },
+"is_family_visible":
+{ Args: { "fid": string }; Returns: boolean
                            },
 "is_trip_leader":
 { Args: { "tid": string }; Returns: boolean
@@ -318,11 +382,17 @@ isOneToOne: false
 "join_trip":
 { Args: { "p_code": string }; Returns: string
                            },
+"leave_family":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
 "make_handle":
 { Args: { "base": string }; Returns: string
                            },
 "move_trip":
 { Args: { "p_end": string,"p_start": string,"p_trip": string }; Returns: number
+                           },
+"my_family_id":
+{ Args: Record<PropertyKey, never>; Returns: string
                            },
 "new_invite_code":
 { Args: Record<PropertyKey, never>; Returns: string
@@ -330,11 +400,20 @@ isOneToOne: false
 "peek_trip":
 { Args: { "p_code": string }; Returns: Json
                            },
+"remove_family_member":
+{ Args: { "p_user": string }; Returns: undefined
+                           },
+"rename_family":
+{ Args: { "p_name": string }; Returns: undefined
+                           },
 "request_buddy":
 { Args: { "p_handle": string }; Returns: undefined
                            },
 "respond_buddy":
 { Args: { "p_accept": boolean,"p_from": string }; Returns: undefined
+                           },
+"respond_family_invite":
+{ Args: { "p_accept": boolean,"p_family": string }; Returns: undefined
                            },
 "rotate_invite_code":
 { Args: { "p_trip": string }; Returns: string

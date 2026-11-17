@@ -6,6 +6,8 @@ import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
 import { PersonTraits } from '@/components/PersonTraits';
+import { FamilyPanel } from '@/features/family/FamilyPanel';
+import { Segmented } from '@/components/ui/Chip';
 import { FriendSheet } from './FriendSheet';
 import { AddFriendSheet } from './AddFriendSheet';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
@@ -25,6 +27,7 @@ export function BuddiesScreen() {
   const toast = useToast();
   const buddies = useBuddies();
   const [adding, setAdding] = useState(false);
+  const [tab, setTab] = useState<'friends' | 'family'>('friends');
   const th = useTheme();
   const { wide, width } = useLayout();
   const { friend, add } = useLocalSearchParams<{ friend?: string; add?: string }>();
@@ -63,7 +66,12 @@ export function BuddiesScreen() {
 
   return (
     <Screen nav top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
-      {buddies.isPending ? (
+      <View style={{ marginTop: 4 }}>
+        <Segmented value={tab} onChange={setTab} options={[{ value: 'friends', label: t('family.friends') }, { value: 'family', label: t('family.tab') }]} />
+      </View>
+      {tab === 'family' ? (
+        <FamilyPanel />
+      ) : buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (
         <View style={{ gap: 12, marginTop: 20 }}>

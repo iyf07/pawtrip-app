@@ -4,6 +4,8 @@ import { View } from 'react-native';
 import { DogTraits } from '@/components/DogTraits';
 import { dogWeightLabel } from '@/lib/dog-weight';
 import { useMyDogs } from '@/api/dogs';
+import { useFamily } from '@/api/family';
+import { useAuth } from '@/auth/AuthProvider';
 import { AddAction } from '@/components/ui/AddAction';
 import { DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
@@ -17,6 +19,9 @@ import { useT } from '@/i18n';
 export default function Dogs() {
   const { t } = useT();
   const dogs = useMyDogs();
+  const fam = useFamily();
+  const { userId } = useAuth();
+  const ownerName = (id: string) => (id === userId ? null : fam.data?.members.find((m) => m.userId === id)?.name ?? null);
 
   return (
     <Screen nav top={<Header title={t('profile.myDogs')} right={<AddAction icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
@@ -35,6 +40,7 @@ export default function Dogs() {
               <DogAvatar url={d.photo_url} />
               <View style={{ flex: 1, minWidth: 0 }}>
                 <Text weight={800} numberOfLines={1}>{d.name}</Text>
+                {ownerName(d.owner_id) ? <Meta numberOfLines={1}>{t('family.owner', { name: ownerName(d.owner_id)! })}</Meta> : null}
                 {dogWeightLabel(d) ? <Meta>{dogWeightLabel(d)}</Meta> : null}
                 <DogTraits dog={d} lines={2} />
               </View>

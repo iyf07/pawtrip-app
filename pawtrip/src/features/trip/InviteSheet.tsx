@@ -94,7 +94,6 @@ export function InviteSheet({ visible, onClose, trip, isLeader }: { visible: boo
           </View>
         </>
       )}
-      <Button label={t('common.cancel')} variant="text" block onPress={onClose} style={{ marginTop: 10 }} />
     </Sheet>
   );
 }

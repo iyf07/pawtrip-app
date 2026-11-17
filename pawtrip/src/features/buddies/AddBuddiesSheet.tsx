@@ -57,7 +57,6 @@ export function AddBuddiesSheet({ visible, onClose, trip }: { visible: boolean; 
       </View>
       <View style={{ marginTop: 16, gap: 8 }}>
         <Button label={t('bd.addBtn')} block disabled={picked.length === 0} loading={add.isPending} onPress={save} />
-        <Button label={t('common.cancel')} variant="text" block onPress={onClose} />
       </View>
     </Sheet>
   );

@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MAX_WIDTH } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
-import { useT } from '@/i18n';
 import { useTheme } from '@/hooks/use-theme';
 
 import { Button } from './Button';
@@ -130,7 +129,6 @@ type ConfirmProps = {
 };
 
 export function ConfirmSheet({ visible, title, body, confirmLabel, danger, busy, onConfirm, onClose }: ConfirmProps) {
-  const { t } = useT();
   return (
     <Sheet visible={visible} onClose={onClose}>
       <Text weight={800} size={20}>
@@ -139,7 +137,6 @@ export function ConfirmSheet({ visible, title, body, confirmLabel, danger, busy,
       {body ? <Text style={{ marginTop: 8 }}>{body}</Text> : null}
       <View style={{ marginTop: 16, gap: 8 }}>
         <Button label={confirmLabel} variant={danger ? 'danger' : 'gold'} block loading={busy} onPress={onConfirm} />
-        <Button label={t('common.cancel')} variant="text" block onPress={onClose} />
       </View>
     </Sheet>
   );

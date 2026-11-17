@@ -107,7 +107,6 @@ export default function TripLayout() {
           <Text>{datesLabel(trip.start_date, trip.end_date, locale)}</Text>
           <Text weight={800} size={14} color="muted" style={{ marginTop: 12 }}>{t('trip.location')}</Text>
           <Text>{cityState(trip.place) || '—'}</Text>
-          <Button label={t('common.close')} variant="text" block onPress={() => setShowInfo(false)} style={{ marginTop: 16 }} />
         </Sheet>
         <ItemDetailSheet />
         <AddItemSheet />

@@ -112,6 +112,8 @@ Collections are plural, one item adds `[id]`: `/` (trip list), `/trips/new`, `/t
 
 ## 5. Decisions (append; never silently rewrite — mark old ones "superseded by …")
 
+- **Popup rule (user, firm): NO cancel / close / ✕ button in any bottom popup (Sheet), including ConfirmSheet.** Tapping the scrim (or swiping down) already closes it. Do not add one to new sheets; if you see one, remove it. The user is annoyed when popups default to a cancel button.
+
 Product/architecture
 - 2026-11 Separate apps per product, shared account, dog profile and one Supabase project (schema per product) + one backend repo; per-product subdomains under one root domain (domain **not bought yet**; candidates pawden.app / pawfam.app / pawpad.dog). iOS and backend need no domain. See `docs/pm/09-risks-decisions.md`.
 - 2026-11 Web first, then iOS/Android. Auth = email OTP now (Google/Apple later). LLM features switched off for now.
@@ -570,3 +572,6 @@ AddFriendSheet ("添加好友" popup) no longer has a 取消 button (user reques
 
 ### 2026-11-17 (later 15) — first agent: /friends and /family are two routes
 Friends and family share ONE navigation button but are two pages with two URLs and two route files: `src/app/friends.tsx` (list, add friend, friend detail via `?friend=`) and `src/app/family.tsx` (`features/family/FamilyScreen.tsx`). They switch with `usePeopleTabs()` (`components/PeopleTabs.tsx`): bottom tab bar on phones, segmented control on wide screens; `router.replace`. NavBar/rail treat `/family` like `/friends` for the active highlight. `family` is declared in the signed-in `Stack.Protected` group (see the 2026-11-17 route-guard rule). Also: inviting a friend who already has a family now says so ("{name} 已经在一个家庭里了，需要先退出才能被邀请"; other server errors are mapped too).
+
+### later 16 (Claude)
+Removed every remaining cancel/close/✕ from popups: ConfirmSheet, AddDogsSheet, AddBuddiesSheet, InviteSheet, trip info, friend dog detail, DogEditSheet. Supersedes the earlier "destructive ConfirmSheets keep 取消" convention. Checked locally that switching 好友→家庭 changes the URL to /family. tsc/eslint silent.

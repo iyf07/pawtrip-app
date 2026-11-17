@@ -62,13 +62,11 @@ export function AddDogsSheet({ visible, onClose, trip }: { visible: boolean; onC
           <View style={{ marginTop: 16, gap: 8 }}>
             <Button label={t('dogs.addBtn')} block disabled={picked.length === 0} loading={add.isPending} onPress={save} />
             <Button label={t('dogs.newProfile')} variant="ghost" block onPress={create} />
-            <Button label={t('common.cancel')} variant="text" block onPress={onClose} />
           </View>
         </>
       ) : (
         <View style={{ marginTop: 16, gap: 8 }}>
           <Button label={t('dogs.newProfile')} block onPress={create} />
-          <Button label={t('common.cancel')} variant="text" block onPress={onClose} />
         </View>
       )}
     </Sheet>

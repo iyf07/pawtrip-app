@@ -6,7 +6,6 @@ import { DogInterests } from '@/components/DogInterests';
 import { InterestIcon } from '@/components/InterestIcon';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { DogAvatar } from '@/components/ui/Avatar';
-import { Button } from '@/components/ui/Button';
 import { Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { DOG_SCALES, dogScales } from '@/constants/options';
@@ -59,7 +58,6 @@ export function FriendDetails({ buddy }: { buddy: Pick<Buddy, 'interests' | 'dog
             <DogInterests values={selectedDog.interests} />
             <Text weight={800} size={20}>{t('dog.preferences', { name: selectedDog.name })}</Text>
             {DOG_SCALES.map((field) => <ScaleInput key={field} field={field} value={scales[field]} description={t(`scale.${scaleStem(field)}.${scales[field]}.description` as Key)} readOnly onChange={() => {}} />)}
-            <Button label={t('common.close')} variant="text" block onPress={() => setSelectedDog(null)} style={{ marginTop: 16 }} />
           </>
         ) : null}
       </Sheet>

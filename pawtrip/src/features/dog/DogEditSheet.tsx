@@ -22,9 +22,6 @@ export function DogEditSheet({ dogId, onClose }: { dogId: string | null; onClose
             <Text weight={800} size={22}>
               {t('dog.home', { name: dog.data?.name ?? '' })}
             </Text>
-            <Text plain weight={800} size={22} color="muted" onPress={onClose} accessibilityRole="button" accessibilityLabel={t('common.cancel')} style={{ paddingHorizontal: 8 }}>
-              ✕
-            </Text>
           </View>
           {body}
         </Sheet>

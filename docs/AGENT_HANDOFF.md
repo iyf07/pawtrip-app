@@ -544,3 +544,6 @@ Like trips ("新建行程 / 用邀请码加入"), the family tab now has "创建
 
 ### 2026-11-17 (later 10) — first agent: signed-out visitors could not reach the sign-in page (P0 fix)
 User opened the site in an incognito window and could not sign in: a signed-out visit to `/` ended on a blank `/friends` (console loop "Maximum update depth exceeded"). Cause: expo-router sends a visitor who hits a guarded route to the first route that is NOT guarded; the legacy redirect files (`buddies`, `new-trip`, `trip/[...rest]`, `dog/[id]`) were not listed in `Stack.Protected`, so `/buddies` was that route and bounced into guarded `/friends` forever. Fix: list them inside the signed-in `Stack.Protected` group in `src/app/_layout.tsx` so `sign-in` is the only open route. **Rule: every route file must be declared in one of the Stack.Protected groups (or sign-in), including legacy redirect files.** Verified locally signed out on `/`, `/friends`, `/buddies` → `/sign-in`; production check follows deployment. Probably broken since the 2026-11-15 URL rename (old `/buddies` used to be a declared screen).
+
+### 2026-11-17 (later 11) — first agent
+AddFriendSheet ("添加好友" popup) no longer has a 取消 button (user request; close by tapping outside). Convention unchanged: only destructive confirmations keep 取消.

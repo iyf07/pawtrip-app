@@ -94,9 +94,6 @@ export function AddFriendSheet({ visible, onClose }: { visible: boolean; onClose
           )}
         </View>
       ) : null}
-      <View style={{ marginTop: 14 }}>
-        <Button label={t('common.cancel')} variant="text" block onPress={close} />
-      </View>
     </Sheet>
   );
 }

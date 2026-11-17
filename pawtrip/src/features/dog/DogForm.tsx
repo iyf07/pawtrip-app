@@ -133,6 +133,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
               <View style={{ flex: 1, marginTop: -14 }}><Field value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
               <Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} />
             </View>
+            <Button label={t('dog.remove')} variant="danger" onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} />
           </>
         ) : <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>{weight ? `${weight} ${unit}` : '—'}</Text>}
         <DogTraits dog={editing === 'preferences' ? scales : init.scales} />
@@ -172,7 +173,6 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         <DogInterests values={interests} onChange={editing === 'interests' ? setInterests : undefined} />
       </View>
       </View>
-      <Button label={t('dog.remove')} variant="danger" block onPress={() => setAskDelete(true)} style={{ marginTop: 28, maxWidth: wide ? 500 : undefined }} />
 
       <ConfirmSheet
         visible={askDelete}

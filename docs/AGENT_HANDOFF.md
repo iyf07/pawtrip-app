@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-17 Move remove dog into identity pencil edit mode, beneath weight; existing confirmation remains. Supersedes always-visible dog remove button.
 - 2026-11-17: Stop eager preloading all 160 icon PNGs at login (about 31 MB); render icons on demand. This reduces requests during startup but Chrome screenshot root cause is unconfirmed and requires user verification.
 - 2026-11-16 Friend preferences use compact two-column cards on all widths; five tabs include 好友 for actual relationship status and remove confirmation. Empty diet is 无忌口 with paw plate icon, per explicit user clarification; supersedes prior neutral empty-diet decision.
 - 2026-11-16 Friend homepage uses four icon tabs 偏好/兴趣/忌口/狗狗 on desktop and phone; headings name the friend, and dogs tab expands full read-only dog profiles without clicks. Removal is styled as sign-out with confirmation. Dog homepage desktop uses two columns (preferences left/interests right), with visible remove button and existing deletion confirmation. Profile account/sign-out limited to 500px on desktop. Empty interests/diet show playful neutral sticker chips; unset diet does not imply absence of restrictions. New empty-discover paw sticker Batch17.
@@ -159,6 +160,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-17: Remove dog button now appears only in dog identity edit mode. User confirmed sticker icons returned after on-demand loading deployment.
+
 
 - 2026-11-17: User reports all sticker icons blank in desktop Chrome even after refresh. Removed eager preload of 160 PNGs (~31 MB) as a loading mitigation; root cause still unconfirmed. Local desktop/375px icons render. Production/user Chrome verification remains needed.
 
@@ -252,6 +256,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -427,3 +432,6 @@ Release: 147badf deployed to Expo (7omtv99nry). tsc/eslint silent; no Supabase c
 User screenshot: all static sticker images blank, user-uploaded profile photos present; reports Chrome desktop even after refresh. Previous production PNG checks returned HTTP200; unable to reproduce in local browser and production IAB rendered blank during initial loading. Located login preload Asset.loadAsync over all160 stickers (~31 MB); Expo web implementation individually loads image metadata. Removed blanket preload so icons fetch on demand. This is a mitigation, not a confirmed root cause. Local desktop and375px dog image checks show 6 preferences and 3 pencils complete with nonzero naturalWidth; tsc/eslint silent. No database changes. User should verify deployment in affected Chrome; investigate browser DevTools Network/Console if still missing. Claim released.
 
 Release: 98bff04 deployed to Expo production (5t72p14ky3). Login no longer eagerly requests all icons. Chrome user verification needed; root cause remains unconfirmed. No Supabase changes. Claim released.
+
+### 2026-11-17 — Codex dog remove action
+User confirmed Chrome icons restored. Moved remove dog button into identity pencil editing below weight; existing confirmation retained. Desktop and 375px browser verified view hidden, edit visible, confirmation opens and cancels; discarded draft, no data changed. tsc/eslint silent, no backend changes. Claim released; release follows.

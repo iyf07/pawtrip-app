@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Animated, Easing, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
+import { Animated, Easing, Keyboard, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MAX_WIDTH } from '@/constants/theme';
@@ -20,6 +20,31 @@ type SheetProps = {
   tall?: boolean;
 };
 
+/** Height the on-screen keyboard covers, so a bottom sheet can sit above it (visualViewport on web, Keyboard events on native). */
+function useKeyboardInset() {
+  const [inset, setInset] = useState(0);
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      const vv = typeof window !== 'undefined' ? window.visualViewport : null;
+      if (!vv) return;
+      const update = () => setInset(Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop)));
+      vv.addEventListener('resize', update);
+      vv.addEventListener('scroll', update);
+      return () => {
+        vv.removeEventListener('resize', update);
+        vv.removeEventListener('scroll', update);
+      };
+    }
+    const show = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillChangeFrame' : 'keyboardDidShow', (e) => setInset(e.endCoordinates.height));
+    const hide = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', () => setInset(0));
+    return () => {
+      show.remove();
+      hide.remove();
+    };
+  }, []);
+  return inset;
+}
+
 /**
  * Popup over a scrim: bottom sheet on a phone, centred dialog on tablet/desktop.
  * The scrim fades in on its own while the panel eases up a little and fades in (no whole-screen slide, which made the
@@ -29,6 +54,7 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const { medium } = useLayout();
+  const keyboard = useKeyboardInset();
   const [mounted, setMounted] = useState(visible);
   const [progress] = useState(() => new Animated.Value(visible ? 1 : 0));
   const native = Platform.OS !== 'web';
@@ -54,7 +80,7 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
 
   return (
     <Modal visible transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      <View style={{ flex: 1, justifyContent: medium ? 'center' : 'flex-end', paddingHorizontal: medium ? 24 : 0 }}>
+      <View style={{ flex: 1, justifyContent: medium ? 'center' : 'flex-end', paddingHorizontal: medium ? 24 : 0, paddingBottom: keyboard }}>
         <Animated.View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: t.scrim, opacity: scrimOpacity }} />
         <Pressable onPress={onClose} accessibilityLabel="Close" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
         <Animated.View

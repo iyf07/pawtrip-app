@@ -16,11 +16,10 @@ import { useLayout } from '@/hooks/use-layout';
 import { useTimeFmt } from '@/hooks/use-prefs';
 import { useCatColors, useTheme } from '@/hooks/use-theme';
 import { FacePile } from '@/features/plan/FacePile';
-import { aloneIssues, conflictsOf, dayItems, dogMode, hasTime, isIdea, isLive, layoutDay, timeFields, type ItemView } from '@/features/plan/model';
+import { aloneIssues, conflictsOf, dogMode, layoutDay, timeFields, type ItemView } from '@/features/plan/model';
 import { ItemDetailPanel } from '@/features/plan/ItemDetailSheet';
 import { CatIcon } from '@/features/plan/CatIcon';
-import { PlanMap } from '@/features/plan/PlanMap';
-import { buildPins, useDayRoute, useItemCoords } from '@/features/plan/useDayGeo';
+import { useDayMap } from '@/features/plan/useDayMap';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
@@ -35,7 +34,7 @@ export default function Plan() {
   const dark = useColorScheme() === 'dark';
   const { fmtMin, hourLabel } = useTimeFmt();
   const th = useTheme();
-  const { trip, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
+  const { trip, days, day, setDay, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
   // desktop: the map can be folded away; the right half then shows only the open entry's detail, or nothing (calendar fills the width)
   const [mapOpen, setMapOpen] = useState(() => width >= 1300);
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
@@ -45,8 +44,7 @@ export default function Plan() {
   const [dayOffset, setDayOffset] = useState(0);
   const canScrollDays = dayContentWidth > dayWidth + 1;
 
-  const dayList = dayItems(items, day);
-  const stays = items.filter((i) => isLive(i) && i.type === 'stay' && i.stayFrom != null && day >= i.stayFrom && day <= (i.stayTo ?? i.stayFrom));
+  const { dayList, stays, line, travelTo, pins, center } = useDayMap();
   const layout = layoutDay(dayList);
 
   // weather + sun for the selected day
@@ -54,21 +52,6 @@ export default function Plan() {
   const unit = settings.data?.temp_unit === 'C' ? 'C' : 'F';
   const weather = useWeather(trip, days);
   const wx = weather.data?.[days[day]];
-
-  // map: today's stops in time order, loose ideas and the stay as extra pins, route + drive times between stops
-  const near = { lat: trip.lat, lon: trip.lon };
-  const looseIdeas = items.filter((i) => isLive(i) && isIdea(i) && !hasTime(i));
-  const coords = useItemCoords([...dayList, ...looseIdeas, ...stays], near);
-  const stops = [...dayList]
-    .sort((a, b) => a.start! - b.start!)
-    .filter((i) => coords[i.id])
-    .map((i) => ({ id: i.id, ...coords[i.id] }));
-  const { line, travelTo } = useDayRoute(stops);
-  const pins = buildPins(
-    stops,
-    looseIdeas.filter((i) => coords[i.id]).map((i) => ({ id: i.id, ...coords[i.id] })),
-    stays.filter((i) => coords[i.id]).map((i) => ({ id: i.id, ...coords[i.id] })),
-  );
 
   // open scrolled to the first item of the day (or 7 AM)
   const firstStart = dayList.length ? Math.min(...dayList.map((i) => i.start!)) : 7 * 60;
@@ -132,15 +115,6 @@ export default function Plan() {
         </View>
         )}
 
-        {wide ? null : (
-          <PlanMap
-            pins={pins}
-            line={line}
-            center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null}
-            stops={stops.length}
-            onPin={openItem}
-          />
-        )}
         {!itemsLoading && !itemsError ? stays.map((s) => <StayStrip key={s.id} item={s} />) : null}
       </View>
       <TabBody innerRef={scroller}>
@@ -309,7 +283,7 @@ export default function Plan() {
         <View style={{ flex: 1.2, minWidth: 0, gap: 12 }}>
           {mapOpen ? (
             <View style={{ flex: 1, position: 'relative', ...frame }}>
-              <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
+              <TripMap pins={pins} line={line} center={center} dark={dark} onPin={openItem} height="100%" />
             </View>
           ) : null}
           {openItemId ? (

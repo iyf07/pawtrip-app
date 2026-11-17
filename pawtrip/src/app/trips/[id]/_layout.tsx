@@ -24,7 +24,7 @@ import { goBack } from '@/lib/nav';
 
 type BarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0];
 
-const TAB_ICON: Record<string, IconName> = { plan: 'tab-plan', ideas: 'tab-ideas', group: 'tab-members' };
+const TAB_ICON: Record<string, IconName> = { plan: 'tab-plan', map: 'pin-stop', ideas: 'tab-ideas', group: 'tab-members' };
 
 function TripTabBar({ state, navigateToTab }: BarProps) {
   const { t } = useT();
@@ -97,6 +97,7 @@ export default function TripLayout() {
         }>
         <Tabs tabBar={(props) => <TripTabBar {...props} />} screenOptions={{ headerShown: false, tabBarPosition: wide ? 'top' : 'bottom', sceneStyle: { backgroundColor: th.bg } }}>
           <Tabs.Screen name="plan" />
+          <Tabs.Screen name="map" />
           <Tabs.Screen name="ideas" />
           <Tabs.Screen name="group" />
         </Tabs>

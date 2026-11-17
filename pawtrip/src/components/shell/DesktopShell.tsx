@@ -192,7 +192,7 @@ function DogList({ selected }: { selected: string | null }) {
           </Text>
         </Row>
       ))}
-      <AddLink label={t('profile.addDog')} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} />
+      <AddLink icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} />
     </ListFrame>
   );
 }
@@ -205,7 +205,7 @@ function FriendList({ selected }: { selected?: string }) {
       <Avatar id={b.userId} name={b.name} url={b.avatar} size={36} />
       <View style={{ flex: 1, minWidth: 0 }}><Text weight={800} numberOfLines={1}>{b.name}</Text><Meta numberOfLines={1}>@{b.handle}</Meta></View>
     </Row>)}
-    <AddLink label={`+ ${t('bd.addTitle')}`} onPress={() => router.setParams({ add: '1' })} />
+    <AddLink icon="tab-members" label={t('bd.addTitle')} onPress={() => router.setParams({ add: '1' })} />
   </ListFrame>;
 }
 

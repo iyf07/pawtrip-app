@@ -101,7 +101,7 @@ export default function TripLayout() {
       <Screen
         nav
         scroll={false}
-        size="full"
+        size={wide ? "full" : "narrow"}
         contentStyle={{ paddingHorizontal: 0 }}
         top={
           <Header

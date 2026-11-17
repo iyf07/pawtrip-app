@@ -40,6 +40,13 @@ export const INTEREST_SECTIONS = [
   { key: 'fun', items: ['markets', 'live_music', 'workshops', 'amusement', 'water_sports', 'spa'] },
 ] as const;
 
+/** Selected interests grouped in the same order as the profile picker. */
+export const selectedInterestSections = (list: string[]) => {
+  const selected = normalizeInterests(list);
+  return INTEREST_SECTIONS.map((section) => ({ ...section, items: section.items.filter((item) => selected.includes(item)) }))
+    .filter((section) => section.items.length > 0);
+};
+
 export function addDietaryNeed(current: string[], input: string): string[] {
   const custom = input.trim();
   return !custom || current.some((item) => item.toLocaleLowerCase() === custom.toLocaleLowerCase())

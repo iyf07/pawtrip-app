@@ -24,12 +24,13 @@ type Props = {
   iconSize?: number;
   /** two-per-row card (phone, view mode): title, icon, answer, then the title of the answer */
   compact?: boolean;
+  compactWidth?: number;
   /** view mode: show the answer, not editable */
   readOnly?: boolean;
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Defaults to the middle (3). */
-export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 28, compact }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 28, compact, compactWidth }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
@@ -38,7 +39,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
   const showIcon = hasIcon(iconName);
   if (compact) {
     return (
-      <View style={{ width: '48%', flexGrow: 1, padding: 12, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, borderRadius: 18, alignItems: 'center', gap: 6 }}>
+      <View style={{ width: compactWidth ?? '48%', flexGrow: compactWidth ? 0 : 1, padding: 12, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, borderRadius: 18, alignItems: 'center', gap: 6 }}>
         <Text weight={800} size={18} numberOfLines={1} style={{ textAlign: 'center' }}>{t(`scale.${stem}` as Key)}</Text>
         {showIcon ? <Icon name={iconName as IconName} size={iconSize} /> : null}
         <Text weight={700} size={14} color="link" numberOfLines={2} style={{ textAlign: 'center' }}>{description ?? t(`scale.${stem}.${v}` as Key)}</Text>

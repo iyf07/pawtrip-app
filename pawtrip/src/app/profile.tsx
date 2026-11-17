@@ -9,6 +9,7 @@ import { Icon } from "@/components/ui/Icon";
 import { AvatarEditor } from "@/components/AvatarEditor";
 import { HandleField } from "@/components/HandleField";
 import { Field } from "@/components/ui/Field";
+import { InlineFieldRow } from "@/components/ui/InlineFieldRow";
 import { dietIcon } from "@/components/DietIcon";
 import { InterestPicker } from "@/components/InterestPicker";
 import { PersonTraits } from "@/components/PersonTraits";
@@ -165,8 +166,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         </View>
         {editing === "identity" ? (
           <>
-            <Field label={t("pf.name")} value={name} onChangeText={setName} maxLength={60} />
-            <HandleField label={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} />
+            <InlineFieldRow label={t("pf.name")}><Field accessibilityLabel={t("pf.name")} containerStyle={{ marginTop: 0 }} value={name} onChangeText={setName} maxLength={60} /></InlineFieldRow>
+            <InlineFieldRow label={t("pf.handle")}><HandleField accessibilityLabel={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} compact /></InlineFieldRow>
           </>
         ) : (
           <>

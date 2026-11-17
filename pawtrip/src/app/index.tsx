@@ -1,7 +1,6 @@
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
-import { AddAction } from '@/components/ui/AddAction';
 import { useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
 import { AvatarStack } from '@/components/ui/Avatar';
@@ -20,13 +19,12 @@ export default function Trips() {
   const { t } = useT();
   const trips = useTrips();
 
-  const header = (
-    <Header
-      title={t('trips.title')}
-      right={
-        <AddAction icon="nav-trips" label={t('trips.new')} onPress={() => router.push('/trips/new')} />
-      }
-    />
+  const header = <Header title={t('trips.title')} />;
+
+  const createButton = (
+    <Card dashed onPress={() => router.push('/trips/new')} style={{ alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-trips" size={28} /><Text weight={800} color="link">{t('trips.new')}</Text></View>
+    </Card>
   );
 
   const joinButton = (
@@ -58,9 +56,7 @@ export default function Trips() {
           <Text weight={800} size={20} style={{ marginTop: 20 }}>
             {t('collection.emptyTrips')}
           </Text>
-          <Card dashed onPress={() => router.push('/trips/new')} style={{ alignItems: 'center', alignSelf: 'stretch', marginTop: 24 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-trips" size={28} /><Text weight={800} color="link">{t('trips.new')}</Text></View>
-          </Card>
+          <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{createButton}</View>
           <View style={{ alignSelf: 'stretch', marginTop: 24 }}>{joinButton}</View>
         </View>
       ) : (
@@ -68,6 +64,7 @@ export default function Trips() {
           {trips.data.map((trip) => (
             <TripCard key={trip.id} trip={trip} />
           ))}
+          {createButton}
           {joinButton}
         </View>
       )}

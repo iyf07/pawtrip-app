@@ -19,3 +19,9 @@ test('keeps approved cuisine and activity choices independent while preserving b
   assert.deepEqual(normalizeInterests(['food','fun','chinese','pizza','italian','markets','live_music','water_sports','spa','pizza']),
     ['food','fun','chinese','pizza','italian','markets','live_music','water_sports','spa']);
 });
+
+test('friend interests show only selected items in their profile categories', async () => {
+  const { selectedInterestSections } = await import('../src/constants/options.ts');
+  assert.deepEqual(selectedInterestSections(['pizza','hiking','pizza']).map(({key,items})=>({key,items})), [{key:'outdoors',items:['hiking']},{key:'food',items:['pizza']}]);
+  assert.deepEqual(selectedInterestSections([]), []);
+});

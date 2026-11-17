@@ -117,7 +117,7 @@ export default function NewTrip() {
               onPress={() => setDogIds(chosenDogs.includes(d.id) ? chosenDogs.filter((x) => x !== d.id) : [...chosenDogs, d.id])}
             />
           ))}
-          <Chip label={t('group.newDog')} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} />
+          <Chip icon={<Icon name="nav-dogs" size={24} />} label={t('group.newDog')} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} />
         </View>
       ),
     },

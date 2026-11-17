@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
 import { PageSkeleton } from '@/components/ui/Skeleton';
-import { Header, Screen } from '@/components/ui/Screen';
+import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
@@ -24,14 +24,13 @@ export function BuddiesScreen() {
   const toast = useToast();
   const buddies = useBuddies();
   const [adding, setAdding] = useState(false);
-  const [open, setOpen] = useState<Buddy | null>(null);
   const th = useTheme();
-  const { wide } = useLayout();
+  const { wide, width } = useLayout();
   const { friend, add } = useLocalSearchParams<{ friend?: string; add?: string }>();
   const selected = buddies.data?.find((b) => b.userId === friend);
   const addingVisible = adding || add === '1';
   function closeAdd() { setAdding(false); if (add) router.setParams({ add: undefined }); }
-  function openBuddy(b: Buddy) { if (wide) router.push({ pathname: '/friends', params: { friend: b.userId } }); else setOpen(b); }
+  function openBuddy(b: Buddy) { router.push({ pathname: '/friends', params: { friend: b.userId } }); }
   const respond = useRespondBuddy();
   const remove = useRemoveBuddy();
 
@@ -48,15 +47,21 @@ export function BuddiesScreen() {
     }
   }
 
-  if (wide && friend && selected) return (
-    <Screen nav size="wide" top={<Header title={t('friend.home', { name: selected.name })} />}>
-      <FriendSheet inline buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
+  if (friend && !selected) return (
+    <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
+      {buddies.isPending ? <PageSkeleton cards={3} /> : <View style={{ gap: 12, marginTop: 20 }}><Text>{t('common.loadFailed')}</Text><Button label={t('common.retry')} onPress={() => buddies.refetch()} /></View>}
+    </Screen>
+  );
+
+  if (friend && selected) return (
+    <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
+      <FriendSheet buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
     </Screen>
   );
 
   return (
-    <Screen nav top={<Header title={t('bd.title')} right={<AddAction label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+    <Screen nav top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (
@@ -119,14 +124,11 @@ export function BuddiesScreen() {
             ))}
           </Card> : null}
           <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>
-            <Text weight={800} color="link">
-              {'+ ' + t('bd.addTitle')}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="tab-members" size={28} /><Text weight={800} color="link">{t('bd.addTitle')}</Text></View>
           </Card>
         </View>
       )}
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
-      <FriendSheet buddy={open} onClose={() => setOpen(null)} onRemove={(b) => remove.mutate(b.userId)} />
     </Screen>
   );
 }

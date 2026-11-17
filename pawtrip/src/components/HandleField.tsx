@@ -14,6 +14,8 @@ type Props = {
   /** the saved handle: it is always "available" to its owner */
   current?: string;
   label?: string;
+  accessibilityLabel?: string;
+  compact?: boolean;
   hint?: string;
   autoFocus?: boolean;
   onSubmit?: () => void;
@@ -22,7 +24,7 @@ type Props = {
 type State = 'idle' | 'checking' | 'ok' | 'taken' | 'bad';
 
 /** Unique-ID input with live availability. Characters that are not allowed are dropped as you type. */
-export function HandleField({ value, onChangeText, onValid, current, label, hint, autoFocus, onSubmit }: Props) {
+export function HandleField({ value, onChangeText, onValid, current, label, hint, autoFocus, onSubmit, accessibilityLabel, compact }: Props) {
   const { t } = useT();
   const [checked, setChecked] = useState<{ value: string; state: Exclude<State, 'idle' | 'checking'> } | null>(null);
 
@@ -84,6 +86,8 @@ export function HandleField({ value, onChangeText, onValid, current, label, hint
       <View style={{ position: 'relative' }}>
         <Field
           label={label}
+          accessibilityLabel={accessibilityLabel}
+          containerStyle={compact ? { marginTop: 0 } : undefined}
           value={value}
           onChangeText={(v) => onChangeText(cleanHandle(v))}
           autoCapitalize="none"

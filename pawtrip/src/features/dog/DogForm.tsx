@@ -13,6 +13,7 @@ import { DogAvatar } from '@/components/ui/Avatar';
 import { Segmented } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { Field } from '@/components/ui/Field';
+import { InlineFieldRow } from '@/components/ui/InlineFieldRow';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
@@ -127,7 +128,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         </View>
         {editing === 'identity' ? (
           <>
-            <Field label={t('dog.name')} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} />
+            <InlineFieldRow label={t('dog.shortName')}><Field accessibilityLabel={t('dog.name')} containerStyle={{ marginTop: 0 }} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} /></InlineFieldRow>
             <Text weight={800} size={13} style={{ marginTop: 10, marginBottom: 6 }}>{t('dog.weight')}</Text>
             <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
               <View style={{ flex: 1, marginTop: -14 }}><Field value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
@@ -167,7 +168,8 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       </View>
       <View style={{ marginTop: 28, flex: wide ? 1 : undefined, width: wide ? undefined : '100%', minWidth: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <Text weight={800} size={20} style={{ flex: 1 }}>{t('dog.interests', { name: init.name })}</Text>
+          <Text weight={800} size={20} style={{ flexShrink: 1 }}>{t('dog.interests', { name: init.name })}</Text>
+          <View style={{ flex: 1, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line }} />
           {editActions('interests', t('dog.interests', { name: init.name }))}
         </View>
         <DogInterests values={interests} onChange={editing === 'interests' ? setInterests : undefined} />

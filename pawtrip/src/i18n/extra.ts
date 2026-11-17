@@ -1,7 +1,8 @@
 // Copy that did not exist in the prototype (real sign-in, errors, sharing). Keep prototype copy in zh.ts / en.ts.
 
 export const zhExtra = {
-  'friend.tab': '好友',
+  'dog.shortName': '名字',
+  'friend.tab': '关系',
   'friend.relationship': '好友关系',
   'friend.status': '关系状态',
   'friend.accepted': '已成为好友',
@@ -491,7 +492,8 @@ export const zhExtra = {
 } as const;
 
 export const enExtra: Record<keyof typeof zhExtra, string> = {
-  'friend.tab': 'Friend',
+  'dog.shortName': 'Name',
+  'friend.tab': 'Connection',
   'friend.relationship': 'Friendship',
   'friend.status': 'Status',
   'friend.accepted': 'Friends',

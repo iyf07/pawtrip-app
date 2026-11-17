@@ -60,6 +60,7 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
 
 type HeaderProps = {
   title?: string;
+  titleSize?: number;
   subtitle?: string;
   /** replaces the subtitle text (e.g. a row of avatars) */
   subtitleNode?: ReactNode;
@@ -68,7 +69,7 @@ type HeaderProps = {
 };
 
 /** 3-column header: left action, centred title, right action. */
-export function Header({ title, subtitle, subtitleNode, left, right }: HeaderProps) {
+export function Header({ title, titleSize, subtitle, subtitleNode, left, right }: HeaderProps) {
   const t = useTheme();
   const inShell = useInShell(); // no back links beside the rail
   const { wide } = useLayout();
@@ -86,7 +87,7 @@ export function Header({ title, subtitle, subtitleNode, left, right }: HeaderPro
       <View style={{ minWidth: 64, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
-          <Text weight={800} size={wide ? 32 : 26} numberOfLines={1}>
+          <Text weight={800} size={titleSize ?? (wide ? 32 : 26)} numberOfLines={1}>
             {title}
           </Text>
         ) : null}

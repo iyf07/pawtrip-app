@@ -17,7 +17,7 @@ export default function Dogs() {
   const dogs = useMyDogs();
 
   return (
-    <Screen nav top={<Header title={t('profile.myDogs')} right={<AddAction label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
+    <Screen nav top={<Header title={t('profile.myDogs')} right={<AddAction icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
       {dogs.isPending ? (
         <PageSkeleton cards={3} />
       ) : (
@@ -40,9 +40,7 @@ export default function Dogs() {
             </Card>
           ))}
           <Card dashed onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
-            <Text weight={800} color="link">
-              {t('profile.addDog')}
-            </Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-dogs" size={28} /><Text weight={800} color="link">{t('profile.addDog')}</Text></View>
           </Card>
         </View>
       )}

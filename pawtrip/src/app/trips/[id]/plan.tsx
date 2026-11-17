@@ -6,7 +6,6 @@ import { useSettings } from '@/api/profile';
 import { TripMap } from '@/components/TripMap';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Segmented } from '@/components/ui/Chip';
 import { useToast } from '@/components/ui/Toast';
 import { Meta, Text } from '@/components/ui/Text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -22,7 +21,6 @@ import { ItemDetailPanel } from '@/features/plan/ItemDetailSheet';
 import { CatIcon } from '@/features/plan/CatIcon';
 import { PlanMap } from '@/features/plan/PlanMap';
 import { buildPins, useDayRoute, useItemCoords } from '@/features/plan/useDayGeo';
-import { WeatherBanner } from '@/features/plan/WeatherBanner';
 import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
@@ -37,14 +35,13 @@ export default function Plan() {
   const dark = useColorScheme() === 'dark';
   const { fmtMin, hourLabel } = useTimeFmt();
   const th = useTheme();
-  const { trip, dogs, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
-  const [show, setShow] = useState<'all' | 'confirmed'>('all');
+  const { trip, days, day, setDay, items, itemsLoading, itemsError, refetchItems, addItem, openItem, openItemId } = useTripCtx();
   // desktop: the map can be folded away; the right half then shows only the open entry's detail, or nothing (calendar fills the width)
   const [mapOpen, setMapOpen] = useState(() => width >= 1300);
   const scroller = useRef<ComponentRef<typeof ScrollView>>(null);
 
-  const dayList = dayItems(items, day).filter((i) => show === 'all' || i.confirmed);
-  const stays = items.filter((i) => isLive(i) && i.type === 'stay' && i.stayFrom != null && day >= i.stayFrom && day <= (i.stayTo ?? i.stayFrom) && (show === 'all' || i.confirmed));
+  const dayList = dayItems(items, day);
+  const stays = items.filter((i) => isLive(i) && i.type === 'stay' && i.stayFrom != null && day >= i.stayFrom && day <= (i.stayTo ?? i.stayFrom));
   const layout = layoutDay(dayList);
 
   // weather + sun for the selected day
@@ -121,18 +118,6 @@ export default function Plan() {
         </ScrollView>
         )}
 
-        <View style={{ marginTop: 10 }}>
-          <Segmented
-            value={show}
-            onChange={setShow}
-            options={[
-              { value: 'all', label: t('plan.showAll') },
-              { value: 'confirmed', label: t('plan.showConfirmed') },
-            ]}
-          />
-        </View>
-
-        {wx ? <WeatherBanner wx={wx} dogs={dogs} unit={unit} /> : null}
         {wide ? null : (
           <PlanMap
             pins={pins}
@@ -155,16 +140,6 @@ export default function Plan() {
           </Card>
         ) : (
           <>
-            {dayList.length === 0 ? (
-              <Card style={{ alignItems: 'center', marginTop: 12 }}>
-                <Icon name="empty-day" size={110} />
-                <Text weight={800}>{t('plan.emptyDay.title', { day: weekdayShort(days[day], locale) })}</Text>
-                <Text size={13} color="muted" style={{ textAlign: 'center', marginTop: 2 }}>
-                  {t('plan.emptyDay.body')}
-                </Text>
-              </Card>
-            ) : null}
-
             <View style={{ marginTop: 14, height: 24 * PX + 10 }}>
               {Array.from({ length: 25 }, (_, h) => (
                 <View key={h} pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: h * PX, height: 0, borderTopWidth: 1, borderColor: th.line }}>
@@ -321,14 +296,6 @@ export default function Plan() {
           {mapOpen ? (
             <View style={{ flex: 1, position: 'relative', ...frame }}>
               <TripMap pins={pins} line={line} center={trip.lat != null && trip.lon != null ? { lat: trip.lat, lon: trip.lon } : null} dark={dark} onPin={openItem} height="100%" />
-              {pins.length === 0 ? (
-                <View pointerEvents="none" style={{ position: 'absolute', left: 16, right: 16, bottom: 16, alignItems: 'center' }}>
-                  <View style={{ backgroundColor: th.card, paddingHorizontal: 14, paddingVertical: 8, borderRadius: 16, borderWidth: 2, borderColor: th.line, alignItems: 'center' }}>
-                    <Icon name="empty-map" size={72} />
-                    <Meta>{t('map.empty.body')}</Meta>
-                  </View>
-                </View>
-              ) : null}
             </View>
           ) : null}
           {openItemId ? (

@@ -6,7 +6,7 @@ import { Icon } from '@/components/ui/Icon';
 import { TripMap } from '@/components/TripMap';
 import type { MapPin } from '@/components/TripMap.types';
 import { Button } from '@/components/ui/Button';
-import { Meta, Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text';
 import { MAX_WIDTH } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useTheme } from '@/hooks/use-theme';
@@ -50,7 +50,6 @@ export function PlanMap({ pins, line, center, stops, onPin }: Props) {
           <View style={{ alignItems: 'flex-end' }}>
             <Button label={t('plan.openMap')} variant="text" small onPress={() => setFull(true)} />
           </View>
-          {pins.length === 0 ? <Meta>{t('map.empty.body')}</Meta> : null}
         </View>
       ) : null}
 

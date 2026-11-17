@@ -215,14 +215,14 @@ isOneToOne: false
                   ]
                 },"notifications": {
                   Row: {
-                    "actor_avatar": string | null,"actor_id": string | null,"actor_name": string,"created_at": string,"id": string,"kind": string,"read_at": string | null,"relation": string | null,"user_id": string
+                    "actor_avatar": string | null,"actor_id": string | null,"actor_name": string,"created_at": string,"id": string,"kind": string,"read_at": string | null,"relation": string | null,"subject": string | null,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "actor_avatar"?: string | null,"actor_id"?: string | null,"actor_name"?: string,"created_at"?: string,"id"?: string,"kind": string,"read_at"?: string | null,"relation"?: string | null,"user_id": string
+                    "actor_avatar"?: string | null,"actor_id"?: string | null,"actor_name"?: string,"created_at"?: string,"id"?: string,"kind": string,"read_at"?: string | null,"relation"?: string | null,"subject"?: string | null,"user_id": string
                   }
                   Update: {
-                    "actor_avatar"?: string | null,"actor_id"?: string | null,"actor_name"?: string,"created_at"?: string,"id"?: string,"kind"?: string,"read_at"?: string | null,"relation"?: string | null,"user_id"?: string
+                    "actor_avatar"?: string | null,"actor_id"?: string | null,"actor_name"?: string,"created_at"?: string,"id"?: string,"kind"?: string,"read_at"?: string | null,"relation"?: string | null,"subject"?: string | null,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -439,7 +439,7 @@ isOneToOne: false
 { Args: Record<PropertyKey, never>; Returns: string
                            },
 "notify":
-{ Args: { "p_kind": string,"p_relation"?: string,"p_user": string }; Returns: undefined
+{ Args: { "p_kind": string,"p_relation"?: string,"p_subject"?: string,"p_user": string }; Returns: undefined
                            },
 "peek_family":
 { Args: { "p_code": string }; Returns: Json

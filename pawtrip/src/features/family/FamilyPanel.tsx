@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
+import { router } from 'expo-router';
 import { useBuddies } from '@/api/buddies';
+import { useMyDogs } from '@/api/dogs';
 import {
   useCreateFamily,
   useFamily,
@@ -13,7 +15,7 @@ import {
   useRenameFamily,
 } from '@/api/family';
 import { FamilyCodeSheet, JoinFamilySheet } from './FamilyCodeSheets';
-import { Avatar } from '@/components/ui/Avatar';
+import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
@@ -36,6 +38,8 @@ export function FamilyPanel() {
   const { userId } = useAuth();
   const fam = useFamily();
   const buddies = useBuddies();
+  const dogs = useMyDogs();
+  const [picked, setPicked] = useState<string[]>([]);
   const create = useCreateFamily();
   const rename = useRenameFamily();
   const invite = useInviteToFamily();
@@ -118,13 +122,30 @@ export function FamilyPanel() {
                 <Text weight={800} numberOfLines={1}>{m.name}</Text>
                 <Meta size={12} numberOfLines={1}>@{m.handle}</Meta>
               </View>
-              {m.status === 'pending' ? <Meta weight={700}>{t('family.pending')}</Meta> : m.role === 'admin' ? <Meta weight={700}>{t('family.admin')}</Meta> : null}
+              {m.status === 'pending' ? <Meta weight={700}>{t('family.pending')}</Meta> : m.role === 'admin' ? <View accessible accessibilityLabel={t('family.adminBadge')}><Icon name="nav-admin" size={28} /></View> : null}
               {state.isAdmin && m.userId !== userId ? (
                 <Button label={t('family.remove')} small variant="text" onPress={() => setAskRemove({ id: m.userId, name: m.name })} />
               ) : null}
             </View>
           ))}
         </View>
+      </Card>
+      <Card>
+        <Meta weight={700}>{t('family.dogs')}</Meta>
+        {(dogs.data ?? []).length === 0 ? <Text color="muted" weight={700} style={{ marginTop: 8 }}>{t('family.noDogs')}</Text> : (
+          <View style={{ marginTop: 6 }}>
+            {(dogs.data ?? []).map((d, i) => (
+              <Pressable key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
+                <DogAvatar url={d.photo_url} size={44} />
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Text weight={800} numberOfLines={1}>{d.name}</Text>
+                  <Meta size={12} numberOfLines={1}>{state.members.find((m) => m.userId === d.owner_id)?.name ?? ''}</Meta>
+                </View>
+                <Text plain size={22} color="muted" weight={800}>›</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
       </Card>
       {state.isAdmin ? (
         <Card dashed onPress={() => setInviting(true)} style={{ alignItems: 'center' }}>
@@ -139,21 +160,32 @@ export function FamilyPanel() {
       <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
       <Button label={t(state.isAdmin ? 'family.disband' : 'family.leave')} variant="text" block onPress={() => setAskLeave(true)} />
 
-      <Sheet visible={inviting} onClose={() => setInviting(false)}>
-        <Text weight={800} size={20}>{t('family.inviteTitle')}</Text>
+      <Sheet visible={inviting} onClose={() => { setInviting(false); setPicked([]); }}>
+        <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.inviteTitle')}</Text>
         {invitable.length === 0 ? (
-          <Text color="muted" weight={700} style={{ marginTop: 14 }}>{t('family.noFriends')}</Text>
+          <Text color="muted" weight={700} style={{ marginTop: 14, textAlign: 'center' }}>{t('family.noFriends')}</Text>
         ) : (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-            {invitable.map((b) => (
-              <Chip
-                key={b.userId}
-                icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={26} border={2} />}
-                label={b.name}
-                onPress={() => run(async () => { await invite.mutateAsync(b.userId); setInviting(false); }, t('family.invited'))}
-              />
-            ))}
-          </View>
+          <>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
+              {invitable.map((b) => (
+                <Chip
+                  key={b.userId}
+                  icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={26} border={2} />}
+                  label={b.name}
+                  on={picked.includes(b.userId)}
+                  onPress={() => setPicked((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
+                />
+              ))}
+            </View>
+            <Button
+              label={t('family.inviteBtn')}
+              block
+              disabled={picked.length === 0}
+              loading={invite.isPending}
+              onPress={() => run(async () => { for (const id of picked) await invite.mutateAsync(id); setPicked([]); setInviting(false); }, t('family.invited'))}
+              style={{ marginTop: 12 }}
+            />
+          </>
         )}
       </Sheet>
 

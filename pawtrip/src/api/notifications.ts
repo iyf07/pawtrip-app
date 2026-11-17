@@ -5,11 +5,13 @@ import { supabase } from '@/lib/supabase';
 
 export type AppNotification = {
   id: string;
-  kind: 'friend_accepted' | 'friend_declined' | 'relation_accepted' | 'relation_declined';
+  kind: 'friend_accepted' | 'friend_declined' | 'relation_accepted' | 'relation_declined' | 'family_left' | 'family_disbanded' | 'family_removed';
   actorId: string | null;
   actorName: string;
   actorAvatar: string | null;
   relation: string | null;
+  /** e.g. the family name */
+  subject: string | null;
   createdAt: string;
 };
 
@@ -30,6 +32,7 @@ export function useNotifications() {
         actorName: n.actor_name,
         actorAvatar: n.actor_avatar,
         relation: n.relation,
+        subject: n.subject,
         createdAt: n.created_at,
       }));
     },

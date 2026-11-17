@@ -41,7 +41,7 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
     }
   }
 
-  const answerText = (n: AppNotification) => t(`notif.${n.kind}` as Key, { name: n.actorName, rel: n.relation ? t(`rel.${n.relation}` as Key) : '' });
+  const answerText = (n: AppNotification) => t(`notif.${n.kind}` as Key, { name: n.actorName, rel: n.relation ? t(`rel.${n.relation}` as Key) : '', family: n.subject ?? '' });
 
   async function answerRelation(b: Buddy, accept: boolean) {
     try {

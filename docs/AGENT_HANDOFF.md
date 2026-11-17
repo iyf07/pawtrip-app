@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-17 Profile account login-method subgroup heading uses same 14px muted font and spacing as interest subgroup headings.
 - 2026-11-17 Profile and dog identity rows top-align avatars in view/edit, keeping position fixed as form expands. Account heading uses same 40px title row as profile tab section headings.
 - 2026-11-17 Dog detail uses narrow Screen on non-wide viewports, same as profile and dog list; keeps wide Screen on desktop.
 - 2026-11-17 Move remove dog into identity pencil edit mode, beneath weight; existing confirmation remains. Supersedes always-visible dog remove button.
@@ -162,6 +163,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-17: Profile 登录方式 heading matches 户外 typography and first-subheading position.
+
 
 - 2026-11-17: Profile and dog avatars remain fixed when identity editing; account tab title aligns with other section titles.
 
@@ -264,6 +268,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -455,3 +460,6 @@ Release: 9ee44ed deployed to Expo (fod1vqoz5d), including 58c6a9c removal action
 Top-aligned identity row on human/dog profiles to stop avatar moving when form expands. Account heading uses 40px title row without extra top margin. Browser verified personal avatar x16/y114 before/after mobile edit, desktop dog avatar x324/y75 before/after, mobile preference and account headings both y321; drafts discarded. tsc/eslint silent; no backend changes. Claim released; release follows.
 
 Release: 146498e deployed to Expo (zakuet5tij); browser checks and tsc/eslint passed. No Supabase change. Claim released.
+
+### 2026-11-17 — Codex profile subheading consistency
+Login method heading now matches interest subgroup typography and spacing. Browser 375px: 户外 and 登录方式 both x16/y367, font14px/line20/muted/800 font; desktop checked. tsc/eslint silent; no backend changes. Claim released; release follows.

@@ -274,7 +274,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         <View style={{ flex: 1, borderTopWidth: 2, borderStyle: "dashed", borderColor: th.line }} />
       </View>
 
-      <Text weight={800} size={13} style={{ marginTop: 20, marginBottom: 8 }}>
+      <Text weight={800} size={14} color="muted" style={{ marginBottom: 8 }}>
         {t("set.methods")}
       </Text>
       <Card>

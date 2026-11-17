@@ -52,6 +52,8 @@ const SOURCES = {
   'nav-trips': require('../../../assets/icons/nav-trips.png'),
   'nav-dogs': require('../../../assets/icons/nav-dogs.png'),
   'nav-settings': require('../../../assets/icons/nav-settings.png'),
+  // placeholder until the bell sticker (docs/icon-batches.md Batch 18) is delivered
+  'nav-notifications': require('../../../assets/icons/ui-invite.png'),
   'nav-profile': require('../../../assets/icons/nav-profile.png'),
   'tab-plan': require('../../../assets/icons/tab-plan.png'),
   'tab-ideas': require('../../../assets/icons/tab-ideas.png'),

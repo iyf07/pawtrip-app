@@ -20,6 +20,7 @@ import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 
+import { NotificationBell } from '@/components/NotificationBell';
 import { ShellContext } from './ShellContext';
 
 type Section = 'calendar' | 'trips' | 'dogs' | 'buddies' | 'profile' | 'settings';
@@ -102,6 +103,7 @@ function Rail({ section }: { section: Section }) {
       {item('dogs', 'nav-dogs', t('shell.dogs'), () => router.navigate('/dogs'))}
       {item('buddies', 'tab-members', t('shell.buddies'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/friends'); })}
       <View style={{ flex: 1 }} />
+      <NotificationBell size={40} box={52} radius={16} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
       <Pressable
         onPress={() => router.navigate('/profile')}

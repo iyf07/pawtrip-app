@@ -726,3 +726,8 @@ Prompt: Create one new PawTrip icon, one complete square picture; supplied image
 
 ## Batch 17 — empty discovery (2026-11-16)
 Built-in image_gen, one transparent PNG; reference scale-recall-1 and trait-runner. Prompt: cute cream and golden-eared dog gazing at a small gold question mark, paw collar charm, thick cocoa outline and white sticker rim, flat warm colors and highlights, centered with no words or shadow. UI empty-discover.png 512px; master 1024px; used for empty interests and dietary profile.
+
+## Batch 18 — notification bell (2026-11-17)
+Needed for the nav notification entry (`nav-notifications`; currently a placeholder using `ui-invite.png`). One icon, file `nav-notifications.png`.
+Prompt (self-contained): Create ONE icon for a dog travel app, a single complete square 1024x1024 picture on a flat pure white (#FFFFFF) background, icon centered filling about 80% with equal margin, nothing cut off. Style: cute glossy sticker, thick uniform rounded dark-cocoa (#4A3628) outline, thick crisp white sticker border, flat warm colors (golden yellow #FFC72C bell body, cream #FFF4D6 details) with one tiny glossy white highlight at the upper left, chubby proportions, no drop shadow, no glow, no text, no thin hairlines, readable at 28 px. Subject: a chubby golden notification bell with a small cream paw print on its front and a small round clapper below. Deliver as one PNG file named "nav-notifications.png".
+After delivery: clean with `scripts/clean-icons-white.py` (master 1024 + UI 512), point `nav-notifications` in `Icon.tsx` to it.

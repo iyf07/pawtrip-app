@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
+import { NotificationBell } from '@/components/NotificationBell';
 import { Avatar } from '@/components/ui/Avatar';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { COLUMN } from '@/constants/theme';
@@ -55,6 +56,7 @@ export function NavBar() {
           {left.map(btn)}
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
+          <NotificationBell size={28} box={36} radius={12} />
           {right.map(btn)}
           <Pressable onPress={() => router.navigate('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} hitSlop={8} style={{ marginLeft: 6 }}>
             <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={34} border={path.startsWith('/profile') ? 3 : 2} />

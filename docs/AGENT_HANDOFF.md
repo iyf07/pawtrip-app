@@ -443,3 +443,5 @@ User confirmed Chrome icons restored. Moved remove dog button into identity penc
 
 ### 2026-11-17 — Codex dog mobile width
 Dog detail used wide Screen unconditionally, unlike profile and dog list. Changed to narrow below wide breakpoint, retains desktop wide. Browser 375px: all three content widths 343px/x16; at 700px dog detail and list both width528/x86. tsc/eslint silent; no backend changes. Claim released; release follows.
+
+Release: 9ee44ed deployed to Expo (fod1vqoz5d), including 58c6a9c removal action. tsc/eslint silent, desktop and phone verified; no Supabase changes. Claims released.

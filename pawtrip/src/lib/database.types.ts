@@ -213,6 +213,32 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"notifications": {
+                  Row: {
+                    "actor_avatar": string | null,"actor_id": string | null,"actor_name": string,"created_at": string,"id": string,"kind": string,"read_at": string | null,"relation": string | null,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "actor_avatar"?: string | null,"actor_id"?: string | null,"actor_name"?: string,"created_at"?: string,"id"?: string,"kind": string,"read_at"?: string | null,"relation"?: string | null,"user_id": string
+                  }
+                  Update: {
+                    "actor_avatar"?: string | null,"actor_id"?: string | null,"actor_name"?: string,"created_at"?: string,"id"?: string,"kind"?: string,"read_at"?: string | null,"relation"?: string | null,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "notifications_actor_id_fkey"
+      columns: ["actor_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "notifications_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "avatar_url": string | null,"created_at": string,"diet": (string)[],"display_name": string,"handle": string,"id": string,"interests": (string)[],"morning": number | null,"noise": number | null,"onboarded_at": string | null,"pace": number | null,"spending": number | null,"temperature": number | null,"updated_at": string,"walking": number | null
@@ -351,6 +377,12 @@ isOneToOne: false
 "create_family":
 { Args: { "p_name": string }; Returns: string
                            },
+"disband_family":
+{ Args: Record<PropertyKey, never>; Returns: undefined
+                           },
+"dismiss_notification":
+{ Args: { "p_id": string }; Returns: undefined
+                           },
 "find_buddy":
 { Args: { "p_handle": string }; Returns: {
               "avatar_url": string,"display_name": string,"handle": string,"id": string,"relation": string
@@ -405,6 +437,9 @@ isOneToOne: false
                            },
 "new_invite_code":
 { Args: Record<PropertyKey, never>; Returns: string
+                           },
+"notify":
+{ Args: { "p_kind": string,"p_relation"?: string,"p_user": string }; Returns: undefined
                            },
 "peek_family":
 { Args: { "p_code": string }; Returns: Json

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRespondBuddy, useRespondBuddyRelation, type Buddy } from '@/api/buddies';
+import { useDismissNotification, useNotifications, type AppNotification } from '@/api/notifications';
 import { useFamily, useRespondFamilyInvite } from '@/api/family';
 import { Avatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -22,11 +23,14 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
   const respondRelation = useRespondBuddyRelation();
   const family = useFamily();
   const respondFamily = useRespondFamilyInvite();
+  const notifications = useNotifications();
+  const dismiss = useDismissNotification();
+  const answers = notifications.data ?? [];
   const [open, setOpen] = useState(false);
   const requests = (buddies.data ?? []).filter((b) => b.status === 'pending' && b.incoming);
   const invites = family.data?.invites ?? [];
   const relationAsks = (buddies.data ?? []).filter((b) => b.status === 'accepted' && b.relationProposed && !b.relationProposedByMe);
-  const count = requests.length + invites.length + relationAsks.length;
+  const count = requests.length + invites.length + relationAsks.length + answers.length;
 
   async function answer(b: Buddy, accept: boolean) {
     try {
@@ -36,6 +40,8 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
       toast(t('common.saveFailed'));
     }
   }
+
+  const answerText = (n: AppNotification) => t(`notif.${n.kind}` as Key, { name: n.actorName, rel: n.relation ? t(`rel.${n.relation}` as Key) : '' });
 
   async function answerRelation(b: Buddy, accept: boolean) {
     try {
@@ -83,6 +89,17 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
                 <View style={{ flexDirection: 'row', gap: 8 }}>
                   <Button label={t('family.accept')} small loading={respondFamily.isPending} onPress={() => answerFamily(i.familyId, i.familyName, true)} />
                   <Button label={t('bd.decline')} small variant="ghost" onPress={() => answerFamily(i.familyId, i.familyName, false)} />
+                </View>
+              </View>
+            ))}
+            {answers.map((n) => (
+              <View key={n.id} style={{ gap: 8, paddingVertical: 12, borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+                  <Avatar id={n.actorId ?? n.id} name={n.actorName} url={n.actorAvatar} size={44} />
+                  <Text weight={800} size={16} style={{ flex: 1 }}>{answerText(n)}</Text>
+                </View>
+                <View style={{ flexDirection: 'row', paddingLeft: 56 }}>
+                  <Button label={t('notif.dismiss')} small variant="ghost" onPress={() => dismiss.mutate(n.id)} />
                 </View>
               </View>
             ))}

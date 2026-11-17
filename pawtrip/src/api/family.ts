@@ -119,3 +119,10 @@ export function useRotateFamilyCode() {
     },
   });
 }
+
+/** Admin: close the family for everyone (dogs and trips stay). */
+export const useDisbandFamily = () =>
+  useFamilyMutation(async () => {
+    const { error } = await supabase.rpc('disband_family');
+    if (error) throw error;
+  });

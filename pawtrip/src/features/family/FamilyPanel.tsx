@@ -6,6 +6,7 @@ import {
   useCreateFamily,
   useFamily,
   useInviteToFamily,
+  useDisbandFamily,
   useLeaveFamily,
   useRespondFamilyInvite,
   useRemoveFamilyMember,
@@ -40,6 +41,7 @@ export function FamilyPanel() {
   const invite = useInviteToFamily();
   const remove = useRemoveFamilyMember();
   const leave = useLeaveFamily();
+  const disband = useDisbandFamily();
   const respond = useRespondFamilyInvite();
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
@@ -135,7 +137,7 @@ export function FamilyPanel() {
         </Card>
       ) : null}
       <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
-      <Button label={t('family.leave')} variant="text" block onPress={() => setAskLeave(true)} />
+      <Button label={t(state.isAdmin ? 'family.disband' : 'family.leave')} variant="text" block onPress={() => setAskLeave(true)} />
 
       <Sheet visible={inviting} onClose={() => setInviting(false)}>
         <Text weight={800} size={20}>{t('family.inviteTitle')}</Text>
@@ -170,12 +172,12 @@ export function FamilyPanel() {
 
       <ConfirmSheet
         visible={askLeave}
-        title={t('family.leaveTitle')}
-        body={t('family.leaveBody')}
-        confirmLabel={t('family.leave')}
+        title={t(state.isAdmin ? 'family.disbandTitle' : 'family.leaveTitle')}
+        body={t(state.isAdmin ? 'family.disbandBody' : 'family.leaveBody')}
+        confirmLabel={t(state.isAdmin ? 'family.disband' : 'family.leave')}
         danger
-        busy={leave.isPending}
-        onConfirm={() => run(async () => { await leave.mutateAsync(); setAskLeave(false); }, t('family.left'))}
+        busy={leave.isPending || disband.isPending}
+        onConfirm={() => run(async () => { if (state.isAdmin) await disband.mutateAsync(); else await leave.mutateAsync(); setAskLeave(false); }, t(state.isAdmin ? 'family.disbanded' : 'family.left'))}
         onClose={() => setAskLeave(false)}
       />
       <ConfirmSheet

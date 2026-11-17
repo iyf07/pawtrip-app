@@ -58,7 +58,7 @@ export function FamilyPanel() {
     return (
       <View style={{ gap: 14, marginTop: 8 }}>
         <View style={{ alignItems: 'center', paddingVertical: 24, gap: 18 }}>
-          <Icon name="nav-dogs" size={88} />
+          <Icon name="nav-family" size={88} />
           <Text weight={800} size={20}>{t('family.empty')}</Text>
         </View>
         <Card>

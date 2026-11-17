@@ -68,7 +68,7 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav bottom={wide ? undefined : <BottomTabBar value={tab} onChange={setTab} tabs={[{ value: 'friends', label: t('family.friends'), icon: 'tab-members' }, { value: 'family', label: t('family.tab'), icon: 'nav-profile' }]} />} top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+    <Screen nav bottom={wide ? undefined : <BottomTabBar value={tab} onChange={setTab} tabs={[{ value: 'friends', label: t('family.friends'), icon: 'tab-members' }, { value: 'family', label: t('family.tab'), icon: 'nav-family' }]} />} top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
       {wide ? <View style={{ marginTop: 4 }}>
         <Segmented value={tab} onChange={setTab} options={[{ value: 'friends', label: t('family.friends') }, { value: 'family', label: t('family.tab') }]} />
       </View> : null}

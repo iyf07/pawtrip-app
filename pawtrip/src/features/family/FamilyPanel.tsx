@@ -38,6 +38,7 @@ export function FamilyPanel() {
   const remove = useRemoveFamilyMember();
   const leave = useLeaveFamily();
   const [name, setName] = useState('');
+  const [creating, setCreating] = useState(false);
   const [inviting, setInviting] = useState(false);
   const [renaming, setRenaming] = useState<string | null>(null);
   const [askLeave, setAskLeave] = useState(false);
@@ -61,18 +62,21 @@ export function FamilyPanel() {
           <Icon name="nav-family" size={88} />
           <Text weight={800} size={20}>{t('family.empty')}</Text>
         </View>
-        <Card>
-          <Text weight={800} size={16}>{t('family.createTitle')}</Text>
-          <Field value={name} onChangeText={setName} placeholder={t('family.namePh')} maxLength={40} />
+        <Card dashed onPress={() => setCreating(true)} style={{ alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-family" size={28} /><Text weight={800} color="link">{t('family.createTitle')}</Text></View>
+        </Card>
+        <Sheet visible={creating} onClose={() => setCreating(false)}>
+          <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.createTitle')}</Text>
+          <Field value={name} onChangeText={setName} placeholder={t('family.namePh')} maxLength={40} autoFocus />
           <Button
             label={t('family.create')}
             block
             disabled={name.trim().length === 0}
             loading={create.isPending}
-            onPress={() => run(async () => { await create.mutateAsync(name.trim()); setName(''); })}
+            onPress={() => run(async () => { await create.mutateAsync(name.trim()); setName(''); setCreating(false); })}
             style={{ marginTop: 12 }}
           />
-        </Card>
+        </Sheet>
       </View>
     );
   }
@@ -127,7 +131,6 @@ export function FamilyPanel() {
             ))}
           </View>
         )}
-        <Button label={t('common.cancel')} variant="text" block onPress={() => setInviting(false)} style={{ marginTop: 14 }} />
       </Sheet>
 
       <Sheet visible={renaming !== null} onClose={() => setRenaming(null)}>

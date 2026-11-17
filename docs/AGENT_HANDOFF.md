@@ -532,3 +532,6 @@ User approved: on phones the map is its own 4th trip tab (计划 / 地图 / 想�
 
 ### 2026-11-17 (later 6) — first agent: avatar dropdown on phones
 Phone/tablet NavBar: the settings button is gone from the bar; tapping the avatar opens a small dropdown (我的主页 / 设置); the avatar gets the gold ring when on /profile or /settings. Bar is now: logo, calendar, trips, dogs, friends | bell, avatar. Supersedes the 2026-11-15 "settings next to the avatar" nav order for phones; the desktop rail is unchanged (settings above the avatar). Verified at 375px. Note for the future iOS bottom tab bar: put settings in the same avatar menu.
+
+### 2026-11-17 (later 7) — first agent: friends | family tabs
+Kept the two bottom tabs on `/friends`, but each owns its page: the family tab is titled 我的家庭 and has no header action; the friends tab keeps 我的好友 + add-friend. No-family state = illustration, 还没有家庭, a dashed 创建家庭 card (like 添加好友) that opens a bottom Sheet (title, name, 创建). Convention: simple input popups have **no 取消 button** (tap the scrim / swipe to close); the family create and invite sheets follow it. ConfirmSheet (destructive confirmations) keeps 取消. Other info/input sheets (AddFriendSheet, AddDogsSheet, trip info) still have a cancel button; remove only if the user asks.

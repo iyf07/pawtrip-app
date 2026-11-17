@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-17 Trip detail header places date, location and participant/dog avatars in one row. Mobile header uses 40px side slots and at most 3 avatar slots (overflow count); desktop retains up to 8.
 - 2026-11-17 Friend detail is a full route-backed page on mobile and desktop; dogs tab first, last tab 关系. All friend and dog profile section headings have dashed rules. Preference cards use measured container width, 1–4 columns, minimum about 160px. Friend interests reuse profile categories, showing only selected items and retaining legacy codes. Identity name/ID and dog name labels sit alongside bounded inputs.
 - 2026-11-17 Dog/friend add entries use existing paw stickers in headers, collection cards, sidebars and new-trip dog picker, replacing plus signs. Trip list removes header action; new trip card precedes join card. Trip detail uses narrow Screen below desktop breakpoint; plan shows all entries without filter, empty day and map helper text/overlays removed, dog-specific weather banner temporarily removed (date/hour weather remains).
 - 2026-11-17 Profile account login-method subgroup heading uses same 14px muted font and spacing as interest subgroup headings.
@@ -165,6 +166,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-17: Trip detail date/location and faces share a row; mobile condenses extra faces.
+
 
 - 2026-11-17: Friend full page/responsive grid/grouped interests, compact identity rows, add icons, trip list/plan cleanup and non-desktop trip width implemented; frontend release follows.
 
@@ -273,6 +277,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -474,3 +479,8 @@ Release: 2ff620b deployed to Expo (exad9atcpy); browser and tsc/eslint verified.
 
 ### 2026-11-17 — Codex profile, friends and trip refinements
 Reviewed phone friend flow visually: profile was a modal, preferences fixed at two columns, interests flat and section rules missing. Friend detail now route-backed on all sizes with back control and desktop list sidebar; dogs first by default, 关系 last, person/dog preference grids adapt to available width, category sections reuse profile picker and show selected only, legacy broad selections retained. Dashed rules on all profile section headings including nested dogs; 320px friend title shrinks to avoid truncation. Username/ID/dog-name labels and bounded fields share rows, validation and stable avatars preserved. Existing stickers replace pluses on add-dog/add-friend headers/cards/sidebar/wizard. Trip root header + removed, new trip card above join for empty/populated lists; plan removes all/confirmed filter and empty-day/map prompts & overlays and dog-aware weather banner; day/hour temperatures retained. Non-desktop trip Screen uses same narrow width as profile/list, desktop planner stays wide. Browser: 320/375/mobile and desktop checked; friend page back works/no modal, 375 preference 2 columns, 1280 desktop 4; input drafts discarded, empty/nonempty trip order, map and timeline show without filter/prompts, 700px trip list/detail both x86/w528 and 375px x16/w343. 17 tests including selected interest categories pass; tsc/eslint silent and git diff check clean. No backend changes, no user records changed. Claim released; release follows.
+
+Release result: e404f7a deployed to Expo (9ualpcmknj), frontend17 tests pass; no Supabase change.
+
+### 2026-11-17 — Codex trip header inline faces
+Put date, place and trip faces in one centered row. Narrow header side slots on mobile to preserve title and location; mobile shows up to 3 avatars/overflow count, desktop 8. Browser 375px confirms entire sample date/location on same line with +2 overflow, desktop faces and date vertically aligned; tsc/eslint silent. No data or backend changes. Claim released; release follows.

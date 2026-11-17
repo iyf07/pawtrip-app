@@ -21,13 +21,14 @@ export function TripFaces({ trip }: { trip: TripDetail }) {
     ...trip.trip_members.map((m) => ({ key: `p-${m.user_id}`, person: { id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url } })),
     ...trip.trip_dogs.flatMap((d) => (d.dogs ? [{ key: `d-${d.dog_id}`, dog: { url: d.dogs.photo_url } }] : [])),
   ];
-  const shown = faces.length > MAX ? faces.slice(0, MAX - 1) : faces;
+  const maxFaces = wide ? MAX : 3;
+  const shown = faces.length > maxFaces ? faces.slice(0, maxFaces - 1) : faces;
   const more = faces.length - shown.length;
 
   return (
     <View
       accessibilityLabel={`${t('people', { n: trip.trip_members.length })} · ${t('dogs', { n: trip.trip_dogs.length })}`}
-      style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 2 }}>
+      style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
       {shown.map((f, i) => (
         <View key={f.key} style={{ marginLeft: i === 0 ? 0 : overlap }}>
           {'person' in f && f.person ? <Avatar id={f.person.id} name={f.person.name} url={f.person.url} size={SIZE} border={2} /> : <DogAvatar url={'dog' in f ? f.dog?.url : null} size={SIZE} border={2} />}

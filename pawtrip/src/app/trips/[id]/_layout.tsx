@@ -106,10 +106,11 @@ export default function TripLayout() {
         top={
           <Header
             left={back}
+            sideWidth={wide ? 64 : 40}
             title={trip.name}
             subtitleNode={
-              <View style={{ alignItems: 'center' }}>
-                <Text weight={700} size={wide ? 17 : 14} color="muted" numberOfLines={1} style={{ marginTop: 2 }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, maxWidth: '100%', marginTop: 2 }}>
+                <Text weight={700} size={wide ? 17 : 14} color="muted" numberOfLines={1} style={{ flexShrink: 1 }}>
                   {[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join('  ·  ')}
                 </Text>
                 <TripFaces trip={trip} />

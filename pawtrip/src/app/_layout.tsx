@@ -144,6 +144,11 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="profile" />
           <Stack.Screen name="dogs/[id]" options={{ presentation: 'modal' }} />
           <Stack.Screen name="trips/[id]" />
+          {/* old URLs redirect to the new ones; they must be guarded too, otherwise a signed-out visitor is sent to the first unguarded route (/buddies) instead of the sign-in page */}
+          <Stack.Screen name="buddies" />
+          <Stack.Screen name="new-trip" />
+          <Stack.Screen name="trip/[...rest]" />
+          <Stack.Screen name="dog/[id]" />
         </Stack.Protected>
       </Stack>
       </DesktopShell>

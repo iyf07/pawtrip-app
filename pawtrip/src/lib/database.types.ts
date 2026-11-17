@@ -25,14 +25,14 @@ export type Database = {
           Tables: {
             "buddies": {
                   Row: {
-                    "addressee_id": string,"created_at": string,"requester_id": string,"status": string
+                    "accepted_at": string | null,"addressee_id": string,"created_at": string,"relation": string | null,"requester_id": string,"status": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "addressee_id": string,"created_at"?: string,"requester_id": string,"status"?: string
+                    "accepted_at"?: string | null,"addressee_id": string,"created_at"?: string,"relation"?: string | null,"requester_id": string,"status"?: string
                   }
                   Update: {
-                    "addressee_id"?: string,"created_at"?: string,"requester_id"?: string,"status"?: string
+                    "accepted_at"?: string | null,"addressee_id"?: string,"created_at"?: string,"relation"?: string | null,"requester_id"?: string,"status"?: string
                   }
                   Relationships: [
                     {
@@ -417,6 +417,9 @@ isOneToOne: false
                            },
 "rotate_invite_code":
 { Args: { "p_trip": string }; Returns: string
+                           },
+"set_buddy_relation":
+{ Args: { "p_other": string,"p_relation": string }; Returns: undefined
                            },
 "shares_trip_with":
 { Args: { "uid": string }; Returns: boolean

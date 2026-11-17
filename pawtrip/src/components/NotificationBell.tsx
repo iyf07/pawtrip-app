@@ -60,14 +60,14 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
         ) : null}
       </Pressable>
       <Sheet visible={open} onClose={() => setOpen(false)}>
-        <Text weight={800} size={22}>{t('notif.title')}</Text>
-        <View style={{ gap: 14, marginTop: 16 }}>
+        <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('notif.title')}</Text>
+        <View style={{ marginTop: 12 }}>
           {count === 0 ? (
-            <Text color="muted" weight={700}>{t('notif.empty')}</Text>
+            <Text color="muted" weight={700} style={{ textAlign: 'center' }}>{t('notif.empty')}</Text>
           ) : (
             <>
             {invites.map((i) => (
-              <View key={i.familyId} style={{ gap: 10 }}>
+              <View key={i.familyId} style={{ gap: 8, paddingVertical: 12, borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
                 <Text weight={800} size={16}>{t('family.invitesYou', { who: i.inviterName, name: i.familyName })}</Text>
                 <View style={{ flexDirection: 'row', gap: 8 }}>
                   <Button label={t('family.accept')} small loading={respondFamily.isPending} onPress={() => answerFamily(i.familyId, i.familyName, true)} />
@@ -76,7 +76,7 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
               </View>
             ))}
             {requests.map((b) => (
-              <View key={b.userId} style={{ gap: 10 }}>
+              <View key={b.userId} style={{ gap: 8, paddingVertical: 12, borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
                   <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
                   <View style={{ flex: 1, minWidth: 0 }}>
@@ -84,7 +84,7 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
                     <Meta size={12} numberOfLines={1}>@{b.handle}</Meta>
                   </View>
                 </View>
-                <View style={{ flexDirection: 'row', gap: 8 }}>
+                <View style={{ flexDirection: 'row', gap: 8, paddingLeft: 56 }}>
                   <Button label={t('bd.accept')} small onPress={() => answer(b, true)} loading={respond.isPending} />
                   <Button label={t('bd.decline')} small variant="ghost" onPress={() => answer(b, false)} />
                 </View>

@@ -8,7 +8,8 @@ import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/b
 import { PersonTraits } from '@/components/PersonTraits';
 import { FamilyPanel } from '@/features/family/FamilyPanel';
 import { Segmented } from '@/components/ui/Chip';
-import { FriendSheet } from './FriendSheet';
+import { BottomTabBar } from '@/components/BottomTabBar';
+import { FriendSheet, useFriendTabs, type FriendTab } from './FriendSheet';
 import { AddFriendSheet } from './AddFriendSheet';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -28,6 +29,8 @@ export function BuddiesScreen() {
   const buddies = useBuddies();
   const [adding, setAdding] = useState(false);
   const [tab, setTab] = useState<'friends' | 'family'>('friends');
+  const [friendTab, setFriendTab] = useState<FriendTab>('dogs');
+  const friendTabs = useFriendTabs();
   const th = useTheme();
   const { wide, width } = useLayout();
   const { friend, add } = useLocalSearchParams<{ friend?: string; add?: string }>();
@@ -58,17 +61,17 @@ export function BuddiesScreen() {
   );
 
   if (friend && selected) return (
-    <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
-      <FriendSheet buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
+    <Screen nav size={wide ? "wide" : "narrow"} bottom={wide ? undefined : <BottomTabBar value={friendTab} tabs={friendTabs} onChange={setFriendTab} />} top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
+      <FriendSheet buddy={selected} tab={friendTab} onTab={setFriendTab} externalTabs={!wide} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
     </Screen>
   );
 
   return (
-    <Screen nav top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
-      <View style={{ marginTop: 4 }}>
+    <Screen nav bottom={wide ? undefined : <BottomTabBar value={tab} onChange={setTab} tabs={[{ value: 'friends', label: t('family.friends'), icon: 'tab-members' }, { value: 'family', label: t('family.tab'), icon: 'nav-profile' }]} />} top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+      {wide ? <View style={{ marginTop: 4 }}>
         <Segmented value={tab} onChange={setTab} options={[{ value: 'friends', label: t('family.friends') }, { value: 'family', label: t('family.tab') }]} />
-      </View>
+      </View> : null}
       {tab === 'family' ? (
         <FamilyPanel />
       ) : buddies.isPending ? (

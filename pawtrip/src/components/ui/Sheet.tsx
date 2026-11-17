@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { Animated, Easing, Keyboard, Modal, Platform, Pressable, ScrollView, View } from 'react-native';
+import { Animated, Easing, Keyboard, Modal, Platform, Pressable, ScrollView, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { MAX_WIDTH } from '@/constants/theme';
@@ -55,6 +55,7 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
   const insets = useSafeAreaInsets();
   const { medium } = useLayout();
   const keyboard = useKeyboardInset();
+  const { height: screenH } = useWindowDimensions();
   const [mounted, setMounted] = useState(visible);
   const [progress] = useState(() => new Animated.Value(visible ? 1 : 0));
   const native = Platform.OS !== 'web';
@@ -74,8 +75,8 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
   if (!mounted) return null;
 
   const scrimOpacity = progress.interpolate({ inputRange: [0, 1], outputRange: [0, 1] });
-  const panelOpacity = progress.interpolate({ inputRange: [0, 0.6, 1], outputRange: [0, 0.9, 1] });
-  const lift = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 14 : 48, 0] });
+  const panelOpacity = medium ? progress.interpolate({ inputRange: [0, 0.6, 1], outputRange: [0, 0.9, 1] }) : progress.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] });
+  const lift = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 14 : Math.min(screenH * 0.6, 520), 0] });
   const scale = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 0.97 : 1, 1] });
 
   return (

@@ -1,9 +1,9 @@
 import { Tabs, useLocalSearchParams } from 'expo-router';
 import { useState, type ComponentProps } from 'react';
-import { Pressable, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
 import { useTrip, useTripRealtime } from '@/api/trips';
+import { BottomTabBar } from '@/components/BottomTabBar';
 import { TripFaces } from '@/components/TripFaces';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -12,7 +12,6 @@ import { Sheet } from '@/components/ui/Sheet';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
-import { MAX_WIDTH } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
 import { AddItemSheet } from '@/features/plan/AddItemSheet';
 import { ItemDetailSheet } from '@/features/plan/ItemDetailSheet';
@@ -28,37 +27,18 @@ type BarProps = Parameters<NonNullable<ComponentProps<typeof Tabs>['tabBar']>>[0
 const TAB_ICON: Record<string, IconName> = { plan: 'tab-plan', ideas: 'tab-ideas', group: 'tab-members' };
 
 function TripTabBar({ state, navigateToTab }: BarProps) {
-  const th = useTheme();
   const { t } = useT();
-  const insets = useSafeAreaInsets();
   const { wide } = useLayout();
 
   // desktop: the sections are a column in the shell instead
   if (wide) return null;
 
   return (
-    <View style={{ backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center' }}>
-      <View style={{ flexDirection: 'row', width: '100%', maxWidth: MAX_WIDTH, gap: 4, paddingHorizontal: 8, paddingTop: 8, paddingBottom: 8 + insets.bottom }}>
-        {state.routes.map((route, i) => {
-          const on = state.index === i;
-          return (
-            <Pressable
-              key={route.key}
-              onPress={() => {
-                if (!on) navigateToTab(route.key);
-              }}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: on }}
-              style={{ flex: 1, minHeight: 54, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 2, backgroundColor: on ? th.gold : 'transparent' }}>
-              <Icon name={TAB_ICON[route.name] ?? 'tab-plan'} size={26} />
-              <Text weight={800} size={12} color={on ? 'onGold' : 'muted'}>
-                {t(`tab.${route.name}` as 'tab.plan')}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-    </View>
+    <BottomTabBar
+      value={state.routes[state.index].key}
+      tabs={state.routes.map((route) => ({ value: route.key, label: t(`tab.${route.name}` as 'tab.plan'), icon: TAB_ICON[route.name] ?? 'tab-plan' }))}
+      onChange={navigateToTab}
+    />
   );
 }
 

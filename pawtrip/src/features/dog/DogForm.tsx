@@ -131,15 +131,16 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         {editing === 'identity' ? (
           <>
             <InlineFieldRow label={t('dog.shortName')}><Field accessibilityLabel={t('dog.name')} containerStyle={{ marginTop: 0 }} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} /></InlineFieldRow>
-            <Text weight={800} size={13} style={{ marginTop: 10, marginBottom: 6 }}>{t('dog.weight')}</Text>
-            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
-              <View style={{ flex: 1, marginTop: -14 }}><Field value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
-              <Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} />
-            </View>
+            <InlineFieldRow label={t('dog.weight')}>
+              <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+                <View style={{ flex: 1, minWidth: 0 }}><Field containerStyle={{ marginTop: 0 }} value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
+                <View style={{ paddingTop: 2 }}><Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} /></View>
+              </View>
+            </InlineFieldRow>
             {!dog.owner_id || dog.owner_id === userId ? <Button label={t('dog.remove')} variant="danger" onPress={() => setAskDelete(true)} style={{ marginTop: 12 }} /> : null}
           </>
         ) : <Text weight={700} size={wide ? 17 : 15} color="muted" numberOfLines={1}>{weight ? `${weight} ${unit}` : '—'}</Text>}
-        <DogTraits dog={editing === 'preferences' ? scales : init.scales} />
+        {editing ? null : <DogTraits dog={init.scales} />}
       </View>
     </View>
   );

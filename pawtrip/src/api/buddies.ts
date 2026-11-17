@@ -11,6 +11,10 @@ export type Buddy = {
   /** the other person */
   userId: string;
   status: 'pending' | 'accepted';
+  /** when they became friends (falls back to when the request was made) */
+  since: string;
+  /** shared label of the relationship, e.g. bestie */
+  relation: string | null;
   /** a pending request: did I send it, or did they send it to me? */
   incoming: boolean;
   name: string;
@@ -44,6 +48,8 @@ export function useBuddies() {
       return others.map(({ r, other }) => ({
         userId: other,
         status: r.status as Buddy['status'],
+        since: r.accepted_at ?? r.created_at,
+        relation: r.relation ?? null,
         incoming: r.addressee_id === userId,
         name: byId.get(other)?.display_name ?? '?',
         avatar: byId.get(other)?.avatar_url ?? null,
@@ -116,3 +122,12 @@ export function useAddBuddiesToTrip() {
     },
   });
 }
+
+export const RELATIONS = ['brother', 'sister', 'bestie', 'pal', 'lover', 'spouse', 'family', 'classmate', 'colleague', 'neighbor'] as const;
+
+/** Set (or clear, with null) the label of the relationship; either side can do it. */
+export const useSetBuddyRelation = () =>
+  useBuddyMutation(async ({ other, relation }: { other: string; relation: string | null }) => {
+    const { error } = await supabase.rpc('set_buddy_relation', { p_other: other, p_relation: relation ?? '' });
+    if (error) throw error;
+  });

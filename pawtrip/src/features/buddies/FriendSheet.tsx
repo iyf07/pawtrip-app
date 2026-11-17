@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
-import type { Buddy, FriendDog } from '@/api/buddies';
+import { RELATIONS, useSetBuddyRelation, type Buddy, type FriendDog } from '@/api/buddies';
 import { DogInterests } from '@/components/DogInterests';
 import { InterestPicker } from '@/components/InterestPicker';
 import { PersonTraits } from '@/components/PersonTraits';
@@ -9,12 +9,11 @@ import { DogTraits } from '@/components/DogTraits';
 import { ProfileTabs } from '@/components/ProfileTabs';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
-import { Button } from '@/components/ui/Button';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { dietIcon } from '@/components/DietIcon';
 import { Chip } from '@/components/ui/Chip';
-import { Icon } from '@/components/ui/Icon';
+import { Icon, type IconName } from '@/components/ui/Icon';
 import { useLayout } from '@/hooks/use-layout';
 import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
 import { useTheme } from '@/hooks/use-theme';
@@ -44,28 +43,55 @@ function DogProfile({ dog }: { dog: FriendDog }) {
   </View>;
 }
 
-export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void }) {
+export type FriendTab = 'style' | 'interests' | 'diet' | 'dogs' | 'friend';
+
+/** The friend page's tabs (shown on top on desktop, in the bottom bar on a phone). */
+export function useFriendTabs() {
   const { t } = useT();
+  return [
+    { value: 'dogs', label: t('friend.dogs'), icon: 'nav-dogs' },
+    { value: 'style', label: t('pf.tab.style'), icon: 'scale-walk-4' },
+    { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
+    { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
+    { value: 'friend', label: t('friend.tab'), icon: 'tab-members' },
+  ] as { value: FriendTab; label: string; icon: IconName }[];
+}
+
+export function FriendSheet({ buddy, onClose, onRemove, tab: tabProp, onTab, externalTabs }: { buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void; tab?: FriendTab; onTab?: (t: FriendTab) => void; /** the page draws the tab bar itself (phone) */ externalTabs?: boolean }) {
+  const { t, locale } = useT();
   const { wide } = useLayout();
-  const [tab, setTab] = useState<'style' | 'interests' | 'diet' | 'dogs' | 'friend'>('dogs');
+  const setRelation = useSetBuddyRelation();
+  const [now] = useState(() => Date.now());
+  const [ownTab, setOwnTab] = useState<FriendTab>('dogs');
+  const tab = tabProp ?? ownTab;
+  const setTab = onTab ?? setOwnTab;
+  const tabs = useFriendTabs();
   const [gridWidth, setGridWidth] = useState(0);
   const columns = Math.max(1, Math.min(4, Math.floor((gridWidth + 10) / 170)));
   const cardWidth = gridWidth ? (gridWidth - (columns - 1) * 10) / columns : undefined;
   const [confirm, setConfirm] = useState(false);
+  const days = buddy ? Math.max(0, Math.floor((now - new Date(buddy.since).getTime()) / 86400000)) : 0;
   const profile = buddy ? <View style={{ gap: 24 }}>
     <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 16, marginTop: 4 }}><Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={wide ? 128 : 84} /><View style={{ flex: 1, minWidth: 0 }}><Text weight={800} size={wide ? 30 : 22} numberOfLines={1}>{buddy.name}</Text><Meta size={14}>@{buddy.handle}</Meta><PersonTraits size={13} profile={buddy.traits} /></View></View>
-    <ProfileTabs value={tab} onChange={setTab} tabs={[
-      { value: 'dogs', label: t('friend.dogs'), icon: 'nav-dogs' },
-      { value: 'style', label: t('pf.tab.style'), icon: 'scale-walk-4' },
-      { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
-      { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
-      { value: 'friend', label: t('friend.tab'), icon: 'tab-members' },
-    ]} />
+    {externalTabs ? null : <ProfileTabs value={tab} onChange={setTab} tabs={tabs} />}
     {tab === 'style' ? <View style={{ gap: 12 }}><Heading title={t('friend.namedPreferences', { name: buddy.name })} /><View onLayout={(e) => setGridWidth(e.nativeEvent.layout.width)} style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>{PERSON_SCALES.map((f) => <ScaleInput key={f} compact compactWidth={cardWidth} field={f} value={buddy.traits[f]} readOnly description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}</View></View> : null}
     {tab === 'interests' ? <View style={{ gap: 12 }}><Heading title={t('friend.namedInterests', { name: buddy.name })} />{buddy.interests.length ? <InterestPicker value={buddy.interests} readOnly selectedOnly /> : <Chip icon={<Icon name="empty-discover" size={28} />} label={t('friend.emptyInterests')} />}</View> : null}
     {tab === 'diet' ? <View style={{ gap: 12 }}><Heading title={t('friend.namedDiet', { name: buddy.name })} /><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{buddy.diet.length ? buddy.diet.map((d) => <Chip key={d} icon={dietIcon(d, 28)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} />) : <Chip icon={<Icon name="cat-food" size={28} />} label={t('friend.emptyDiet')} />}</View></View> : null}
     {tab === 'dogs' ? <View style={{ gap: 12 }}><Heading title={t('friend.namedDogs', { name: buddy.name })} />{buddy.dogs.length ? buddy.dogs.map((dog) => <DogProfile key={dog.id} dog={dog} />) : <Meta>{t('friend.noDogs')}</Meta>}</View> : null}
-    {tab === 'friend' ? <View style={{ gap: 16 }}><Heading title={t('friend.relationship')} /><View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text weight={700}>{t('friend.status')}</Text><Meta>{buddy.status === 'accepted' ? t('friend.accepted') : t('bd.pending')}</Meta></View>{onRemove ? <Button label={t('bd.removeFriend')} variant="danger" block style={{ maxWidth: wide ? 500 : undefined }} onPress={() => setConfirm(true)} /> : null}</View> : null}
+    {tab === 'friend' ? <View style={{ gap: 16 }}><Heading title={t('friend.relationship')} />
+      {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 6 }}>
+        <Icon name="tab-members" size={64} />
+        <Text weight={800} size={18} style={{ textAlign: 'center' }}>{t('friend.since', { date: new Date(buddy.since).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' }) })}</Text>
+        <Meta weight={700}>{days > 0 ? t('friend.days', { n: days }) : t('friend.daysToday')}</Meta>
+      </View> : <Meta style={{ textAlign: 'center' }}>{t('bd.pending')}</Meta>}
+      {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 10 }}>
+        <Text weight={800} size={15}>{t('friend.relationIs')}</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center' }}>
+          {RELATIONS.map((r) => <Chip key={r} label={t(`rel.${r}` as Key)} on={buddy.relation === r} onPress={() => setRelation.mutate({ other: buddy.userId, relation: buddy.relation === r ? null : r })} />)}
+        </View>
+      </View> : null}
+      {onRemove ? <View style={{ alignItems: 'center', marginTop: 8 }}><Pressable onPress={() => setConfirm(true)} accessibilityRole="button" hitSlop={8} style={{ paddingVertical: 10, paddingHorizontal: 16 }}><Text weight={800} color="danger">{t('bd.removeFriend')}</Text></Pressable></View> : null}
+    </View> : null}
     <ConfirmSheet visible={confirm} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: buddy.name })} confirmLabel={t('bd.removeFriend')} danger onConfirm={() => { setConfirm(false); onRemove?.(buddy); onClose(); }} onClose={() => setConfirm(false)} />
   </View> : null;
   return profile;

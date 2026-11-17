@@ -19,7 +19,7 @@ import { PageSkeleton } from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
-import { ProfileTabs } from "@/components/ProfileTabs";
+import { BottomTabBar } from "@/components/BottomTabBar";
 import {
   BackButton,
   Header,
@@ -306,6 +306,15 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     <Screen
       nav
       size={wide ? "wide" : "narrow"}
+      bottom={wide ? undefined : <BottomTabBar value={profileTab} tabs={[
+        { value: 'style', label: t('pf.tab.style'), icon: 'scale-walk-4' },
+        { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
+        { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
+        { value: 'account', label: t('pf.tab.account'), icon: 'ui-key' },
+      ]} onChange={(next) => {
+        if (editing && next !== profileTab) { toast(t('pf.finishSection')); return; }
+        setProfileTab(next);
+      }} />}
       top={
         <Header
           title={t("profile.title")}
@@ -327,16 +336,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           </>
         ) : (
           <>
-            <ProfileTabs value={profileTab} tabs={[
-              { value: 'style', label: t('pf.tab.style'), icon: 'scale-walk-4' },
-              { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
-              { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
-              { value: 'account', label: t('pf.tab.account'), icon: 'ui-key' },
-            ]} onChange={(next) => {
-              if (editing && next !== profileTab) { toast(t('pf.finishSection')); return; }
-              setProfileTab(next);
-            }} />
-            <View style={{ marginTop: 24 }}>
+            <View style={{ marginTop: 8 }}>
               {profileTab === 'style' ? styleBlock : profileTab === 'interests' ? interestsBlock : profileTab === 'diet' ? dietBlock : <>{accountBlock}{signOutBlock}</>}
             </View>
           </>

@@ -19,7 +19,6 @@ import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import { useMyProfile, useSettings } from '@/api/profile';
 import { usePrefetchTrips, useTrips } from '@/api/trips';
-import { preloadIcons } from '@/components/ui/Icon';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { FeedbackButton } from '@/components/FeedbackButton';
 import { DesktopShell } from '@/components/shell/DesktopShell';
@@ -92,7 +91,7 @@ export default function RootLayout() {
 function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   const { session, ready } = useAuth();
   const me = useMyProfile();
-  // warm the data and the icons every screen needs, so opening a screen for the first time does not flash empty
+  // Warm the data every screen needs; icons load as they are rendered.
   useMyDogs();
   useBuddies();
   useSettings();
@@ -100,7 +99,6 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   usePrefetchTrips((trips.data ?? []).map((x) => x.id)); // trip details and their items, so opening a trip shows content at once
   useEffect(() => {
     if (!session) return;
-    void preloadIcons();
     // the map library is a big separate download; fetch it quietly so the first map opens at once
     const id = setTimeout(() => {
       if (Platform.OS === 'web') void import('mapbox-gl').catch(() => {});

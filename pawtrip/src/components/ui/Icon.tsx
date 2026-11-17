@@ -1,4 +1,3 @@
-import { Asset } from 'expo-asset';
 import { Image, type ImageStyle, type StyleProp } from 'react-native';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
@@ -170,11 +169,6 @@ export type IconName = keyof typeof SOURCES;
 
 /** Whether an icon with this name exists yet (some icon sets are added batch by batch). */
 export const hasIcon = (name: string): name is IconName => name in SOURCES;
-
-/** Download every sticker icon up front, so a screen opened for the first time does not show them popping in. */
-export function preloadIcons() {
-  return Asset.loadAsync(Object.values(SOURCES) as number[]).catch(() => {});
-}
 
 export function Icon({ name, size = 32, style }: { name: IconName; size?: number; style?: StyleProp<ImageStyle> }) {
   return <Image source={SOURCES[name]} accessibilityElementsHidden style={[{ width: size, height: size }, style]} resizeMode="contain" />;

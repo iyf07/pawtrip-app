@@ -37,7 +37,7 @@ export function NavBar() {
       go: () => router.navigate('/dogs'),
       match: (p) => p.startsWith('/dog'),
     },
-    { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/friends'), match: (p) => p.startsWith('/friends') },
+    { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/friends'), match: (p) => p.startsWith('/friends') || p.startsWith('/family') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => router.navigate('/settings'), match: (p) => p.startsWith('/settings') },
   ];
   const btn = (it: (typeof items)[number]) => (

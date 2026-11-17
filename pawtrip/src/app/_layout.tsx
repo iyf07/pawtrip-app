@@ -137,6 +137,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="index" />
           <Stack.Screen name="calendar" />
           <Stack.Screen name="friends" />
+          <Stack.Screen name="family" />
           <Stack.Screen name="dogs/index" />
           <Stack.Screen name="settings" />
           <Stack.Screen name="trips/new" options={{ presentation: 'modal' }} />

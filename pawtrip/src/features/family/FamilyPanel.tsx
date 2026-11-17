@@ -65,6 +65,25 @@ export function FamilyPanel() {
     }
   }
 
+  async function sendInvites() {
+    const failed: string[] = [];
+    let sent = 0;
+    for (const id of picked) {
+      const name = (buddies.data ?? []).find((b) => b.userId === id)?.name ?? '';
+      try {
+        await invite.mutateAsync(id);
+        sent += 1;
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String((e as { message?: string })?.message ?? '');
+        failed.push(msg.includes('already_in_family') ? t('family.errInOther', { name }) : msg.includes('not_a_friend') ? t('family.errNotFriend', { name }) : msg.includes('only the family admin') ? t('family.errOnlyAdmin') : t('common.saveFailed'));
+      }
+    }
+    setPicked([]);
+    if (failed.length) toast(failed[0]);
+    else toast(t('family.invited'));
+    if (sent > 0 || !failed.length) setInviting(false);
+  }
+
   if (fam.isPending) return <PageSkeleton cards={2} />;
   const state = fam.data;
   if (!state?.family) {
@@ -182,7 +201,7 @@ export function FamilyPanel() {
               block
               disabled={picked.length === 0}
               loading={invite.isPending}
-              onPress={() => run(async () => { for (const id of picked) await invite.mutateAsync(id); setPicked([]); setInviting(false); }, t('family.invited'))}
+              onPress={sendInvites}
               style={{ marginTop: 12 }}
             />
           </>

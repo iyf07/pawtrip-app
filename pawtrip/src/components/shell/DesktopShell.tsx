@@ -31,7 +31,7 @@ const LIST_W = 232;
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|join)(\/|$)/.test(p) || p === '/trips/new' || p === '/dogs/new';
 
-const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : p.startsWith('/friends') ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : (p.startsWith('/friends') || p.startsWith('/family')) ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the

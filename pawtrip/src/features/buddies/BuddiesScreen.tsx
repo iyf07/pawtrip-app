@@ -6,8 +6,7 @@ import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
 import { PersonTraits } from '@/components/PersonTraits';
-import { FamilyPanel } from '@/features/family/FamilyPanel';
-import { Segmented } from '@/components/ui/Chip';
+import { usePeopleTabs } from '@/components/PeopleTabs';
 import { BottomTabBar } from '@/components/BottomTabBar';
 import { FriendSheet, useFriendTabs, type FriendTab } from './FriendSheet';
 import { AddFriendSheet } from './AddFriendSheet';
@@ -29,7 +28,7 @@ export function BuddiesScreen() {
   const toast = useToast();
   const buddies = useBuddies();
   const [adding, setAdding] = useState(false);
-  const [tab, setTab] = useState<'friends' | 'family'>('friends');
+  const people = usePeopleTabs('friends');
   const [friendTab, setFriendTab] = useState<FriendTab>('dogs');
   const friendTabs = useFriendTabs();
   const th = useTheme();
@@ -69,13 +68,9 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav bottom={wide ? undefined : <BottomTabBar value={tab} onChange={setTab} tabs={[{ value: 'friends', label: t('family.friends'), icon: 'tab-members' }, { value: 'family', label: t('family.tab'), icon: 'nav-family' }]} />} top={<Header title={t(tab === 'family' ? 'family.title' : 'bd.title')} right={tab === 'friends' ? <AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} /> : undefined} />} size="narrow">
-      {wide ? <View style={{ marginTop: 4 }}>
-        <Segmented value={tab} onChange={setTab} options={[{ value: 'friends', label: t('family.friends') }, { value: 'family', label: t('family.tab') }]} />
-      </View> : null}
-      {tab === 'family' ? (
-        <FamilyPanel />
-      ) : buddies.isPending ? (
+    <Screen nav bottom={people.bottom} top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+      {people.top ? <View style={{ marginTop: 4 }}>{people.top}</View> : null}
+      {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (
         <View style={{ gap: 12, marginTop: 20 }}>

@@ -529,3 +529,6 @@ Open (user asked my opinion, not decided): remove-dog button placement; whether 
 
 ### 2026-11-17 (later 5) — first agent: map tab
 User approved: on phones the map is its own 4th trip tab (计划 / 地图 / 想法 / 成员, `src/app/trips/[id]/map.tsx`: day strip + full-height map; tapping a pin opens the item). The phone plan page no longer has the "N stops · Map" strip (`PlanMap.tsx` deleted). Desktop unchanged (map beside the timeline, folds with the handle). Shared logic in `features/plan/useDayMap.ts`. Verified at 375px; the desktop rail sections do not list the map. Still open: remove-dog button placement (my suggestion: bottom of the dog page, centered red text, only in identity edit mode; not done, user has not answered).
+
+### 2026-11-17 (later 6) — first agent: avatar dropdown on phones
+Phone/tablet NavBar: the settings button is gone from the bar; tapping the avatar opens a small dropdown (我的主页 / 设置); the avatar gets the gold ring when on /profile or /settings. Bar is now: logo, calendar, trips, dogs, friends | bell, avatar. Supersedes the 2026-11-15 "settings next to the avatar" nav order for phones; the desktop rail is unchanged (settings above the avatar). Verified at 375px. Note for the future iOS bottom tab bar: put settings in the same avatar menu.

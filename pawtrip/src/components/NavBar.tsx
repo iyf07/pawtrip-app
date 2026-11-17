@@ -1,5 +1,6 @@
 import { router, usePathname } from 'expo-router';
-import { Image, Pressable, View } from 'react-native';
+import { useState } from 'react';
+import { Image, Modal, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useMyProfile } from '@/api/profile';
@@ -7,6 +8,7 @@ import { useAuth } from '@/auth/AuthProvider';
 import { NotificationBell } from '@/components/NotificationBell';
 import { Avatar } from '@/components/ui/Avatar';
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { Text } from '@/components/ui/Text';
 import { COLUMN } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
@@ -45,7 +47,14 @@ export function NavBar() {
   );
   // everything on the left except settings and the avatar
   const left = items.filter((i) => i.key !== 'settings');
-  const right = items.filter((i) => i.key === 'settings');
+  const [menu, setMenu] = useState(false);
+  const onAccount = path.startsWith('/profile') || path.startsWith('/settings');
+  const menuItem = (icon: IconName, label: string, go: () => void) => (
+    <Pressable key={label} onPress={() => { setMenu(false); go(); }} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, paddingHorizontal: 16 }}>
+      <Icon name={icon} size={28} />
+      <Text weight={800}>{label}</Text>
+    </Pressable>
+  );
   return (
     <View style={{ width: '100%', backgroundColor: th.card, borderBottomWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: insets.top }}>
       <View style={{ height: NAV_HEIGHT, width: '100%', maxWidth: COLUMN.full, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 }}>
@@ -57,12 +66,19 @@ export function NavBar() {
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
           <NotificationBell size={28} box={36} radius={12} />
-          {right.map(btn)}
-          <Pressable onPress={() => router.navigate('/profile')} accessibilityRole="button" accessibilityLabel={t('profile.title')} hitSlop={8} style={{ marginLeft: 6 }}>
-            <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={34} border={path.startsWith('/profile') ? 3 : 2} />
+          <Pressable onPress={() => setMenu(true)} accessibilityRole="button" accessibilityState={{ expanded: menu }} accessibilityLabel={t('profile.title')} hitSlop={8} style={{ marginLeft: 6 }}>
+            <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={34} border={onAccount ? 3 : 2} />
           </Pressable>
         </View>
       </View>
+      <Modal visible={menu} transparent animationType="fade" onRequestClose={() => setMenu(false)}>
+        <Pressable onPress={() => setMenu(false)} accessibilityLabel="Close" style={{ flex: 1 }}>
+          <View style={{ position: 'absolute', top: insets.top + NAV_HEIGHT - 6, right: 12, minWidth: 190, backgroundColor: th.card, borderRadius: 18, borderWidth: 2, borderColor: th.line, paddingVertical: 4, boxShadow: `0 8px 24px -6px ${th.shadow}` }}>
+            {menuItem('nav-profile', t('profile.title'), () => router.navigate('/profile'))}
+            {menuItem('nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 }

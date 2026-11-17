@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-17 Dog detail uses narrow Screen on non-wide viewports, same as profile and dog list; keeps wide Screen on desktop.
 - 2026-11-17 Move remove dog into identity pencil edit mode, beneath weight; existing confirmation remains. Supersedes always-visible dog remove button.
 - 2026-11-17: Stop eager preloading all 160 icon PNGs at login (about 31 MB); render icons on demand. This reduces requests during startup but Chrome screenshot root cause is unconfirmed and requires user verification.
 - 2026-11-16 Friend preferences use compact two-column cards on all widths; five tabs include 好友 for actual relationship status and remove confirmation. Empty diet is 无忌口 with paw plate icon, per explicit user clarification; supersedes prior neutral empty-diet decision.
@@ -160,6 +161,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-17: Dog detail uses the same narrow width as profile and dog list below desktop breakpoint.
+
 
 - 2026-11-17: Remove dog button now appears only in dog identity edit mode. User confirmed sticker icons returned after on-demand loading deployment.
 
@@ -256,6 +260,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+
 
 
 
@@ -435,3 +440,6 @@ Release: 98bff04 deployed to Expo production (5t72p14ky3). Login no longer eager
 
 ### 2026-11-17 — Codex dog remove action
 User confirmed Chrome icons restored. Moved remove dog button into identity pencil editing below weight; existing confirmation retained. Desktop and 375px browser verified view hidden, edit visible, confirmation opens and cancels; discarded draft, no data changed. tsc/eslint silent, no backend changes. Claim released; release follows.
+
+### 2026-11-17 — Codex dog mobile width
+Dog detail used wide Screen unconditionally, unlike profile and dog list. Changed to narrow below wide breakpoint, retains desktop wide. Browser 375px: all three content widths 343px/x16; at 700px dog detail and list both width528/x86. tsc/eslint silent; no backend changes. Claim released; release follows.

@@ -6,10 +6,12 @@ import { DogWizard } from '@/features/dog/DogWizard';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { useT } from '@/i18n';
+import { useLayout } from '@/hooks/use-layout';
 import { goBack } from '@/lib/nav';
 
 export default function DogEditorRoute() {
   const { t } = useT();
+  const { wide } = useLayout();
   const { id } = useLocalSearchParams<{ id: string }>();
   const dog = useDog(id);
   // A new dog is created through the one-question-at-a-time wizard; an existing dog is edited in a popup
@@ -20,7 +22,7 @@ export default function DogEditorRoute() {
   return (
     <DogForm key={dog.data.id} dog={dog.data} onClose={goBack}>
       {({ body, footer }) => (
-        <Screen nav size="wide" bottom={footer} top={<Header title={t('dog.home', { name: dog.data.name })} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
+        <Screen nav size={wide ? "wide" : "narrow"} bottom={footer} top={<Header title={t('dog.home', { name: dog.data.name })} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
           {body}
         </Screen>
       )}

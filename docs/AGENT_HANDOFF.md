@@ -425,3 +425,5 @@ Release: 147badf deployed to Expo (7omtv99nry). tsc/eslint silent; no Supabase c
 
 ### 2026-11-17 — Codex Chrome icon loading investigation
 User screenshot: all static sticker images blank, user-uploaded profile photos present; reports Chrome desktop even after refresh. Previous production PNG checks returned HTTP200; unable to reproduce in local browser and production IAB rendered blank during initial loading. Located login preload Asset.loadAsync over all160 stickers (~31 MB); Expo web implementation individually loads image metadata. Removed blanket preload so icons fetch on demand. This is a mitigation, not a confirmed root cause. Local desktop and375px dog image checks show 6 preferences and 3 pencils complete with nonzero naturalWidth; tsc/eslint silent. No database changes. User should verify deployment in affected Chrome; investigate browser DevTools Network/Console if still missing. Claim released.
+
+Release: 98bff04 deployed to Expo production (5t72p14ky3). Login no longer eagerly requests all icons. Chrome user verification needed; root cause remains unconfirmed. No Supabase changes. Claim released.

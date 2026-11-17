@@ -535,3 +535,6 @@ Phone/tablet NavBar: the settings button is gone from the bar; tapping the avata
 
 ### 2026-11-17 (later 7) — first agent: friends | family tabs
 Kept the two bottom tabs on `/friends`, but each owns its page: the family tab is titled 我的家庭 and has no header action; the friends tab keeps 我的好友 + add-friend. No-family state = illustration, 还没有家庭, a dashed 创建家庭 card (like 添加好友) that opens a bottom Sheet (title, name, 创建). Convention: simple input popups have **no 取消 button** (tap the scrim / swipe to close); the family create and invite sheets follow it. ConfirmSheet (destructive confirmations) keeps 取消. Other info/input sheets (AddFriendSheet, AddDogsSheet, trip info) still have a cancel button; remove only if the user asks.
+
+### 2026-11-17 (later 8) — first agent: join a family
+Gap found by the user: the family tab only offered "create"; invitations were only visible in the bell. Now the family tab (no-family state) lists pending invitations ("X 邀请你加入家庭 Y", 加入 / 拒绝) above the dashed 创建家庭 card; the bell still shows them too. Verified locally end to end in the UI at 375px: invitation → bell badge 1 → 加入 → family page with both members, badge cleared → 退出家庭 (confirm) → back to empty state. This also covers the earlier "not clicked through" items: member accepting, leaving. Still unchecked: remove member, rename, desktop width, family dogs on a new trip.

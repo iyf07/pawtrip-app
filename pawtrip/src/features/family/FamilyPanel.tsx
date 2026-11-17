@@ -7,6 +7,7 @@ import {
   useFamily,
   useInviteToFamily,
   useLeaveFamily,
+  useRespondFamilyInvite,
   useRemoveFamilyMember,
   useRenameFamily,
 } from '@/api/family';
@@ -37,6 +38,7 @@ export function FamilyPanel() {
   const invite = useInviteToFamily();
   const remove = useRemoveFamilyMember();
   const leave = useLeaveFamily();
+  const respond = useRespondFamilyInvite();
   const [name, setName] = useState('');
   const [creating, setCreating] = useState(false);
   const [inviting, setInviting] = useState(false);
@@ -62,6 +64,15 @@ export function FamilyPanel() {
           <Icon name="nav-family" size={88} />
           <Text weight={800} size={20}>{t('family.empty')}</Text>
         </View>
+        {(state?.invites ?? []).map((i) => (
+          <Card key={i.familyId}>
+            <Text weight={800} size={16}>{t('family.invitesYou', { who: i.inviterName, name: i.familyName })}</Text>
+            <View style={{ flexDirection: 'row', gap: 8, marginTop: 10 }}>
+              <Button label={t('family.accept')} small loading={respond.isPending} onPress={() => run(() => respond.mutateAsync({ familyId: i.familyId, accept: true }), t('family.joined', { name: i.familyName }))} />
+              <Button label={t('bd.decline')} small variant="ghost" onPress={() => run(() => respond.mutateAsync({ familyId: i.familyId, accept: false }), t('bd.declined'))} />
+            </View>
+          </Card>
+        ))}
         <Card dashed onPress={() => setCreating(true)} style={{ alignItems: 'center' }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-family" size={28} /><Text weight={800} color="link">{t('family.createTitle')}</Text></View>
         </Card>

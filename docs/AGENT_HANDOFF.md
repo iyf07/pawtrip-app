@@ -453,3 +453,5 @@ Release: 9ee44ed deployed to Expo (fod1vqoz5d), including 58c6a9c removal action
 
 ### 2026-11-17 — Codex stable identity avatars
 Top-aligned identity row on human/dog profiles to stop avatar moving when form expands. Account heading uses 40px title row without extra top margin. Browser verified personal avatar x16/y114 before/after mobile edit, desktop dog avatar x324/y75 before/after, mobile preference and account headings both y321; drafts discarded. tsc/eslint silent; no backend changes. Claim released; release follows.
+
+Release: 146498e deployed to Expo (zakuet5tij); browser checks and tsc/eslint passed. No Supabase change. Claim released.

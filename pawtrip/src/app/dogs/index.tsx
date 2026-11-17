@@ -1,6 +1,8 @@
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
+import { DogTraits } from '@/components/DogTraits';
+import { dogWeightLabel } from '@/lib/dog-weight';
 import { useMyDogs } from '@/api/dogs';
 import { AddAction } from '@/components/ui/AddAction';
 import { DogAvatar } from '@/components/ui/Avatar';
@@ -8,7 +10,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
-import { Text } from '@/components/ui/Text';
+import { Meta, Text } from '@/components/ui/Text';
 import { useT } from '@/i18n';
 
 /** All sizes start with the collection; selecting a dog opens its profile. */
@@ -31,9 +33,11 @@ export default function Dogs() {
           {(dogs.data ?? []).map((d) => (
             <Card key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
               <DogAvatar url={d.photo_url} />
-              <Text weight={800} style={{ flex: 1 }}>
-                {d.name}
-              </Text>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text weight={800} numberOfLines={1}>{d.name}</Text>
+                {dogWeightLabel(d) ? <Meta>{dogWeightLabel(d)}</Meta> : null}
+                <DogTraits dog={d} lines={2} />
+              </View>
               <Text plain size={22} color="muted" weight={800}>
                 ›
               </Text>

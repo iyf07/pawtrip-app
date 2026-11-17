@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
+import { PersonTraits } from '@/components/PersonTraits';
 import { FriendSheet } from './FriendSheet';
 import { AddFriendSheet } from './AddFriendSheet';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
@@ -80,6 +81,7 @@ export function BuddiesScreen() {
                     {t('bd.wants', { who: b.name })}
                   </Text>
                   <Meta size={12} numberOfLines={1}>@{b.handle}</Meta>
+                  <PersonTraits profile={b.traits} size={12} />
                 </View>
                 <Text plain color="muted" size={22} weight={800}>›</Text>
               </Pressable>
@@ -108,6 +110,7 @@ export function BuddiesScreen() {
                     {b.name}
                   </Text>
                   <Meta size={12} numberOfLines={1}>@{b.handle}</Meta>
+                  <PersonTraits profile={b.traits} size={12} />
                 </View>
                 {b.status === 'pending' ? <Meta weight={700}>{t('bd.pending')}</Meta> : null}
                 {b.dogs.length ? (

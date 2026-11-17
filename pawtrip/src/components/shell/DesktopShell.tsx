@@ -2,6 +2,9 @@ import { router, useGlobalSearchParams, usePathname } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 
+import { DogTraits } from '@/components/DogTraits';
+import { PersonTraits } from '@/components/PersonTraits';
+import { dogWeightLabel } from '@/lib/dog-weight';
 import { useBuddies } from '@/api/buddies';
 import { collectionDetail } from '@/lib/collection-layout';
 import { useMyDogs } from '@/api/dogs';
@@ -187,9 +190,11 @@ function DogList({ selected }: { selected: string | null }) {
       {(dogs.data ?? []).map((d) => (
         <Row key={d.id} on={d.id === selected} onPress={() => router.navigate({ pathname: '/dogs/[id]', params: { id: d.id } })}>
           <DogAvatar url={d.photo_url} />
-          <Text weight={800} style={{ flex: 1 }} numberOfLines={1}>
-            {d.name}
-          </Text>
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <Text weight={800} numberOfLines={1}>{d.name}</Text>
+            {dogWeightLabel(d) ? <Meta numberOfLines={1}>{dogWeightLabel(d)}</Meta> : null}
+            <DogTraits dog={d} lines={1} />
+          </View>
         </Row>
       ))}
       <AddLink icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} />
@@ -203,7 +208,7 @@ function FriendList({ selected }: { selected?: string }) {
   return <ListFrame title={t('bd.title')}>
     {(buddies.data ?? []).map((b) => <Row key={b.userId} on={selected === b.userId} onPress={() => router.replace({ pathname: '/friends', params: { friend: b.userId } })}>
       <Avatar id={b.userId} name={b.name} url={b.avatar} size={36} />
-      <View style={{ flex: 1, minWidth: 0 }}><Text weight={800} numberOfLines={1}>{b.name}</Text><Meta numberOfLines={1}>@{b.handle}</Meta></View>
+      <View style={{ flex: 1, minWidth: 0 }}><Text weight={800} numberOfLines={1}>{b.name}</Text><Meta numberOfLines={1}>@{b.handle}</Meta><PersonTraits profile={b.traits} /></View>
     </Row>)}
     <AddLink icon="tab-members" label={t('bd.addTitle')} onPress={() => router.setParams({ add: '1' })} />
   </ListFrame>;

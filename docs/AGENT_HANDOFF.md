@@ -119,6 +119,7 @@ Product/architecture
 - 2026-11 Frontend will become a monorepo when the second app starts.
 
 Interface (details in `docs/pm/11-ui-principles.md`)
+- 2026-11-17 Dog collection cards/sidebar show weight in the saved lb/kg unit plus endpoint traits; friend cards (including requests) and sidebar show endpoint person traits. Neutral profiles show no labels.
 - 2026-11-17 Trip detail header supersedes inline date/location: single row centered clickable trip name and right-aligned people/dogs; title opens a date/location sheet. Up to 4 desktop and 3 phone avatar slots with overflow count. Mobile day strip has 16px dates, horizontal swipe and conditional previous/next buttons only on overflow; desktop date rail unchanged. Trip list restores header + while keeping bottom new-trip card.
 - 2026-11-17 Trip detail header places date, location and participant/dog avatars in one row. Mobile header uses 40px side slots and at most 3 avatar slots (overflow count); desktop retains up to 8.
 - 2026-11-17 Friend detail is a full route-backed page on mobile and desktop; dogs tab first, last tab 关系. All friend and dog profile section headings have dashed rules. Preference cards use measured container width, 1–4 columns, minimum about 160px. Friend interests reuse profile categories, showing only selected items and retaining legacy codes. Identity name/ID and dog name labels sit alongside bounded inputs.
@@ -167,6 +168,9 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-17: Dog and friend lists/sidebar show existing endpoint labels; dogs also show weight. Trip title and date strip changes pending release.
+
 
 - 2026-11-17: Trip list + restored; trip detail single-row clickable title/right faces and mobile scrollable date strip implemented.
 
@@ -494,3 +498,6 @@ Release result: e1bf49d deployed to Expo (w646sjn0me); superseded by single-row 
 
 ### 2026-11-17 — Codex trip header and dates
 Restored + header action while retaining create card above join. Trip detail header now single row: centered accessible title opens sheet with dates and place, people/dogs right; overflow represented as +N. Mobile day dates 16px; horizontal swipe retained, earlier/later buttons only when overflowing. Desktop date rail untouched. Browser mobile and desktop checked title, faces and info sheet; at220px test viewport forced date overflow and verified next/previous buttons. 375px normal three dates fit with no arrows. Trip create header + opens wizard; bottom create card stays. 17 tests pass, tsc/eslint silent, no database changes or user data modified. Claim released; release follows.
+
+### 2026-11-17 — Codex dog/friend collection details
+Dog list + desktop sidebar display weight converted from stored lb to saved lb/kg, plus endpoint-only DogTraits (2 lines main, 1 sidebar). Friend accepted/pending cards and sidebar show existing PersonTraits; no labels for neutral. Browser local 375px Biscuit 65 lb and endpoint labels, desktop dog sidebar same; Morgan fixture neutral and shows none. Weight unit/absence test added; 18 tests pass, tsc/eslint silent. No backend or test data changed. Claim released; release follows with trip header/date changes.

@@ -501,3 +501,5 @@ Restored + header action while retaining create card above join. Trip detail hea
 
 ### 2026-11-17 — Codex dog/friend collection details
 Dog list + desktop sidebar display weight converted from stored lb to saved lb/kg, plus endpoint-only DogTraits (2 lines main, 1 sidebar). Friend accepted/pending cards and sidebar show existing PersonTraits; no labels for neutral. Browser local 375px Biscuit 65 lb and endpoint labels, desktop dog sidebar same; Morgan fixture neutral and shows none. Weight unit/absence test added; 18 tests pass, tsc/eslint silent. No backend or test data changed. Claim released; release follows with trip header/date changes.
+
+Release: 9abdaa8 deployed to Expo production (4c7mde2s4r), including 03d1a28 header/date/add action. 18 frontend tests pass, tsc/eslint silent; no Supabase change. Claim released.

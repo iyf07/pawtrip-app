@@ -644,3 +644,6 @@ Save/discard ✓/✗ buttons use the new `ui/RingButton.tsx` (profile, dog page,
 ### later 36 (Claude)
 - **Share popup**: the share buttons (trip invite, family invite code, profile ID) no longer jump to the system share dialog. New `components/ShareSheet.tsx` (bottom sheet on phone, centred dialog on desktop): shows the text to send, 复制文字, 复制链接 (when there is a link), 更多方式 (system share, only where available). Not clicked through in the browser; tsc/eslint silent.
 - **Paw tap effect**: `components/PawTap.tsx` wraps the app; every click/tap shows a paw print (`logo-paw`) that pops and fades in 600 ms. Details in `docs/animations.md` #12.
+
+### later 37 (Claude)
+Top `NavBar` icons now behave like the tabs: the current section's icon widens (60 px vs 32 px) and scales up, the others narrow, 0.5 s, with cross-page memory (`useTabGrow(on, 'nav:<icon>')`). Checked at 375 px. The desktop vertical rail in `DesktopShell` is unchanged.

@@ -1,6 +1,6 @@
 import { router, usePathname } from 'expo-router';
 import { useState } from 'react';
-import { Image, Modal, Pressable, View } from 'react-native';
+import { Animated, Image, Modal, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useMyProfile } from '@/api/profile';
@@ -8,7 +8,9 @@ import { useAuth } from '@/auth/AuthProvider';
 import { NotificationBell } from '@/components/NotificationBell';
 import { Avatar } from '@/components/ui/Avatar';
 import { Icon, type IconName } from '@/components/ui/Icon';
+import { PressScale } from '@/components/ui/PressScale';
 import { Text } from '@/components/ui/Text';
+import { useTabGrow } from '@/components/useTabGrow';
 import { COLUMN } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
@@ -40,11 +42,7 @@ export function NavBar() {
     { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/friends'), match: (p) => p.startsWith('/friends') || p.startsWith('/family') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => router.navigate('/settings'), match: (p) => p.startsWith('/settings') },
   ];
-  const btn = (it: (typeof items)[number]) => (
-    <Pressable key={it.key} onPress={it.go} accessibilityRole="button" accessibilityLabel={it.label} hitSlop={4} style={{ width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: it.match(path) ? th.gold : 'transparent' }}>
-      <Icon name={it.icon} size={28} />
-    </Pressable>
-  );
+  const btn = (it: (typeof items)[number]) => <NavButton key={it.key} icon={it.icon} label={it.label} on={it.match(path)} onPress={it.go} />;
   // everything on the left except settings and the avatar
   const left = items.filter((i) => i.key !== 'settings');
   const [menu, setMenu] = useState(false);
@@ -80,5 +78,21 @@ export function NavBar() {
         </Pressable>
       </Modal>
     </View>
+  );
+}
+
+/** A nav icon: the current one grows wider and scales up, the others narrow, like the tabs (0.5 s). Remembers its last
+ * state across pages, because every page draws its own NavBar. */
+function NavButton({ icon, label, on, onPress }: { icon: IconName; label: string; on: boolean; onPress: () => void }) {
+  const th = useTheme();
+  const { p, scale } = useTabGrow(on, `nav:${icon}`);
+  return (
+    <Animated.View style={{ width: p.interpolate({ inputRange: [0, 1], outputRange: [32, 60] }), height: 36, transform: [{ scale }] }}>
+      <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={4} style={{ flex: 1 }}>
+        <Animated.View style={{ flex: 1, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: p.interpolate({ inputRange: [0, 1], outputRange: ['rgba(255,199,44,0)', th.gold] }) }}>
+          <Icon name={icon} size={28} />
+        </Animated.View>
+      </PressScale>
+    </Animated.View>
   );
 }

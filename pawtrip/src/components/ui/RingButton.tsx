@@ -11,7 +11,7 @@ const R = (SIZE - STROKE) / 2;
 const C = 2 * Math.PI * R;
 export const RING_DRAW_MS = 350; // the outline draws itself
 export const RING_HALO_MS = 450; // then a glow spreads one ring outward and fades
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const easeOut = (p: number) => 1 - Math.pow(1 - p, 3);
 
 /**
  * Round ✓ (save) / ✗ (discard) button. On press the coloured outline draws around it in 350 ms, then a halo ring
@@ -20,19 +20,30 @@ const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 'save' | 'discard'; onPress: () => void; disabled?: boolean; loading?: boolean; label: string }) {
   const th = useTheme();
   const color = kind === 'save' ? th.ok : th.danger;
-  const [draw] = useState(() => new Animated.Value(0));
+  const [draw, setDraw] = useState(0); // 0..1, driven frame by frame (animated SVG props do not update on web)
   const [halo] = useState(() => new Animated.Value(0));
   const [busy, setBusy] = useState(false);
   const off = disabled || loading || busy;
   const press = () => {
     if (off) return;
     setBusy(true);
-    draw.setValue(0);
+    setDraw(0);
     halo.setValue(0);
-    Animated.timing(draw, { toValue: 1, duration: RING_DRAW_MS, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start(() => {
-      Animated.timing(halo, { toValue: 1, duration: RING_HALO_MS, easing: Easing.out(Easing.quad), useNativeDriver: Platform.OS !== 'web' }).start(() => setBusy(false));
+    const t0 = Date.now();
+    const step = () => {
+      const p = Math.min(1, (Date.now() - t0) / RING_DRAW_MS);
+      setDraw(easeOut(p));
+      if (p < 1) {
+        requestAnimationFrame(step);
+        return;
+      }
+      Animated.timing(halo, { toValue: 1, duration: RING_HALO_MS, easing: Easing.out(Easing.quad), useNativeDriver: Platform.OS !== 'web' }).start(() => {
+        setBusy(false);
+        setDraw(0);
+      });
       onPress();
-    });
+    };
+    requestAnimationFrame(step);
   };
   return (
     <Pressable accessibilityRole="button" accessibilityLabel={label} onPress={press} disabled={disabled || loading} style={{ width: SIZE, height: SIZE }}>
@@ -41,7 +52,7 @@ export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 
         {loading ? <ActivityIndicator color={th.muted} /> : <Icon name={kind === 'save' ? 'ui-save' : 'ui-discard'} size={28} />}
       </View>
       <Svg width={SIZE} height={SIZE} pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0 }}>
-        <AnimatedCircle cx={SIZE / 2} cy={SIZE / 2} r={R} stroke={color} strokeWidth={STROKE} fill="none" strokeLinecap="round" strokeDasharray={`${C} ${C}`} strokeDashoffset={draw.interpolate({ inputRange: [0, 1], outputRange: [C, 0] })} transform={`rotate(-90 ${SIZE / 2} ${SIZE / 2})`} />
+        <Circle cx={SIZE / 2} cy={SIZE / 2} r={R} stroke={color} strokeWidth={STROKE} fill="none" strokeLinecap="round" strokeDasharray={`${C} ${C}`} strokeDashoffset={C * (1 - draw)} transform={`rotate(-90 ${SIZE / 2} ${SIZE / 2})`} />
       </Svg>
     </Pressable>
   );

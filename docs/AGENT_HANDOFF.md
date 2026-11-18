@@ -633,3 +633,7 @@ Edit mode on profile/dog pages: the input boxes that appear (name, ID, dog name,
 
 ### later 33 (Claude)
 Save/discard ✓/✗ buttons use the new `ui/RingButton.tsx` (profile, dog page, family name): coloured outline draws in 350 ms (green save / red discard), then a halo spreads to 1.9x and fades in 450 ms; the action runs when the outline completes (350 ms latency by design). In discard the halo is cut off because edit mode closes. Not seen in the browser (local session was signed out); tsc/eslint silent.
+
+### later 34 (Claude)
+- Sign out now asks first: `ConfirmSheet` (title 退出登录, subtitle 确定要退出登录吗, red confirm) on the profile page; only the confirm button signs out.
+- `RingButton` outline now draws frame by frame (rAF + state) because animated SVG props did not update on web (user saw no animation). Verified locally signed in as alex@test.local: stroke-dashoffset runs from ~75 to 0 over 350 ms. Local sign-in trick for the browser pane: fetch `/auth/v1/token?grant_type=password` with alex@test.local / password123 and store the JSON in `localStorage['sb-127-auth-token']`.

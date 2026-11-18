@@ -34,6 +34,7 @@ import { useT, type Key } from "@/i18n";
 import { goBack } from "@/lib/nav";
 import { deletePhotoByUrl } from "@/lib/photos";
 import { Reveal } from '@/components/ui/Reveal';
+import { ConfirmSheet } from '@/components/ui/Sheet';
 import { RingButton } from '@/components/ui/RingButton';
 
 export default function ProfileRoute() {
@@ -48,6 +49,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const th = useTheme();
   const toast = useToast();
   const { email, signOut } = useAuth();
+  const [askSignOut, setAskSignOut] = useState(false);
   const update = useUpdateProfile();
   const { wide } = useLayout();
   // everything is read-only until the pencil is tapped; Save / Cancel then end the edit
@@ -292,7 +294,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         label={t("profile.signout")}
         variant="danger"
         block
-        onPress={() => signOut()}
+        onPress={() => setAskSignOut(true)}
         style={{ marginTop: 28 }}
       />
     </>
@@ -342,6 +344,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         {accountBlock}
         {signOutBlock}
       </View> : null}
+      <ConfirmSheet visible={askSignOut} title={t('profile.signout')} body={t('profile.signoutBody')} confirmLabel={t('profile.signout')} danger
+        onConfirm={() => { setAskSignOut(false); signOut(); }} onClose={() => setAskSignOut(false)} />
     </Screen>
   );
 }

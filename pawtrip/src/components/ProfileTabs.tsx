@@ -26,9 +26,9 @@ export function ProfileTabs<T extends string>({ value, tabs, onChange }: { value
 
 function ProfileTabItem<T extends string>({ tab, on, onPress }: { tab: Tab<T>; on: boolean; onPress: () => void }) {
   const th = useTheme();
-  const flex = useTabGrow(on);
+  const { flex, scale } = useTabGrow(on);
   return (
-    <Animated.View style={{ flex, minWidth: 0 }}>
+    <Animated.View style={{ flex, minWidth: 0, transform: [{ scale }] }}>
       <PressScale onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
         style={{ alignItems: 'center', gap: 2, paddingTop: 4, paddingBottom: 8, borderBottomWidth: 4, borderBottomColor: on ? th.gold : 'transparent', marginBottom: -2, opacity: on ? 1 : 0.6 }}>
         <Icon name={tab.icon} size={30} />

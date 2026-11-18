@@ -31,9 +31,9 @@ export function BottomTabBar<T extends string>({ value, tabs, onChange }: { valu
 
 function BottomTabItem({ tab, on, onPress }: { tab: BottomTab; on: boolean; onPress: () => void }) {
   const th = useTheme();
-  const flex = useTabGrow(on);
+  const { flex, scale } = useTabGrow(on);
   return (
-    <Animated.View style={{ flex, minWidth: 0 }}>
+    <Animated.View style={{ flex, minWidth: 0, transform: [{ scale }] }}>
       <PressScale onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
         style={{ minHeight: 54, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 2, backgroundColor: on ? th.gold : 'transparent' }}>
         <Icon name={tab.icon} size={26} />

@@ -621,3 +621,6 @@ Added `docs/animations.md`: one table with every animation's parameters (duratio
 
 ### later 29 (Claude)
 Press, move off the button, release = no click: `PressScale` sets `pressRetentionOffset` to 0 (default tolerates 20 px outside). Plain `Pressable`s elsewhere keep the default; convert them to `PressScale` when touched.
+
+### later 30 (Claude)
+Holding a `PressScale` button longer than 200 ms (`LONG_PRESS_MS` in `ui/PressScale.tsx`) no longer counts as a click, even without leaving the button. Tentative value, user may change it.

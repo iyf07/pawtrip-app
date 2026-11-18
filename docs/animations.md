@@ -27,3 +27,4 @@
 - 新增输入框：用 `Field`。
 - 所有动画在 Browser 面板（后台页面）里可能被暂停，调参数请在真机或前台页面看。
 - 按下按钮后把光标/手指移出按钮再松手 = 取消点击（`PressScale` 的 `pressRetentionOffset` 设为 0，默认容忍 20 px）。还没接 `PressScale` 的原生 `Pressable` 仍是默认 20 px 容忍。
+- 按住超过 200 ms 再松手 = 不算点击（`PressScale` 的 `LONG_PRESS_MS`，暂定 200，可调）。

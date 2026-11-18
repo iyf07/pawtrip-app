@@ -624,3 +624,6 @@ Press, move off the button, release = no click: `PressScale` sets `pressRetentio
 
 ### later 30 (Claude)
 Holding a `PressScale` button longer than 200 ms (`LONG_PRESS_MS` in `ui/PressScale.tsx`) no longer counts as a click, even without leaving the button. Tentative value, user may change it.
+
+### later 31 (Claude)
+Popups (Sheet) now have more space below the content: bottom padding 36 px + safe-area inset (was 22), so the last button no longer looks cut off. Not checked in the browser (local dev server was not running this time).

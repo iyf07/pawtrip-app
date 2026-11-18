@@ -115,7 +115,7 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
               maxHeight: '100%',
             }}>
             <View style={{ width: 44, height: 5, borderRadius: 3, backgroundColor: t.line, alignSelf: 'center', marginBottom: 14 }} />
-            <ScrollView style={{ flexShrink: 1 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: footer ? 16 : 22 + insets.bottom }} keyboardShouldPersistTaps="handled">
+            <ScrollView style={{ flexShrink: 1 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: footer ? 20 : 36 + insets.bottom }} keyboardShouldPersistTaps="handled">
               {children}
             </ScrollView>
             {footer}

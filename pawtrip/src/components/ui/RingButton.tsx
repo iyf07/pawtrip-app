@@ -10,12 +10,12 @@ const STROKE = 3;
 const R = (SIZE - STROKE) / 2;
 const C = 2 * Math.PI * R;
 export const RING_DRAW_MS = 350; // the outline draws itself
-export const RING_HALO_MS = 450; // then a glow spreads one ring outward and fades
+export const RING_HALO_MS = 300; // then a glow spreads one ring outward and fades
 const easeOut = (p: number) => 1 - Math.pow(1 - p, 3);
 
 /**
  * Round ✓ (save) / ✗ (discard) button. On press the coloured outline draws around it in 350 ms, then a halo ring
- * spreads out and fades; the action runs when the outline is complete. Green for save, red for discard.
+ * spreads out and fades (300 ms); the action runs when the halo has finished. Green for save, red for discard.
  */
 export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 'save' | 'discard'; onPress: () => void; disabled?: boolean; loading?: boolean; label: string }) {
   const th = useTheme();
@@ -37,11 +37,12 @@ export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 
         requestAnimationFrame(step);
         return;
       }
+      // the action runs after the halo has finished, so the whole animation is seen before edit mode closes
       Animated.timing(halo, { toValue: 1, duration: RING_HALO_MS, easing: Easing.out(Easing.quad), useNativeDriver: Platform.OS !== 'web' }).start(() => {
         setBusy(false);
         setDraw(0);
+        onPress();
       });
-      onPress();
     };
     requestAnimationFrame(step);
   };

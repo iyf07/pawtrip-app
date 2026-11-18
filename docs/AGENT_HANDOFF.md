@@ -637,3 +637,6 @@ Save/discard ✓/✗ buttons use the new `ui/RingButton.tsx` (profile, dog page,
 ### later 34 (Claude)
 - Sign out now asks first: `ConfirmSheet` (title 退出登录, subtitle 确定要退出登录吗, red confirm) on the profile page; only the confirm button signs out.
 - `RingButton` outline now draws frame by frame (rAF + state) because animated SVG props did not update on web (user saw no animation). Verified locally signed in as alex@test.local: stroke-dashoffset runs from ~75 to 0 over 350 ms. Local sign-in trick for the browser pane: fetch `/auth/v1/token?grant_type=password` with alex@test.local / password123 and store the JSON in `localStorage['sb-127-auth-token']`.
+
+### later 35 (Claude)
+`RingButton`: halo is now 300 ms and the save/discard action runs only after the halo has finished (total ≈ 650 ms), so the red discard halo is fully visible before edit mode closes. User's choice.

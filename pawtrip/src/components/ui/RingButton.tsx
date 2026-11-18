@@ -15,9 +15,9 @@ const easeOut = (p: number) => 1 - Math.pow(1 - p, 3);
 
 /**
  * Round ✓ (save) / ✗ (discard) button. On press the coloured outline draws around it in 350 ms, then a halo ring
- * spreads out and fades (300 ms); the action runs when the halo has finished. Green for save, red for discard.
+ * spreads out and fades (300 ms); the action starts immediately and gets a promise that resolves when the animation is over. Green for save, red for discard.
  */
-export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 'save' | 'discard'; onPress: () => void; disabled?: boolean; loading?: boolean; label: string }) {
+export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 'save' | 'discard'; onPress: (animationDone: Promise<void>) => unknown; disabled?: boolean; loading?: boolean; label: string }) {
   const th = useTheme();
   const color = kind === 'save' ? th.ok : th.danger;
   const [draw, setDraw] = useState(0); // 0..1, driven frame by frame (animated SVG props do not update on web)
@@ -29,6 +29,11 @@ export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 
     setBusy(true);
     setDraw(0);
     halo.setValue(0);
+    // the action starts right away (the backend call must not wait for the animation); `animationDone` lets it hold
+    // back what closes the edit mode until the outline and halo have played
+    let finish: () => void = () => {};
+    const animationDone = new Promise<void>((r) => { finish = r; });
+    onPress(animationDone);
     const t0 = Date.now();
     const step = () => {
       const p = Math.min(1, (Date.now() - t0) / RING_DRAW_MS);
@@ -37,11 +42,10 @@ export function RingButton({ kind, onPress, disabled, loading, label }: { kind: 
         requestAnimationFrame(step);
         return;
       }
-      // the action runs after the halo has finished, so the whole animation is seen before edit mode closes
       Animated.timing(halo, { toValue: 1, duration: RING_HALO_MS, easing: Easing.out(Easing.quad), useNativeDriver: Platform.OS !== 'web' }).start(() => {
         setBusy(false);
         setDraw(0);
-        onPress();
+        finish();
       });
     };
     requestAnimationFrame(step);

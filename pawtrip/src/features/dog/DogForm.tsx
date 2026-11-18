@@ -66,7 +66,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     setEditing(null);
   }
 
-  async function submit() {
+  async function submit(animationDone?: Promise<void>) {
     if (!editing) return;
     const section = editing;
     const w = Number(weight);
@@ -86,6 +86,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       setInit((current) => section === 'identity'
         ? { ...current, name: name.trim(), photo, unit, weight }
         : section === 'interests' ? { ...current, interests } : { ...current, scales });
+      await animationDone; // let the ✓ animation finish before the edit mode closes
       toast(t('toast.saved'));
       setEditing(null);
     } catch { toast(t('common.saveFailed')); }
@@ -97,8 +98,8 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     return (
       <View style={{ flexDirection: 'row', gap: 8 }}>
         {active ? <>
-          <RingButton kind="save" label={t('pf.saveSection', { section: title })} loading={save.isPending} onPress={submit} />
-          <RingButton kind="discard" label={t('pf.discardSection', { section: title })} disabled={save.isPending} onPress={discard} />
+          <RingButton kind="save" label={t('pf.saveSection', { section: title })} loading={save.isPending} onPress={(done) => submit(done)} />
+          <RingButton kind="discard" label={t('pf.discardSection', { section: title })} disabled={save.isPending} onPress={async (done) => { await done; discard(); }} />
         </> : <Pressable accessibilityRole="button" accessibilityLabel={t('pf.editSection', { section: title })}
           disabled={save.isPending} onPress={() => { if (editing) toast(t('pf.finishSection')); else setEditing(section); }} accessibilityState={{ disabled: !!editing }} style={[actionStyle, { opacity: editing ? 0.45 : 1 }]}>
           <Icon name="ui-pencil" size={24} />

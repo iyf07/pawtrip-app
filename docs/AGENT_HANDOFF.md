@@ -650,3 +650,7 @@ Top `NavBar` icons now behave like the tabs: the current section's icon widens (
 
 ### later 38 (Claude)
 List entrance (`Reveal`) no longer caps the stagger: item N waits N×100 ms, no limit (user's choice). Long lists therefore take long to finish appearing; if that bites, reintroduce a cap in `ui/Reveal.tsx`.
+
+### later 39 (Claude)
+- `RingButton` calls its action immediately on press (the backend request goes out at once, measured ~2 ms after the click) and hands the caller an `animationDone` promise; the profile, dog and family edit modes await both the save and `animationDone` before closing, so the ring animation is never cut off.
+- Click effect now shows the dog icon (`nav-dogs`) instead of the paw print.

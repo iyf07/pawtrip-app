@@ -15,7 +15,7 @@
 | 9 | 输入框出错 | 左右抖动，边框变红，下方提示淡入 | 左右抖 3 次，幅度 14 px 逐渐衰减（14, −11.5, 9, −6.5, 4, −2, 0），每段 60 ms，共 420 ms；提示淡入 240 ms | `pawtrip/src/components/ui/Field.tsx`（只作用于统一的 Field，裸 TextInput 不含） |
 | 10 | 设置页逐项入场 | 标题和每一项设置依次入场 | 同 #1（用 Reveal，间隔 100 ms） | `pawtrip/src/app/settings.tsx` |
 | 11 | 保存/撤销按钮 | 点击后描边画出，再扩散一圈淡出的光晕，颜色随对勾/叉 | 描边 350 ms 画满一圈（从顶部顺时针）；光晕 300 ms，放大到 1.9 倍并淡出；光晕放完后才执行保存/撤销（共约 650 ms）；保存 = 绿色（th.ok），撤销 = 红色（th.danger） | `pawtrip/src/components/ui/RingButton.tsx`（`RING_DRAW_MS`、`RING_HALO_MS`）；用于个人主页、狗狗页、家庭名字的保存/撤销 |
-| 12 | 点击爪印 | 全站任意位置点击/触摸，在点击处冒出一个爪印并淡出 | 600 ms，缓出；缩放 0.5→1.25；上飘 10 px；随机倾斜 ±25°；爪印 44 px（`logo-paw` 图标）；同时最多 6 个；不拦截点击 | `pawtrip/src/components/PawTap.tsx`（挂在 `app/_layout.tsx` 最外层；网页用 window pointerdown，手机用触摸捕获） |
+| 12 | 点击小狗 | 全站任意位置点击/触摸，在点击处冒出一个小狗图标并淡出 | 600 ms，缓出；缩放 0.5→1.25；上飘 10 px；随机倾斜 ±25°；图标 44 px（`nav-dogs` 小狗图标，要换图标改 `PawTap.tsx` 里的 `Icon name`）；同时最多 6 个；不拦截点击 | `pawtrip/src/components/PawTap.tsx`（挂在 `app/_layout.tsx` 最外层；网页用 window pointerdown，手机用触摸捕获） |
 | 13 | 顶部导航栏图标 | 当前页的图标变宽并放大，其他变窄并缩小，和标签一样 | 0.5 s；宽度 选中 60 px / 其他 32 px；缩放同 #2；每个页面各自画导航栏，所以用 `useTabGrow` 的记忆（key `nav:<icon>`）让切换页面时也能看到过渡 | `pawtrip/src/components/NavBar.tsx`（`NavButton`）。电脑左侧竖向导航栏（`DesktopShell`）暂未加 |
 
 ## 列表入场已覆盖的页面
@@ -32,3 +32,4 @@
 - 按下按钮后把光标/手指移出按钮再松手 = 取消点击（`PressScale` 的 `pressRetentionOffset` 设为 0，默认容忍 20 px）。还没接 `PressScale` 的原生 `Pressable` 仍是默认 20 px 容忍。
 - 按住超过 200 ms 再松手 = 不算点击（`PressScale` 的 `LONG_PRESS_MS`，暂定 200，可调）。
 - 编辑资料时出现的输入框（昵称、ID、狗狗名字、体重、自定义忌口）用 `Reveal` 滑入，和列表入场同参数（350 ms，上移 18 px），第二行晚 100 ms（`ui/InlineFieldRow.tsx` 的 `index`）。
+- 保存/撤销按钮：点击后立刻调用后端，不等动画；等动画和后端都完成后才关闭编辑状态（`RingButton` 把 `animationDone` 传给调用方）。

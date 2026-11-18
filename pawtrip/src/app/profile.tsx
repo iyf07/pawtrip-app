@@ -81,7 +81,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     setEditing(null);
   }
 
-  async function save() {
+  async function save(animationDone?: Promise<void>) {
     try {
       const patch = editing === "identity"
         ? { display_name: name.trim(), ...(handleChanged ? { handle } : {}) }
@@ -89,6 +89,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         : editing === "interests" ? { interests: normalizeInterests(interests) }
         : { diet: addDietaryNeed(diet, customDietCode()) };
       await update.mutateAsync(patch);
+      await animationDone; // let the ✓ animation finish before the edit mode closes
       if (editing === "diet") { setDiet(addDietaryNeed(diet, customDietCode())); setCustomDiet(""); }
       toast(t("toast.saved"));
       setEditing(null);
@@ -117,8 +118,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       <View style={{ flexDirection: "row", gap: 8 }}>
         {active ? (
           <>
-            <View style={{ opacity: canSave ? 1 : 0.45 }}><RingButton kind="save" label={t("pf.saveSection", { section: title })} disabled={!canSave} loading={update.isPending} onPress={save} /></View>
-            <RingButton kind="discard" label={t("pf.discardSection", { section: title })} disabled={update.isPending} onPress={cancel} />
+            <View style={{ opacity: canSave ? 1 : 0.45 }}><RingButton kind="save" label={t("pf.saveSection", { section: title })} disabled={!canSave} loading={update.isPending} onPress={(done) => save(done)} /></View>
+            <RingButton kind="discard" label={t("pf.discardSection", { section: title })} disabled={update.isPending} onPress={async (done) => { await done; cancel(); }} />
           </>
         ) : (
           <Pressable accessibilityRole="button" accessibilityLabel={section === "identity" ? t("pf.editName") : t("pf.editSection", { section: title })}

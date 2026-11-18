@@ -22,12 +22,12 @@ function Paw({ tap, done }: { tap: Tap; done: (id: number) => void }) {
         opacity: v.interpolate({ inputRange: [0, 0.15, 1], outputRange: [0, 0.9, 0] }),
         transform: [{ rotate: `${tap.tilt}deg` }, { scale: v.interpolate({ inputRange: [0, 1], outputRange: [0.5, 1.25] }) }, { translateY: v.interpolate({ inputRange: [0, 1], outputRange: [0, -10] }) }],
       }}>
-      <Icon name="logo-paw" size={SIZE} />
+      <Icon name="nav-dogs" size={SIZE} />
     </Animated.View>
   );
 }
 
-/** A paw print pops up where you click or tap, anywhere in the app, and fades away (600 ms). Never blocks input. */
+/** A little dog (the `nav-dogs` icon) pops up where you click or tap, anywhere in the app, and fades away (600 ms). Never blocks input. */
 export function PawTap({ children }: { children: ReactNode }) {
   const [taps, setTaps] = useState<Tap[]>([]);
   const [done] = useState(() => (id: number) => setTaps((cur) => cur.filter((t) => t.id !== id)));

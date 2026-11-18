@@ -137,8 +137,8 @@ export function FamilyPanel() {
           {editing ? <View style={{ flex: 1, minWidth: 0 }}><Field value={editName ?? ''} onChangeText={setEditName} placeholder={t('family.namePh')} maxLength={40} containerStyle={{ marginTop: 0 }} /></View> : <Text weight={800} size={20} style={{ flex: 1 }} numberOfLines={1}>{state.family.name}</Text>}
           {state.isAdmin ? (editing ? (
             <View style={{ flexDirection: 'row', gap: 8 }}>
-              <RingButton kind="save" label={t('nav.save')} disabled={!editName?.trim()} loading={rename.isPending} onPress={() => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); setEditName(null); })} />
-              <RingButton kind="discard" label={t('pf.discardSection', { section: state.family.name })} onPress={() => setEditName(null)} />
+              <RingButton kind="save" label={t('nav.save')} disabled={!editName?.trim()} loading={rename.isPending} onPress={(done) => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); await done; setEditName(null); })} />
+              <RingButton kind="discard" label={t('pf.discardSection', { section: state.family.name })} onPress={async (done) => { await done; setEditName(null); }} />
             </View>
           ) : (
             <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={actionStyle}>

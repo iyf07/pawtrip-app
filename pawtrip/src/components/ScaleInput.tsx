@@ -5,6 +5,7 @@ import { Icon, hasIcon, type IconName } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** DB column name -> i18n key stem (the prototype used camelCase). */
 const STEM: Record<string, string> = { with_dogs: 'withDogs', with_people: 'withPeople', recall_level: 'recall' };
@@ -27,10 +28,12 @@ type Props = {
   compactWidth?: number;
   /** view mode: show the answer, not editable */
   readOnly?: boolean;
+  /** position in its list: the card fades in after the ones before it */
+  index?: number;
 };
 
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Defaults to the middle (3). */
-export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 28, compact, compactWidth }: Props) {
+export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 28, compact, compactWidth, index }: Props) {
   const { t } = useT();
   const th = useTheme();
   const stem = scaleStem(field);
@@ -38,8 +41,9 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
   const iconName = `scale-${ICON_KEY[stem] ?? stem}-${v}`;
   const showIcon = hasIcon(iconName);
   if (compact) {
-    return (
-      <View style={{ width: compactWidth ?? '48%', flexGrow: compactWidth ? 0 : 1, padding: 12, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, borderRadius: 18, alignItems: 'center', gap: 6 }}>
+    const size = { width: compactWidth ?? '48%', flexGrow: compactWidth ? 0 : 1 } as const;
+    const card = (
+      <View style={{ ...(index == null ? size : { flex: 1 }), padding: 12, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, borderRadius: 18, alignItems: 'center', gap: 6 }}>
         <Text weight={800} size={18} numberOfLines={1} style={{ textAlign: 'center' }}>{t(`scale.${stem}` as Key)}</Text>
         {showIcon ? <Icon name={iconName as IconName} size={iconSize} /> : null}
         <Text weight={700} size={14} color="link" numberOfLines={2} style={{ textAlign: 'center' }}>{description ?? t(`scale.${stem}.${v}` as Key)}</Text>
@@ -51,8 +55,9 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
         ) : null}
       </View>
     );
+    return index == null ? card : <Reveal index={index} style={size}>{card}</Reveal>;
   }
-  return (
+  const full = (
     <View
       style={{
         marginTop: 14,
@@ -73,6 +78,7 @@ export function ScaleInput({ field, value, onChange, hideTitle, description, rea
       {!readOnly ? <Slider v={v} onChange={onChange} label={t(`scale.${stem}` as Key)} /> : null}
     </View>
   );
+  return index == null ? full : <Reveal index={index}>{full}</Reveal>;
 }
 
 const THUMB = 32;

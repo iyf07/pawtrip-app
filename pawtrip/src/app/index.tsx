@@ -2,7 +2,8 @@ import { router } from 'expo-router';
 import { View } from 'react-native';
 
 import { AddAction } from '@/components/ui/AddAction';
-import { useTrips, type TripListItem } from '@/api/trips';
+import { useAuth } from '@/auth/AuthProvider';
+import { useDeleteTrip, useLeaveTrip, useTrips, type TripListItem } from '@/api/trips';
 import { Icon } from '@/components/ui/Icon';
 import { AvatarStack } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -16,11 +17,19 @@ import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 import { Reveal } from '@/components/ui/Reveal';
+import { SwipeRow } from '@/components/ui/SwipeRow';
+import { ConfirmSheet } from '@/components/ui/Sheet';
+import { useState } from 'react';
 
 /** The root: always the trip list (cards), on every screen size. */
 export default function Trips() {
   const { t } = useT();
   const trips = useTrips();
+  const { userId } = useAuth();
+  const del = useDeleteTrip();
+  const leave = useLeaveTrip();
+  const [askTrip, setAskTrip] = useState<TripListItem | null>(null);
+  const mineTrip = askTrip?.creator_id === userId;
 
   const header = <Header title={t('trips.title')} right={<AddAction label={t('trips.new')} onPress={() => router.push('/trips/new')} />} />;
 
@@ -62,12 +71,14 @@ export default function Trips() {
       ) : (
         <View style={{ gap: 12, marginTop: 8 }}>
           {trips.data.map((trip, i) => (
-            <Reveal key={trip.id} index={i}><TripCard trip={trip} /></Reveal>
+            <Reveal key={trip.id} index={i}><SwipeRow onTrigger={() => setAskTrip(trip)}><TripCard trip={trip} /></SwipeRow></Reveal>
           ))}
           <Reveal index={trips.data.length}>{createButton}</Reveal>
           <Reveal index={trips.data.length + 1}>{joinButton}</Reveal>
         </View>
       )}
+      <ConfirmSheet visible={askTrip !== null} title={t(mineTrip ? 'delete.title' : 'leave.title')} body={mineTrip ? t('delete.body', { name: askTrip?.name ?? '' }) : t('leave.body')} confirmLabel={t(mineTrip ? 'group.delete' : 'leave.yes')} danger
+        onConfirm={() => { const x = askTrip; setAskTrip(null); if (x) (mineTrip ? del : leave).mutate(x.id); }} onClose={() => setAskTrip(null)} />
     </Screen>
   );
 }

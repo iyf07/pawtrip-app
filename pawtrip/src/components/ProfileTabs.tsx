@@ -1,4 +1,6 @@
-import { Animated, Pressable, View } from 'react-native';
+import { Animated, View } from 'react-native';
+
+import { PressScale } from '@/components/ui/PressScale';
 
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
@@ -27,13 +29,13 @@ function ProfileTabItem<T extends string>({ tab, on, onPress }: { tab: Tab<T>; o
   const flex = useTabGrow(on);
   return (
     <Animated.View style={{ flex, minWidth: 0 }}>
-      <Pressable onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
+      <PressScale onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
         style={{ alignItems: 'center', gap: 2, paddingTop: 4, paddingBottom: 8, borderBottomWidth: 4, borderBottomColor: on ? th.gold : 'transparent', marginBottom: -2, opacity: on ? 1 : 0.6 }}>
         <Icon name={tab.icon} size={30} />
         <Text weight={800} size={12} color={on ? 'text' : 'muted'} numberOfLines={1}>
           {tab.label}
         </Text>
-      </Pressable>
+      </PressScale>
     </Animated.View>
   );
 }

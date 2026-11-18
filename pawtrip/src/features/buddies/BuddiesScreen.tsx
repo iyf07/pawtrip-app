@@ -22,6 +22,8 @@ import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
+import { SwipeRow } from '@/components/ui/SwipeRow';
+import { ConfirmSheet } from '@/components/ui/Sheet';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
@@ -41,6 +43,7 @@ export function BuddiesScreen() {
   function openBuddy(b: Buddy) { router.push({ pathname: '/friends', params: { friend: b.userId } }); }
   const respond = useRespondBuddy();
   const remove = useRemoveBuddy();
+  const [askRemove, setAskRemove] = useState<Buddy | null>(null);
 
   const all = buddies.data ?? [];
   const incoming = all.filter((b) => b.status === 'pending' && b.incoming);
@@ -65,6 +68,8 @@ export function BuddiesScreen() {
     <Screen nav size={wide ? "wide" : "narrow"} bottom={wide ? undefined : <BottomTabBar value={friendTab} tabs={friendTabs} onChange={setFriendTab} />} top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
       <FriendSheet buddy={selected} tab={friendTab} onTab={setFriendTab} externalTabs={!wide} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
+      <ConfirmSheet visible={askRemove !== null} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: askRemove?.name ?? '' })} confirmLabel={t('bd.removeFriend')} danger
+        onConfirm={() => { const b = askRemove; setAskRemove(null); if (b) remove.mutate(b.userId); }} onClose={() => setAskRemove(null)} />
     </Screen>
   );
 
@@ -104,7 +109,7 @@ export function BuddiesScreen() {
           ) : null}
           {mine.length > 0 ? <Card>
             {mine.map((b, i) => (
-              <Reveal key={b.userId} index={incoming.length + i}><Pressable
+              <Reveal key={b.userId} index={incoming.length + i}><SwipeRow enabled={b.status === 'accepted'} radius={0} onTrigger={() => setAskRemove(b)}><View style={{ backgroundColor: th.card }}><Pressable
                 onPress={() => openBuddy(b)}
                 accessibilityRole="button"
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
@@ -127,7 +132,7 @@ export function BuddiesScreen() {
                   </View>
                 ) : null}
                 <Text plain color="muted" size={22} weight={800}>›</Text>
-              </Pressable></Reveal>
+              </Pressable></View></SwipeRow></Reveal>
             ))}
           </Card> : null}
           <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>

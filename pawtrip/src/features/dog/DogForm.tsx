@@ -159,8 +159,8 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         <View style={{ gap: 10 }}>
           {Array.from({ length: Math.ceil(DOG_SCALES.length / 2) }, (_, row) => (
             <View key={row} style={{ flexDirection: 'row', gap: 10, alignItems: 'stretch' }}>
-              {DOG_SCALES.slice(row * 2, row * 2 + 2).map((f) => (
-                <ScaleInput key={f} compact iconSize={28} field={f} value={scales[f]}
+              {DOG_SCALES.slice(row * 2, row * 2 + 2).map((f, k) => (
+                <ScaleInput key={f} index={row * 2 + k} compact iconSize={28} field={f} value={scales[f]}
                   description={t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} readOnly={editing !== 'preferences'}
                   onChange={(v) => setScales((current) => ({ ...current, [f]: v }))} />
               ))}

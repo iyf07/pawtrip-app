@@ -5,11 +5,13 @@ import { Text } from '@/components/ui/Text';
 import { INTEREST_SECTIONS, LEGACY_INTERESTS, normalizeInterests, selectedInterestSections } from '@/constants/options';
 import { InterestIcon } from '@/components/InterestIcon';
 import { useT, type Key } from '@/i18n';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** Text-only sections group individually selectable interests with distinct stickers. */
 export function InterestPicker({ value, onToggle, readOnly, selectedOnly }: { value: string[]; onToggle?: (interest: string) => void; readOnly?: boolean; selectedOnly?: boolean }) {
   const { t } = useT();
   const selected = normalizeInterests(value);
+  let seq = 0; // running position over all chips, so they come in one after another
   return (
     <View style={{ gap: 18 }}>
       {(selectedOnly ? selectedInterestSections(value) : INTEREST_SECTIONS).map((section) => (
@@ -17,14 +19,13 @@ export function InterestPicker({ value, onToggle, readOnly, selectedOnly }: { va
           <Text size={14} weight={800} color="muted">{t(`interest.group.${section.key}` as Key)}</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {section.items.map((interest) => (
-              <Chip
-                key={interest}
+              <Reveal key={interest} index={seq++}><Chip
                 icon={<InterestIcon interest={interest} size={28} />}
                 label={t(`interest.${interest}` as Key)}
                 on={selected.includes(interest)}
                 onPress={readOnly ? undefined : () => onToggle?.(interest)}
                 style={readOnly && !selected.includes(interest) ? { opacity: 0.45 } : undefined}
-              />
+              /></Reveal>
             ))}
           </View>
         </View>

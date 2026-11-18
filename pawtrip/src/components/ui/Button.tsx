@@ -1,8 +1,9 @@
-import { ActivityIndicator, Pressable, type StyleProp, type ViewStyle } from 'react-native';
+import { ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
 
 import { Icon, type IconName } from './Icon';
+import { PressScale, pressedShadow } from './PressScale';
 import { Text } from './Text';
 
 type Props = {
@@ -43,16 +44,16 @@ export function Button({ label, onPress, variant = 'gold', disabled, loading, bl
           : {};
   const color = variant === 'gold' ? 'onGold' : variant === 'text' ? 'link' : variant === 'danger' ? 'danger' : 'text';
   return (
-    <Pressable
+    <PressScale
       onPress={off ? undefined : onPress}
       accessibilityRole="button"
       accessibilityState={{ disabled: !!off }}
-      style={({ pressed }) => [base, skin, pressed && !off ? { transform: [{ scale: 0.98 }] } : null, style]}>
+      style={({ pressed }) => [base, skin, pressed && !off && skin.boxShadow ? { boxShadow: pressedShadow(t.shadow) } : null, style]}>
       {loading ? <ActivityIndicator color={t.onGold} size="small" /> : null}
       {icon && !loading ? <Icon name={icon} size={small ? 22 : 26} /> : null}
       <Text weight={800} size={small ? 14 : 16} color={color} numberOfLines={1}>
         {label}
       </Text>
-    </Pressable>
+    </PressScale>
   );
 }

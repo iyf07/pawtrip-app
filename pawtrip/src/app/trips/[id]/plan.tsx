@@ -24,6 +24,7 @@ import { TabBody, useTripCtx } from '@/features/trip/TripContext';
 import { useT } from '@/i18n';
 import { parseIso, weekdayShort } from '@/lib/dates';
 import { tempOut, useWeather } from '@/lib/weather';
+import { Reveal } from '@/components/ui/Reveal';
 
 const PX = 96; // pixels per hour: the whole day, opened scrolled to the morning
 const GUTTER = 46;
@@ -181,8 +182,8 @@ export default function Plan() {
                 </>
               ) : null}
               <View pointerEvents="box-none" style={{ position: 'absolute', left: GUTTER, right: 0, top: 0, bottom: 0 }}>
-                {dayList.map((it) => (
-                  <Block key={it.id} item={it} col={layout[it.id].col} n={layout[it.id].n} travel={travelTo[it.id]} />
+                {dayList.map((it, bi) => (
+                  <Block key={it.id} index={bi} item={it} col={layout[it.id].col} n={layout[it.id].n} travel={travelTo[it.id]} />
                 ))}
               </View>
             </View>
@@ -334,7 +335,7 @@ function StayStrip({ item }: { item: ItemView }) {
 
 const SNAP = 15; // minutes
 
-function Block({ item, col, n, travel }: { item: ItemView; col: number; n: number; travel?: number }) {
+function Block({ item, col, n, travel, index }: { item: ItemView; col: number; n: number; travel?: number; index: number }) {
   const { t } = useT();
   const { fmtMin, fmtRange } = useTimeFmt();
   const th = useTheme();
@@ -400,12 +401,8 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
   const withDog = dogs.some((d) => dogMode(item, d.id) === 'with');
 
   return (
-    <Pressable
-      onPress={() => {
-        if (!touchedGrip.current) openItem(item.id);
-      }}
-      accessibilityRole="button"
-      accessibilityLabel={`${item.title} ${fmtRange(item.start!, item.end!)}`}
+    <Reveal
+      index={index}
       style={{
         position: 'absolute',
         top,
@@ -416,6 +413,13 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
         zIndex: dragMin != null ? 10 : 0,
         opacity: dragMin != null ? 0.9 : 1,
       }}>
+    <Pressable
+      onPress={() => {
+        if (!touchedGrip.current) openItem(item.id);
+      }}
+      accessibilityRole="button"
+      accessibilityLabel={`${item.title} ${fmtRange(item.start!, item.end!)}`}
+      style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
@@ -463,5 +467,6 @@ function Block({ item, col, n, travel }: { item: ItemView; col: number; n: numbe
         ) : null}
       </View>
     </Pressable>
+    </Reveal>
   );
 }

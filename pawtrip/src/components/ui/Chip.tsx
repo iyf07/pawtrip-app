@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
-import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
+import { View, type StyleProp, type ViewStyle } from 'react-native';
+
+import { PressScale } from './PressScale';
 
 import type { ThemeColor } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
@@ -11,7 +13,7 @@ type ChipProps = { icon?: ReactNode; label: string; on?: boolean; onPress?: () =
 export function Chip({ icon, label, on, onPress, style, textColor }: ChipProps) {
   const t = useTheme();
   return (
-    <Pressable
+    <PressScale
       onPress={onPress}
       accessibilityRole="button"
       accessibilityState={{ selected: !!on }}
@@ -34,7 +36,7 @@ export function Chip({ icon, label, on, onPress, style, textColor }: ChipProps) 
       <Text weight={700} size={14} color={textColor ?? (on ? 'onGold' : 'text')}>
         {label}
       </Text>
-    </Pressable>
+    </PressScale>
   );
 }
 
@@ -63,7 +65,7 @@ export function Segmented<T extends string>({ value, options, onChange, wide }: 
       {options.map((o) => {
         const on = o.value === value;
         return (
-          <Pressable
+          <PressScale
             key={o.value}
             onPress={() => onChange(o.value)}
             accessibilityRole="button"
@@ -80,7 +82,7 @@ export function Segmented<T extends string>({ value, options, onChange, wide }: 
             <Text weight={800} size={14} color={on ? 'onGold' : 'muted'}>
               {o.label}
             </Text>
-          </Pressable>
+          </PressScale>
         );
       })}
     </View>

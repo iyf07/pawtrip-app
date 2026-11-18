@@ -33,6 +33,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { useT, type Key } from "@/i18n";
 import { goBack } from "@/lib/nav";
 import { deletePhotoByUrl } from "@/lib/photos";
+import { Reveal } from '@/components/ui/Reveal';
 
 export default function ProfileRoute() {
   const me = useMyProfile();
@@ -212,9 +213,10 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     <>
       {sectionHeading(t("profile.travelStyle"), "style")}
       <View style={!wide ? { flexDirection: "row", flexWrap: "wrap", gap: 10 } : undefined}>
-      {PERSON_SCALES.map((f) => (
+      {PERSON_SCALES.map((f, n) => (
         <ScaleInput
           key={f}
+          index={n}
           field={f}
           compact={!wide}
           iconSize={28}
@@ -246,15 +248,14 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     <>
       {sectionHeading(t("profile.diet"), "diet")}
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {[...DIETS, ...diet.filter((d) => !(DIETS as readonly string[]).includes(d))].map((d) => (
-          <Chip
-            key={d}
+        {[...DIETS, ...diet.filter((d) => !(DIETS as readonly string[]).includes(d))].map((d, n) => (
+          <Reveal key={d} index={n}><Chip
             icon={dietIcon(d)}
             label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d}
             on={diet.includes(d)}
             onPress={editing === "diet" ? () => setDiet((c) => toggle(c, d)) : undefined}
             style={editing !== "diet" && !diet.includes(d) ? { opacity: 0.45 } : undefined}
-          />
+          /></Reveal>
         ))}
       </View>
       {editing === "diet" ? (

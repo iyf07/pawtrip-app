@@ -1,4 +1,6 @@
-import { Animated, Pressable, View } from 'react-native';
+import { Animated, View } from 'react-native';
+
+import { PressScale } from '@/components/ui/PressScale';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/ui/Icon';
@@ -32,13 +34,13 @@ function BottomTabItem({ tab, on, onPress }: { tab: BottomTab; on: boolean; onPr
   const flex = useTabGrow(on);
   return (
     <Animated.View style={{ flex, minWidth: 0 }}>
-      <Pressable onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
+      <PressScale onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
         style={{ minHeight: 54, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 2, backgroundColor: on ? th.gold : 'transparent' }}>
         <Icon name={tab.icon} size={26} />
         <Text weight={800} size={12} color={on ? 'onGold' : 'muted'} numberOfLines={1}>
           {tab.label}
         </Text>
-      </Pressable>
+      </PressScale>
     </Animated.View>
   );
 }

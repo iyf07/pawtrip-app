@@ -1,7 +1,9 @@
-import type { ReactNode } from 'react';
-import { Pressable, View, type StyleProp, type ViewStyle } from 'react-native';
+import { useState, type ReactNode } from 'react';
+import { View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
+
+import { PressScale, pressedShadow } from './PressScale';
 
 type Props = {
   children: ReactNode;
@@ -15,7 +17,7 @@ type Props = {
 /** The prototype's "sticker" card: white border, soft shadow, dashed stitch line inside. */
 export function Card({ children, onPress, style, dashed, accessibilityLabel }: Props) {
   const t = useTheme();
-  const body = dashed ? (
+  const render = (pressed: boolean) => dashed ? (
     <View
       style={[
         {
@@ -40,7 +42,7 @@ export function Card({ children, onPress, style, dashed, accessibilityLabel }: P
           borderRadius: 18,
           paddingVertical: 14,
           paddingHorizontal: 16,
-          boxShadow: `0 4px 10px -3px ${t.shadow}`,
+          boxShadow: pressed ? pressedShadow(t.shadow) : `0 4px 10px -3px ${t.shadow}`,
         },
         style,
       ]}>
@@ -61,10 +63,15 @@ export function Card({ children, onPress, style, dashed, accessibilityLabel }: P
       {children}
     </View>
   );
-  if (!onPress) return body;
+  if (!onPress) return render(false);
+  return <CardPress onPress={onPress} accessibilityLabel={accessibilityLabel} render={render} />;
+}
+
+function CardPress({ onPress, accessibilityLabel, render }: { onPress: () => void; accessibilityLabel?: string; render: (pressed: boolean) => ReactNode }) {
+  const [pressed, setPressed] = useState(false);
   return (
-    <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={accessibilityLabel} style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}>
-      {body}
-    </Pressable>
+    <PressScale onPress={onPress} onPressIn={() => setPressed(true)} onPressOut={() => setPressed(false)} accessibilityRole="button" accessibilityLabel={accessibilityLabel}>
+      {render(pressed)}
+    </PressScale>
   );
 }

@@ -615,3 +615,6 @@ Tabs: besides the width change, the selected tab now scales up (1.06) and the ot
 ### later 27 (Claude)
 - **Swipe-to-delete fix**: the row now rests open on the red delete button instead of snapping back. Dragging past 40 % of the row width and letting go settles the row at −96 px (300 ms) with the button showing; tap the button → confirm sheet (row closes); swipe right more than 24 px or tap the row → closes. Under 40 % it springs back in 300 ms. Checked with synthetic touch events (state "open" holds, button tap opens the confirm); the Browser pane page throttles animations, so the settle motion itself was not watched.
 - **Settings**: the section title and every setting row now enter one after another (`Reveal`, 100 ms apart).
+
+### later 28 (Claude)
+Added `docs/animations.md`: one table with every animation's parameters (duration, delay, easing, spring, distance) and the file/constant to edit. Keep it in sync whenever an animation parameter changes. Rule for new UI: wrap list rows in `Reveal`, tabs use `useTabGrow`, buttons use `PressScale`, inputs use `Field`.

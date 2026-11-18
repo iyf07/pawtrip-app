@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useAuth } from '@/auth/AuthProvider';
 import { DOG_SCALES, useDeleteDog, useSaveDog, type DogScale } from '@/api/dogs';
@@ -23,6 +23,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 import { dogScales } from '@/constants/options';
+import { RingButton } from '@/components/ui/RingButton';
 
 const LB_PER_KG = 2.20462;
 const round1 = (x: number) => Math.round(x * 10) / 10;
@@ -96,12 +97,8 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
     return (
       <View style={{ flexDirection: 'row', gap: 8 }}>
         {active ? <>
-          <Pressable accessibilityRole="button" accessibilityLabel={t('pf.saveSection', { section: title })} disabled={save.isPending} onPress={submit} style={actionStyle}>
-            {save.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={28} />}
-          </Pressable>
-          <Pressable accessibilityRole="button" accessibilityLabel={t('pf.discardSection', { section: title })} disabled={save.isPending} onPress={discard} style={actionStyle}>
-            <Icon name="ui-discard" size={28} />
-          </Pressable>
+          <RingButton kind="save" label={t('pf.saveSection', { section: title })} loading={save.isPending} onPress={submit} />
+          <RingButton kind="discard" label={t('pf.discardSection', { section: title })} disabled={save.isPending} onPress={discard} />
         </> : <Pressable accessibilityRole="button" accessibilityLabel={t('pf.editSection', { section: title })}
           disabled={save.isPending} onPress={() => { if (editing) toast(t('pf.finishSection')); else setEditing(section); }} accessibilityState={{ disabled: !!editing }} style={[actionStyle, { opacity: editing ? 0.45 : 1 }]}>
           <Icon name="ui-pencil" size={24} />

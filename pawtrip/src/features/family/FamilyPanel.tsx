@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { router } from 'expo-router';
 import { useBuddies } from '@/api/buddies';
@@ -30,6 +30,7 @@ import { useAuth } from '@/auth/AuthProvider';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
+import { RingButton } from '@/components/ui/RingButton';
 
 /** The family tab on the friends page: create a family, invite friends, see members, leave. Members share all their dogs. */
 export function FamilyPanel() {
@@ -136,12 +137,8 @@ export function FamilyPanel() {
           {editing ? <View style={{ flex: 1, minWidth: 0 }}><Field value={editName ?? ''} onChangeText={setEditName} placeholder={t('family.namePh')} maxLength={40} containerStyle={{ marginTop: 0 }} /></View> : <Text weight={800} size={20} style={{ flex: 1 }} numberOfLines={1}>{state.family.name}</Text>}
           {state.isAdmin ? (editing ? (
             <View style={{ flexDirection: 'row', gap: 8 }}>
-              <Pressable accessibilityRole="button" accessibilityLabel={t('nav.save')} disabled={rename.isPending || !editName?.trim()} onPress={() => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); setEditName(null); })} style={actionStyle}>
-                {rename.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={28} />}
-              </Pressable>
-              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.discardSection', { section: state.family.name })} onPress={() => setEditName(null)} style={actionStyle}>
-                <Icon name="ui-discard" size={28} />
-              </Pressable>
+              <RingButton kind="save" label={t('nav.save')} disabled={!editName?.trim()} loading={rename.isPending} onPress={() => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); setEditName(null); })} />
+              <RingButton kind="discard" label={t('pf.discardSection', { section: state.family.name })} onPress={() => setEditName(null)} />
             </View>
           ) : (
             <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={actionStyle}>

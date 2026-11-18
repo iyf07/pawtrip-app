@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import { ActivityIndicator, Platform, Pressable, Share, View } from "react-native";
+import { Platform, Pressable, Share, View } from "react-native";
 
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
@@ -34,6 +34,7 @@ import { useT, type Key } from "@/i18n";
 import { goBack } from "@/lib/nav";
 import { deletePhotoByUrl } from "@/lib/photos";
 import { Reveal } from '@/components/ui/Reveal';
+import { RingButton } from '@/components/ui/RingButton';
 
 export default function ProfileRoute() {
   const me = useMyProfile();
@@ -113,15 +114,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       <View style={{ flexDirection: "row", gap: 8 }}>
         {active ? (
           <>
-            <Pressable accessibilityRole="button" accessibilityLabel={t("pf.saveSection", { section: title })}
-              disabled={update.isPending || !canSave} onPress={save}
-              style={[actionStyle, { opacity: canSave ? 1 : 0.45 }]}>
-              {update.isPending ? <ActivityIndicator color={th.muted} /> : <Icon name="ui-save" size={28} />}
-            </Pressable>
-            <Pressable accessibilityRole="button" accessibilityLabel={t("pf.discardSection", { section: title })}
-              disabled={update.isPending} onPress={cancel} style={actionStyle}>
-              <Icon name="ui-discard" size={28} />
-            </Pressable>
+            <View style={{ opacity: canSave ? 1 : 0.45 }}><RingButton kind="save" label={t("pf.saveSection", { section: title })} disabled={!canSave} loading={update.isPending} onPress={save} /></View>
+            <RingButton kind="discard" label={t("pf.discardSection", { section: title })} disabled={update.isPending} onPress={cancel} />
           </>
         ) : (
           <Pressable accessibilityRole="button" accessibilityLabel={section === "identity" ? t("pf.editName") : t("pf.editSection", { section: title })}

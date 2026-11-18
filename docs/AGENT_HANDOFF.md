@@ -630,3 +630,6 @@ Popups (Sheet) now have more space below the content: bottom padding 36 px + saf
 
 ### later 32 (Claude)
 Edit mode on profile/dog pages: the input boxes that appear (name, ID, dog name, weight, custom diet) now animate in with `Reveal` (via `InlineFieldRow`, `index` staggers rows). tsc/eslint silent; not seen in the browser (dev server not running).
+
+### later 33 (Claude)
+Save/discard ✓/✗ buttons use the new `ui/RingButton.tsx` (profile, dog page, family name): coloured outline draws in 350 ms (green save / red discard), then a halo spreads to 1.9x and fades in 450 ms; the action runs when the outline completes (350 ms latency by design). In discard the halo is cut off because edit mode closes. Not seen in the browser (local session was signed out); tsc/eslint silent.

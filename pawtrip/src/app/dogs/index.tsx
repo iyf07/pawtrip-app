@@ -15,6 +15,7 @@ import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useT } from '@/i18n';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** All sizes start with the collection; selecting a dog opens its profile. */
 export default function Dogs() {
@@ -33,8 +34,8 @@ export default function Dogs() {
           {dogs.data?.length === 0 ? (
             <EmptyState icon="nav-dogs" title={t('dogs.emptyTitle')} />
           ) : null}
-          {(dogs.data ?? []).map((d) => (
-            <Card key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          {(dogs.data ?? []).map((d, i) => (
+            <Reveal key={d.id} index={i}><Card onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
               <DogAvatar url={d.photo_url} />
               <View style={{ flex: 1, minWidth: 0 }}>
                 <Text weight={800} numberOfLines={1}>{d.name}</Text>
@@ -45,11 +46,11 @@ export default function Dogs() {
               <Text plain size={22} color="muted" weight={800}>
                 ›
               </Text>
-            </Card>
+            </Card></Reveal>
           ))}
-          <Card dashed onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
+          <Reveal index={(dogs.data ?? []).length}><Card dashed onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: 'new' } })} style={{ alignItems: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="nav-dogs" size={28} /><Text weight={800} color="link">{t('profile.addDog')}</Text></View>
-          </Card>
+          </Card></Reveal>
         </View>
       )}
     </Screen>

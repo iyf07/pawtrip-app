@@ -18,6 +18,7 @@ import { useT, type Key } from '@/i18n';
 import { weekdayShort } from '@/lib/dates';
 import { relTime } from '@/lib/format';
 import { CatIcon } from '@/features/plan/CatIcon';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** Ideas the group is still deciding on. The leader puts them in the plan from the item detail. */
 export default function Ideas() {
@@ -70,10 +71,10 @@ export default function Ideas() {
         </View>
       ) : (
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: grid.gap, marginTop: 12 }}>
-          {ideas.map((i) => (
-            <View key={i.id} style={{ width: grid.cardWidth }}>
+          {ideas.map((i, n) => (
+            <Reveal key={i.id} index={n} style={{ width: grid.cardWidth }}>
               <IdeaCard item={i} />
-            </View>
+            </Reveal>
           ))}
         </View>
       )}

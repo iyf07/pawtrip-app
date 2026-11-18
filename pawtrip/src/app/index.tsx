@@ -15,6 +15,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** The root: always the trip list (cards), on every screen size. */
 export default function Trips() {
@@ -60,11 +61,11 @@ export default function Trips() {
         </View>
       ) : (
         <View style={{ gap: 12, marginTop: 8 }}>
-          {trips.data.map((trip) => (
-            <TripCard key={trip.id} trip={trip} />
+          {trips.data.map((trip, i) => (
+            <Reveal key={trip.id} index={i}><TripCard trip={trip} /></Reveal>
           ))}
-          {createButton}
-          {joinButton}
+          <Reveal index={trips.data.length}>{createButton}</Reveal>
+          <Reveal index={trips.data.length + 1}>{joinButton}</Reveal>
         </View>
       )}
     </Screen>

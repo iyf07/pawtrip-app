@@ -21,6 +21,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
@@ -79,8 +80,8 @@ export function BuddiesScreen() {
         </View>
       ) : (
         <View style={{ gap: 12, marginTop: 8 }}>
-          {incoming.map((b) => (
-            <Card key={b.userId}>
+          {incoming.map((b, n) => (
+            <Reveal key={b.userId} index={n}><Card>
               <Pressable onPress={() => openBuddy(b)} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
                 <View style={{ flex: 1, minWidth: 0 }}>
@@ -96,15 +97,14 @@ export function BuddiesScreen() {
                 <Button label={t('bd.accept')} small onPress={() => answer(b, true)} loading={respond.isPending} />
                 <Button label={t('bd.decline')} small variant="ghost" onPress={() => answer(b, false)} />
               </View>
-            </Card>
+            </Card></Reveal>
           ))}
           {all.length === 0 ? (
             <EmptyState icon="tab-members" title={t('bd.emptyTitle')} />
           ) : null}
           {mine.length > 0 ? <Card>
             {mine.map((b, i) => (
-              <Pressable
-                key={b.userId}
+              <Reveal key={b.userId} index={incoming.length + i}><Pressable
                 onPress={() => openBuddy(b)}
                 accessibilityRole="button"
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
@@ -127,7 +127,7 @@ export function BuddiesScreen() {
                   </View>
                 ) : null}
                 <Text plain color="muted" size={22} weight={800}>›</Text>
-              </Pressable>
+              </Pressable></Reveal>
             ))}
           </Card> : null}
           <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>

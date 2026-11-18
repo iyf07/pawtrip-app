@@ -588,3 +588,6 @@ Convention: confirmation popups (ConfirmSheet) have a short verb-object title wi
 
 ### later 20 (Claude)
 Tab convention: in `BottomTabBar` and `ProfileTabs` the selected tab grows sideways (flex weight 1.7 vs 1, 220 ms animation via `components/useTabGrow.ts`) and the others narrow with it. New tab components should use `useTabGrow`. `Segmented` (pill toggle) is unchanged.
+
+### later 21 (Claude)
+Tab grow animation is 500 ms (was 220). List entrance: new `components/ui/Reveal.tsx` — every list item fades in from below (translateY 18→0), 350 ms ease-out (cubic), 50 ms stagger per index (capped at index 14). Applied to trips list, dogs list, ideas grid, friends list/requests, family members+dogs, trip members+dogs. Convention: wrap new list rows/cards in `<Reveal index={i}>`. Not applied: notification sheet rows, plan timeline blocks (absolutely positioned), calendar.

@@ -27,6 +27,7 @@ import { TabBody, useTripCtx } from "@/features/trip/TripContext";
 import { useLayout } from "@/hooks/use-layout";
 import { useTheme } from "@/hooks/use-theme";
 import { useT } from "@/i18n";
+import { Reveal } from '@/components/ui/Reveal';
 
 export default function Group() {
   const { t } = useT();
@@ -79,7 +80,7 @@ export default function Group() {
         {trip.trip_members.map((m, i) => {
           const name = m.profiles?.display_name || "?";
           return (
-            <View key={m.user_id}>
+            <Reveal key={m.user_id} index={i}>
             <View
               style={{
                 flexDirection: "row",
@@ -125,7 +126,7 @@ export default function Group() {
               ) : null}
             </View>
             {buddies.data?.filter((b) => b.userId === m.user_id && b.status === 'accepted').map((b) => <FriendDetails key={b.userId} buddy={b} />)}
-            </View>
+            </Reveal>
           );
         })}
       </Card>
@@ -136,14 +137,13 @@ export default function Group() {
     <>
       <SectionTitle>{t("group.dogs")}</SectionTitle>
       <View style={{ gap: 10 }}>
-        {trip.trip_dogs.map((td) => {
+        {trip.trip_dogs.map((td, i) => {
           const dog = td.dogs;
           if (!dog) return null;
           const mine = dog.owner_id === userId;
           const owner = dog.profiles?.display_name || "?";
           return (
-            <Card
-              key={td.dog_id}
+            <Reveal key={td.dog_id} index={i}><Card
               onPress={mine ? () => setEditDog(dog.id) : undefined}
               style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
             >
@@ -174,7 +174,7 @@ export default function Group() {
                   </Text>
                 </Pressable>
               ) : null}
-            </Card>
+            </Card></Reveal>
           );
         })}
         <Card dashed onPress={() => setDogsOpen(true)} style={{ alignItems: "center" }}>

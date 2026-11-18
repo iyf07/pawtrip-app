@@ -29,6 +29,7 @@ import { useToast } from '@/components/ui/Toast';
 import { useAuth } from '@/auth/AuthProvider';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { Reveal } from '@/components/ui/Reveal';
 
 /** The family tab on the friends page: create a family, invite friends, see members, leave. Members share all their dogs. */
 export function FamilyPanel() {
@@ -151,7 +152,7 @@ export function FamilyPanel() {
         <Meta weight={700} style={{ marginTop: 4 }}>{t('family.members')}</Meta>
         <View style={{ marginTop: 6 }}>
           {state.members.map((m, i) => (
-            <View key={m.userId} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
+            <Reveal key={m.userId} index={i}><View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
               <Avatar id={m.userId} name={m.name} url={m.avatar} size={40} />
               <View style={{ flex: 1, minWidth: 0 }}>
                 <Text weight={800} numberOfLines={1}>{m.name}</Text>
@@ -161,21 +162,21 @@ export function FamilyPanel() {
               {editing && m.userId !== userId ? (
                 <Button label={t('family.remove')} small variant="danger" onPress={() => setAskRemove({ id: m.userId, name: m.name })} />
               ) : null}
-            </View>
+            </View></Reveal>
           ))}
         </View>
         <Meta weight={700} style={{ marginTop: 14 }}>{t('family.dogs')}</Meta>
         {(dogs.data ?? []).length === 0 ? <Text color="muted" weight={700} style={{ marginTop: 8 }}>{t('family.noDogs')}</Text> : (
           <View style={{ marginTop: 6 }}>
             {(dogs.data ?? []).map((d, i) => (
-              <Pressable key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
+              <Reveal key={d.id} index={state.members.length + i}><Pressable onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
                 <DogAvatar url={d.photo_url} size={44} />
                 <View style={{ flex: 1, minWidth: 0 }}>
                   <Text weight={800} numberOfLines={1}>{d.name}</Text>
                   <Meta size={12} numberOfLines={1}>{state.members.find((m) => m.userId === d.owner_id)?.name ?? ''}</Meta>
                 </View>
                 <Text plain size={22} color="muted" weight={800}>›</Text>
-              </Pressable>
+              </Pressable></Reveal>
             ))}
           </View>
         )}

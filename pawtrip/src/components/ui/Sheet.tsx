@@ -57,31 +57,41 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
   const { height: screenH } = useWindowDimensions();
   const [mounted, setMounted] = useState(visible);
   const [progress] = useState(() => new Animated.Value(visible ? 1 : 0));
+  const [pop] = useState(() => new Animated.Value(visible ? 1 : 0)); // spring that grows a centred dialog from 0.8 to 1
+  const [leave] = useState(() => new Animated.Value(0)); // slight shrink while closing
   const native = Platform.OS !== 'web';
 
   if (visible && !mounted) setMounted(true); // mount first, animate in on the next frame
 
   useEffect(() => {
     if (visible) {
+      leave.setValue(0);
       Animated.timing(progress, { toValue: 1, duration: 280, easing: Easing.out(Easing.cubic), useNativeDriver: native }).start();
+      Animated.spring(pop, { toValue: 1, stiffness: 260, damping: 20, mass: 1, useNativeDriver: native }).start();
     } else {
+      Animated.timing(leave, { toValue: 1, duration: 200, easing: Easing.in(Easing.cubic), useNativeDriver: native }).start();
       Animated.timing(progress, { toValue: 0, duration: 200, easing: Easing.in(Easing.cubic), useNativeDriver: native }).start(({ finished }) => {
-        if (finished) setMounted(false);
+        if (finished) {
+          pop.setValue(0);
+          setMounted(false);
+        }
       });
     }
-  }, [visible, progress, native]);
+  }, [visible, progress, pop, leave, native]);
 
   if (!mounted) return null;
 
-  const scrimOpacity = progress.interpolate({ inputRange: [0, 1], outputRange: [0, 1] });
+  const scrimOpacity = progress.interpolate({ inputRange: [0, 1], outputRange: [0, 0.45] }); // scrim fades to 45 %
   const panelOpacity = medium ? progress.interpolate({ inputRange: [0, 0.6, 1], outputRange: [0, 0.9, 1] }) : progress.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] });
-  const lift = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 14 : Math.min(screenH * 0.6, 520), 0] });
-  const scale = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 0.97 : 1, 1] });
+  const lift = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 0 : Math.min(screenH * 0.6, 520), 0] });
+  const scale = medium
+    ? Animated.multiply(pop.interpolate({ inputRange: [0, 1], outputRange: [0.8, 1] }), leave.interpolate({ inputRange: [0, 1], outputRange: [1, 0.95] }))
+    : 1;
 
   return (
     <Modal visible transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
       <View style={{ flex: 1, justifyContent: medium ? 'center' : 'flex-end', paddingHorizontal: medium ? 24 : 0, paddingBottom: keyboard }}>
-        <Animated.View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: t.scrim, opacity: scrimOpacity }} />
+        <Animated.View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#000', opacity: scrimOpacity }} />
         <Pressable onPress={onClose} accessibilityLabel="Close" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
         <Animated.View
           style={{

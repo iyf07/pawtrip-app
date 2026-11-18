@@ -600,3 +600,7 @@ Tab grow animation is 500 ms (was 220). List entrance: new `components/ui/Reveal
 
 ### later 23 (Claude)
 Toasts (`ui/Toast.tsx`) animate: slide up 28 px + fade in over 260 ms, stay 1200 ms, fade out (260 ms). Non-interactive (never blocks taps); sits above the phone tab bar, low at the bottom on wide screens so it stays off the content. A new toast restarts the animation.
+
+### later 24 (Claude)
+- **Popup animation** (`ui/Sheet.tsx`): scrim fades to 0.45 black. Centred dialogs (tablet/desktop) grow from 0.8 to 1 with a spring (stiffness 260, damping 20) and on close fade out and shrink slightly (to 0.95). Phone bottom sheets keep the slide-up (scale 0.8 would look wrong on a bottom sheet) but get the same scrim. The avatar dropdown menu in NavBar still uses the Modal fade.
+- **Input error** (`ui/Field.tsx`): when `error`/`invalid` appears (or the message changes) the input shakes left-right 3 times, 14 px decaying, 420 ms; the border is red; the message fades in below (240 ms). Applies to every `Field`. Raw `TextInput`s not using Field are unchanged.

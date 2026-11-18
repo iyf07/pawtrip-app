@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { TextInput, View, type StyleProp, type ViewStyle, type TextInputProps } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Animated, Easing, Platform, TextInput, View, type StyleProp, type ViewStyle, type TextInputProps } from 'react-native';
 
 import { useTheme } from '@/hooks/use-theme';
 
@@ -18,6 +18,20 @@ type Props = TextInputProps & {
 export function Field({ containerStyle, label, hint, error, invalid, style, onFocus, onBlur, ...rest }: Props) {
   const t = useTheme();
   const [focus, setFocus] = useState(false);
+  const [shake] = useState(() => new Animated.Value(0));
+  const [fade] = useState(() => new Animated.Value(error ? 1 : 0));
+  const bad = !!error || !!invalid;
+  // on an error: shake left-right 3 times (14 px, decaying) in 420 ms, and fade the message in
+  useEffect(() => {
+    if (!bad) {
+      fade.setValue(0);
+      return;
+    }
+    const native = Platform.OS !== 'web';
+    const step = (to: number) => Animated.timing(shake, { toValue: to, duration: 60, easing: Easing.linear, useNativeDriver: native });
+    Animated.sequence([14, -11.5, 9, -6.5, 4, -2, 0].map(step)).start();
+    Animated.timing(fade, { toValue: 1, duration: 240, easing: Easing.out(Easing.cubic), useNativeDriver: native }).start();
+  }, [bad, error, shake, fade]);
   return (
     <View style={[{ marginTop: 14 }, containerStyle]}>
       {label ? (
@@ -25,6 +39,7 @@ export function Field({ containerStyle, label, hint, error, invalid, style, onFo
           {label}
         </Text>
       ) : null}
+      <Animated.View style={{ transform: [{ translateX: shake }] }}>
       <TextInput
         placeholderTextColor={t.muted}
         {...rest}
@@ -53,10 +68,13 @@ export function Field({ containerStyle, label, hint, error, invalid, style, onFo
           style,
         ]}
       />
+      </Animated.View>
       {error ? (
-        <Text size={14} weight={700} color="danger" style={{ marginTop: 6 }}>
-          {error}
-        </Text>
+        <Animated.View style={{ opacity: fade }}>
+          <Text size={14} weight={700} color="danger" style={{ marginTop: 6 }}>
+            {error}
+          </Text>
+        </Animated.View>
       ) : null}
     </View>
   );

@@ -627,3 +627,6 @@ Holding a `PressScale` button longer than 200 ms (`LONG_PRESS_MS` in `ui/PressSc
 
 ### later 31 (Claude)
 Popups (Sheet) now have more space below the content: bottom padding 36 px + safe-area inset (was 22), so the last button no longer looks cut off. Not checked in the browser (local dev server was not running this time).
+
+### later 32 (Claude)
+Edit mode on profile/dog pages: the input boxes that appear (name, ID, dog name, weight, custom diet) now animate in with `Reveal` (via `InlineFieldRow`, `index` staggers rows). tsc/eslint silent; not seen in the browser (dev server not running).

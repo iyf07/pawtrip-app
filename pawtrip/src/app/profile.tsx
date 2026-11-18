@@ -169,7 +169,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         {editing === "identity" ? (
           <>
             <InlineFieldRow label={t("pf.name")}><Field accessibilityLabel={t("pf.name")} containerStyle={{ marginTop: 0 }} value={name} onChangeText={setName} maxLength={60} /></InlineFieldRow>
-            <InlineFieldRow label={t("pf.handle")}><HandleField accessibilityLabel={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} compact /></InlineFieldRow>
+            <InlineFieldRow index={1} label={t("pf.handle")}><HandleField accessibilityLabel={t("pf.handle")} value={handle} onChangeText={setHandle} onValid={setHandleOk} current={profile.handle} compact /></InlineFieldRow>
           </>
         ) : (
           <>
@@ -259,13 +259,13 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         ))}
       </View>
       {editing === "diet" ? (
-        <View style={{ flexDirection: "row", alignItems: "flex-end", gap: 8 }}>
+        <Reveal index={0}><View style={{ flexDirection: "row", alignItems: "flex-end", gap: 8 }}>
           <View style={{ flex: 1 }}>
             <Field accessibilityLabel={t("pf.customDiet")} placeholder={t("pf.customDiet")} value={customDiet}
               onChangeText={setCustomDiet} maxLength={40} returnKeyType="done" onSubmitEditing={addCustomDiet} />
           </View>
           <Button label={t("pf.addDiet")} onPress={addCustomDiet} disabled={!customDiet.trim()} />
-        </View>
+        </View></Reveal>
       ) : null}
     </>
   );

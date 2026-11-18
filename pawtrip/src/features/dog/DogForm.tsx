@@ -131,7 +131,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         {editing === 'identity' ? (
           <>
             <InlineFieldRow label={t('dog.shortName')}><Field accessibilityLabel={t('dog.name')} containerStyle={{ marginTop: 0 }} value={name} onChangeText={setName} placeholder={t('dog.namePh')} error={errs.name} maxLength={40} /></InlineFieldRow>
-            <InlineFieldRow label={t('dog.shortWeight')}>
+            <InlineFieldRow index={1} label={t('dog.shortWeight')}>
               <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
                 <View style={{ flex: 1, minWidth: 0 }}><Field containerStyle={{ marginTop: 0 }} value={weight} onChangeText={setWeight} keyboardType="decimal-pad" placeholder="0" error={errs.weight} /></View>
                 <View style={{ paddingTop: 2 }}><Segmented value={unit} onChange={setUnit} options={[{ value: 'lb', label: 'lb' }, { value: 'kg', label: 'kg' }]} /></View>

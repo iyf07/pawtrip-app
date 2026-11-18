@@ -3,7 +3,6 @@ import { Animated, Easing, Platform, type StyleProp, type ViewStyle } from 'reac
 
 export const REVEAL_STEP = 100;
 export const REVEAL_MS = 350;
-const MAX_INDEX = 10; // a long list does not keep the last rows waiting
 
 /**
  * List entrance: each item fades in from below and moves up into place, 350 ms ease-out, 100 ms later than the
@@ -12,7 +11,7 @@ const MAX_INDEX = 10; // a long list does not keep the last rows waiting
 export function Reveal({ index, children, style }: { index: number; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const [v] = useState(() => new Animated.Value(0));
   useEffect(() => {
-    const a = Animated.timing(v, { toValue: 1, duration: REVEAL_MS, delay: Math.min(index, MAX_INDEX) * REVEAL_STEP, easing: Easing.out(Easing.cubic), useNativeDriver: Platform.OS !== 'web' });
+    const a = Animated.timing(v, { toValue: 1, duration: REVEAL_MS, delay: index * REVEAL_STEP, easing: Easing.out(Easing.cubic), useNativeDriver: Platform.OS !== 'web' });
     a.start();
     return () => a.stop();
   }, [v, index]);

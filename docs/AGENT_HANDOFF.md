@@ -647,3 +647,6 @@ Save/discard ✓/✗ buttons use the new `ui/RingButton.tsx` (profile, dog page,
 
 ### later 37 (Claude)
 Top `NavBar` icons now behave like the tabs: the current section's icon widens (60 px vs 32 px) and scales up, the others narrow, 0.5 s, with cross-page memory (`useTabGrow(on, 'nav:<icon>')`). Checked at 375 px. The desktop vertical rail in `DesktopShell` is unchanged.
+
+### later 38 (Claude)
+List entrance (`Reveal`) no longer caps the stagger: item N waits N×100 ms, no limit (user's choice). Long lists therefore take long to finish appearing; if that bites, reintroduce a cap in `ui/Reveal.tsx`.

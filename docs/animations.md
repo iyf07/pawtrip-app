@@ -4,7 +4,7 @@
 
 | # | 动画 | 效果 | 参数 | 代码位置 |
 |---|------|------|------|----------|
-| 1 | 列表依次入场 | 每项从下方淡入并上移到位 | 单项 350 ms，缓出（cubic out）；每项延迟 100 ms；上移 18 px；最多排到第 10 项（之后同时出现，最长等 1 s） | `pawtrip/src/components/ui/Reveal.tsx`（`REVEAL_STEP`、`REVEAL_MS`、`MAX_INDEX`、位移 18） |
+| 1 | 列表依次入场 | 每项从下方淡入并上移到位 | 单项 350 ms，缓出（cubic out）；每项延迟 100 ms；上移 18 px；不设上限（第 N 项等 N×100 ms） | `pawtrip/src/components/ui/Reveal.tsx`（`REVEAL_STEP`、`REVEAL_MS`、位移 18） |
 | 2 | 标签变宽 | 选中标签变宽并放大，其他变窄并缩小 | 时长 500 ms，缓出；宽度权重 选中 1.7 / 其他 1；缩放 选中 1.06 / 其他 0.92 | `pawtrip/src/components/useTabGrow.ts`（`TAB_GROW`、`TAB_SCALE_ON`、`TAB_SCALE_OFF`、`MS`）；用于 `BottomTabBar`、`ProfileTabs`、`Segmented` |
 | 3 | 好友/家庭标签跨页动画 | 两页是不同网址，标签栏会重建；记住上次状态后再播放过渡 | 同上；`group="people"` | `useTabGrow(on, memoryKey)`、`PeopleTabs.tsx` |
 | 4 | 左滑删除 | 行跟手并带阻尼，红色删除按钮逐渐放大露出 | 阻尼 0.6（行走手指距离的 60%）；拉过行宽 40% 松手则停在删除按钮上（停靠位置 −96 px）；没到则弹回；回弹/停靠 300 ms；停靠后点按钮弹确认，向右滑超过 24 px 或点行则收回 | `pawtrip/src/components/ui/SwipeRow.tsx`（`DAMPING`、`TRIGGER`、`BACK_MS`、`OPEN_X`）；用于行程、狗狗（仅自己的）、已接受的好友 |

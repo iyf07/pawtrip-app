@@ -607,3 +607,7 @@ Toasts (`ui/Toast.tsx`) animate: slide up 28 px + fade in over 260 ms, stay 1200
 
 ### later 25 (Claude)
 Tabs: besides the width change, the selected tab now scales up (1.06) and the others scale down (0.92), all in 0.5 s (`useTabGrow` returns `{ flex, scale }`).
+
+### later 26 (Claude)
+- Friends/family tabs did not animate because `/friends` and `/family` are separate pages: the tab bar was remounted already in its final state. `useTabGrow(on, memoryKey)` now remembers each tab's last state per `group` (module-level map) so the new page starts from the old look and animates to the new one. `BottomTabBar` and `Segmented` take `group`; `PeopleTabs` uses `group="people"`. Segmented options now also widen/scale/turn gold over 0.5 s like the other tabs.
+- List entrance stagger changed from 50 ms to 100 ms per item (cap index 10, so the last row waits at most 1 s).

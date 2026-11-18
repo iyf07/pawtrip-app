@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
-import { View, type StyleProp, type ViewStyle } from 'react-native';
+import { Animated, View, type StyleProp, type ViewStyle } from 'react-native';
+
+import { useTabGrow } from '@/components/useTabGrow';
 
 import { PressScale } from './PressScale';
 
@@ -45,10 +47,12 @@ type SegProps<T extends string> = {
   options: { value: T; label: string }[];
   onChange: (v: T) => void;
   wide?: boolean;
+  /** options that switch pages: remembers the last state so the new page animates the change */
+  group?: string;
 };
 
 /** Segmented control (the prototype's `.seg`). */
-export function Segmented<T extends string>({ value, options, onChange, wide }: SegProps<T>) {
+export function Segmented<T extends string>({ value, options, onChange, wide, group }: SegProps<T>) {
   const t = useTheme();
   return (
     <View
@@ -62,29 +66,26 @@ export function Segmented<T extends string>({ value, options, onChange, wide }: 
         gap: 2,
         alignSelf: wide ? 'stretch' : 'flex-start',
       }}>
-      {options.map((o) => {
-        const on = o.value === value;
-        return (
-          <PressScale
-            key={o.value}
-            onPress={() => onChange(o.value)}
-            accessibilityRole="button"
-            accessibilityState={{ selected: on }}
-            style={{
-              flex: wide ? 1 : undefined,
-              minHeight: 38,
-              paddingHorizontal: 14,
-              borderRadius: 20,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: on ? t.gold : 'transparent',
-            }}>
-            <Text weight={800} size={14} color={on ? 'onGold' : 'muted'}>
-              {o.label}
-            </Text>
-          </PressScale>
-        );
-      })}
+      {options.map((o) => (
+        <SegOption key={o.value} label={o.label} on={o.value === value} wide={wide} memoryKey={group ? `${group}:${o.value}` : undefined} onPress={() => onChange(o.value)} />
+      ))}
     </View>
+  );
+}
+
+/** One option of a Segmented: the chosen one widens, scales up and turns gold; the others narrow and scale down (0.5 s). */
+function SegOption({ label, on, wide, memoryKey, onPress }: { label: string; on: boolean; wide?: boolean; memoryKey?: string; onPress: () => void }) {
+  const t = useTheme();
+  const { p, scale } = useTabGrow(on, memoryKey);
+  return (
+    <Animated.View style={{ flex: wide ? 1 : undefined, transform: [{ scale }] }}>
+      <PressScale onPress={onPress} accessibilityRole="button" accessibilityState={{ selected: on }} style={{ minHeight: 38, borderRadius: 20, alignItems: 'center', justifyContent: 'center' }}>
+        <Animated.View style={{ borderRadius: 20, minHeight: 38, alignItems: 'center', justifyContent: 'center', paddingHorizontal: p.interpolate({ inputRange: [0, 1], outputRange: [12, 22] }), backgroundColor: p.interpolate({ inputRange: [0, 1], outputRange: ['rgba(255,199,44,0)', t.gold] }) }}>
+          <Text weight={800} size={14} color={on ? 'onGold' : 'muted'}>
+            {label}
+          </Text>
+        </Animated.View>
+      </PressScale>
+    </Animated.View>
   );
 }

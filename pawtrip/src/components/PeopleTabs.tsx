@@ -15,10 +15,10 @@ export function usePeopleTabs(current: 'friends' | 'family'): { bottom: ReactNod
   const { wide } = useLayout();
   const go = (v: 'friends' | 'family') => router.replace(v === 'family' ? '/family' : '/friends');
   if (wide) {
-    return { bottom: undefined, top: <Segmented value={current} onChange={go} options={[{ value: 'friends', label: t('family.friends') }, { value: 'family', label: t('family.tab') }]} /> };
+    return { bottom: undefined, top: <Segmented group="people" value={current} onChange={go} options={[{ value: 'friends', label: t('family.friends') }, { value: 'family', label: t('family.tab') }]} /> };
   }
   return {
-    bottom: <BottomTabBar value={current} onChange={go} tabs={[{ value: 'friends', label: t('family.friends'), icon: 'tab-members' }, { value: 'family', label: t('family.tab'), icon: 'nav-family' }]} />,
+    bottom: <BottomTabBar group="people" value={current} onChange={go} tabs={[{ value: 'friends', label: t('family.friends'), icon: 'tab-members' }, { value: 'family', label: t('family.tab'), icon: 'nav-family' }]} />,
     top: undefined,
   };
 }

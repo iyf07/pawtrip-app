@@ -21,6 +21,7 @@ import { useMyProfile, useSettings } from '@/api/profile';
 import { usePrefetchTrips, useTrips } from '@/api/trips';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
 import { FeedbackButton } from '@/components/FeedbackButton';
+import { PawTap } from '@/components/PawTap';
 import { DesktopShell } from '@/components/shell/DesktopShell';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Colors } from '@/constants/theme';
@@ -77,7 +78,9 @@ export default function RootLayout() {
           <AuthProvider>
             <PrefsProvider>
               <ToastProvider>
-                <Gate fontsLoaded={fontsLoaded} />
+                <PawTap>
+                  <Gate fontsLoaded={fontsLoaded} />
+                </PawTap>
               </ToastProvider>
             </PrefsProvider>
           </AuthProvider>

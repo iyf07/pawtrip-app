@@ -1,6 +1,6 @@
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
-import { Platform, Pressable, Share, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { useMyProfile, useUpdateProfile } from "@/api/profile";
 import type { Profile as ProfileRow } from "@/api/types";
@@ -36,6 +36,7 @@ import { deletePhotoByUrl } from "@/lib/photos";
 import { Reveal } from '@/components/ui/Reveal';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { RingButton } from '@/components/ui/RingButton';
+import { ShareSheet } from '@/components/ShareSheet';
 
 export default function ProfileRoute() {
   const me = useMyProfile();
@@ -138,17 +139,8 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     } catch { toast(t("common.saveFailed")); }
   }
 
-  async function sharePublicId() {
-    const message = t("pf.shareIdMessage", { name: profile.display_name, id: profile.handle });
-    try {
-      if (Platform.OS === 'web' && !navigator.share) {
-        if (!await Clipboard.setStringAsync(message)) throw new Error("copy_failed");
-        toast(t("group.copied"));
-      } else await Share.share({ message });
-    } catch (error) {
-      if ((error as { name?: string }).name !== 'AbortError') toast(t("common.saveFailed"));
-    }
-  }
+  const [sharingId, setSharingId] = useState(false);
+  const sharePublicId = () => setSharingId(true);
 
   const identityBlock = (
     <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 16, marginTop: 4 }}>
@@ -344,6 +336,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         {accountBlock}
         {signOutBlock}
       </View> : null}
+      <ShareSheet visible={sharingId} onClose={() => setSharingId(false)} message={t("pf.shareIdMessage", { name: profile.display_name, id: profile.handle })} />
       <ConfirmSheet visible={askSignOut} title={t('profile.signout')} body={t('profile.signoutBody')} confirmLabel={t('profile.signout')} danger
         onConfirm={() => { setAskSignOut(false); signOut(); }} onClose={() => setAskSignOut(false)} />
     </Screen>

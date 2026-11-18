@@ -640,3 +640,7 @@ Save/discard ✓/✗ buttons use the new `ui/RingButton.tsx` (profile, dog page,
 
 ### later 35 (Claude)
 `RingButton`: halo is now 300 ms and the save/discard action runs only after the halo has finished (total ≈ 650 ms), so the red discard halo is fully visible before edit mode closes. User's choice.
+
+### later 36 (Claude)
+- **Share popup**: the share buttons (trip invite, family invite code, profile ID) no longer jump to the system share dialog. New `components/ShareSheet.tsx` (bottom sheet on phone, centred dialog on desktop): shows the text to send, 复制文字, 复制链接 (when there is a link), 更多方式 (system share, only where available). Not clicked through in the browser; tsc/eslint silent.
+- **Paw tap effect**: `components/PawTap.tsx` wraps the app; every click/tap shows a paw print (`logo-paw`) that pops and fades in 600 ms. Details in `docs/animations.md` #12.

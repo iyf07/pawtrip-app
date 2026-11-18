@@ -1,6 +1,6 @@
 import * as Clipboard from 'expo-clipboard';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, Share, View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 
 import { peekFamily, useJoinFamily, useRotateFamilyCode, type FamilyPreview } from '@/api/family';
 import { Button } from '@/components/ui/Button';
@@ -10,6 +10,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { ShareSheet } from '@/components/ShareSheet';
 
 /** Join a family with an invite code: type the code, see which family it is, confirm. */
 export function JoinFamilySheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
@@ -100,20 +101,7 @@ export function FamilyCodeSheet({ visible, onClose, familyName }: { visible: boo
     toast(t('family.codeCopied'));
   }
 
-  async function share() {
-    if (!data) return;
-    try {
-      const message = t('family.shareText', { name: familyName, code: data.code });
-      if (Platform.OS === 'web' && !navigator.share) {
-        await Clipboard.setStringAsync(message);
-        toast(t('family.codeCopied'));
-      } else {
-        await Share.share({ message });
-      }
-    } catch {
-      /* dismissed */
-    }
-  }
+  const [sharing, setSharing] = useState(false);
 
   return (
     <Sheet visible={visible} onClose={onClose}>
@@ -127,11 +115,12 @@ export function FamilyCodeSheet({ visible, onClose, familyName }: { visible: boo
           <Text plain weight={800} size={30} selectable style={{ marginTop: 4, letterSpacing: 1 }}>{data.code}</Text>
           <Meta style={{ marginTop: 6 }}>{t('family.codeExpires', { min: minLeft })}</Meta>
           <View style={{ marginTop: 18, gap: 8, alignSelf: 'stretch' }}>
-            <Button label={t('family.share')} icon="ui-share" block onPress={share} />
+            <Button label={t('family.share')} icon="ui-share" block onPress={() => setSharing(true)} />
             <Button label={t('family.copy')} icon="ui-copy" variant="ghost" block onPress={copy} />
           </View>
         </View>
       )}
+      {data ? <ShareSheet visible={sharing} onClose={() => setSharing(false)} message={t('family.shareText', { name: familyName, code: data.code })} /> : null}
     </Sheet>
   );
 }

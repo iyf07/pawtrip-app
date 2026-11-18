@@ -1,7 +1,7 @@
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, Share, View } from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
 
 import { useRotateInviteCode, type TripDetail } from '@/api/trips';
 import { Button } from '@/components/ui/Button';
@@ -10,6 +10,7 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
+import { ShareSheet } from '@/components/ShareSheet';
 
 const linkFor = (code: string) =>
   Platform.OS === 'web' ? `${window.location.origin}/join?code=${code}` : Linking.createURL('/join', { queryParams: { code } });
@@ -50,19 +51,8 @@ export function InviteSheet({ visible, onClose, trip, isLeader }: { visible: boo
     toast(t('group.copied'));
   }
 
-  async function shareInvite() {
-    try {
-      const message = t('group.shareText', { name: trip.name, link: linkFor(code), code });
-      if (Platform.OS === 'web' && !navigator.share) {
-        await Clipboard.setStringAsync(message);
-        toast(t('group.copied'));
-      } else {
-        await Share.share({ message });
-      }
-    } catch {
-      /* dismissed */
-    }
-  }
+  const [sharing, setSharing] = useState(false);
+  const shareMessage = t('group.shareText', { name: trip.name, link: linkFor(code), code });
 
   return (
     <Sheet visible={visible} onClose={onClose}>
@@ -89,11 +79,12 @@ export function InviteSheet({ visible, onClose, trip, isLeader }: { visible: boo
           </Text>
           <Meta style={{ marginTop: 6 }}>{t('group.expiresIn', { min: minLeft })}</Meta>
           <View style={{ marginTop: 18, gap: 8 }}>
-            <Button label={t('group.share')} icon="ui-share" block onPress={shareInvite} />
+            <Button label={t('group.share')} icon="ui-share" block onPress={() => setSharing(true)} />
             <Button label={t('group.copy')} icon="ui-copy" variant="ghost" block onPress={copyCode} />
           </View>
         </>
       )}
+      <ShareSheet visible={sharing} onClose={() => setSharing(false)} message={shareMessage} link={linkFor(code)} />
     </Sheet>
   );
 }

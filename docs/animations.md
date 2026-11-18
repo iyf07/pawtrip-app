@@ -15,6 +15,7 @@
 | 9 | 输入框出错 | 左右抖动，边框变红，下方提示淡入 | 左右抖 3 次，幅度 14 px 逐渐衰减（14, −11.5, 9, −6.5, 4, −2, 0），每段 60 ms，共 420 ms；提示淡入 240 ms | `pawtrip/src/components/ui/Field.tsx`（只作用于统一的 Field，裸 TextInput 不含） |
 | 10 | 设置页逐项入场 | 标题和每一项设置依次入场 | 同 #1（用 Reveal，间隔 100 ms） | `pawtrip/src/app/settings.tsx` |
 | 11 | 保存/撤销按钮 | 点击后描边画出，再扩散一圈淡出的光晕，颜色随对勾/叉 | 描边 350 ms 画满一圈（从顶部顺时针）；光晕 300 ms，放大到 1.9 倍并淡出；光晕放完后才执行保存/撤销（共约 650 ms）；保存 = 绿色（th.ok），撤销 = 红色（th.danger） | `pawtrip/src/components/ui/RingButton.tsx`（`RING_DRAW_MS`、`RING_HALO_MS`）；用于个人主页、狗狗页、家庭名字的保存/撤销 |
+| 12 | 点击爪印 | 全站任意位置点击/触摸，在点击处冒出一个爪印并淡出 | 600 ms，缓出；缩放 0.5→1.25；上飘 10 px；随机倾斜 ±25°；爪印 44 px（`logo-paw` 图标）；同时最多 6 个；不拦截点击 | `pawtrip/src/components/PawTap.tsx`（挂在 `app/_layout.tsx` 最外层；网页用 window pointerdown，手机用触摸捕获） |
 
 ## 列表入场已覆盖的页面
 行程列表、狗狗列表、想法卡片、好友列表和好友申请、家庭的成员和狗狗、行程成员页的成员和狗狗、个人/好友/狗狗的偏好（`ScaleInput` 的 `index`）、兴趣（`InterestPicker`、`DogInterests`）、忌口标签、狗狗表单的偏好卡片、计划时间轴块、设置页。

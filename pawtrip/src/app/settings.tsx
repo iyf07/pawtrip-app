@@ -1,9 +1,8 @@
-import { View } from 'react-native';
-
 import { useSettings, useUpdateSettings } from '@/api/profile';
 import { Segmented } from '@/components/ui/Chip';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen, SectionTitle } from '@/components/ui/Screen';
+import { Reveal } from '@/components/ui/Reveal';
 import { Text } from '@/components/ui/Text';
 import { useT, type Lang } from '@/i18n';
 import { goBack } from '@/lib/nav';
@@ -15,20 +14,21 @@ export default function Settings() {
   const update = useUpdateSettings();
   const s = settings.data;
 
+  let seq = 1; // entrance order: the section title is 0, then each setting in turn
   const row = (label: string, control: React.ReactNode) => (
-    <View style={{ marginTop: 16 }}>
+    <Reveal index={seq++} style={{ marginTop: 16 }}>
       <Text weight={800} size={13} style={{ marginBottom: 8 }}>
         {label}
       </Text>
       {control}
-    </View>
+    </Reveal>
   );
 
   if (settings.isPending) return <Screen nav top={<Header title={t('set.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}><PageSkeleton cards={4} /></Screen>;
 
   return (
     <Screen nav top={<Header title={t('set.title')} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
-      <SectionTitle>{t('set.display')}</SectionTitle>
+      <Reveal index={0}><SectionTitle>{t('set.display')}</SectionTitle></Reveal>
 
       {row(
         t('profile.lang'),

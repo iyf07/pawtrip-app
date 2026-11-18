@@ -611,3 +611,7 @@ Tabs: besides the width change, the selected tab now scales up (1.06) and the ot
 ### later 26 (Claude)
 - Friends/family tabs did not animate because `/friends` and `/family` are separate pages: the tab bar was remounted already in its final state. `useTabGrow(on, memoryKey)` now remembers each tab's last state per `group` (module-level map) so the new page starts from the old look and animates to the new one. `BottomTabBar` and `Segmented` take `group`; `PeopleTabs` uses `group="people"`. Segmented options now also widen/scale/turn gold over 0.5 s like the other tabs.
 - List entrance stagger changed from 50 ms to 100 ms per item (cap index 10, so the last row waits at most 1 s).
+
+### later 27 (Claude)
+- **Swipe-to-delete fix**: the row now rests open on the red delete button instead of snapping back. Dragging past 40 % of the row width and letting go settles the row at −96 px (300 ms) with the button showing; tap the button → confirm sheet (row closes); swipe right more than 24 px or tap the row → closes. Under 40 % it springs back in 300 ms. Checked with synthetic touch events (state "open" holds, button tap opens the confirm); the Browser pane page throttles animations, so the settle motion itself was not watched.
+- **Settings**: the section title and every setting row now enter one after another (`Reveal`, 100 ms apart).

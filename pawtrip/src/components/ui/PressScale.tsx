@@ -9,6 +9,8 @@ type Props = Omit<PressableProps, 'style' | 'children'> & {
   children?: ReactNode;
 };
 
+// Press, then move off the button and let go = cancelled. React Native's default tolerates 20 px outside the button.
+const NO_SLACK = { top: 0, left: 0, right: 0, bottom: 0 };
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 /**
@@ -21,6 +23,7 @@ export function PressScale({ style, onPressIn, onPressOut, children, ...rest }: 
   const native = Platform.OS !== 'web';
   return (
     <AnimatedPressable
+      pressRetentionOffset={NO_SLACK}
       {...rest}
       onPressIn={(e) => {
         setPressed(true);

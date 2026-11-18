@@ -618,3 +618,6 @@ Tabs: besides the width change, the selected tab now scales up (1.06) and the ot
 
 ### later 28 (Claude)
 Added `docs/animations.md`: one table with every animation's parameters (duration, delay, easing, spring, distance) and the file/constant to edit. Keep it in sync whenever an animation parameter changes. Rule for new UI: wrap list rows in `Reveal`, tabs use `useTabGrow`, buttons use `PressScale`, inputs use `Field`.
+
+### later 29 (Claude)
+Press, move off the button, release = no click: `PressScale` sets `pressRetentionOffset` to 0 (default tolerates 20 px outside). Plain `Pressable`s elsewhere keep the default; convert them to `PressScale` when touched.

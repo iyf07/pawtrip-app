@@ -1,8 +1,9 @@
-import { Pressable, View } from 'react-native';
+import { Animated, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { Text } from '@/components/ui/Text';
+import { useTabGrow } from '@/components/useTabGrow';
 import { MAX_WIDTH } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -18,25 +19,26 @@ export function BottomTabBar<T extends string>({ value, tabs, onChange }: { valu
   return (
     <View style={{ backgroundColor: th.card, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', width: '100%', maxWidth: MAX_WIDTH, gap: 4, paddingHorizontal: 8, paddingTop: 8, paddingBottom: 8 + insets.bottom }}>
-        {tabs.map((tab) => {
-          const on = tab.value === value;
-          return (
-            <Pressable
-              key={tab.value}
-              onPress={() => {
-                if (!on) onChange(tab.value);
-              }}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: on }}
-              style={{ flex: 1, minHeight: 54, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 2, backgroundColor: on ? th.gold : 'transparent' }}>
-              <Icon name={tab.icon} size={26} />
-              <Text weight={800} size={12} color={on ? 'onGold' : 'muted'}>
-                {tab.label}
-              </Text>
-            </Pressable>
-          );
-        })}
+        {tabs.map((tab) => (
+          <BottomTabItem key={tab.value} tab={tab} on={tab.value === value} onPress={() => { if (tab.value !== value) onChange(tab.value); }} />
+        ))}
       </View>
     </View>
+  );
+}
+
+function BottomTabItem({ tab, on, onPress }: { tab: BottomTab; on: boolean; onPress: () => void }) {
+  const th = useTheme();
+  const flex = useTabGrow(on);
+  return (
+    <Animated.View style={{ flex, minWidth: 0 }}>
+      <Pressable onPress={onPress} accessibilityRole="tab" accessibilityState={{ selected: on }}
+        style={{ minHeight: 54, borderRadius: 18, alignItems: 'center', justifyContent: 'center', gap: 2, backgroundColor: on ? th.gold : 'transparent' }}>
+        <Icon name={tab.icon} size={26} />
+        <Text weight={800} size={12} color={on ? 'onGold' : 'muted'} numberOfLines={1}>
+          {tab.label}
+        </Text>
+      </Pressable>
+    </Animated.View>
   );
 }

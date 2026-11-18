@@ -585,3 +585,6 @@ Handoff only: added TODO + Batch 21 prompts for 10 friend-relationship icons (us
 
 ### later 19 (Claude)
 Convention: confirmation popups (ConfirmSheet) have a short verb-object title with **no question mark** (移除好友, 移除狗狗, 移出家庭, 解散家庭, 退出家庭, 归档/删除/退出/移动行程) and a muted, centered subtitle sentence below (e.g. 确定要移除 Morgan 吗). Title and subtitle are centered in ConfirmSheet. New confirmations follow this.
+
+### later 20 (Claude)
+Tab convention: in `BottomTabBar` and `ProfileTabs` the selected tab grows sideways (flex weight 1.7 vs 1, 220 ms animation via `components/useTabGrow.ts`) and the others narrow with it. New tab components should use `useTabGrow`. `Segmented` (pill toggle) is unchanged.

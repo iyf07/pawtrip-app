@@ -7,19 +7,23 @@ import { useMyDogs } from '@/api/dogs';
 import { useFamily } from '@/api/family';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
+import { PressScale } from '@/components/ui/PressScale';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { BENTO_GAP, Tile, TileHeader, bentoUnits } from '@/features/circle/Bento';
 import { DogAccordion } from '@/features/circle/DogAccordion';
 import { PeopleRow } from '@/features/circle/PeopleRow';
+import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
 /**
- * Circle tab, a bento box. Every card has a small title and, at its right end, a "+" for the one thing you add there.
- * Cards are flush, 12 px apart, 24 px corners; each says one thing and opens its page one level down.
+ * Circle tab, a bento box with one hero and a rhythm of tones: dogs are the hero (full-bleed accordion, big names),
+ * the family is the one solid accent card, friends a pale tint. Big numerals and big names against small spaced labels;
+ * no outlines, soft shadows, 18 px of air inside every card. Each card opens its page one level down.
  */
 export default function Circle() {
   const { t } = useT();
+  const th = useTheme();
   const dogs = useMyDogs();
   const fam = useFamily();
   const buddies = useBuddies();
@@ -30,47 +34,59 @@ export default function Circle() {
   const friends = (buddies.data ?? []).filter((b) => b.status === 'accepted');
   const family = fam.data?.family ?? null;
   const members = fam.data?.members ?? [];
-  const pad = { flex: 1, padding: 14, gap: 8 } as const;
+  const pad = { flex: 1, padding: 18, gap: 6 } as const;
+  const plus = (onPress: () => void, label: string) => (
+    <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: 'rgba(255,255,255,0.7)', alignItems: 'center', justifyContent: 'center' }}>
+      <Text plain size={20} weight={800} style={{ color: th.onGold, lineHeight: 22 }}>+</Text>
+    </PressScale>
+  );
 
   return (
     <Screen nav size="narrow" top={<Header title={t('circle.title')} />}>
       <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ marginTop: 8, gap: BENTO_GAP }}>
         {width > 0 ? (
           <>
-            {/* dogs 2×2: all dogs in an accordion */}
+            {/* hero: all dogs, edge to edge */}
             <Tile index={0} width={full} height={row * 2 + BENTO_GAP}>
-              <View style={pad}>
-                <TileHeader title={t('shell.dogs')} addLabel={t('profile.addDog')} onAdd={() => router.push('/dogs/new')} />
-                <View style={{ flex: 1 }}>
-                  {list.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-dogs" size={72} /></View> : <DogAccordion dogs={list} onOpenDog={(id) => router.push({ pathname: '/dogs/[id]', params: { id } })} />}
+              {list.length === 0 ? (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: th.goldBg }}><Icon name="nav-dogs" size={96} /></View>
+              ) : (
+                <DogAccordion dogs={list} onOpenDog={(id) => router.push({ pathname: '/dogs/[id]', params: { id } })} />
+              )}
+              <View pointerEvents="box-none" style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View style={{ backgroundColor: 'rgba(255,255,255,0.7)', borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 }}>
+                  <Text weight={800} size={12} style={{ color: th.onGold, letterSpacing: 1.4, textTransform: 'uppercase' }}>{t('shell.dogs')}{list.length ? ` · ${list.length}` : ''}</Text>
                 </View>
+                {plus(() => router.push('/dogs/new'), t('profile.addDog'))}
               </View>
             </Tile>
-            {/* family 2×1 */}
-            <Tile index={1} width={full} height={Math.round(col * 1.02)} onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
+            {/* the one solid accent card: family */}
+            <Tile index={1} width={full} height={row} tone="gold" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
-                <TileHeader title={t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => router.push({ pathname: '/family', params: family ? { invite: '1' } : { create: '1' } })} />
+                <TileHeader ink={th.onGold} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => router.push({ pathname: '/family', params: family ? { invite: '1' } : { create: '1' } })} />
                 {family ? (
-                  <View style={{ flex: 1, justifyContent: 'space-between' }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                      <Text weight={700} size={15} numberOfLines={1} style={{ flexShrink: 1 }}>{family.name}</Text>
-                      {fam.data?.isAdmin ? <Icon name="nav-admin" size={22} /> : null}
+                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                    <Text weight={800} size={46} style={{ color: th.onGold }}>{members.length}</Text>
+                    <View style={{ flex: 1 }}>
+                      <PeopleRow ink={th.onGold} groups={[
+                        members.map((m) => ({ key: m.userId, name: m.name, avatar: <Avatar id={m.userId} name={m.name} url={m.avatar} size={34} /> })),
+                        list.map((d) => ({ key: d.id, name: d.name, avatar: <DogAvatar url={d.photo_url} size={34} /> })),
+                      ]} />
                     </View>
-                    <PeopleRow groups={[
-                      members.map((m) => ({ key: m.userId, name: m.name, avatar: <Avatar id={m.userId} name={m.name} url={m.avatar} size={36} /> })),
-                      list.map((d) => ({ key: d.id, name: d.name, avatar: <DogAvatar url={d.photo_url} size={36} /> })),
-                    ]} />
                   </View>
-                ) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-family" size={48} /></View>}
+                ) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-family" size={56} /></View>}
               </View>
             </Tile>
-            {/* friends 2×1 */}
-            <Tile index={2} width={full} height={row} onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
+            {/* friends: a pale tint */}
+            <Tile index={2} width={full} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
               <View style={pad}>
-                <TileHeader title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
-                {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={48} /></View> : (
-                  <View style={{ flex: 1, justifyContent: 'center' }}>
-                    <PeopleRow groups={[friends.map((b) => ({ key: b.userId, name: b.name, avatar: <Avatar id={b.userId} name={b.name} url={b.avatar} size={36} /> }))]} />
+                <TileHeader ink={th.onGold} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
+                {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (
+                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+                    <Text weight={800} size={46} style={{ color: th.onGold }}>{friends.length}</Text>
+                    <View style={{ flex: 1 }}>
+                      <PeopleRow ink={th.onGold} groups={[friends.map((b) => ({ key: b.userId, name: b.name, avatar: <Avatar id={b.userId} name={b.name} url={b.avatar} size={34} /> }))]} />
+                    </View>
                   </View>
                 )}
               </View>

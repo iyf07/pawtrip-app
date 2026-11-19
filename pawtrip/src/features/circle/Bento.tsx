@@ -15,14 +15,18 @@ export function bentoUnits(width: number) {
   return { col, row: Math.round(col * 0.85) };
 }
 
+export type Tone = 'card' | 'gold' | 'tint';
+
 /**
- * One bento card: 24 px corners, sits flush in the grid (the grid supplies the 12 px seams), enters with the list
- * stagger and springs on press. One card says one thing.
+ * One bento card: 24 px corners, no outline, a soft shadow; sits flush in the grid (the grid supplies the 12 px
+ * seams), enters with the list stagger and springs on press. `tone` gives the grid its rhythm: white, a solid accent
+ * (use once), or a pale tint. One card says one thing.
  */
-export function Tile({ index, width, height, onPress, dashed, accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
+export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
+  const bg = tone === 'gold' ? th.gold : tone === 'tint' ? th.blueBg : th.card;
   const body = (
-    <View style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : th.card, borderWidth: dashed ? 2.5 : 2, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line }, style]}>{children}</View>
+    <View style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>
   );
   return (
     <Reveal index={index} style={{ width, height }}>
@@ -31,15 +35,19 @@ export function Tile({ index, width, height, onPress, dashed, accessibilityLabel
   );
 }
 
-/** Small title of a card, with the one "+" action at its right end (the same plus on every card). */
-export function TileHeader({ title, onAdd, addLabel }: { title: string; onAdd?: () => void; addLabel?: string }) {
+/**
+ * The small label of a card (small, spaced, caps-like) and the one "+" at its right end: a small translucent circle,
+ * not a coloured button, so only one thing per page shouts. `ink` is the text colour on coloured cards.
+ */
+export function TileHeader({ title, onAdd, addLabel, ink }: { title: string; onAdd?: () => void; addLabel?: string; ink?: string }) {
   const th = useTheme();
+  const color = ink ?? th.muted;
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 32 }}>
-      <Text weight={800} size={18} numberOfLines={1} style={{ flex: 1 }}>{title}</Text>
+    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 }}>
+      <Text weight={800} size={12} numberOfLines={1} style={{ flex: 1, color, letterSpacing: 1.4, textTransform: 'uppercase' }}>{title}</Text>
       {onAdd ? (
-        <PressScale onPress={onAdd} accessibilityRole="button" accessibilityLabel={addLabel ?? title} hitSlop={6} style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: th.gold, borderWidth: 2.5, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center' }}>
-          <Text plain size={20} weight={800} color="onGold" style={{ lineHeight: 22 }}>+</Text>
+        <PressScale onPress={onAdd} accessibilityRole="button" accessibilityLabel={addLabel ?? title} hitSlop={6} style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: 'rgba(255,255,255,0.55)', alignItems: 'center', justifyContent: 'center' }}>
+          <Text plain size={20} weight={800} style={{ color: th.onGold, lineHeight: 22 }}>+</Text>
         </PressScale>
       ) : null}
     </View>

@@ -9,10 +9,11 @@ import { Text } from '@/components/ui/Text';
 import { useT, type Key } from '@/i18n';
 import { useTheme } from '@/hooks/use-theme';
 import { dogWeightLabel } from '@/lib/dog-weight';
-import { BENTO_RADIUS } from './Bento';
+import { AVATAR_COLORS } from '@/constants/theme';
 
 const OPEN = 5; // flex of the open strip; the others are 1
-const GAP = 6;
+const GAP = 4;
+const hash = (x: string) => [...x].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 const WIDEN_MS = 500; // the strips change width first …
 const FADE_MS = 260; // … and only then does the content fade in
 
@@ -46,10 +47,10 @@ function Strip({ dog, open, openWidth, onPress }: { dog: Dog; open: boolean; ope
   return (
     <Animated.View style={{ flex: p.interpolate({ inputRange: [0, 1], outputRange: [1, OPEN] }), minWidth: 0 }}>
       <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={dog.name} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
-        style={{ flex: 1, borderRadius: BENTO_RADIUS - 8, overflow: 'hidden', backgroundColor: th.blueBg }}>
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: AVATAR_COLORS[hash(dog.id) % AVATAR_COLORS.length] }}>
         {photo ? <Image source={{ uri: dog.photo_url! }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} contentFit="cover" /> : null}
         {/* no photo: the sticker sits at the top and never squeezes */}
-        {photo ? null : <View style={{ position: 'absolute', top: 10, left: 0, right: 0, alignItems: 'center' }}><DogAvatar url={null} size={30} border={0} /></View>}
+        {photo ? null : <View style={{ position: 'absolute', top: 56, left: 0, right: 0, alignItems: 'center' }}><DogAvatar url={null} size={36} border={0} /></View>}
         {/* narrow: the name runs up the strip at a fixed size; it fades out right as the strip starts to open */}
         {size.h > 0 ? (
           <Animated.View pointerEvents="none" style={{ position: 'absolute', width: size.h, height: 30, top: (size.h - 30) / 2, left: (size.w - size.h) / 2, transform: [{ rotate: '-90deg' }], opacity: p.interpolate({ inputRange: [0, 0.2], outputRange: [1, 0], extrapolate: 'clamp' }), alignItems: 'center', justifyContent: 'center' }}>
@@ -57,9 +58,9 @@ function Strip({ dog, open, openWidth, onPress }: { dog: Dog; open: boolean; ope
           </Animated.View>
         ) : null}
         {/* open: name, weight and tags at the bottom, laid out at the final width, fading in only once the strip is wide */}
-        <Animated.View pointerEvents="none" style={{ position: 'absolute', left: 12, bottom: 12, width: Math.max(0, openWidth - 24), opacity: c }}>
-          {photo ? <View style={{ position: 'absolute', left: -12, right: -12, top: -28, bottom: -12, backgroundColor: 'rgba(40,28,20,0.45)' }} /> : null}
-          <Text weight={800} size={20} numberOfLines={1} style={{ color: ink, ...shadow }}>{dog.name}</Text>
+        <Animated.View pointerEvents="none" style={{ position: 'absolute', left: 16, bottom: 16, width: Math.max(0, openWidth - 32), opacity: c }}>
+          {photo ? <View style={{ position: 'absolute', left: -16, right: -16, top: -48, bottom: -16, backgroundColor: 'rgba(40,28,20,0.4)' }} /> : null}
+          <Text weight={800} size={26} numberOfLines={1} style={{ color: ink, ...shadow }}>{dog.name}</Text>
           {weight ? <Text size={13} weight={700} numberOfLines={1} style={{ color: ink, ...shadow }}>{weight}</Text> : null}
           {tags ? <Text size={12} weight={600} numberOfLines={2} style={{ color: ink, ...shadow }}>{tags}</Text> : null}
         </Animated.View>

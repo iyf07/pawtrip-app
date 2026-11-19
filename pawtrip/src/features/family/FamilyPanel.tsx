@@ -92,7 +92,7 @@ export function FamilyPanel() {
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
       {editing ? (
-        <BentoCard index={0} tone="gold" right={
+        <BentoCard index={0} tone="mint" right={
           <View style={{ flexDirection: 'row', gap: 8 }}>
             <RingButton kind="save" label={t('nav.save')} disabled={!editName?.trim()} loading={rename.isPending} onPress={(done) => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); await done; setEditName(null); })} />
             <RingButton kind="discard" label={t('pf.discardSection', { section: state.family.name })} onPress={async (done) => { await done; setEditName(null); }} />
@@ -101,7 +101,7 @@ export function FamilyPanel() {
           <View style={{ alignItems: 'center' }}><Button label={t('family.disband')} variant="danger" onPress={() => setAskLeave(true)} /></View>
         </BentoCard>
       ) : (
-        <Hero index={0} minHeight={96} color={th.goldBg} title={state.family.name} />
+        <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />
       )}
       <BentoCard index={1} title={t('family.members')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>

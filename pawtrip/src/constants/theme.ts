@@ -8,6 +8,7 @@ const light = {
   blue: '#3D7590',
   blueBg: '#CDE7F0',
   softBlue: '#E8F3F7',
+  softMint: '#E2F3E9',
   bg: '#FCF8F0', // light warm white (was #F6EBD9)
   card: '#FFFFFF',
   line: '#EBDDC3',
@@ -38,6 +39,7 @@ const dark: typeof light = {
   blue: '#8EC5DD',
   blueBg: '#1F3E4B',
   softBlue: '#243B45',
+  softMint: '#21392D',
   bg: '#231B15',
   card: '#2F251D',
   line: '#5A4633',

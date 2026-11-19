@@ -70,7 +70,7 @@ export default function Circle() {
             </Tile>
   );
   const familyTile = (
-            <Tile index={1} width={sideW} height={row} tone="gold" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
+            <Tile index={1} width={sideW} height={row} tone="mint" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => (family ? setInviting(true) : setCreating(true))} />
                 {family ? (

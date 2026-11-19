@@ -756,3 +756,6 @@ Dog photos: the dark scrim behind the text is removed everywhere (circle hero `H
 - **Shapes and borders (rule)**: people = circle avatar with a gold border; **dogs = rounded square (radius 28 % of the size) with a blue border (`th.blue`)** everywhere (`DogAvatar`, circle thumbnails, family dog thumbnails). Thumbnails: blue border 2.5 px, chosen one 4 px and wider.
 - Page titles are plain names without "我的" for the circle's children: 家庭, 好友, 狗狗 ("我的主页" stays). The family name card is a one-line compact card (96 px) with no "家庭" subtitle, since the header already says it.
 - Colour system: discussed with the user, mapping not decided yet (see chat); nothing changed except these shapes.
+
+### later 65 (Claude)
+Colour: **family = soft mint** (new token `softMint` #E2F3E9, dark #21392D, Tile/BentoCard tone 'mint'), friends = pale blue (`softBlue`), dogs hero still per-dog pastel (user liked beige for dogs; mapping not finalised). Proposed system (not yet agreed): dogs cream, family mint, friends blue, me peach, trips lavender, notifications butter.

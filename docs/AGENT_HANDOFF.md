@@ -693,3 +693,6 @@ Circle follow-up: family and friends cards now use calm tints (`goldBg` cream an
 
 ### later 47 (Claude)
 Circle: the big member/friend count numerals were removed from the family and friends cards (user: no head counts there). The dogs pill still says "狗狗 · N".
+
+### later 48 (Claude) — expand transition v2
+The user found the full-screen expand "odd". Reasons and fixes: it was a content-less colour wipe, ended with a colour flash, covered the nav, and took ~0.8 s. Now: grows only over the content area (`lib/expand-target.ts`), 260 ms, the card label turns into the page title, and the destination page has a full-width colour band behind its header (`Screen topTint`: family cream, friends pale blue, dog = its strip colour), so the overlay ends in the page's own colour. See `docs/animations.md` #16. Not seen in motion (browser pane throttles animation); the static end state of /family was checked.

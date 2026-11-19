@@ -25,7 +25,7 @@ import { ShellContext } from './ShellContext';
 
 type Section = 'calendar' | 'trips' | 'circle' | 'profile' | 'settings';
 
-const RAIL_W = 76;
+export const RAIL_W = 76;
 const LIST_W = 232;
 
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */

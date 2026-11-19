@@ -6,6 +6,7 @@ import { Text } from '@/components/ui/Text';
 import { Reveal } from '@/components/ui/Reveal';
 import { useTheme } from '@/hooks/use-theme';
 import { expandThen } from '@/lib/expand';
+import { useExpandTarget } from '@/lib/expand-target';
 
 export const BENTO_GAP = 12; // the seam between cards
 export const BENTO_RADIUS = 24; // every card's corner
@@ -22,8 +23,9 @@ export type Tone = 'card' | 'gold' | 'tint';
  * One bento card: 24 px corners, no outline, a soft shadow; sits flush in the grid (the grid supplies the 12 px
  * seams), enters with the list stagger and springs on press. `tone` gives the grid its rhythm: white, a warm cream or a pale blue tint. One card says one thing.
  */
-export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
+export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, expandLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; /** the page title the card turns into when it grows */ expandLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
+  const area = useExpandTarget();
   const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : th.card; // calm tints, never a loud fill
   const ref = useRef<ComponentRef<typeof View>>(null);
   // tapping a card grows it to full screen, and the page it opens appears from there
@@ -31,7 +33,7 @@ export function Tile({ index, width, height, onPress, dashed, tone = 'card', acc
     if (!onPress) return;
     const node = ref.current;
     if (!node) return onPress();
-    node.measureInWindow((x, y, w, h) => expandThen(w > 0 ? { x, y, w, h } : null, bg, BENTO_RADIUS, onPress));
+    node.measureInWindow((x, y, w, h) => expandThen(w > 0 ? { x, y, w, h } : null, bg, BENTO_RADIUS, onPress, { ...area, label: expandLabel, ink: th.text, shadow: `0 10px 24px -14px ${th.shadow}` }));
   };
   const body = (
     <View ref={ref} collapsable={false} style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>

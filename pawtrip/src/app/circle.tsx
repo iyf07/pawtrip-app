@@ -15,6 +15,7 @@ import { DogAccordion } from '@/features/circle/DogAccordion';
 import { PeopleRow } from '@/features/circle/PeopleRow';
 import { useLayout } from '@/hooks/use-layout';
 import { expandThen } from '@/lib/expand';
+import { useExpandTarget } from '@/lib/expand-target';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
@@ -31,6 +32,7 @@ export default function Circle() {
   const buddies = useBuddies();
   const [width, setWidth] = useState(0);
   const { wide } = useLayout();
+  const area = useExpandTarget();
   const { col, row: phoneRow } = bentoUnits(width);
   // phone: everything stacked, full width. Wide: the dogs hero on the left, family and friends stacked on the right.
   const half = Math.max(0, (width - BENTO_GAP) / 2);
@@ -54,7 +56,7 @@ export default function Circle() {
               {list.length === 0 ? (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: th.goldBg }}><Icon name="nav-dogs" size={96} /></View>
               ) : (
-                <DogAccordion dogs={list} onOpenDog={(id, rect, color) => expandThen(rect, color, 0, () => router.push({ pathname: '/dogs/[id]', params: { id } }))} />
+                <DogAccordion dogs={list} onOpenDog={(id, rect, color) => expandThen(rect, color, 0, () => router.push({ pathname: '/dogs/[id]', params: { id } }), { ...area, label: t('dog.home', { name: list.find((d) => d.id === id)?.name ?? '' }), ink: th.text })} />
               )}
               <View pointerEvents="box-none" style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ backgroundColor: 'rgba(255,255,255,0.7)', borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 }}>
@@ -65,7 +67,7 @@ export default function Circle() {
             </Tile>
   );
   const familyTile = (
-            <Tile index={1} width={sideW} height={row} tone="gold" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
+            <Tile index={1} width={sideW} height={row} tone="gold" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')} expandLabel={t('family.title')}>
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => router.push({ pathname: '/family', params: family ? { invite: '1' } : { create: '1' } })} />
                 {family ? (
@@ -82,7 +84,7 @@ export default function Circle() {
             </Tile>
   );
   const friendsTile = (
-            <Tile index={2} width={sideW} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
+            <Tile index={2} width={sideW} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')} expandLabel={t('bd.title')}>
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
                 {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (

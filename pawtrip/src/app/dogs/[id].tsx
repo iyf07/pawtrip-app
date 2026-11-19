@@ -5,9 +5,12 @@ import { DogForm } from '@/features/dog/DogForm';
 import { DogWizard } from '@/features/dog/DogWizard';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
+import { AVATAR_COLORS } from '@/constants/theme';
 import { useT } from '@/i18n';
 import { useLayout } from '@/hooks/use-layout';
 import { goBack } from '@/lib/nav';
+
+const dogColor = (id: string) => AVATAR_COLORS[[...id].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % AVATAR_COLORS.length];
 
 export default function DogEditorRoute() {
   const { t } = useT();
@@ -22,7 +25,7 @@ export default function DogEditorRoute() {
   return (
     <DogForm key={dog.data.id} dog={dog.data} onClose={goBack}>
       {({ body, footer }) => (
-        <Screen nav size={wide ? "wide" : "narrow"} bottom={footer} top={<Header title={t('dog.home', { name: dog.data.name })} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
+        <Screen nav size={wide ? "wide" : "narrow"} topTint={dogColor(dog.data.id)} bottom={footer} top={<Header title={t('dog.home', { name: dog.data.name })} left={<BackButton label={t('nav.back')} onPress={goBack} />} />}>
           {body}
         </Screen>
       )}

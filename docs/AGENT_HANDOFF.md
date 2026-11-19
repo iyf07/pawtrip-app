@@ -177,6 +177,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Integrated-paw icon batch deployed to Expo production as `13fecs04eu`, app commit `f2a10d7`; TypeScript and ESLint passed, and desktop/mobile profile was checked. No backend changes.
+
 - 2026-11-19: Integrated-paw icon work covers mono-line controls, navigation, map pins, dedicated interest/diet empty states, dog activity/trait icons and dog-scale sets (including legacy recall). Masters and UI files are in `pawtrip/assets/icons`; `TraitBlocks` and `Icon` register the new empty states and controls. Typecheck and lint pass; profile and dog profile checked on desktop and phone. Earlier dog-scale candidates in `/private/tmp/pawtrip-dog-scales` are superseded. Mascot-dependent `empty-*`, `mood-*`, `nav-dogs` and `logo-paw` remain deferred.
 
 - 2026-11-19: Fifteen outdoor, sight, activity and dessert interest icons replaced with integrated-paw illustrations. Human scales and diet icons deployed as Expo `3j1xa7y017`, commit `c311163`. Remaining non-mascot icons in progress.
@@ -911,3 +913,6 @@ New light tokens in `constants/theme.ts` (each with a dark version): `peach #FDE
 
 ### 2026-11-19 (Codex) — integrated-paw icon continuation
 Read the latest agent instructions, handoff and commits through `ff65f16`, preserving Claude's layout, navigation and colour changes. Continued generating integrated-paw icons locally: controls, navigation, map pins, empty trait states, dog interests and dog scales. No angel or halo is used for independent-stay. Typecheck and eslint passed; desktop/phone profile and dog pages were checked. Work remains uncommitted and undeployed: automatic approval review for production deployment failed due to the account usage limit, so the next agent should inspect the working tree, re-run checks and browser QA, confirm the latest remote head and deployed build, then commit/push/deploy once approval is available. Mascot-dependent artwork remains deferred. Claim released.
+
+### 2026-11-19 (Codex) — icon batch deployment
+User requested retry. Confirmed remote `main`, reran typecheck and ESLint, checked desktop/mobile profile, committed and pushed app commit `f2a10d7`, and deployed Expo production `13fecs04eu`. No backend changes. Mascot-dependent assets remain deferred; claim released.

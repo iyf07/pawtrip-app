@@ -726,3 +726,7 @@ All text now uses **Manrope (Latin) + Noto Sans SC (Chinese)**, a matched neutra
 
 ### later 55 (Claude)
 Circle dogs: the accordion strips were replaced by a **big photo of the chosen dog + a row of square rounded thumbnails** (user's choice, option A): every dog stays recognisable; the chosen thumbnail widens (96 px vs 64 px) with a gold ring. File name `DogAccordion.tsx` kept. Checked at 375 px with three dogs (two without photos; photo thumbnails not seen because the local dogs have no uploaded photos).
+
+### later 56 (Claude)
+- **Circle dog switch sequence** (user's spec): old text pops out → new photo fully loaded → it slides in from the side the dog sits on (old photo slides out the other way) → new text pops in on a spring. First load: photo opens from the middle, text pops in at ~60 % of that. Verified end state with three dogs (Mochi selected, text visible); mid-motion not watched.
+- **Family page restyled to match the circle**: cream `Hero` with the family name in the big serif and stacked member avatars (pencil top-right; edit mode = cream card with name field, save/discard rings, disband), 家庭成员 card = avatar grid with names and the admin crown (red remove under each in edit mode), 家庭狗狗 card (pale blue) = square rounded dog thumbnails with names, bigger invite / code action cards. Checked at 375 px.

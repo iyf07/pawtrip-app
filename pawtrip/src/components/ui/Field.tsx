@@ -3,7 +3,7 @@ import { Animated, Easing, Platform, TextInput, View, type StyleProp, type ViewS
 
 import { useTheme } from '@/hooks/use-theme';
 
-import { Text } from './Text';
+import { Text, fontStyle } from './Text';
 
 type Props = TextInputProps & {
   containerStyle?: StyleProp<ViewStyle>;
@@ -62,7 +62,7 @@ export function Field({ containerStyle, label, hint, error, invalid, style, onFo
             backgroundColor: t.card,
             color: t.text,
             fontSize: 16,
-            fontFamily: 'Nunito_600SemiBold',
+            ...fontStyle(600),
             outlineStyle: 'none',
           } as object,
           style,

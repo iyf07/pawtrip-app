@@ -709,3 +709,6 @@ The push transition did not show on the web: Expo Router's JS stack defaults `an
 
 ### later 51 (Claude)
 Back now plays the push in reverse: the back buttons on the dogs list, family and friends pages and the friend detail page call `goBackTo(fallback)` (`lib/nav.ts`: `router.back()` when there is history, else `replace`) instead of `navigate/replace`, which pushed a new copy of the previous page forward. Verified with history.back() on /family → /circle: the leaving card moves right while the circle card returns. Rule: use `goBack`/`goBackTo`, never `navigate`/`replace`, for a back button.
+
+### later 52 (Claude) — typeface pair
+All text now uses **Manrope (Latin) + Noto Sans SC (Chinese)**, a matched neutral pair, weights 400/600/700/800. Web: loaded from Google Fonts via the <link> in `app/_layout.tsx` (unicode-range slices keep the Chinese download small; this contacts Google's font servers); native: Manrope from `@expo-google-fonts/manrope`, system Chinese face (PingFang SC / Noto Sans CJK). `ui/Text.tsx` exports `fontStyle(weight)` for text not drawn by `Text` (inputs use it). Nunito was removed. Why: the user found the big page title (圈子) in the old fallback face not premium while the small card labels looked fine; with a real heavy Chinese face everything matches. To swap the pair, change `FAMILY`, `WEB_STACK` and the <link>.

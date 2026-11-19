@@ -1,10 +1,10 @@
 import {
-  Nunito_400Regular,
-  Nunito_600SemiBold,
-  Nunito_700Bold,
-  Nunito_800ExtraBold,
+  Manrope_400Regular,
+  Manrope_600SemiBold,
+  Manrope_700Bold,
+  Manrope_800ExtraBold,
   useFonts,
-} from '@expo-google-fonts/nunito';
+} from '@expo-google-fonts/manrope';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
 import { Stack, TransitionPresets } from 'expo-router/js-stack';
@@ -55,8 +55,8 @@ function enableBrowserPullToReload() {
 
 export default function RootLayout() {
   useEffect(enableBrowserPullToReload, []);
-  const [fontsLoaded] = useFonts({ Nunito_400Regular, Nunito_600SemiBold, Nunito_700Bold, Nunito_800ExtraBold });
-  // playful title fonts (Latin + Chinese); loaded in the background, the page shows without waiting for them
+  // web gets Manrope + Noto Sans SC from the Google Fonts <link> below; only native loads the font files
+  const [fontsLoaded] = useFonts(Platform.OS === 'web' ? {} : { Manrope_400Regular, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold });
   const [client] = useState(
     () => new QueryClient({ defaultOptions: { queries: { staleTime: 15_000, retry: 1, refetchOnWindowFocus: true } } }),
   );
@@ -64,6 +64,9 @@ export default function RootLayout() {
   return (
     <QueryClientProvider client={client}>
       <Head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;600;700;800&display=swap" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Paw Trip" />
         <meta property="og:title" content="Paw Trip" />

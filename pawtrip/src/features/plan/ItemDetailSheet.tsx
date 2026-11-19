@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Chip, Segmented } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
 import { Sheet } from '@/components/ui/Sheet';
-import { Meta, Text } from '@/components/ui/Text';
+import { Meta, Text, fontStyle } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { CAT_COLORS, type CatKey } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
@@ -217,7 +217,7 @@ function Detail({ item }: { item: ItemView }) {
           if (!v) setTitle(item.title);
           else if (v !== item.title) save({ title: v });
         }}
-        style={{ fontSize: 22, fontFamily: 'Nunito_800ExtraBold' }}
+        style={{ fontSize: 22, ...fontStyle(800) }}
       />
 
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 10 }}>

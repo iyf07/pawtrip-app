@@ -33,7 +33,7 @@ import { goBack } from "@/lib/nav";
 import { deletePhotoByUrl } from "@/lib/photos";
 import { Reveal } from '@/components/ui/Reveal';
 import { ConfirmSheet } from '@/components/ui/Sheet';
-import { BENTO_GAP, BentoCard } from '@/features/circle/Bento';
+import { BENTO_GAP, BentoCard, Hero } from '@/features/circle/Bento';
 import { RingButton } from '@/components/ui/RingButton';
 import { ShareSheet } from '@/components/ShareSheet';
 
@@ -208,7 +208,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   );
 
   const interestsBlock = (
-    <BentoCard index={2} title={t("profile.interests")} right={editActions("interests", t("profile.interests"))}>
+    <BentoCard index={2} tone="tint" title={t("profile.interests")} right={editActions("interests", t("profile.interests"))}>
       <InterestPicker value={interests} readOnly={editing !== "interests"} onToggle={(i) => setInterests((c) => toggle(c, i))} />
     </BentoCard>
   );
@@ -268,7 +268,15 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
       }
     >
       <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-        <BentoCard index={0}>{identityBlock}</BentoCard>
+        {editing === "identity" ? <BentoCard index={0} tone="gold">{identityBlock}</BentoCard> : (
+          <Hero index={0} minHeight={250} color={th.goldBg} avatar={<Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={92} />} title={profile.display_name} subtitle={`@${profile.handle}`} right={editActions("identity", t("pf.name"))}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 }}>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.copyPublicId')} onPress={copyPublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Icon name="ui-copy" size={24} /></Pressable>
+              <Pressable accessibilityRole="button" accessibilityLabel={t('pf.sharePublicId')} onPress={sharePublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Icon name="ui-share" size={24} /></Pressable>
+              <View style={{ flex: 1 }}><PersonTraits size={12} profile={editing === "style" ? scales : profile} /></View>
+            </View>
+          </Hero>
+        )}
         {styleBlock}
         {interestsBlock}
         {dietBlock}

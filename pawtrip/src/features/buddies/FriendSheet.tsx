@@ -17,10 +17,11 @@ import { Icon } from '@/components/ui/Icon';
 import { useSettings } from '@/api/profile';
 import { weightIn } from '@/lib/dog-weight';
 import { useLayout } from '@/hooks/use-layout';
+import { useTheme } from '@/hooks/use-theme';
 import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
-import { BENTO_GAP, BentoCard } from '@/features/circle/Bento';
+import { BENTO_GAP, BentoCard, Hero } from '@/features/circle/Bento';
 
 function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
   const { t } = useT();
@@ -44,6 +45,7 @@ function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
 export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void }) {
   const { t, locale } = useT();
   const { wide } = useLayout();
+  const th = useTheme();
   const setRelation = useSetBuddyRelation();
   const respondRelation = useRespondBuddyRelation();
   const withdrawRelation = useWithdrawBuddyRelation();
@@ -54,25 +56,22 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
   const dogCount = buddy.dogs.length;
   return (
     <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-      <BentoCard index={0}>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 16 }}>
-          <Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={wide ? 112 : 84} />
-          <View style={{ flex: 1, minWidth: 0 }}><Text weight={800} size={wide ? 28 : 22} numberOfLines={1}>{buddy.name}</Text><Meta size={14}>@{buddy.handle}</Meta><PersonTraits size={13} profile={buddy.traits} /></View>
-        </View>
-      </BentoCard>
+      <Hero index={0} minHeight={wide ? 260 : 240} color={th.softBlue} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={92} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
+        <PersonTraits size={13} profile={buddy.traits} />
+      </Hero>
       {buddy.dogs.map((dog, i) => <DogCard key={dog.id} dog={dog} index={1 + i} />)}
       <BentoCard index={1 + dogCount} title={t('profile.travelStyle')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
           {PERSON_SCALES.map((f, n) => <ScaleInput key={f} index={n} compact inset field={f} value={buddy.traits[f]} readOnly description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}
         </View>
       </BentoCard>
-      <BentoCard index={2 + dogCount} title={t('profile.interests')}>
+      <BentoCard index={2 + dogCount} tone="tint" title={t('profile.interests')}>
         {buddy.interests.length ? <InterestPicker value={buddy.interests} readOnly selectedOnly /> : <Chip icon={<Icon name="empty-discover" size={28} />} label={t('friend.emptyInterests')} />}
       </BentoCard>
       <BentoCard index={3 + dogCount} title={t('profile.diet')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{buddy.diet.length ? buddy.diet.map((d, n) => <Reveal key={d} index={n}><Chip icon={dietIcon(d, 28)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} /></Reveal>) : <Chip icon={<Icon name="cat-food" size={28} />} label={t('friend.emptyDiet')} />}</View>
       </BentoCard>
-      <BentoCard index={4 + dogCount} title={t('friend.relationship')}>
+      <BentoCard index={4 + dogCount} tone="gold" title={t('friend.relationship')}>
         {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 6 }}>
           <Icon name="tab-members" size={56} />
           <Text weight={800} size={18} style={{ textAlign: 'center' }}>{t('friend.since', { date: new Date(buddy.since).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' }) })}</Text>

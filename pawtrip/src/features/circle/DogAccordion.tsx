@@ -9,11 +9,10 @@ import { Text } from '@/components/ui/Text';
 import { useT, type Key } from '@/i18n';
 import { useTheme } from '@/hooks/use-theme';
 import { dogWeightLabel } from '@/lib/dog-weight';
-import { AVATAR_COLORS } from '@/constants/theme';
+import { dogColor } from './dogColor';
 
 const OPEN = 5; // flex of the open strip; the others are 1
 const GAP = 4;
-const hash = (x: string) => [...x].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
 const WIDEN_MS = 500; // the strips change width first …
 const FADE_MS = 260; // … and only then does the content fade in
 
@@ -55,7 +54,7 @@ function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: b
       ]).start();
     }
   }
-  const bgColor = AVATAR_COLORS[hash(dog.id) % AVATAR_COLORS.length];
+  const bgColor = dogColor(dog.id);
   const photo = !!dog.photo_url;
   const ink = photo ? '#FFFFFF' : th.text;
   const shadow = photo ? { textShadowColor: 'rgba(0,0,0,0.65)', textShadowRadius: 4 } : null;

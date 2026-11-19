@@ -1,3 +1,4 @@
+import { Image } from 'expo-image';
 import type { ReactNode } from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
@@ -54,20 +55,45 @@ export function TileHeader({ title, onAdd, addLabel, ink }: { title: string; onA
 }
 
 /**
- * A bento card of any height (cards that hold a list or a form): 24 px corners, a title row in the display font with the
- * card's actions at its right end. Stack them with a 12 px gap; the card enters with the list stagger.
+ * A bento card of any height (cards that hold a list or a form): 24 px corners, no outline, soft shadow, a small spaced
+ * caps label with the card's actions at its right end. `tone` follows the circle's rhythm: white, warm cream, pale blue.
+ * Stack them with a 12 px gap; the card enters with the list stagger.
  */
-export function BentoCard({ index = 0, title, right, children, style }: { index?: number; title?: string; right?: ReactNode; children?: ReactNode; style?: StyleProp<ViewStyle> }) {
+export function BentoCard({ index = 0, title, right, tone = 'card', children, style }: { index?: number; title?: string; right?: ReactNode; tone?: Tone; children?: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
+  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : th.card;
   return (
     <Reveal index={index} style={{ width: '100%' }}>
-      <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, padding: 16, gap: 10, boxShadow: `0 10px 24px -14px ${th.shadow}` }, style]}>
+      <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: bg, padding: 16, gap: 10, boxShadow: `0 10px 24px -14px ${th.shadow}` }, style]}>
         {title || right ? (
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, minHeight: 40 }}>
-            {title ? <Text weight={800} size={18} numberOfLines={1} style={{ flex: 1 }}>{title}</Text> : <View style={{ flex: 1 }} />}
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, minHeight: 36 }}>
+            {title ? <Text weight={800} size={12} numberOfLines={1} style={{ flex: 1, color: th.muted, letterSpacing: 1.4, textTransform: 'uppercase' }}>{title}</Text> : <View style={{ flex: 1 }} />}
             {right}
           </View>
         ) : null}
+        {children}
+      </View>
+    </Reveal>
+  );
+}
+
+/**
+ * The hero of a page: a tall card with the page's subject. A photo fills it (white text on a soft scrim), otherwise a
+ * soft colour with the avatar. Big serif name at the bottom left, small caps line under it, actions at the top right.
+ */
+export function Hero({ index = 0, color, photoUrl, avatar, title, subtitle, right, children, minHeight = 220 }: { index?: number; color: string; photoUrl?: string | null; avatar?: ReactNode; title: string; subtitle?: string; right?: ReactNode; children?: ReactNode; minHeight?: number }) {
+  const th = useTheme();
+  const ink = photoUrl ? '#FFFFFF' : th.onGold;
+  const shadow = photoUrl ? { textShadowColor: 'rgba(0,0,0,0.55)', textShadowRadius: 4 } : null;
+  return (
+    <Reveal index={index} style={{ width: '100%' }}>
+      <View style={{ borderRadius: BENTO_RADIUS, backgroundColor: color, minHeight, overflow: 'hidden', justifyContent: 'flex-end', padding: 18, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
+        {photoUrl ? <Image source={{ uri: photoUrl }} transition={600} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : null}
+        {photoUrl ? <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '65%', backgroundColor: 'rgba(40,28,20,0.4)' }} /> : null}
+        {right ? <View style={{ position: 'absolute', top: 14, right: 14, zIndex: 2 }}>{right}</View> : null}
+        {!photoUrl && avatar ? <View style={{ position: 'absolute', top: 18, left: 18 }}>{avatar}</View> : null}
+        <Text weight={800} size={32} numberOfLines={1} style={{ color: ink, ...shadow }}>{title}</Text>
+        {subtitle ? <Text weight={800} size={12} numberOfLines={1} style={{ color: ink, opacity: 0.85, letterSpacing: 1.4, textTransform: 'uppercase', marginTop: 2, ...shadow }}>{subtitle}</Text> : null}
         {children}
       </View>
     </Reveal>

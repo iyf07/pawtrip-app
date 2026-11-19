@@ -21,7 +21,8 @@ import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 
 import { NotificationBell } from '@/components/NotificationBell';
-import { ShellContext } from './ShellContext';
+import { NavBar } from '@/components/NavBar';
+import { NavProvidedContext, ShellContext } from './ShellContext';
 
 type Section = 'calendar' | 'trips' | 'circle' | 'profile' | 'settings';
 
@@ -47,10 +48,14 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
   const { friend } = useGlobalSearchParams<{ friend?: string }>();
   const detail = collectionDetail(path, friend);
   const showList = active && !!detail;
+  const phoneNav = enabled && !wide && !isFlow(path); // one nav bar above the stack: it does not slide with the pages
   const tab = path.endsWith('/ideas') ? 'ideas' : path.endsWith('/group') ? 'group' : 'plan';
 
   return (
     <ShellContext.Provider value={active}>
+      <NavProvidedContext.Provider value={phoneNav}>
+      <View style={{ flex: 1 }}>
+      {phoneNav ? <NavBar /> : null}
       <View style={{ flex: 1, flexDirection: 'row' }}>
         {active ? <Rail section={section} /> : null}
         {showList ? path.startsWith('/dog') ? <DogList selected={dogId} /> : path.startsWith('/friends') ? <FriendList selected={friend} /> : <TripList selected={tripId} /> : null}
@@ -58,6 +63,8 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
         {active && section === 'trips' && tripId ? <TripSections tripId={tripId} tab={tab} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>
       </View>
+      </View>
+      </NavProvidedContext.Provider>
     </ShellContext.Provider>
   );
 }

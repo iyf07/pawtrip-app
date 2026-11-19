@@ -3,7 +3,7 @@ import { Pressable, ScrollView, View, type StyleProp, type ViewStyle } from 'rea
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavBar } from '@/components/NavBar';
-import { useInShell } from '@/components/shell/ShellContext';
+import { useInShell, useNavProvided } from '@/components/shell/ShellContext';
 import { COLUMN, type ColumnSize } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
@@ -36,14 +36,15 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const inShell = useInShell();
-  const nav2 = nav && !inShell; // the desktop shell already has the rail
+  const navProvided = useNavProvided();
+  const nav2 = nav && !inShell && !navProvided; // the desktop shell has the rail, phones have the app-level nav bar
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const [past, setPast] = useState(false); // scrolled past one screen
   const y = useRef(0);
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
       {nav2 ? <NavBar /> : null}
-      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 ? 0 : insets.top }}>
+      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 || navProvided ? 0 : insets.top }}>
         {top}
         {scroll ? (
           <View style={{ flex: 1 }}>

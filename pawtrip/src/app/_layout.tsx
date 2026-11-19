@@ -1,3 +1,4 @@
+import { Fraunces_700Bold } from '@expo-google-fonts/fraunces';
 import {
   Manrope_400Regular,
   Manrope_600SemiBold,
@@ -56,7 +57,7 @@ function enableBrowserPullToReload() {
 export default function RootLayout() {
   useEffect(enableBrowserPullToReload, []);
   // web gets Manrope + Noto Sans SC from the Google Fonts <link> below; only native loads the font files
-  const [fontsLoaded] = useFonts(Platform.OS === 'web' ? {} : { Manrope_400Regular, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold });
+  const [fontsLoaded] = useFonts(Platform.OS === 'web' ? {} : { Manrope_400Regular, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold, Fraunces_700Bold });
   const [client] = useState(
     () => new QueryClient({ defaultOptions: { queries: { staleTime: 15_000, retry: 1, refetchOnWindowFocus: true } } }),
   );
@@ -66,7 +67,7 @@ export default function RootLayout() {
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;600;700;800&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Noto+Sans+SC:wght@400;600;700;800&family=Fraunces:opsz,wght@9..144,700&family=Noto+Serif+SC:wght@700&display=swap" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Paw Trip" />
         <meta property="og:title" content="Paw Trip" />

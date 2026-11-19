@@ -17,6 +17,13 @@ export type TextWeight = keyof typeof FAMILY;
 
 const WEB_STACK = 'Manrope, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif';
 
+// Display face for big titles, names and numerals (22 px and up, extra-bold): Fraunces (Latin) + Noto Serif SC (Chinese),
+// a warm editorial serif pair. Everything smaller stays in the sans pair.
+const DISPLAY_STACK = 'Fraunces, "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif';
+export function displayStyle() {
+  return Platform.OS === 'web' ? ({ fontFamily: DISPLAY_STACK, fontWeight: '700' } as { fontFamily: string; fontWeight: '700' }) : { fontFamily: 'Fraunces_700Bold' };
+}
+
 /** The font style for a weight; use it for any text that is not drawn by `Text`. */
 export function fontStyle(weight: TextWeight) {
   return Platform.OS === 'web' ? ({ fontFamily: WEB_STACK, fontWeight: String(weight) } as { fontFamily: string; fontWeight: '400' | '600' | '700' | '800' }) : { fontFamily: FAMILY[weight] };
@@ -30,13 +37,13 @@ export type AppTextProps = TextProps & {
   plain?: boolean;
 };
 
-/** App text: Nunito (Latin) with system fallback for CJK, themed colour. */
+/** App text: sans pair for body, serif pair for big titles/names/numerals; themed colour. */
 export function Text({ weight = 600, size = 16, color = 'text', plain, style, ...rest }: AppTextProps) {
   const t = useTheme();
   return (
     <RNText
       {...rest}
-      style={[{ ...fontStyle(weight), fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color], letterSpacing: weight === 800 && size >= 22 && !plain ? -0.3 : undefined }, style]}
+      style={[{ ...(weight === 800 && size >= 22 && !plain ? displayStyle() : fontStyle(weight === 800 ? 700 : weight)), fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color], letterSpacing: weight === 800 && size >= 22 && !plain ? -0.2 : undefined }, style]}
     />
   );
 }

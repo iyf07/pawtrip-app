@@ -23,7 +23,8 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 import { dogScales } from '@/constants/options';
-import { BENTO_GAP, BentoCard } from '@/features/circle/Bento';
+import { BENTO_GAP, BentoCard, Hero } from '@/features/circle/Bento';
+import { dogColor } from '@/features/circle/dogColor';
 import { RingButton } from '@/components/ui/RingButton';
 
 const LB_PER_KG = 2.20462;
@@ -146,7 +147,11 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
 
   const body = (
     <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-      <BentoCard index={0}>{identity}</BentoCard>
+      {editing === 'identity' ? <BentoCard index={0} tone="gold">{identity}</BentoCard> : (
+        <Hero index={0} minHeight={260} color={dogColor(id)} photoUrl={photo} avatar={<DogAvatar url={null} size={92} />} title={name} subtitle={weight ? `${weight} ${unit}` : undefined} right={editActions('identity', t('dog.basic'))}>
+          <DogTraits dog={init.scales} />
+        </Hero>
+      )}
       <BentoCard index={1} title={t('dog.preferences', { name: init.name })} right={editActions('preferences', t('dog.preferences', { name: init.name }))}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
           {DOG_SCALES.map((f, n) => (
@@ -156,7 +161,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
           ))}
         </View>
       </BentoCard>
-      <BentoCard index={2} title={t('dog.interests', { name: init.name })} right={editActions('interests', t('dog.interests', { name: init.name }))}>
+      <BentoCard index={2} tone="tint" title={t('dog.interests', { name: init.name })} right={editActions('interests', t('dog.interests', { name: init.name }))}>
         <DogInterests values={interests} onChange={editing === 'interests' ? setInterests : undefined} />
       </BentoCard>
 

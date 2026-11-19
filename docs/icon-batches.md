@@ -762,3 +762,7 @@ After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI
 # 2026-11-19 — travel categories (v2)
 
 `cat-outdoors`, `cat-food`, `cat-coffee`, `cat-sights`, `cat-shopping`, `cat-fun`, `cat-drinks`, `cat-stay`, `cat-transit`: generated individually from the approved style study, transparent background, paw integrated into the subject. Normalized to a common optical box, with 1024px masters and 512px UI files.
+
+# 2026-11-19 — weather (v2)
+
+`wx-sun`, `wx-partly`, `wx-cloud`, `wx-fog`, `wx-rain`, `wx-snow`, `wx-storm`, `wx-sunrise`, `wx-sunset`: generated individually against the approved study, paw integrated into the weather shape, normalized transparent masters and UI PNGs.

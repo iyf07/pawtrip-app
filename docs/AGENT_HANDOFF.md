@@ -177,6 +177,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Nine `wx-*` weather images redesigned with paw prints inside the sun or cloud. The nine `cat-*` category images were deployed as Expo `s1ytc6wv2v` (commit `3f6d283`). Remaining non-mascot icon batches are in progress.
+
 - 2026-11-19: Nine `cat-*` travel category icons redesigned individually in the approved pastel style, each with its paw integrated into its object, normalized to the same optical box with 1024px masters and 512px UI images. Remaining non-mascot icons still in progress.
 
 - 2026-11-19: Replaced `scale-alone-5`'s angel/halo dog with a calm dog bed and paw blanket, per explicit prohibition. 1024px master and 512px UI PNG supplied; further non-mascot icon redesign is in progress.

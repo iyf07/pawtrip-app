@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { router, useLocalSearchParams } from 'expo-router';
-import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import {
-  useCreateFamily,
   useFamily,
-  useInviteToFamily,
   useDisbandFamily,
   useLeaveFamily,
   useRespondFamilyInvite,
@@ -15,15 +12,15 @@ import {
   useRenameFamily,
 } from '@/api/family';
 import { FamilyCodeSheet, JoinFamilySheet } from './FamilyCodeSheets';
+import { FamilyCreateSheet, FamilyInviteSheet } from './FamilySheets';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Chip } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Icon } from '@/components/ui/Icon';
 import { PageSkeleton } from '@/components/ui/Skeleton';
-import { ConfirmSheet, Sheet } from '@/components/ui/Sheet';
+import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useAuth } from '@/auth/AuthProvider';
@@ -39,17 +36,12 @@ export function FamilyPanel() {
   const toast = useToast();
   const { userId } = useAuth();
   const fam = useFamily();
-  const buddies = useBuddies();
   const dogs = useMyDogs();
-  const [picked, setPicked] = useState<string[]>([]);
-  const create = useCreateFamily();
   const rename = useRenameFamily();
-  const invite = useInviteToFamily();
   const remove = useRemoveFamilyMember();
   const leave = useLeaveFamily();
   const disband = useDisbandFamily();
   const respond = useRespondFamilyInvite();
-  const [name, setName] = useState('');
   const params = useLocalSearchParams<{ invite?: string; create?: string }>(); // the circle's "+" opens these
   const [creating, setCreating] = useState(params.create === '1');
   const [joining, setJoining] = useState(false);
@@ -68,25 +60,6 @@ export function FamilyPanel() {
     } catch {
       toast(t('common.saveFailed'));
     }
-  }
-
-  async function sendInvites() {
-    const failed: string[] = [];
-    let sent = 0;
-    for (const id of picked) {
-      const name = (buddies.data ?? []).find((b) => b.userId === id)?.name ?? '';
-      try {
-        await invite.mutateAsync(id);
-        sent += 1;
-      } catch (e) {
-        const msg = e instanceof Error ? e.message : String((e as { message?: string })?.message ?? '');
-        failed.push(msg.includes('already_in_family') ? t('family.errInOther', { name }) : msg.includes('not_a_friend') ? t('family.errNotFriend', { name }) : msg.includes('only the family admin') ? t('family.errOnlyAdmin') : t('common.saveFailed'));
-      }
-    }
-    setPicked([]);
-    if (failed.length) toast(failed[0]);
-    else toast(t('family.invited'));
-    if (sent > 0 || !failed.length) setInviting(false);
   }
 
   if (fam.isPending) return <PageSkeleton cards={2} />;
@@ -111,25 +84,12 @@ export function FamilyPanel() {
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="ui-key" size={28} /><Text weight={800} color="muted">{t('family.joinCode')}</Text></View>
         </Card>
         <JoinFamilySheet visible={joining} onClose={() => setJoining(false)} />
-        <Sheet visible={creating} onClose={() => setCreating(false)}>
-          <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.createTitle')}</Text>
-          <Field value={name} onChangeText={setName} placeholder={t('family.namePh')} maxLength={40} autoFocus />
-          <Button
-            label={t('family.create')}
-            block
-            disabled={name.trim().length === 0}
-            loading={create.isPending}
-            onPress={() => run(async () => { await create.mutateAsync(name.trim()); setName(''); setCreating(false); })}
-            style={{ marginTop: 12 }}
-          />
-        </Sheet>
+        <FamilyCreateSheet visible={creating} onClose={() => setCreating(false)} />
       </View>
     );
   }
 
-  const memberIds = new Set(state.members.map((m) => m.userId));
   const editing = editName !== null && state.isAdmin;
-  const invitable = (buddies.data ?? []).filter((b) => b.status === 'accepted' && !memberIds.has(b.userId));
 
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
@@ -193,34 +153,7 @@ export function FamilyPanel() {
       <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
       {state.isAdmin ? null : <Button label={t('family.leave')} variant="danger" onPress={() => setAskLeave(true)} style={{ alignSelf: 'center' }} />}
 
-      <Sheet visible={inviting} onClose={() => { setInviting(false); setPicked([]); }}>
-        <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.inviteTitle')}</Text>
-        {invitable.length === 0 ? (
-          <Text color="muted" weight={700} style={{ marginTop: 14, textAlign: 'center' }}>{t('family.noFriends')}</Text>
-        ) : (
-          <>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
-              {invitable.map((b) => (
-                <Chip
-                  key={b.userId}
-                  icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={26} border={2} />}
-                  label={b.name}
-                  on={picked.includes(b.userId)}
-                  onPress={() => setPicked((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
-                />
-              ))}
-            </View>
-            <Button
-              label={t('family.inviteBtn')}
-              block
-              disabled={picked.length === 0}
-              loading={invite.isPending}
-              onPress={sendInvites}
-              style={{ marginTop: 12 }}
-            />
-          </>
-        )}
-      </Sheet>
+      <FamilyInviteSheet visible={inviting} onClose={() => setInviting(false)} />
 
       <ConfirmSheet
         visible={askLeave}

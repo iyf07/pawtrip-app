@@ -6,7 +6,8 @@ import {
   useFonts,
 } from '@expo-google-fonts/nunito';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
+import { Stack, TransitionPresets } from 'expo-router/js-stack';
 import Head from 'expo-router/head';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
@@ -23,6 +24,7 @@ import { PawTap } from '@/components/PawTap';
 import { DesktopShell } from '@/components/shell/DesktopShell';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Colors } from '@/constants/theme';
+import { pushInterpolator, pushSpec } from '@/lib/push-transition';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { PrefsProvider } from '@/hooks/use-prefs';
 import { I18nProvider } from '@/i18n';
@@ -126,7 +128,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   return (
     <ThemeProvider value={{ ...base, colors: { ...base.colors, background: colors.bg, card: colors.bg, text: colors.text, border: colors.line } }}>
       <DesktopShell enabled={!!session && !needsOnboarding}>
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
+      <Stack screenOptions={{ headerShown: false, cardStyle: { backgroundColor: colors.bg }, cardOverlayEnabled: true, cardShadowEnabled: false, cardStyleInterpolator: pushInterpolator, transitionSpec: pushSpec, gestureEnabled: true, gestureDirection: 'horizontal', gestureResponseDistance: 40, gestureVelocityImpact: 0 }}>
         <Stack.Protected guard={!session}>
           <Stack.Screen name="sign-in" />
         </Stack.Protected>
@@ -141,10 +143,10 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="family" />
           <Stack.Screen name="dogs/index" />
           <Stack.Screen name="settings" />
-          <Stack.Screen name="trips/new" options={{ presentation: 'modal' }} />
-          <Stack.Screen name="join" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="trips/new" options={{ ...TransitionPresets.ModalSlideFromBottomIOS }} />
+          <Stack.Screen name="join" options={{ ...TransitionPresets.ModalSlideFromBottomIOS }} />
           <Stack.Screen name="profile" />
-          <Stack.Screen name="dogs/[id]" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="dogs/[id]" />
           <Stack.Screen name="trips/[id]" />
           {/* old URLs redirect to the new ones; they must be guarded too, otherwise a signed-out visitor is sent to the first unguarded route (/buddies) instead of the sign-in page */}
           <Stack.Screen name="buddies" />

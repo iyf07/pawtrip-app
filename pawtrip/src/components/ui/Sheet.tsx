@@ -59,6 +59,7 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
   const [progress] = useState(() => new Animated.Value(visible ? 1 : 0));
   const [pop] = useState(() => new Animated.Value(visible ? 1 : 0)); // spring that grows a centred dialog from 0.8 to 1
   const [leave] = useState(() => new Animated.Value(0)); // slight shrink while closing
+  const [rise] = useState(() => new Animated.Value(visible ? 1 : 0)); // phone: the panel rises on a spring and slides back down
   const native = Platform.OS !== 'web';
 
   if (visible && !mounted) setMounted(true); // mount first, animate in on the next frame
@@ -68,8 +69,10 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
       leave.setValue(0);
       Animated.timing(progress, { toValue: 1, duration: 280, easing: Easing.out(Easing.cubic), useNativeDriver: native }).start();
       Animated.spring(pop, { toValue: 1, stiffness: 260, damping: 20, mass: 1, useNativeDriver: native }).start();
+      Animated.spring(rise, { toValue: 1, stiffness: 260, damping: 24, mass: 1, useNativeDriver: native }).start();
     } else {
       Animated.timing(leave, { toValue: 1, duration: 200, easing: Easing.in(Easing.cubic), useNativeDriver: native }).start();
+      Animated.timing(rise, { toValue: 0, duration: 240, easing: Easing.in(Easing.cubic), useNativeDriver: native }).start();
       Animated.timing(progress, { toValue: 0, duration: 200, easing: Easing.in(Easing.cubic), useNativeDriver: native }).start(({ finished }) => {
         if (finished) {
           pop.setValue(0);
@@ -77,13 +80,13 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
         }
       });
     }
-  }, [visible, progress, pop, leave, native]);
+  }, [visible, progress, pop, leave, rise, native]);
 
   if (!mounted) return null;
 
   const scrimOpacity = progress.interpolate({ inputRange: [0, 1], outputRange: [0, 0.45] }); // scrim fades to 45 %
   const panelOpacity = medium ? progress.interpolate({ inputRange: [0, 0.6, 1], outputRange: [0, 0.9, 1] }) : progress.interpolate({ inputRange: [0, 0.05, 1], outputRange: [0, 1, 1] });
-  const lift = progress.interpolate({ inputRange: [0, 1], outputRange: [medium ? 0 : Math.min(screenH * 0.6, 520), 0] });
+  const lift = rise.interpolate({ inputRange: [0, 1], outputRange: [medium ? 0 : Math.min(screenH * 0.6, 520), 0] });
   const scale = medium
     ? Animated.multiply(pop.interpolate({ inputRange: [0, 1], outputRange: [0.8, 1] }), leave.interpolate({ inputRange: [0, 1], outputRange: [1, 0.95] }))
     : 1;

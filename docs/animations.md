@@ -19,7 +19,9 @@
 | 13 | 顶部导航栏图标 | 当前页的图标变宽并放大，其他变窄并缩小，和标签一样 | 0.5 s；宽度 选中 60 px / 其他 32 px；缩放同 #2；每个页面各自画导航栏，所以用 `useTabGrow` 的记忆（key `nav:<icon>`）让切换页面时也能看到过渡 | `pawtrip/src/components/NavBar.tsx`（`NavButton`）。电脑左侧竖向导航栏（`DesktopShell`）暂未加 |
 | 14 | 圈子 → 下一层页面 | 从圈子点进狗狗/家庭/好友页，新页面从右侧滑入并淡入；返回圈子则从左侧滑入 | 320 ms 缓出；位移 40 px；透明度 0.2→1；只看"从哪来"，所以浏览器返回键也有效 | `pawtrip/src/lib/page-entrance.ts`（`CHILD` 列出圈子下一层的路径），由 `ui/Screen.tsx` 使用 |
 | 15 | 圈子狗狗手风琴 | 每只狗一条竖条，名字竖着显示；点窄条横向展开变宽，其余同步变窄；宽度变完之后，名字、体重、标签才淡入（没有白底框，照片上用半透明深色衬底，白字） | 宽度 500 ms 缓出，展开宽度权重 5 / 其他 1；内容延迟 500 ms 后淡入 260 ms；收起时内容 120 ms 先淡出；竖排名字在宽度进度 0→20% 淡出；内容按展开后的最终宽度排版，不会被挤变形 | `pawtrip/src/features/circle/DogAccordion.tsx`（`OPEN`、`WIDEN_MS`、`FADE_MS`）| `pawtrip/src/features/circle/DogAccordion.tsx`（`OPEN`、`MS`） |
-| 16 | 圈子卡片展开 | 点家庭/好友卡片或展开的狗狗条，卡片的颜色从原位置放大到内容区（不盖导航栏/侧栏），卡片的小标签变成新页面的标题，新页面在下面打开，顶部带同样的颜色带，色块再淡出；新页面这时不再做滑入 | 放大 260 ms（cubic ease-in-out，圆角 24→0）；新页面渲染等 60 ms；淡出 220 ms；标题在放大后半段淡入；目标区域：宽屏在侧栏右边，手机在顶部导航栏下面 | `pawtrip/src/lib/expand.ts`、`lib/expand-target.ts`（目标区域）、`components/ExpandOverlay.tsx`（`GROW_MS`、`HOLD_MS`、`FADE_MS`）；`Screen` 的 `topTint` 属性给新页面画整宽颜色带（家庭=奶油色，好友=淡蓝，狗狗=该狗底色）；由 `features/circle/Bento.tsx` 的 `Tile` 和 `DogAccordion` 触发 |
+| 16 | 页面推入转场 | 新页面从右侧滑入，旧页面同时向左退 90 px 并压暗 25%；返回时反向。取代了之前的卡片展开动画（已删除） | 350 ms，缓出（cubic out）；退后 90 px；压暗 0.25（黑色遮罩）。所有页面（根 Stack）通用；弹出式页面（新建行程、加入行程）仍从底部升起 | `pawtrip/src/lib/push-transition.ts`（`PUSH_MS`、`PUSH_BACK_PX`、`PUSH_DIM`）；`app/_layout.tsx` 用 `expo-router/js-stack` 的 JS 栈导航器 |
+| 18 | 左边缘右滑返回 | 从屏幕左边缘右滑，当前页跟手移动，上一页带视差并逐渐变亮；过半宽度松手返回，否则弹回 | 响应边缘宽度 40 px；`gestureVelocityImpact: 0`（只看位置：超过一半宽度才返回）；弹回/返回用同一 350 ms 过渡；视差距离 = #16 的 90 px（你最近写的是 60 px，和之前的 90 px 不一致，要改只改 `PUSH_BACK_PX`） | `app/_layout.tsx` 的 `screenOptions`（`gestureEnabled`、`gestureResponseDistance`、`gestureVelocityImpact`） |
+| 19 | 底部弹层（统一） | 手机上所有弹层（`ui/Sheet.tsx`）：面板从底部用弹簧升起；遮罩淡入到 0.45；关闭时面板下滑、遮罩淡出。电脑上的居中弹窗仍用 #8 的弹簧放大 | 升起：弹簧 刚度 260、阻尼 24；遮罩淡入 280 ms 到 0.45；关闭：面板 240 ms 下滑，遮罩 200 ms 淡出。以后新增的弹层都用 `Sheet`，不要自己写 | `pawtrip/src/components/ui/Sheet.tsx` |
 | 17 | 图片淡入 | 头像、狗狗照片加载完成时淡入，不再一闪 | 350 ms；底下先显示底色/占位 | `ui/Avatar.tsx`、`DogAccordion.tsx` 的 `transition={350}` |
 
 ## 列表入场已覆盖的页面

@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { useRef, useState, type ComponentRef } from 'react';
+import { useState } from 'react';
 import { Animated, Easing, Pressable, View } from 'react-native';
 
 import type { Dog } from '@/api/types';
@@ -10,7 +10,6 @@ import { useT, type Key } from '@/i18n';
 import { useTheme } from '@/hooks/use-theme';
 import { dogWeightLabel } from '@/lib/dog-weight';
 import { AVATAR_COLORS } from '@/constants/theme';
-import type { Rect } from '@/lib/expand';
 
 const OPEN = 5; // flex of the open strip; the others are 1
 const GAP = 4;
@@ -18,7 +17,7 @@ const hash = (x: string) => [...x].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >
 const WIDEN_MS = 500; // the strips change width first …
 const FADE_MS = 260; // … and only then does the content fade in
 
-function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: boolean; openWidth: number; onPress: () => void; onOpenDog: (rect: Rect | null, color: string) => void }) {
+function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: boolean; openWidth: number; onPress: () => void; onOpenDog: () => void }) {
   const th = useTheme();
   const { t } = useT();
   const [p] = useState(() => new Animated.Value(open ? 1 : 0)); // width / narrow-name progress
@@ -40,7 +39,6 @@ function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: b
       ]).start();
     }
   }
-  const ref = useRef<ComponentRef<typeof Pressable>>(null);
   const bgColor = AVATAR_COLORS[hash(dog.id) % AVATAR_COLORS.length];
   const photo = !!dog.photo_url;
   const ink = photo ? '#FFFFFF' : th.text;
@@ -49,7 +47,7 @@ function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: b
   const tags = dogTraitKeys(dog).map((k) => t(k as Key)).join(' · ');
   return (
     <Animated.View style={{ flex: p.interpolate({ inputRange: [0, 1], outputRange: [1, OPEN] }), minWidth: 0 }}>
-      <Pressable ref={ref} collapsable={false} onPress={() => (open ? ref.current?.measureInWindow((x, y, w, h) => onOpenDog(w > 0 ? { x, y, w, h } : null, bgColor)) : onPress())} accessibilityRole="button" accessibilityLabel={dog.name} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
+      <Pressable onPress={() => (open ? onOpenDog() : onPress())} accessibilityRole="button" accessibilityLabel={dog.name} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
         style={{ flex: 1, overflow: 'hidden', backgroundColor: bgColor }}>
         {photo ? <Image source={{ uri: dog.photo_url! }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} contentFit="cover" transition={350} cachePolicy="memory-disk" /> : null}
         {/* no photo: the sticker sits at the top and never squeezes */}
@@ -76,7 +74,7 @@ function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: b
  * Every dog as a vertical strip, name running up the strip. Tap a narrow one: the strips change width first (that one
  * grows, the others narrow), and only then its name, weight and tags fade in. Tap the open one to go to that dog's page.
  */
-export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id: string, rect: Rect | null, color: string) => void }) {
+export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id: string) => void }) {
   const [sel, setSel] = useState(0);
   const [width, setWidth] = useState(0);
   const chosen = Math.min(sel, dogs.length - 1);
@@ -84,7 +82,7 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
   const openWidth = width > 0 ? ((width - GAP * (n - 1)) * OPEN) / (OPEN + n - 1) : 0;
   return (
     <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ flex: 1, flexDirection: 'row', gap: GAP }}>
-      {dogs.map((d, i) => <Strip key={d.id} dog={d} open={i === chosen} openWidth={openWidth} onPress={() => setSel(i)} onOpenDog={(rect, color) => onOpenDog(d.id, rect, color)} />)}
+      {dogs.map((d, i) => <Strip key={d.id} dog={d} open={i === chosen} openWidth={openWidth} onPress={() => setSel(i)} onOpenDog={() => onOpenDog(d.id)} />)}
     </View>
   );
 }

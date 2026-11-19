@@ -1,11 +1,10 @@
 import { useRef, useState, type ComponentRef, type ReactNode } from 'react';
-import { Animated, Pressable, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { NAV_HEIGHT as NAV_BAR_H, NavBar } from '@/components/NavBar';
+import { NavBar } from '@/components/NavBar';
 import { useInShell } from '@/components/shell/ShellContext';
 import { COLUMN, type ColumnSize } from '@/constants/theme';
-import { usePageEntrance } from '@/lib/page-entrance';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -30,27 +29,22 @@ type ScreenProps = {
   size?: ColumnSize;
   /** show the app navigation bar (logo + profile) above everything */
   nav?: boolean;
-  /** a colour band behind the header, full width: the colour of the card this page grew from */
-  topTint?: string;
 };
 
 /** Page shell: themed background, centred phone-width column on wide screens, safe areas. */
-export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle, size = 'narrow', nav, topTint }: ScreenProps) {
+export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, noTopInset, contentStyle, size = 'narrow', nav }: ScreenProps) {
   const t = useTheme();
   const insets = useSafeAreaInsets();
   const inShell = useInShell();
   const nav2 = nav && !inShell; // the desktop shell already has the rail
-  const entrance = usePageEntrance();
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const [past, setPast] = useState(false); // scrolled past one screen
   const y = useRef(0);
-  const [topH, setTopH] = useState(0);
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
       {nav2 ? <NavBar /> : null}
-      {topTint ? <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, top: nav2 ? NAV_BAR_H + insets.top + 2 : 0, height: topH, backgroundColor: topTint }} /> : null}
-      <Animated.View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 ? 0 : insets.top, opacity: entrance.opacity, transform: [{ translateX: entrance.translateX }] }}>
-        {top ? <View onLayout={(e) => setTopH(e.nativeEvent.layout.height)}>{top}</View> : null}
+      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 ? 0 : insets.top }}>
+        {top}
         {scroll ? (
           <View style={{ flex: 1 }}>
           <RefreshScroll
@@ -74,7 +68,7 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
           <View style={[{ flex: 1, paddingHorizontal: 16 }, contentStyle]}>{children}</View>
         )}
         {bottom}
-      </Animated.View>
+      </View>
     </View>
   );
 }
@@ -90,12 +84,10 @@ type HeaderProps = {
   subtitleNode?: ReactNode;
   left?: ReactNode;
   right?: ReactNode;
-  /** page colour behind the header: the colour of the card this page grew from */
-  tint?: string;
 };
 
 /** 3-column header: left action, centred title, right action. */
-export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAccessibilityLabel, subtitle, subtitleNode, left, right, tint }: HeaderProps) {
+export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAccessibilityLabel, subtitle, subtitleNode, left, right }: HeaderProps) {
   const t = useTheme();
   const inShell = useInShell(); // no back links beside the rail
   const { wide } = useLayout();
@@ -108,7 +100,7 @@ export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAc
         paddingHorizontal: 16,
         paddingTop: inShell ? 22 : 4, // breathing room above the title now that there is no top navbar
         paddingBottom: 4,
-        backgroundColor: tint ?? t.bg,
+        backgroundColor: t.bg,
       }}>
       <View style={{ minWidth: sideWidth, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>

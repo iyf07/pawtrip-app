@@ -96,7 +96,11 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
     <Modal visible transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
       <View style={{ flex: 1, justifyContent: medium ? 'center' : 'flex-end', paddingHorizontal: medium ? 24 : 0, paddingBottom: keyboard }}>
         <Animated.View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#000', opacity: scrimOpacity }} />
-        <Pressable onPress={onClose} accessibilityLabel="Close" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
+        {/* two ways to dismiss: the press, and the raw touch end. A finger that wobbled or was cancelled by the press system
+            used to leave the tap without effect; a lifted finger on the dark area now always closes. */}
+        <View onTouchEnd={onClose} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <Pressable onPress={onClose} accessibilityLabel="Close" style={{ flex: 1 }} />
+        </View>
         <Animated.View
           style={{
             width: '100%',

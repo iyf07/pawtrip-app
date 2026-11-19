@@ -123,6 +123,29 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
     document.documentElement.style.backgroundColor = colors.bg;
     document.body.style.backgroundColor = colors.bg;
   }, [colors.bg]);
+  // web: a deployed page can be served stale (the host caches the page for up to an hour). Compare the running bundle with
+  // the newest one now and then, and reload once when a newer one exists, so nobody keeps using an old build.
+  useEffect(() => {
+    if (Platform.OS !== 'web' || typeof document === 'undefined' || process.env.NODE_ENV !== 'production') return;
+    const hashOf = (html: string) => /entry-[a-f0-9]+\.js/.exec(html)?.[0] ?? null;
+    const mine = hashOf(Array.from(document.scripts).map((x) => x.src).join(' '));
+    if (!mine) return;
+    const check = async () => {
+      try {
+        const res = await fetch(`/?v=${Date.now()}`, { cache: 'no-store' });
+        const latest = hashOf(await res.text());
+        if (latest && latest !== mine && sessionStorage.getItem('pawtrip.reloaded') !== latest) {
+          sessionStorage.setItem('pawtrip.reloaded', latest);
+          window.location.reload();
+        }
+      } catch { /* offline: try again later */ }
+    };
+    void check();
+    const onShow = () => { if (document.visibilityState === 'visible') void check(); };
+    document.addEventListener('visibilitychange', onShow);
+    const id = setInterval(check, 5 * 60_000);
+    return () => { document.removeEventListener('visibilitychange', onShow); clearInterval(id); };
+  }, []);
   const base = scheme === 'dark' ? DarkTheme : DefaultTheme;
 
   useEffect(() => {

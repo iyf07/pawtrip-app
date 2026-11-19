@@ -179,6 +179,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Circle icon and family/friends transitions deployed to Expo production `nhnrocm5s2`, app commit `3579173`. Typecheck and ESLint passed; mobile family and friend round trips and desktop friend navigation were checked.
+
 - 2026-11-19: Added circle-to-friends and reverse family/friends container transitions, a periwinkle friend list, and matching circle nav icon. The transform falls back to ordinary navigation when measurement is unavailable. Family/friends list headers expose their back button on desktop.
 
 - 2026-11-19: Integrated-paw icon batch deployed to Expo production as `13fecs04eu`, app commit `f2a10d7`; TypeScript and ESLint passed, and desktop/mobile profile was checked. No backend changes.

@@ -774,3 +774,7 @@ After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI
 # 2026-11-19 — cuisine interests (v2)
 
 `int-chinese`, `int-japanese`, `int-korean`, `int-thai`, `int-vietnamese`, `int-indian`, `int-italian`, `int-pizza`, `int-american`, `int-mexican`, `int-mediterranean`: individual transparent illustrations with integrated paw patterns, normalized to consistent 1024px masters and 512px UI assets.
+
+# 2026-11-19 — human scales and dietary needs (v2)
+
+Thirty `scale-{morning,noise,walk,temperature,pace,spending}-{1..5}` images and seven `diet-*` images use integrated paw details. Five levels retain ordered meanings. Dietary symbols are shown alongside their existing labels. Transparent 1024px masters and 512px UI assets.

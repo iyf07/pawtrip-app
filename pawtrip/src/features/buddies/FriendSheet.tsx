@@ -21,7 +21,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
-import { BENTO_GAP, BentoCard, Hero } from '@/features/circle/Bento';
+import { BENTO_GAP, BentoCard, BentoColumns, Hero } from '@/features/circle/Bento';
 
 function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
   const { t } = useT();
@@ -59,12 +59,16 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
       <Hero index={0} minHeight={wide ? 260 : 240} color={th.softBlue} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={92} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
         <PersonTraits size={13} profile={buddy.traits} />
       </Hero>
+      <BentoColumns
+        left={<>
       {buddy.dogs.map((dog, i) => <DogCard key={dog.id} dog={dog} index={1 + i} />)}
       <BentoCard index={1 + dogCount} title={t('profile.travelStyle')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
           {PERSON_SCALES.map((f, n) => <ScaleInput key={f} index={n} compact inset field={f} value={buddy.traits[f]} readOnly description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}
         </View>
       </BentoCard>
+        </>}
+        right={<>
       <BentoCard index={2 + dogCount} tone="tint" title={t('profile.interests')}>
         {buddy.interests.length ? <InterestPicker value={buddy.interests} readOnly selectedOnly /> : <Chip icon={<Icon name="empty-discover" size={28} />} label={t('friend.emptyInterests')} />}
       </BentoCard>
@@ -96,6 +100,8 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
         </View> : null}
       </BentoCard>
       {onRemove ? <BentoCard index={5 + dogCount}><Button label={t('bd.removeFriend')} variant="danger" block onPress={() => setConfirm(true)} /></BentoCard> : null}
+        </>}
+      />
       <ConfirmSheet visible={confirm} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: buddy.name })} confirmLabel={t('bd.removeFriend')} danger onConfirm={() => { setConfirm(false); onRemove?.(buddy); onClose(); }} onClose={() => setConfirm(false)} />
     </View>
   );

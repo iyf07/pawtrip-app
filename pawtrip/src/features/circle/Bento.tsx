@@ -5,6 +5,7 @@ import { View, type StyleProp, type ViewStyle } from 'react-native';
 import { PressScale } from '@/components/ui/PressScale';
 import { Text } from '@/components/ui/Text';
 import { Reveal } from '@/components/ui/Reveal';
+import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 
 export const BENTO_GAP = 12; // the seam between cards
@@ -16,7 +17,7 @@ export function bentoUnits(width: number) {
   return { col, row: Math.round(col * 0.85) };
 }
 
-export type Tone = 'card' | 'gold' | 'tint' | 'mint';
+export type Tone = 'card' | 'gold' | 'tint' | 'mint' | 'butter';
 
 /**
  * One bento card: 24 px corners, no outline, a soft shadow; sits flush in the grid (the grid supplies the 12 px
@@ -24,7 +25,7 @@ export type Tone = 'card' | 'gold' | 'tint' | 'mint';
  */
 export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
-  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : tone === 'mint' ? th.softMint : th.card; // calm tints, never a loud fill
+  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : tone === 'mint' ? th.softMint : tone === 'butter' ? th.softButter : th.card; // calm tints, never a loud fill
   const body = (
     <View style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>
   );
@@ -61,7 +62,7 @@ export function TileHeader({ title, onAdd, addLabel, ink }: { title: string; onA
  */
 export function BentoCard({ index = 0, title, right, tone = 'card', children, style }: { index?: number; title?: string; right?: ReactNode; tone?: Tone; children?: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
-  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : tone === 'mint' ? th.softMint : th.card;
+  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : tone === 'mint' ? th.softMint : tone === 'butter' ? th.softButter : th.card;
   return (
     <Reveal index={index} style={{ width: '100%' }}>
       <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: bg, padding: 16, gap: 10, boxShadow: `0 10px 24px -14px ${th.shadow}` }, style]}>
@@ -110,14 +111,26 @@ export function AddButton({ onPress, label }: { onPress: () => void; label: stri
 }
 
 /** A tappable bento card for one action: icon over a short label. Put two side by side in a row (`flex: 1` each). */
-export function BentoAction({ index = 0, icon, label, onPress }: { index?: number; icon: ReactNode; label: string; onPress: () => void }) {
+export function BentoAction({ index = 0, icon, label, onPress, danger }: { index?: number; icon?: ReactNode; label: string; onPress: () => void; danger?: boolean }) {
   const th = useTheme();
   return (
     <Reveal index={index} style={{ flex: 1 }}>
-      <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, paddingVertical: 18, paddingHorizontal: 12, alignItems: 'center', gap: 8, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
+      <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, paddingVertical: 18, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', gap: 8, flexGrow: 1, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
         {icon}
-        <Text weight={700} size={14} numberOfLines={1}>{label}</Text>
+        <Text weight={700} size={14} numberOfLines={1} color={danger ? 'danger' : 'text'}>{label}</Text>
       </PressScale>
     </Reveal>
+  );
+}
+
+/** Two columns of cards on wide screens (each column stacks with the 12 px gap); a single stack on a phone. */
+export function BentoColumns({ left, right }: { left: ReactNode; right: ReactNode }) {
+  const { wide } = useLayout();
+  if (!wide) return <View style={{ gap: BENTO_GAP }}>{left}{right}</View>;
+  return (
+    <View style={{ flexDirection: 'row', gap: BENTO_GAP, alignItems: 'flex-start' }}>
+      <View style={{ flex: 1, minWidth: 0, gap: BENTO_GAP }}>{left}</View>
+      <View style={{ flex: 1, minWidth: 0, gap: BENTO_GAP }}>{right}</View>
+    </View>
   );
 }

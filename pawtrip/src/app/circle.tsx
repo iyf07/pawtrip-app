@@ -5,6 +5,7 @@ import { View } from 'react-native';
 import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import { useFamily } from '@/api/family';
+import { NotificationBell } from '@/components/NotificationBell';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { PressScale } from '@/components/ui/PressScale';
@@ -101,6 +102,31 @@ export default function Circle() {
             </Tile>
   );
 
+  // family and friend notifications in one butter-coloured card: the newest three, tap for all (with the answers)
+  const notifyH = Math.round(row * 1.2);
+  const notifyTile = (
+    <NotificationBell size={28} box={28} radius={14} renderTrigger={({ count, open, items }) => (
+      <Tile index={3} width={width} height={notifyH} tone="butter" onPress={open} accessibilityLabel={t('notif.title')}>
+        <View style={pad}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 }}>
+            <Text weight={800} size={12} numberOfLines={1} style={{ flex: 1, color: th.onGold, letterSpacing: 1.4, textTransform: 'uppercase' }}>{t('notif.short')}</Text>
+            {count > 0 ? <View style={{ minWidth: 24, height: 24, borderRadius: 12, paddingHorizontal: 7, backgroundColor: th.danger, alignItems: 'center', justifyContent: 'center' }}><Text plain weight={800} size={13} style={{ color: '#FFFFFF', lineHeight: 16 }}>{count}</Text></View> : null}
+          </View>
+          {items.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-notifications" size={56} /></View> : (
+            <View style={{ flex: 1, justifyContent: 'center', gap: 8 }}>
+              {items.slice(0, 3).map((n) => (
+                <View key={n.key} style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <Avatar id={n.id} name={n.name} url={n.avatar} size={28} border={0} />
+                  <Text weight={700} size={13} numberOfLines={1} style={{ flex: 1, color: th.onGold }}>{n.text}</Text>
+                </View>
+              ))}
+            </View>
+          )}
+        </View>
+      </Tile>
+    )} />
+  );
+
   return (
     <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('circle.title')} />}>
       <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ marginTop: 8, gap: BENTO_GAP }}>
@@ -112,6 +138,7 @@ export default function Circle() {
                 <View style={{ gap: BENTO_GAP }}>{familyTile}{friendsTile}</View>
               </View>
             ) : <>{heroTile}{familyTile}{friendsTile}</>}
+            {notifyTile}
           </>
         ) : null}
       </View>

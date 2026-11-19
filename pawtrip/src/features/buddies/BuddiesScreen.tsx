@@ -30,7 +30,7 @@ export function BuddiesScreen() {
   const buddies = useBuddies();
   const [adding, setAdding] = useState(false);
   const th = useTheme();
-  const { width } = useLayout();
+  const { width, wide } = useLayout();
   const { friend, add } = useLocalSearchParams<{ friend?: string; add?: string }>();
   const selected = buddies.data?.find((b) => b.userId === friend);
   const addingVisible = adding || add === '1';
@@ -60,7 +60,7 @@ export function BuddiesScreen() {
   );
 
   if (friend && selected) return (
-    <Screen nav size="narrow" top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/friends')} />} />}>
+    <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/friends')} />} />}>
       <FriendSheet buddy={selected} onClose={() => goBackTo('/friends')} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
       <ConfirmSheet visible={askRemove !== null} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: askRemove?.name ?? '' })} confirmLabel={t('bd.removeFriend')} danger

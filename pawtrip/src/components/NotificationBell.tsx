@@ -14,7 +14,9 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 
 /** Notifications above settings in the nav. For now: friend requests waiting for my answer. */
-export function NotificationBell({ size, box, radius, renderTrigger }: { size: number; box: number; radius: number; /** draw your own opener (a bento tile) instead of the bell */ renderTrigger?: (count: number, open: () => void) => ReactNode }) {
+export type NotificationPreview = { key: string; id: string; name: string; avatar: string | null; text: string };
+
+export function NotificationBell({ size, box, radius, renderTrigger }: { size: number; box: number; radius: number; /** draw your own opener (a bento tile) instead of the bell: the total, a way to open the full list, and a preview of the newest items */ renderTrigger?: (info: { count: number; open: () => void; items: NotificationPreview[] }) => ReactNode }) {
   const { t } = useT();
   const th = useTheme();
   const toast = useToast();
@@ -43,6 +45,14 @@ export function NotificationBell({ size, box, radius, renderTrigger }: { size: n
 
   const answerText = (n: AppNotification) => t(`notif.${n.kind}` as Key, { name: n.actorName, rel: n.relation ? t(`rel.${n.relation}` as Key) : '', family: n.subject ?? '' });
 
+  const items: NotificationPreview[] = [
+    ...invites.map((i) => ({ key: `fam-${i.familyId}`, id: i.familyId, name: i.inviterName, avatar: null, text: t('family.invitesYou', { who: i.inviterName, name: i.familyName }) })),
+    ...answers.map((n) => ({ key: `n-${n.id}`, id: n.actorId ?? n.id, name: n.actorName ?? '', avatar: n.actorAvatar ?? null, text: answerText(n) })),
+    ...relationAsks.map((b) => ({ key: `rel-${b.userId}`, id: b.userId, name: b.name, avatar: b.avatar ?? null, text: t('friend.relAsks', { name: b.name, rel: t(`rel.${b.relationProposed}` as Key) }) })),
+    ...requests.map((b) => ({ key: `req-${b.userId}`, id: b.userId, name: b.name, avatar: b.avatar ?? null, text: t('bd.wants', { who: b.name }) })),
+  ];
+
+
   async function answerRelation(b: Buddy, accept: boolean) {
     try {
       await respondRelation.mutateAsync({ other: b.userId, accept });
@@ -63,7 +73,7 @@ export function NotificationBell({ size, box, radius, renderTrigger }: { size: n
 
   return (
     <>
-      {renderTrigger ? renderTrigger(count, () => setOpen(true)) : <Pressable
+      {renderTrigger ? renderTrigger({ count, open: () => setOpen(true), items }) : <Pressable
         onPress={() => setOpen(true)}
         accessibilityRole="button"
         accessibilityLabel={t('notif.title')}

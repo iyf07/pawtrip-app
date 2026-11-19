@@ -29,8 +29,8 @@ export function NavBar() {
   const path = usePathname();
   // the same entries as the desktop rail; settings sit next to the avatar
   const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
-    { key: 'cal', icon: 'tab-plan', label: t('shell.calendar'), go: () => router.navigate('/calendar'), match: (p) => p.startsWith('/calendar') },
-    { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => router.navigate('/'), match: (p) => p === '/' || p.startsWith('/trips') },
+    { key: 'home', icon: 'logo-paw', label: t('shell.home'), go: () => router.navigate('/'), match: (p) => p === '/' },
+    { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => router.navigate('/trips'), match: (p) => p.startsWith('/trips') || p.startsWith('/calendar') },
     { key: 'circle', icon: 'tab-members', label: t('shell.circle'), go: () => router.navigate('/circle'), match: (p) => p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => router.navigate('/settings'), match: (p) => p.startsWith('/settings') },
   ];
@@ -49,7 +49,7 @@ export function NavBar() {
     <View style={{ width: '100%', backgroundColor: th.card, borderBottomWidth: 2, borderStyle: 'dashed', borderColor: th.line, paddingTop: insets.top }}>
       <View style={{ height: NAV_HEIGHT, width: '100%', maxWidth: COLUMN.full, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-          <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel={t('trips.title')} hitSlop={8} style={{ marginRight: 4 }}>
+          <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel={t('shell.home')} hitSlop={8} style={{ marginRight: 4 }}>
             <Image source={require('../../assets/logos/wordmark-trip.png')} accessibilityLabel="Paw Trip" resizeMode="contain" style={{ height: 46, width: 72, borderRadius: 8, backgroundColor: '#FFFFFF' }} />
           </Pressable>
           {left.map(btn)}

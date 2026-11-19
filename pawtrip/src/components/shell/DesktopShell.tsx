@@ -23,7 +23,7 @@ import { cityState } from '@/lib/place';
 import { NavBar } from '@/components/NavBar';
 import { NavProvidedContext, ShellContext } from './ShellContext';
 
-type Section = 'calendar' | 'trips' | 'circle' | 'profile' | 'settings';
+type Section = 'home' | 'trips' | 'circle' | 'profile' | 'settings';
 
 export const RAIL_W = 76;
 const LIST_W = 232;
@@ -31,7 +31,7 @@ const LIST_W = 232;
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|join)(\/|$)/.test(p) || p === '/trips/new' || p === '/dogs/new';
 
-const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : (p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family')) ? 'circle' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p === '/' ? 'home' : p.startsWith('/trips') || p.startsWith('/calendar') ? 'trips' : (p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family')) ? 'circle' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the
@@ -104,8 +104,8 @@ function Rail({ section }: { section: Section }) {
       <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
         <Icon name="logo-paw" size={56} />
       </Pressable>
-      {item('calendar', 'tab-plan', t('shell.calendar'), () => router.navigate('/calendar'))}
-      {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
+      {item('home', 'logo-paw', t('shell.home'), () => router.navigate('/'))}
+      {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/trips'))}
       {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/circle'); })}
       <View style={{ flex: 1 }} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
@@ -220,7 +220,7 @@ function FriendList({ selected }: { selected?: string }) {
   </ListFrame>;
 }
 
-function CollapseList({ home }: { home: '/' | '/dogs' | '/friends' }) {
+function CollapseList({ home }: { home: '/trips' | '/dogs' | '/friends' }) {
   const { t } = useT();
   const th = useTheme();
   return <View style={{ width: 0, zIndex: 5 }}>

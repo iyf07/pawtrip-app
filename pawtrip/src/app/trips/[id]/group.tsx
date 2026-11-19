@@ -66,7 +66,7 @@ export default function Group() {
       else await del.mutateAsync(trip.id);
       setConfirm(null);
       toast(which === "leave" ? t("toast.left") : which === "archive" ? t("toast.archived") : t("toast.deleted"));
-      router.replace("/");
+      router.replace("/trips");
     } catch {
       setConfirm(null);
       toast(t("common.saveFailed"));

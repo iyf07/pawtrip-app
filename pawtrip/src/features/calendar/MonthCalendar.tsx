@@ -42,7 +42,7 @@ type Pending = { trip: TripListItem; start: string; end: string; n: number };
  * Month view of all trips. Tap an empty day (or drag across days) to start a new trip there; drag a trip bar to
  * move it to other dates. Moving turns everything that was scheduled into ideas, so it asks first.
  */
-export function MonthCalendar() {
+export function MonthCalendar({ embedded }: { /** inside a bento card: no page padding, shorter rows */ embedded?: boolean } = {}) {
   const { t, locale } = useT();
   const th = useTheme();
   const toast = useToast();
@@ -59,7 +59,7 @@ export function MonthCalendar() {
   const [drag, setDrag] = useState<Drag>(null);
   const [pending, setPending] = useState<Pending | null>(null);
 
-  const rowH = wide ? 124 : 84;
+  const rowH = embedded ? (wide ? 92 : 64) : wide ? 124 : 84;
   const { gridStart, rows, dayAt } = useMemo(() => monthGrid(cursor.y, cursor.m), [cursor]);
   const list = useMemo(() => trips.data ?? [], [trips.data]);
   const byId = useMemo(() => new Map(list.map((x) => [x.id, x])), [list]);
@@ -299,7 +299,7 @@ export function MonthCalendar() {
     : '';
 
   return (
-    <View style={{ flex: 1, paddingHorizontal: 16, paddingBottom: 16 }}>
+    <View style={embedded ? undefined : { flex: 1, paddingHorizontal: 16, paddingBottom: 16 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8 }}>
         {nav('‹', () => shift(-1))}
         <Text weight={800} size={22} style={{ minWidth: 150, textAlign: 'center' }}>

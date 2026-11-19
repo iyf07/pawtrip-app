@@ -1,3 +1,6 @@
-import { CalendarScreen } from '@/features/calendar/CalendarScreen';
+import { Redirect } from 'expo-router';
 
-export default CalendarScreen;
+/** The calendar now lives on the trips page. */
+export default function Calendar() {
+  return <Redirect href="/trips" />;
+}

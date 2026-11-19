@@ -5,7 +5,6 @@ import { View } from 'react-native';
 import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import { useFamily } from '@/api/family';
-import { NotificationBell } from '@/components/NotificationBell';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { PressScale } from '@/components/ui/PressScale';
@@ -13,6 +12,7 @@ import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { BENTO_GAP, Tile, TileHeader, bentoUnits } from '@/features/circle/Bento';
 import { DogAccordion } from '@/features/circle/DogAccordion';
+import { NotificationTile } from '@/features/circle/NotificationTile';
 import { PeopleRow } from '@/features/circle/PeopleRow';
 import { AddFriendSheet } from '@/features/buddies/AddFriendSheet';
 import { FamilyCreateSheet, FamilyInviteSheet } from '@/features/family/FamilySheets';
@@ -103,25 +103,7 @@ export default function Circle() {
             </Tile>
   );
 
-  // family and friend notifications: a 1×1 butter card with the newest one, tap for the full list
-  const notifyTile = (
-    <NotificationBell size={28} box={28} radius={14} renderTrigger={({ count, open, items }) => (
-      <Tile index={3} width={small} height={row} tone="butter" onPress={open} accessibilityLabel={t('notif.title')}>
-        <View style={pad}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 }}>
-            <Text weight={800} size={12} numberOfLines={1} style={{ flex: 1, color: th.onGold, letterSpacing: 1.4, textTransform: 'uppercase' }}>{t('notif.short')}</Text>
-            {count > 0 ? <View style={{ minWidth: 24, height: 24, borderRadius: 12, paddingHorizontal: 7, backgroundColor: th.danger, alignItems: 'center', justifyContent: 'center' }}><Text plain weight={800} size={13} style={{ color: '#FFFFFF', lineHeight: 16 }}>{count}</Text></View> : null}
-          </View>
-          {items.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-notifications" size={48} /></View> : (
-            <View style={{ flex: 1, justifyContent: 'center', gap: 6 }}>
-              <Avatar id={items[0].id} name={items[0].name} url={items[0].avatar} size={28} border={0} />
-              <Text weight={700} size={13} numberOfLines={2} style={{ color: th.onGold }}>{items[0].text}</Text>
-            </View>
-          )}
-        </View>
-      </Tile>
-    )} />
-  );
+  const notifyTile = <NotificationTile index={3} width={small} height={row} />;
 
   return (
     <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('circle.title')} />}>

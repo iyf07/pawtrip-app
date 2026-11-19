@@ -2,7 +2,6 @@ import { useRef, useState, type ReactNode } from 'react';
 import { Animated, Easing, Platform, Pressable, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
 
 export const PRESS_SCALE = 0.94;
-export const LONG_PRESS_MS = 500; // held longer than this = not a click (200 ms swallowed ordinary phone taps, which last longer)
 const SPRING = { stiffness: 260, damping: 12, mass: 1 }; // a little overshoot on release
 
 type Props = Omit<PressableProps, 'style' | 'children'> & {
@@ -21,15 +20,13 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 export function PressScale({ style, onPressIn, onPressOut, onPress, children, ...rest }: Props) {
   const [scale] = useState(() => new Animated.Value(1));
   const [pressed, setPressed] = useState(false);
-  const hold = useRef(0); // when the press began
   const native = Platform.OS !== 'web';
   return (
     <AnimatedPressable
       pressRetentionOffset={NO_SLACK}
       {...rest}
-      onPress={onPress ? (e) => { if (Date.now() - hold.current <= LONG_PRESS_MS) onPress(e); } : undefined}
+      onPress={onPress}
       onPressIn={(e) => {
-        hold.current = Date.now();
         setPressed(true);
         scale.stopAnimation();
         Animated.timing(scale, { toValue: PRESS_SCALE, duration: 90, easing: Easing.out(Easing.quad), useNativeDriver: native }).start();

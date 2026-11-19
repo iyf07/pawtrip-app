@@ -885,3 +885,6 @@ Every tab switch (`router.navigate`) mounted a NEW copy of the page on top of th
 ### later 82 (Claude) — dark-mode text + missed taps
 - Dark mode: text on the soft card tones used `onGold` (dark brown in both themes, meant for the gold fill) so it vanished on the dark tones. New token `onTint` (light: brown, dark: cream) is now used for text on Bento tiles/cards, Home, Circle, Trips cards, NotificationTile and the Hero/PersonHeader. `onGold` stays for text on the gold fill (buttons, selected chips). Checked Home and Profile in dark at phone width; other pages not re-checked. The icon PNGs are dark-brown line art and may be hard to see on dark cards (icon agent's area).
 - Missed taps: `PressScale` ignored any press held longer than 200 ms (`LONG_PRESS_MS`), which swallowed ordinary phone taps; now 500 ms. The paw/dog click effect is `pointerEvents: none`, it never blocked taps. This affects every button.
+
+### later 83 (Claude) — press duration no longer matters
+`PressScale` no longer discards presses held longer than a threshold (`LONG_PRESS_MS` removed): a press counts as a click whenever the finger lifts on the button, however long it was held. Moving off the button or scrolling still cancels it (`pressRetentionOffset` zero). No component uses long-press, so nothing depends on the old rule; add `onLongPress` explicitly if one is ever needed.

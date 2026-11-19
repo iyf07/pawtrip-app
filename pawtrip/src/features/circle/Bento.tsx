@@ -19,12 +19,11 @@ export type Tone = 'card' | 'gold' | 'tint';
 
 /**
  * One bento card: 24 px corners, no outline, a soft shadow; sits flush in the grid (the grid supplies the 12 px
- * seams), enters with the list stagger and springs on press. `tone` gives the grid its rhythm: white, a solid accent
- * (use once), or a pale tint. One card says one thing.
+ * seams), enters with the list stagger and springs on press. `tone` gives the grid its rhythm: white, a warm cream or a pale blue tint. One card says one thing.
  */
 export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
-  const bg = tone === 'gold' ? th.gold : tone === 'tint' ? th.blueBg : th.card;
+  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : th.card; // calm tints, never a loud fill
   const body = (
     <View style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>
   );

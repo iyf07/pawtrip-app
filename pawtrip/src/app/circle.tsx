@@ -13,6 +13,7 @@ import { Text } from '@/components/ui/Text';
 import { BENTO_GAP, Tile, TileHeader, bentoUnits } from '@/features/circle/Bento';
 import { DogAccordion } from '@/features/circle/DogAccordion';
 import { PeopleRow } from '@/features/circle/PeopleRow';
+import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
 
@@ -28,8 +29,14 @@ export default function Circle() {
   const fam = useFamily();
   const buddies = useBuddies();
   const [width, setWidth] = useState(0);
-  const { col, row } = bentoUnits(width);
-  const full = col * 2 + BENTO_GAP;
+  const { wide } = useLayout();
+  const { col, row: phoneRow } = bentoUnits(width);
+  // phone: everything stacked, full width. Wide: the dogs hero on the left, family and friends stacked on the right.
+  const half = Math.max(0, (width - BENTO_GAP) / 2);
+  const row = wide ? Math.round(((width - 3 * BENTO_GAP) / 4) * 0.9) : phoneRow;
+  const sideW = wide ? half : col * 2 + BENTO_GAP;
+  const heroW = sideW;
+  const heroH = row * 2 + BENTO_GAP;
   const list = dogs.data ?? [];
   const friends = (buddies.data ?? []).filter((b) => b.status === 'accepted');
   const family = fam.data?.family ?? null;
@@ -41,13 +48,8 @@ export default function Circle() {
     </PressScale>
   );
 
-  return (
-    <Screen nav size="narrow" top={<Header title={t('circle.title')} />}>
-      <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ marginTop: 8, gap: BENTO_GAP }}>
-        {width > 0 ? (
-          <>
-            {/* hero: all dogs, edge to edge */}
-            <Tile index={0} width={full} height={row * 2 + BENTO_GAP}>
+  const heroTile = (
+            <Tile index={0} width={heroW} height={heroH}>
               {list.length === 0 ? (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: th.goldBg }}><Icon name="nav-dogs" size={96} /></View>
               ) : (
@@ -60,8 +62,9 @@ export default function Circle() {
                 {plus(() => router.push('/dogs/new'), t('profile.addDog'))}
               </View>
             </Tile>
-            {/* the one solid accent card: family */}
-            <Tile index={1} width={full} height={row} tone="gold" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
+  );
+  const familyTile = (
+            <Tile index={1} width={sideW} height={row} tone="gold" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => router.push({ pathname: '/family', params: family ? { invite: '1' } : { create: '1' } })} />
                 {family ? (
@@ -77,8 +80,9 @@ export default function Circle() {
                 ) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-family" size={56} /></View>}
               </View>
             </Tile>
-            {/* friends: a pale tint */}
-            <Tile index={2} width={full} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
+  );
+  const friendsTile = (
+            <Tile index={2} width={sideW} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
                 {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (
@@ -91,6 +95,19 @@ export default function Circle() {
                 )}
               </View>
             </Tile>
+  );
+
+  return (
+    <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('circle.title')} />}>
+      <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ marginTop: 8, gap: BENTO_GAP }}>
+        {width > 0 ? (
+          <>
+            {wide ? (
+              <View style={{ flexDirection: 'row', gap: BENTO_GAP, alignItems: 'flex-start' }}>
+                {heroTile}
+                <View style={{ gap: BENTO_GAP }}>{familyTile}{friendsTile}</View>
+              </View>
+            ) : <>{heroTile}{familyTile}{friendsTile}</>}
           </>
         ) : null}
       </View>

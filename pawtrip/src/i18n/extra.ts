@@ -251,7 +251,7 @@ export const zhExtra = {
   'auth.errIdentifier': '请输入有效的邮箱或 ID',
   'auth.changeIdentifier': '换个邮箱或 ID',
   'auth.sendCode': '发送验证码',
-  'auth.google': '用 Google 继续',
+  'auth.google': 'Google 登录',
 
   'pf.saveSection': '保存{section}',
   'pf.discardSection': '放弃{section}修改',
@@ -833,7 +833,7 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'auth.errIdentifier': 'Enter a valid email or ID',
   'auth.changeIdentifier': 'Use another email or ID',
   'auth.sendCode': 'Send code',
-  'auth.google': 'Continue with Google',
+  'auth.google': 'Sign in with Google',
 
   'pf.saveSection': 'Save {section}',
   'pf.discardSection': 'Discard changes to {section}',

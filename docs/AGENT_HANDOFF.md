@@ -98,7 +98,7 @@ Conventions that matter:
   Pages that are forms/lists use the centered narrow column (`Screen size="narrow"`); only calendar and trip detail are wide.
 - **Nav order** (same everywhere): logo, calendar, trips, dogs, friends, then settings, avatar.
 - **View first, edit on pencil**: profile and dog profile are read-only until the pencil; save bar at the bottom ("保存修改 / 放弃修改").
-- **No helper text**: do not add hint/explanatory lines to screens. Keep only errors, confirmations, counts and empty states.
+- **UI principle — layout speaks, words do not** (supersedes and extends "No helper text"; full text in `AGENTS.md` / `CLAUDE.md`, section "UI principle"): hierarchy and self-explaining structure instead of copy; no slogans, teaching paragraphs or per-section help text; if info is really needed use an info icon + tooltip; keep form labels and accessible names (screen readers); dangerous/irreversible actions keep a clear consequence statement; after removing text a first-time user must still know what to tap and what happens; when rewriting a screen remove redundant labels first, improve layout/buttons only if clarity drops. Allowed: errors, confirmations, counts, empty states, toasts.
 - **Naming**: user-facing Chinese says **好友** (not 朋友/伙伴); English "friends". Titles use Fredoka + ZCOOL KuaiLe via `Text` (weight 800 ≥ 18px); pass `plain` for dates/symbols/codes.
 - **Icons**: sticker icons only (no new emoji as icons). Register in `components/ui/Icon.tsx`; `CatIcon`, `WeatherIcon`, `DietIcon`, `InterestIcon` pick by type.
 - **Data rules**: new plan items are ideas (no date); only the leader confirms; `move_trip()` turns everything scheduled into ideas; RLS on every table.
@@ -668,3 +668,6 @@ Design agreed with the user (see chat): 3 tabs eventually — 行程 (left), 主
 - Accordion redesign (`DogAccordion`): no add strip; every dog is a vertical strip with its name running up it; tapping a narrow strip widens it while the others narrow, and the name + weight + trait tags fade in after the widening; tapping the open strip opens the dog page.
 - Row height unit is now 0.85 × column width so a title row + content fits. The friends card is 1×1; the cell to its right and the whole row below are intentionally empty until the user picks what goes there (recommendations were given in chat).
 - Nested-button DOM warning fixed: `Tile` pressable no longer has role=button (the "+" is a real button inside it).
+
+### later 42 (Claude)
+User set the UI principle "layout speaks, words do not" (8 points). Added to `AGENTS.md`, `CLAUDE.md` (section "UI principle") and section 5 of this file. Existing screens were not audited yet; when touching a screen, apply it (e.g. circle tiles already carry only a title, a plus and the data).

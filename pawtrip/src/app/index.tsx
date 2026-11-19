@@ -59,30 +59,30 @@ export default function Home() {
   const pad = { flex: 1, padding: 18, gap: 6 } as const;
   const people = (trip?.trip_members ?? []).map((m) => ({ id: m.user_id, name: m.profiles?.display_name, url: m.profiles?.avatar_url }));
 
+  // a slim strip, not a poster: the countdown, the name, who is coming
+  const heroH = Math.round(row * 1.1);
   const heroTile = trip ? (
-    <Tile index={0} width={sideW} height={row * 2 + BENTO_GAP} tone="lavender" onPress={() => router.push({ pathname: '/trips/[id]/plan', params: { id: trip.id } })} accessibilityLabel={trip.name}>
-      <View style={{ flex: 1, padding: 20, justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-          <Text weight={800} size={12} numberOfLines={1} style={{ flex: 1, color: th.onGold, letterSpacing: 1.4, textTransform: 'uppercase' }}>{[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join(' · ')}</Text>
+    <Tile index={0} width={width} height={heroH} tone="lavender" onPress={() => router.push({ pathname: '/trips/[id]/plan', params: { id: trip.id } })} accessibilityLabel={trip.name}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 18, padding: 18 }}>
+        <View style={{ alignItems: 'center', minWidth: 64 }}>
+          <Text weight={800} size={52} style={{ color: th.onGold, lineHeight: 56 }}>{underway ? dayIdx + 1 : daysBetween(today, trip.start_date)}</Text>
+          <Text weight={800} size={11} style={{ color: th.onGold, letterSpacing: 1.3, textTransform: 'uppercase' }}>{underway ? t('home.dayOf', { n: days.length }) : t('home.daysTo')}</Text>
         </View>
-        <View style={{ gap: 4 }}>
-          <Text weight={800} size={64} style={{ color: th.onGold, lineHeight: 70 }}>{underway ? dayIdx + 1 : daysBetween(today, trip.start_date)}</Text>
-          <Text weight={800} size={12} style={{ color: th.onGold, letterSpacing: 1.4, textTransform: 'uppercase' }}>{underway ? t('home.dayOf', { n: days.length }) : t('home.daysTo')}</Text>
-        </View>
-        <View style={{ gap: 12 }}>
-          <Text weight={800} size={30} numberOfLines={2} style={{ color: th.onGold }}>{trip.name}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-            <AvatarStack people={people} max={5} size={34} />
-            <View style={{ flexDirection: 'row', gap: 6 }}>
-              {trip.trip_dogs.slice(0, 4).map((d) => <DogAvatar key={d.dog_id} url={d.dogs?.photo_url ?? null} size={30} />)}
+        <View style={{ flex: 1, minWidth: 0, gap: 8 }}>
+          <Text weight={800} size={11} numberOfLines={1} style={{ color: th.onGold, opacity: 0.8, letterSpacing: 1.3, textTransform: 'uppercase' }}>{[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join(' · ')}</Text>
+          <Text weight={800} size={22} numberOfLines={2} style={{ color: th.onGold, lineHeight: 26 }}>{trip.name}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+            <AvatarStack people={people} max={5} size={28} />
+            <View style={{ flexDirection: 'row', gap: 4 }}>
+              {trip.trip_dogs.slice(0, 4).map((d) => <DogAvatar key={d.dog_id} url={d.dogs?.photo_url ?? null} size={26} />)}
             </View>
           </View>
         </View>
       </View>
     </Tile>
   ) : (
-    <Tile index={0} width={sideW} height={row * 2 + BENTO_GAP} dashed onPress={() => router.push('/trips/new')} accessibilityLabel={t('trips.new')}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 }}><Icon name="nav-trips" size={72} /><Text weight={800} size={18} color="link">{t('trips.new')}</Text></View>
+    <Tile index={0} width={width} height={heroH} dashed onPress={() => router.push('/trips/new')} accessibilityLabel={t('trips.new')}>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12 }}><Icon name="nav-trips" size={48} /><Text weight={800} size={18} color="link">{t('trips.new')}</Text></View>
     </Tile>
   );
 
@@ -117,7 +117,7 @@ export default function Home() {
 
   // reserved for recommendations (not built yet): keeps its place
   const recommendTile = (
-    <Tile index={4} width={width} height={Math.round(row * 0.8)} dashed accessibilityLabel={t('home.recommend')}>
+    <Tile index={4} width={wide ? sideW : width} height={Math.round(row * 0.8)} dashed accessibilityLabel={t('home.recommend')}>
       <View style={{ flex: 1, padding: 18, gap: 10 }}>
         <TileHeader title={t('home.recommend')} />
         <View style={{ flex: 1, justifyContent: 'center', gap: 8 }}>
@@ -133,22 +133,22 @@ export default function Home() {
       <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ marginTop: 8, gap: BENTO_GAP }}>
         {width > 0 ? (
           <>
+            {heroTile}
             {wide ? (
               <View style={{ flexDirection: 'row', gap: BENTO_GAP, alignItems: 'flex-start' }}>
-                {heroTile}
+                <View style={{ flex: 1, minWidth: 0 }}>{timelineCard}</View>
                 <View style={{ gap: BENTO_GAP, width: sideW }}>
                   <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>{weatherTile}<NotificationTile index={3} width={small} height={row} /></View>
-                  {timelineCard}
+                  {recommendTile}
                 </View>
               </View>
             ) : (
               <>
-                {heroTile}
                 <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>{weatherTile}<NotificationTile index={3} width={small} height={row} /></View>
                 {timelineCard}
+                {recommendTile}
               </>
             )}
-            {recommendTile}
             {!trip ? <View style={{ flexDirection: 'row' }}><BentoAction index={5} icon={<Icon name="ui-key" size={56} />} label={t('trips.join')} onPress={() => router.push('/join')} /></View> : null}
           </>
         ) : null}

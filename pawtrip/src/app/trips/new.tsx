@@ -5,14 +5,15 @@ import { View } from 'react-native';
 import { Icon } from '@/components/ui/Icon';
 import { useMyDogs } from '@/api/dogs';
 import { useBuddies } from '@/api/buddies';
+import { useFamily } from '@/api/family';
+import { useAuth } from '@/auth/AuthProvider';
+import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { useCreateTrip } from '@/api/trips';
-import { InterestPicker } from '@/components/InterestPicker';
 import { DestinationField } from '@/components/DestinationField';
 import { RangeCalendar } from '@/components/RangeCalendar';
 import { Wizard, type WizardStep } from '@/components/Wizard';
 import { Card } from '@/components/ui/Card';
 import { Chip } from '@/components/ui/Chip';
-import { FriendChoice } from '@/features/buddies/FriendChoice';
 import { DogIllo } from '@/components/ui/DogIllo';
 import { Field } from '@/components/ui/Field';
 import { Meta, Text } from '@/components/ui/Text';
@@ -38,11 +39,18 @@ export default function NewTrip() {
   const [start, setStart] = useState<string | null>(preset.start ?? null);
   const [end, setEnd] = useState<string | null>(preset.end ?? preset.start ?? null);
   const [tooLong, setTooLong] = useState(false);
-  const [interests, setInterests] = useState<string[]>([]);
   const [dogIds, setDogIds] = useState<string[] | null>(null); // null = all my dogs
   const [buddyIds, setBuddyIds] = useState<string[]>([]);
   const [buddyDogs, setBuddyDogs] = useState(true);
-  const myBuddies = (buddies.data ?? []).filter((b) => b.status === 'accepted');
+  // everyone who can come: friends and family mates, each person once (family mates first)
+  const { userId } = useAuth();
+  const family = useFamily();
+  const familyMates = (family.data?.members ?? []).filter((m) => m.status === 'accepted' && m.userId !== userId);
+  const familyIds = familyMates.map((m) => m.userId);
+  const people = [
+    ...familyMates.map((m) => ({ userId: m.userId, name: m.name, avatar: m.avatar })),
+    ...(buddies.data ?? []).filter((b) => b.status === 'accepted' && !familyIds.includes(b.userId)).map((b) => ({ userId: b.userId, name: b.name, avatar: b.avatar })),
+  ];
 
   const dogs = myDogs.data ?? [];
   const chosenDogs = dogIds ?? dogs.map((d) => d.id);
@@ -90,14 +98,6 @@ export default function NewTrip() {
       ),
     },
     {
-      key: 'interests',
-      title: t('nt.interests.q'),
-      optional: true,
-      content: (
-        <InterestPicker value={interests} onToggle={(i) => setInterests((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]))} />
-      ),
-    },
-    {
       key: 'dogs',
       title: t('nt.dogs.q'),
       optional: true,
@@ -107,7 +107,7 @@ export default function NewTrip() {
             <Chip
               key={d.id}
               label={d.name}
-              icon={<Icon name="nav-dogs" size={22} />}
+              icon={<DogAvatar url={d.photo_url} size={26} border={2} />}
               on={chosenDogs.includes(d.id)}
               onPress={() => setDogIds(chosenDogs.includes(d.id) ? chosenDogs.filter((x) => x !== d.id) : [...chosenDogs, d.id])}
             />
@@ -116,21 +116,17 @@ export default function NewTrip() {
         </View>
       ),
     },
-    ...(myBuddies.length
+    ...(people.length
       ? [
           {
             key: 'buddies',
-            title: t('nt.buddies.q'),
+            title: t('nt.people.q'),
             optional: true,
             content: (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-                {myBuddies.map((b) => (
-                  <FriendChoice
-                    key={b.userId}
-                    buddy={b}
-                    selected={buddyIds.includes(b.userId)}
-                    onPress={() => setBuddyIds((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
-                  />
+                {familyIds.length > 0 ? <Chip icon={<Icon name="nav-family" size={24} />} label={t('family.tab')} on={familyIds.every((id) => buddyIds.includes(id))} onPress={() => setBuddyIds((cur) => (familyIds.every((id) => cur.includes(id)) ? cur.filter((x) => !familyIds.includes(x)) : [...new Set([...cur, ...familyIds])]))} /> : null}
+                {people.map((p) => (
+                  <Chip key={p.userId} icon={<Avatar id={p.userId} name={p.name} url={p.avatar} size={26} border={2} />} label={p.name} on={buddyIds.includes(p.userId)} onPress={() => setBuddyIds((cur) => (cur.includes(p.userId) ? cur.filter((x) => x !== p.userId) : [...cur, p.userId]))} />
                 ))}
                 {buddyIds.length > 0 ? <Chip label={t('nt.buddies.dogs')} on={buddyDogs} onPress={() => setBuddyDogs((v) => !v)} /> : null}
               </View>
@@ -177,7 +173,7 @@ export default function NewTrip() {
         tz: picked.tz,
         start_date: start,
         end_date: end,
-        interests,
+        interests: [], // the group's interests are worked out from each person's own profile
         dogIds: chosenDogs,
         buddyIds,
         buddyDogs,

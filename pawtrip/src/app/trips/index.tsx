@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useAuth } from '@/auth/AuthProvider';
 import { useDeleteTrip, useLeaveTrip, useTrips, type TripListItem } from '@/api/trips';
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { Header, Screen } from '@/components/ui/Screen';
-import { ConfirmSheet } from '@/components/ui/Sheet';
+import { ConfirmSheet, Sheet } from '@/components/ui/Sheet';
 import { SwipeRow } from '@/components/ui/SwipeRow';
 import { Text } from '@/components/ui/Text';
 import { BENTO_GAP, BENTO_RADIUS, AddButton, BentoAction, BentoCard, BentoColumns, Tile, type Tone } from '@/features/circle/Bento';
@@ -33,6 +33,7 @@ export default function Trips() {
   const leave = useLeaveTrip();
   const [askTrip, setAskTrip] = useState<TripListItem | null>(null);
   const [width, setWidth] = useState(0);
+  const [all, setAll] = useState(false);
   const mineTrip = askTrip?.creator_id === userId;
   const list = trips.data ?? [];
   const col = Math.max(0, (width - BENTO_GAP) / 2);
@@ -60,8 +61,11 @@ export default function Trips() {
     );
   };
 
+  // a long list does not push the actions and the calendar off the page: the first five are cards, the rest sit behind one "more" card
+  const SHOWN = 5;
   const first = list[0];
-  const rest = list.slice(1);
+  const rest = list.slice(1, SHOWN);
+  const hidden = list.slice(SHOWN);
   const grid = (
     <View onLayout={(e) => setWidth(e.nativeEvent.layout.width)} style={{ gap: BENTO_GAP }}>
       {width > 0 ? (
@@ -73,6 +77,14 @@ export default function Trips() {
           <>
             {first ? card(first, 0, width, rowH) : null}
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: BENTO_GAP }}>{rest.map((x, i) => card(x, i + 1, col, rowH))}</View>
+            {hidden.length > 0 ? (
+              <Tile index={6} width={width} height={64} onPress={() => setAll(true)} accessibilityLabel={t('trips.more')}>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 18 }}>
+                  <Text weight={800} size={15}>{t('trips.more')} · {hidden.length}</Text>
+                  <Text plain size={22} color="muted" weight={800}>›</Text>
+                </View>
+              </Tile>
+            ) : null}
           </>
         )
       ) : null}
@@ -98,6 +110,20 @@ export default function Trips() {
           />
         </View>
       )}
+      <Sheet visible={all} tall onClose={() => setAll(false)}>
+        <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('trips.title')}</Text>
+        <View style={{ marginTop: 12 }}>
+          {list.map((x, i) => (
+            <Pressable key={x.id} onPress={() => { setAll(false); router.push({ pathname: '/trips/[id]/plan', params: { id: x.id } }); }} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>
+              <View style={{ flex: 1, minWidth: 0 }}>
+                <Text weight={800} size={16} numberOfLines={1}>{x.name}</Text>
+                <Text weight={700} size={12} color="muted" numberOfLines={1}>{datesLabel(x.start_date, x.end_date, locale)}</Text>
+              </View>
+              <Text plain size={22} color="muted" weight={800}>›</Text>
+            </Pressable>
+          ))}
+        </View>
+      </Sheet>
       <ConfirmSheet visible={askTrip !== null} title={t(mineTrip ? 'delete.title' : 'leave.title')} body={mineTrip ? t('delete.body', { name: askTrip?.name ?? '' }) : t('leave.body')} confirmLabel={t(mineTrip ? 'group.delete' : 'leave.yes')} danger
         onConfirm={() => { const x = askTrip; setAskTrip(null); if (x) (mineTrip ? del : leave).mutate(x.id); }} onClose={() => setAskTrip(null)} />
     </Screen>

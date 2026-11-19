@@ -3,7 +3,7 @@ export const en: Partial<Dict> = {
   "app.name": "Dog Trip Planner",
   "signin.apple": "Sign in with Apple",
   "signin.email": "Continue with email",
-  "trips.title": "My trips",
+  "trips.title": "Trips",
   "trips.loading": "Loading trips",
   "trips.empty.title": "No trips yet",
   "trips.empty.body": "Time to plan your first dog-friendly adventure",

@@ -60,7 +60,7 @@ export function DogAvatar({ url, size = 44, border = 3 }: { url?: string | null;
       style={{
         width: size,
         height: size,
-        borderRadius: Math.round(size * 0.28), // dogs are rounded squares, people are circles
+        borderRadius: size / 2, // everyone is a circle; people have a gold border, dogs a blue one
         backgroundColor: t.blueBg,
         borderWidth: border > 0 ? Math.max(border, Math.round(size * 0.045)) : 0,
         borderColor: t.blue, // every dog has a blue border, every person a gold one

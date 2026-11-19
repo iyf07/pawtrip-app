@@ -12,8 +12,8 @@ import { dogWeightLabel } from '@/lib/dog-weight';
 import { dogColor } from './dogColor';
 
 const REVEAL_FIRST_MS = 1100; // the first photo spreads out from the middle, slowly
-const THUMB = 64; // thumbnail height; every thumbnail is a rounded square (or a little wider when chosen)
-const THUMB_WIDE = 96;
+const THUMB = 64; // every thumbnail is a circle with a blue ring; the chosen one is a bit bigger with a thicker ring
+const THUMB_WIDE = 74;
 const THUMB_GAP = 8;
 const THUMB_MS = 420;
 
@@ -41,9 +41,9 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
     Animated.timing(p, { toValue: on ? 1 : 0, duration: THUMB_MS, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start();
   }
   return (
-    <Animated.View style={{ width: p.interpolate({ inputRange: [0, 1], outputRange: [THUMB, THUMB_WIDE] }), height: THUMB }}>
+    <Animated.View style={{ width: p.interpolate({ inputRange: [0, 1], outputRange: [THUMB, THUMB_WIDE] }), height: p.interpolate({ inputRange: [0, 1], outputRange: [THUMB, THUMB_WIDE] }) }}>
       <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={dog.name} accessibilityState={{ selected: on }}
-        style={{ flex: 1, borderRadius: 16, overflow: 'hidden', backgroundColor: dogColor(dog.id), alignItems: 'center', justifyContent: 'center', borderWidth: on ? 4 : 2.5, borderColor: th.blue }}>
+        style={{ flex: 1, borderRadius: 40, overflow: 'hidden', backgroundColor: dogColor(dog.id), alignItems: 'center', justifyContent: 'center', borderWidth: on ? 4 : 2.5, borderColor: th.blue }}>
         {dog.photo_url ? <Image source={{ uri: dog.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={30} border={0} />}
       </Pressable>
     </Animated.View>

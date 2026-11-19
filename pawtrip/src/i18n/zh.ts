@@ -3,7 +3,7 @@ export const zh = {
   "app.name": "Dog Trip Planner",
   "signin.apple": "通过 Apple 登录",
   "signin.email": "使用邮箱继续",
-  "trips.title": "我的行程",
+  "trips.title": "行程",
   "trips.loading": "正在加载行程",
   "trips.empty.title": "还没有行程",
   "trips.empty.body": "来规划第一次带狗出游吧",

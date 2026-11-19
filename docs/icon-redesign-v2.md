@@ -1,5 +1,7 @@
 # Icon redesign v2 — "premium, still cute" (decided 2026-11-18)
 
+**2026-11-19 user update:** Every icon must include a dog paw print, including mono-line actions; integrate it into the design while retaining legibility. User approved the two draft style studies and authorized direct deployment without per-batch approval. Mascot-specific assets remain deferred.
+
 **Status: TODO. The user will regenerate icons with ChatGPT. Until they are delivered the app keeps the old sticker icons. Which icons get which treatment is in "Triage" below (decided with the user's input 2026-11-18).**
 Supersedes the look in `docs/icon-style-brief.md` (white die-cut sticker border, thick outline). The delivery pipeline described there
 (flat white background → `scripts/clean-icons-white.py` → 1024 master + 512 UI file in `assets/icons`, then register in

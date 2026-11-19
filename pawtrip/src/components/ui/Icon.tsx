@@ -1,4 +1,5 @@
 import { Image, type ImageStyle, type StyleProp } from 'react-native';
+import { isLineIcon, LineIcon } from './LineIcon';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
@@ -177,5 +178,6 @@ export type IconName = keyof typeof SOURCES;
 export const hasIcon = (name: string): name is IconName => name in SOURCES;
 
 export function Icon({ name, size = 32, style }: { name: IconName; size?: number; style?: StyleProp<ImageStyle> }) {
+  if (isLineIcon(name) && !style) return <LineIcon name={name} size={size} />;
   return <Image source={SOURCES[name]} accessibilityElementsHidden style={[{ width: size, height: size }, style]} resizeMode="contain" />;
 }

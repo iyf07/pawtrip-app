@@ -112,6 +112,8 @@ Collections are plural, one item adds `[id]`: `/` (trip list), `/trips/new`, `/t
 
 ## 5. Decisions (append; never silently rewrite — mark old ones "superseded by …")
 
+- 2026-11-19: User explicitly requires a dog paw print in every redesigned icon, including monochrome controls; deploy verified batches directly without further approval. Mascot-specific art remains excluded until the mascot reference is available.
+
 - **Popup rule (user, firm): NO cancel / close / ✕ button in any bottom popup (Sheet), including ConfirmSheet.** Tapping the scrim (or swiping down) already closes it. Do not add one to new sheets; if you see one, remove it. The user is annoyed when popups default to a cancel button.
 
 Product/architecture
@@ -170,6 +172,10 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-19: User approved the two icon direction studies. First batch: 21 mono-line action/navigation symbols use shared `LineIcon.tsx` paths through `Icon.tsx`, with theme-aware stroke; existing PNGs are retained. `ui-dog-warning` and mascot/dog-related illustrations remain unchanged pending mascot. Content and scale icons are not yet redesigned.
+
+- 2026-11-19: Icon redesign started with two unapproved reference studies in `docs/icon-redesign/` (content and monochrome controls). These are drafts, not production assets; content study needs simplification/less colour and tier-A symbols remain separate. Mascot-dependent icons await user photos and approval of the mascot character sheet. No app icons replaced or deployed.
 
 - 2026-11-19: The first onboarding step has a back-to-sign-in action that signs out the current account; saved onboarding answers remain. Existing later-step back navigation is unchanged. Sign-out errors show a toast.
 
@@ -295,6 +301,7 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
+| 2026-11-19 | Codex | Redesign all icons except mascot assets; deploy batches | icons, icon components, design docs | In progress |
 
 
 
@@ -821,3 +828,9 @@ Read the agent instructions, shared handoff, Claude project memory, PM context, 
 
 ### 2026-11-19 (Codex) — onboarding account switch
 Added a back-to-sign-in action on the first onboarding step, with sign-out error handling and bilingual labels. Subsequent steps retain their existing back navigation, and prior saved answers are not deleted. Local browser: created a test account, entered onboarding, clicked back and observed the sign-in screen. Frontend-only; no database migration. Claim released.
+
+### 2026-11-19 (Codex) — icon design studies
+Created content and mono-line control reference-sheet drafts in `docs/icon-redesign/`; they are not approved or production-ready and do not replace any existing icons. The mascot brief requires photos of the user's handmade dog and approval of its character sheet before making mascot-derived assets. Next: obtain photos, develop and approve mascot, refine the style studies, then make and verify each icon batch as specified in `docs/icon-redesign-v2.md`. No app changes or deployment; no active claim.
+
+### 2026-11-19 (Codex) — first mono-line icon batch
+The user approved both direction studies and requested paw prints in every icon. Added 21 theme-aware line icons with a paw detail through `LineIcon.tsx` / `Icon.tsx`; source PNGs remain in place. The first batch excludes dog-warning pending mascot and all duotone and scale assets. Browser checks: circle navigation and feedback on mobile, and desktop navigation. Continue with content icon batches and scale sets; mascot-dependent assets await photos and character approval. No backend changes.

@@ -103,7 +103,7 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
       <ProfileEditSheet visible={editing} onClose={() => setEditing(false)} profile={profile} />
       <ShareSheet visible={sharingId} onClose={() => setSharingId(false)} message={t("pf.shareIdMessage", { name: profile.display_name, id: profile.handle })} />
       <ConfirmSheet visible={askSignOut} title={t('profile.signout')} body={t('profile.signoutBody')} confirmLabel={t('profile.signout')} danger
-        onConfirm={() => { setAskSignOut(false); signOut(); }} onClose={() => setAskSignOut(false)} />
+        onConfirm={() => { setAskSignOut(false); signOut().catch(() => toast(t('auth.signOutFailed'))); }} onClose={() => setAskSignOut(false)} />
     </Screen>
   );
 }

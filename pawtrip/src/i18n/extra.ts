@@ -492,6 +492,8 @@ export const zhExtra = {
   'wiz.next': '继续',
   'wiz.skip': '先跳过',
   'wiz.back': '返回',
+  'auth.backToSignIn': '返回登录',
+  'auth.signOutFailed': '退出登录失败，请重试。',
   'wiz.finish': '完成',
 
   'ob.name.q': '你想让好友怎么称呼你？',
@@ -1072,6 +1074,8 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'wiz.next': 'Continue',
   'wiz.skip': 'Skip for now',
   'wiz.back': 'Back',
+  'auth.backToSignIn': 'Back to sign in',
+  'auth.signOutFailed': "Couldn't sign out. Please try again.",
   'wiz.finish': 'Done',
 
   'ob.name.q': 'What should your friends call you?',

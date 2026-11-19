@@ -32,8 +32,9 @@ export default function OnboardingRoute() {
 function Onboarding({ profile }: { profile: Profile }) {
   const { t, lang } = useT();
   const toast = useToast();
-  const { userId, email } = useAuth();
+  const { userId, email, signOut } = useAuth();
   const update = useUpdateProfile();
+  const [signingOut, setSigningOut] = useState(false);
 
   const [name, setName] = useState(profile.display_name || (email?.split('@')[0] ?? ''));
   const [handle, setHandle] = useState(profile.handle);
@@ -149,5 +150,16 @@ function Onboarding({ profile }: { profile: Profile }) {
     }
   }
 
-  return <Wizard steps={steps} onFinish={() => finish('/')} finishLabel={t('ob.done.start')} />;
+  async function returnToSignIn() {
+    if (signingOut) return;
+    setSigningOut(true);
+    try {
+      await signOut();
+    } catch {
+      toast(t('auth.signOutFailed'));
+      setSigningOut(false);
+    }
+  }
+
+  return <Wizard steps={steps} onFinish={() => finish('/')} finishLabel={t('ob.done.start')} onClose={returnToSignIn} closeLabel={`‹ ${t('auth.backToSignIn')}`} closeBusy={signingOut} />;
 }

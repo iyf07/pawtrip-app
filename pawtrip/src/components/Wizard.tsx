@@ -29,11 +29,13 @@ type Props = {
   onFinish: () => Promise<void> | void;
   /** shown on the first step; leaves the wizard */
   onClose?: () => void;
+  closeLabel?: string;
+  closeBusy?: boolean;
   finishLabel?: string;
 };
 
 /** One question at a time: progress bar, back, skip, and a pinned continue button. Answers live in the parent. */
-export function Wizard({ steps, onFinish, onClose, finishLabel }: Props) {
+export function Wizard({ steps, onFinish, onClose, closeLabel, closeBusy, finishLabel }: Props) {
   const { t } = useT();
   const th = useTheme();
   const [i, setI] = useState(0);
@@ -66,7 +68,7 @@ export function Wizard({ steps, onFinish, onClose, finishLabel }: Props) {
         {i > 0 ? (
           <Button label={`‹ ${t('wiz.back')}`} variant="text" onPress={() => setI(i - 1)} />
         ) : onClose ? (
-          <Button label="✕" variant="text" onPress={onClose} />
+          <Button label={closeLabel ?? '✕'} variant="text" onPress={onClose} disabled={closeBusy || busy} />
         ) : (
           <View />
         )}
@@ -95,7 +97,7 @@ export function Wizard({ steps, onFinish, onClose, finishLabel }: Props) {
           label={last ? (finishLabel ?? t('wiz.finish')) : t('wiz.next')}
           block
           loading={busy}
-          disabled={step.canContinue === false}
+          disabled={closeBusy || step.canContinue === false}
           onPress={next}
         />
       </View>

@@ -858,3 +858,6 @@ User expressly prohibited angels or halos for calm hotel independence. The previ
 
 ### 2026-11-19 (Codex) — integrated paws only
 User corrected that corner paw badges are unacceptable. Removed `LineIcon.tsx` and restored previous action images until each can be redesigned with its paw in the object itself. Never reintroduce the corner badge implementation. Deploy this correction with the halo removal. User wants all non-mascot icons finished and deployed without approval.
+
+### later 75 (Claude) — Gemini recommendations wired up
+Edge Function `recommend` is now DEPLOYED (without `GEMINI_API_KEY` it answers `not_configured`, so nothing breaks). Client: `src/api/recommend.ts` (`useRecommendations`, server caches per trip day, 6 h), Home 推荐 card (`app/index.tsx`): up to 4 ideas (category icon, title, one-line why), "+" saves one as an idea (undated item), ↻ forces a new batch; falls back to the dashed skeleton while loading/unavailable. `AddButton` got a `glyph` prop. **User still has to create the key in AI Studio and set it: `supabase secrets set GEMINI_API_KEY=... --project-ref nlwwumikbycwqrwoaqxm`.** Not verified with real model output yet.

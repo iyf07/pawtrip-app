@@ -101,11 +101,11 @@ export function Hero({ index = 0, color, photoUrl, avatar, title, subtitle, righ
 }
 
 /** The "+" for a white card's title row: a small cream circle (the Tile "+" is translucent white, for coloured cards). */
-export function AddButton({ onPress, label }: { onPress: () => void; label: string }) {
+export function AddButton({ onPress, label, glyph = '+' }: { onPress: () => void; label: string; glyph?: string }) {
   const th = useTheme();
   return (
     <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.goldBg, alignItems: 'center', justifyContent: 'center' }}>
-      <Text plain size={22} weight={800} style={{ color: th.onGold, lineHeight: 24 }}>+</Text>
+      <Text plain size={22} weight={800} style={{ color: th.onGold, lineHeight: 24 }}>{glyph}</Text>
     </PressScale>
   );
 }

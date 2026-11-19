@@ -3,16 +3,19 @@ import { useMemo, useState } from 'react';
 import { View } from 'react-native';
 
 import { useMyProfile, useSettings } from '@/api/profile';
-import { useItems } from '@/api/items';
+import { useCreateItem, useItems } from '@/api/items';
+import { useRecommendations } from '@/api/recommend';
 import { useTrips, type TripListItem } from '@/api/trips';
 import { AvatarStack, DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
-import { BENTO_GAP, BentoAction, BentoCard, Tile, TileHeader, bentoUnits } from '@/features/circle/Bento';
+import { useToast } from '@/components/ui/Toast';
+import { AddButton, BENTO_GAP, BentoAction, BentoCard, Tile, TileHeader, bentoUnits } from '@/features/circle/Bento';
 import { NotificationTile } from '@/features/circle/NotificationTile';
 import { CatIcon } from '@/features/plan/CatIcon';
-import { dayItems } from '@/features/plan/model';
+import { catEmoji, dayItems, typeOfCat } from '@/features/plan/model';
+import type { CatKey } from '@/constants/theme';
 import { WeatherIcon } from '@/features/plan/WeatherIcon';
 import { useTimeFmt } from '@/hooks/use-prefs';
 import { useLayout } from '@/hooks/use-layout';
@@ -32,7 +35,8 @@ function pickTrip(list: TripListItem[], today: string) {
  * notifications, and a place kept for recommendations. Cards without data yet keep their place.
  */
 export default function Home() {
-  const { t, locale } = useT();
+  const { t, locale, lang } = useT();
+  const toast = useToast();
   const th = useTheme();
   const { wide } = useLayout();
   const me = useMyProfile();
@@ -115,8 +119,36 @@ export default function Home() {
     </BentoCard>
   );
 
-  // reserved for recommendations (not built yet): keeps its place
-  const recommendTile = (
+  // Gemini's ideas for the day (cached per trip day on the server); the dashed skeleton shows until they arrive or when the model is unavailable
+  const rec = useRecommendations(trip?.id, days[dayIdx], lang === 'en' ? 'en' : 'zh');
+  const create = useCreateItem(trip?.id);
+  const [added, setAdded] = useState<string[]>([]);
+  const ideas = rec.data?.items ?? [];
+  async function addIdea(s: { title: string; cat: string }) {
+    if (!trip || added.includes(s.title)) return;
+    setAdded((a) => [...a, s.title]);
+    try {
+      await create.mutateAsync({ trip_id: trip.id, type: typeOfCat(s.cat as CatKey), cat: s.cat, title: s.title.slice(0, 120), emoji: catEmoji(s.cat) });
+      toast(t('toast.ideaSaved'));
+    } catch {
+      setAdded((a) => a.filter((x) => x !== s.title));
+      toast(t('common.saveFailed'));
+    }
+  }
+  const recommendTile = ideas.length > 0 ? (
+    <BentoCard index={4} title={t('home.recommend')} tone="butter" right={<AddButton label={t('home.recommendRefresh')} glyph="↻" onPress={() => rec.refresh.mutate()} />}>
+      {ideas.map((s, i) => (
+        <View key={s.title} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line, opacity: rec.refresh.isPending ? 0.5 : 1 }}>
+          <CatIcon cat={s.cat as CatKey} size={28} />
+          <View style={{ flex: 1, minWidth: 0 }}>
+            <Text weight={800} size={15} numberOfLines={1} style={{ color: th.onGold }}>{s.title}</Text>
+            <Text size={13} numberOfLines={2} color="muted">{s.why}</Text>
+          </View>
+          {added.includes(s.title) ? <Text weight={800} size={16} color="muted">✓</Text> : <AddButton label={t('add.newIdea')} onPress={() => addIdea(s)} />}
+        </View>
+      ))}
+    </BentoCard>
+  ) : (
     <Tile index={4} width={wide ? sideW : width} height={Math.round(row * 0.8)} dashed accessibilityLabel={t('home.recommend')}>
       <View style={{ flex: 1, padding: 18, gap: 10 }}>
         <TileHeader title={t('home.recommend')} />

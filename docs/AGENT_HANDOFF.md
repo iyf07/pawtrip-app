@@ -867,3 +867,6 @@ Scales (出发时间…), interests, dietary needs and dog interests are now **i
 
 ### later 77 (Claude) — family page layout
 Family page: actions (邀请好友 | 编辑家庭, or 退出 for non-admins) moved up directly under the name hero, the members+dogs card is content-height (no 360 px min-height), interests last (desktop: left = actions + members, right = interests). Checked on a phone width only.
+
+### later 78 (Claude) — dark flash on the right during page pushes
+Cause: in the stack, the dim overlay is a sibling of the moving card, so while the old page slid 90 px left the overlay stayed full-width and darkened the strip it left on the right. `pushInterpolator` now also translates `overlayStyle` by the same offset. Based on the Card structure in expo-router's stack; the motion itself could not be watched in the throttled preview pane, so the user should confirm on a real screen.

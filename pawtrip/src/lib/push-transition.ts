@@ -14,7 +14,8 @@ export function pushInterpolator({ current, next, layouts }: StackCardInterpolat
   const away = next ? next.progress.interpolate({ inputRange: [0, 1], outputRange: [0, -PUSH_BACK_PX], extrapolate: 'clamp' }) : 0;
   return {
     cardStyle: { transform: [{ translateX: Animated.add(enter, away) }] },
-    overlayStyle: { opacity: next ? next.progress.interpolate({ inputRange: [0, 1], outputRange: [0, PUSH_DIM], extrapolate: 'clamp' }) : 0 },
+    // the dim layer rides along with the card: left static it kept dimming the strip the card leaves behind on the right (a dark flash)
+    overlayStyle: { transform: [{ translateX: away }], opacity: next ? next.progress.interpolate({ inputRange: [0, 1], outputRange: [0, PUSH_DIM], extrapolate: 'clamp' }) : 0 },
   };
 }
 

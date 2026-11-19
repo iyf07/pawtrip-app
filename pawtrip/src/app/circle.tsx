@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import { View } from 'react-native';
 
 import { useBuddies } from '@/api/buddies';
@@ -16,6 +16,7 @@ import { NotificationTile } from '@/features/circle/NotificationTile';
 import { PeopleRow } from '@/features/circle/PeopleRow';
 import { AddFriendSheet } from '@/features/buddies/AddFriendSheet';
 import { FamilyCreateSheet, FamilyInviteSheet } from '@/features/family/FamilySheets';
+import { runContainerTransform } from '@/lib/container-transform';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
@@ -37,6 +38,7 @@ export default function Circle() {
   const [creating, setCreating] = useState(false);
   const [addingFriend, setAddingFriend] = useState(false);
   const { wide } = useLayout();
+  const familyRef = useRef<ComponentRef<typeof View>>(null);
   const { col, row: phoneRow } = bentoUnits(width);
   // phone: everything stacked, full width. Wide: the dogs hero on the left, family and friends stacked on the right.
   const half = Math.max(0, (width - BENTO_GAP) / 2);
@@ -71,8 +73,13 @@ export default function Circle() {
               </View>
             </Tile>
   );
+  const openFamily = () => {
+    if (wide || !familyRef.current) return router.push('/family');
+    familyRef.current.measureInWindow((x, y, w, h) => runContainerTransform({ x, y, width: w, height: h, color: th.softMint, radius: 24 }, () => router.push('/family')));
+  };
   const familyTile = (
-            <Tile index={1} width={sideW} height={row} tone="mint" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
+    <View ref={familyRef} collapsable={false} style={{ width: sideW, height: row }}>
+            <Tile index={1} width={sideW} height={row} tone="mint" onPress={openFamily} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
                 <TileHeader ink={th.onTint} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => (family ? setInviting(true) : setCreating(true))} />
                 {family ? (
@@ -87,6 +94,7 @@ export default function Circle() {
                 ) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-family" size={56} /></View>}
               </View>
             </Tile>
+    </View>
   );
   const friendsTile = (
             <Tile index={2} width={small} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>

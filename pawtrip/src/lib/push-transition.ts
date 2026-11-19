@@ -1,4 +1,5 @@
 import { Animated, Easing } from 'react-native';
+import { isTransforming } from '@/lib/container-transform';
 import type { StackCardInterpolationProps, StackCardInterpolatedStyle } from 'expo-router/js-stack';
 
 export const PUSH_MS = 350; // the new page slides in
@@ -10,6 +11,7 @@ export const PUSH_DIM = 0.25; // and is pressed down (dimmed) by this much
  * same 350 ms. Going back plays the same motion in reverse (the stack drives `progress` back to 0).
  */
 export function pushInterpolator({ current, next, layouts }: StackCardInterpolationProps): StackCardInterpolatedStyle {
+  if (isTransforming()) return { cardStyle: {}, overlayStyle: { opacity: 0 } }; // a container transform is doing the motion
   const enter = current.progress.interpolate({ inputRange: [0, 1], outputRange: [layouts.screen.width, 0], extrapolate: 'clamp' });
   const away = next ? next.progress.interpolate({ inputRange: [0, 1], outputRange: [0, -PUSH_BACK_PX], extrapolate: 'clamp' }) : 0;
   return {

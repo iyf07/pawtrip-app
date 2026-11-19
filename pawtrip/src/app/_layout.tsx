@@ -25,6 +25,7 @@ import { PawTap } from '@/components/PawTap';
 import { DesktopShell } from '@/components/shell/DesktopShell';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Colors } from '@/constants/theme';
+import { ContainerTransformHost } from '@/lib/container-transform';
 import { pushInterpolator, pushSpec } from '@/lib/push-transition';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { PrefsProvider } from '@/hooks/use-prefs';
@@ -164,6 +165,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
         </Stack.Protected>
       </Stack>
       </DesktopShell>
+      <ContainerTransformHost />
       {session ? <FeedbackButton /> : null}
     </ThemeProvider>
   );

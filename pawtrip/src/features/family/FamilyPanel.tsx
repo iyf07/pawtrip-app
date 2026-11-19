@@ -126,7 +126,7 @@ export function FamilyPanel() {
               <BentoAction index={1} danger label={t('family.leave')} onPress={() => setAskLeave(true)} />
             </View>
           )}
-          <BentoCard index={2} style={{ gap: 22 }}>
+          <BentoCard index={2} tone="mint" style={{ gap: 22 }}>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
               {state.members.map((m) => (
                 <View key={m.userId} style={{ width: 88, alignItems: 'center', gap: 6 }}>

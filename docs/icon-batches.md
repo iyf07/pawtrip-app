@@ -778,3 +778,7 @@ After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI
 # 2026-11-19 — human scales and dietary needs (v2)
 
 Thirty `scale-{morning,noise,walk,temperature,pace,spending}-{1..5}` images and seven `diet-*` images use integrated paw details. Five levels retain ordered meanings. Dietary symbols are shown alongside their existing labels. Transparent 1024px masters and 512px UI assets.
+
+# 2026-11-19 — outdoor and activity interests (v2)
+
+Fifteen `int-*` assets for outdoors, sights, activities, dessert and breweries were regenerated with integrated paws; transparent 1024px masters and 512px UI files.

@@ -177,6 +177,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Fifteen outdoor, sight, activity and dessert interest icons replaced with integrated-paw illustrations. Human scales and diet icons deployed as Expo `3j1xa7y017`, commit `c311163`. Remaining non-mascot icons in progress.
+
 - 2026-11-19: All six human preference scales (30 images) and seven dietary icons redesigned with integrated paws. Cuisine interests deployed as Expo `2fnqolnci2`, commit `e12fab9`. Remaining non-mascot icon work continues; do not use corner paw badges or halos.
 
 - 2026-11-19: Eleven `int-*` cuisine images redesigned as separate dishes, each integrating a paw. Seven monochrome action icons deployed as Expo `ibicxq50ee`, commit `dd91ade`. Remaining icon work continues.

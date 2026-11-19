@@ -6,9 +6,7 @@ import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
 import { PersonTraits } from '@/components/PersonTraits';
-import { usePeopleTabs } from '@/components/PeopleTabs';
-import { BottomTabBar } from '@/components/BottomTabBar';
-import { FriendSheet, useFriendTabs, type FriendTab } from './FriendSheet';
+import { FriendSheet } from './FriendSheet';
 import { AddFriendSheet } from './AddFriendSheet';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -31,11 +29,8 @@ export function BuddiesScreen() {
   const toast = useToast();
   const buddies = useBuddies();
   const [adding, setAdding] = useState(false);
-  const people = usePeopleTabs('friends');
-  const [friendTab, setFriendTab] = useState<FriendTab>('dogs');
-  const friendTabs = useFriendTabs();
   const th = useTheme();
-  const { wide, width } = useLayout();
+  const { width } = useLayout();
   const { friend, add } = useLocalSearchParams<{ friend?: string; add?: string }>();
   const selected = buddies.data?.find((b) => b.userId === friend);
   const addingVisible = adding || add === '1';
@@ -59,14 +54,14 @@ export function BuddiesScreen() {
   }
 
   if (friend && !selected) return (
-    <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
+    <Screen nav size="narrow" top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
       {buddies.isPending ? <PageSkeleton cards={3} /> : <View style={{ gap: 12, marginTop: 20 }}><Text>{t('common.loadFailed')}</Text><Button label={t('common.retry')} onPress={() => buddies.refetch()} /></View>}
     </Screen>
   );
 
   if (friend && selected) return (
-    <Screen nav size={wide ? "wide" : "narrow"} bottom={wide ? undefined : <BottomTabBar value={friendTab} tabs={friendTabs} onChange={setFriendTab} />} top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
-      <FriendSheet buddy={selected} tab={friendTab} onTab={setFriendTab} externalTabs={!wide} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
+    <Screen nav size="narrow" top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
+      <FriendSheet buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
       <ConfirmSheet visible={askRemove !== null} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: askRemove?.name ?? '' })} confirmLabel={t('bd.removeFriend')} danger
         onConfirm={() => { const b = askRemove; setAskRemove(null); if (b) remove.mutate(b.userId); }} onClose={() => setAskRemove(null)} />
@@ -74,8 +69,7 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav bottom={people.bottom} top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => router.navigate('/circle')} />} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
-      {people.top ? <View style={{ marginTop: 4 }}>{people.top}</View> : null}
+    <Screen nav top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => router.navigate('/circle')} />} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (

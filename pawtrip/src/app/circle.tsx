@@ -5,12 +5,13 @@ import { View } from 'react-native';
 import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import { useFamily } from '@/api/family';
-import { AvatarStack } from '@/components/ui/Avatar';
+import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Icon } from '@/components/ui/Icon';
 import { Header, Screen } from '@/components/ui/Screen';
 import { Text } from '@/components/ui/Text';
 import { BENTO_GAP, Tile, TileHeader, bentoUnits } from '@/features/circle/Bento';
 import { DogAccordion } from '@/features/circle/DogAccordion';
+import { PeopleRow } from '@/features/circle/PeopleRow';
 import { useT } from '@/i18n';
 
 /**
@@ -46,32 +47,34 @@ export default function Circle() {
               </View>
             </Tile>
             {/* family 2×1 */}
-            <Tile index={1} width={full} height={row} onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
+            <Tile index={1} width={full} height={Math.round(col * 1.02)} onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
                 <TileHeader title={t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => router.push({ pathname: '/family', params: family ? { invite: '1' } : { create: '1' } })} />
                 {family ? (
                   <View style={{ flex: 1, justifyContent: 'space-between' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
-                      <Text weight={800} size={20} numberOfLines={1} style={{ flexShrink: 1 }}>{family.name}</Text>
-                      {fam.data?.isAdmin ? <Icon name="nav-admin" size={24} /> : null}
+                      <Text weight={700} size={15} numberOfLines={1} style={{ flexShrink: 1 }}>{family.name}</Text>
+                      {fam.data?.isAdmin ? <Icon name="nav-admin" size={22} /> : null}
                     </View>
-                    <AvatarStack people={members.map((m) => ({ id: m.userId, name: m.name, url: m.avatar }))} max={6} size={34} />
+                    <PeopleRow groups={[
+                      members.map((m) => ({ key: m.userId, name: m.name, avatar: <Avatar id={m.userId} name={m.name} url={m.avatar} size={36} /> })),
+                      list.map((d) => ({ key: d.id, name: d.name, avatar: <DogAvatar url={d.photo_url} size={36} /> })),
+                    ]} />
                   </View>
                 ) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="nav-family" size={48} /></View>}
               </View>
             </Tile>
-            {/* friends 1×1 (the cells next to and below it are still free) */}
-            <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
-              <Tile index={2} width={col} height={row} onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
-                <View style={pad}>
-                  <TileHeader title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
-                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text weight={800} size={26}>{friends.length}</Text>
-                    <AvatarStack people={friends.map((b) => ({ id: b.userId, name: b.name, url: b.avatar }))} max={2} size={26} />
+            {/* friends 2×1 */}
+            <Tile index={2} width={full} height={row} onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
+              <View style={pad}>
+                <TileHeader title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
+                {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={48} /></View> : (
+                  <View style={{ flex: 1, justifyContent: 'center' }}>
+                    <PeopleRow groups={[friends.map((b) => ({ key: b.userId, name: b.name, avatar: <Avatar id={b.userId} name={b.name} url={b.avatar} size={36} /> }))]} />
                   </View>
-                </View>
-              </Tile>
-            </View>
+                )}
+              </View>
+            </Tile>
           </>
         ) : null}
       </View>

@@ -9,13 +9,14 @@ import { Chip } from '@/components/ui/Chip';
 import { Field } from '@/components/ui/Field';
 import { Icon } from '@/components/ui/Icon';
 import { Sheet } from '@/components/ui/Sheet';
-import { Meta, Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { MAX_WIDTH } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { pickScreenshot } from '@/lib/photos';
+import { InfoTip } from '@/components/ui/InfoTip';
 
 const KINDS: FeedbackKind[] = ['bug', 'idea', 'other'];
 
@@ -120,7 +121,7 @@ function FeedbackForm({ route, onClose }: { route: string; onClose: () => void }
         {shot ? <Button label={t('fdbk.remove')} small variant="text" onPress={() => setShot(null)} /> : null}
       </View>
 
-      <Meta style={{ marginTop: 12 }}>{t('fdbk.context')}</Meta>
+      <View style={{ marginTop: 12, flexDirection: 'row' }}><InfoTip align="left" tip={t('fdbk.context')} /></View>
       {error ? (
         <Text size={14} weight={700} color="danger" style={{ marginTop: 8 }}>
           {error}

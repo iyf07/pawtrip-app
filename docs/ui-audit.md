@@ -1,7 +1,7 @@
 # UI audit against "layout speaks, words do not" (2026-11-18)
 
 Method: every `t('…')` key rendered in `pawtrip/src` whose Chinese text is a sentence, read against the principle in `AGENTS.md`.
-Status column: TODO = not changed yet. Nothing here has been changed; waiting for the user's go-ahead.
+**Status 2026-11-18: sections A, B and C below were all fixed** (new `ui/InfoTip.tsx` carries the tooltips of A6–A9; wizard hints, unused `WeatherBanner` and dead keys removed; placeholders shortened).
 
 ## A. Violations — remove or replace
 | # | Where | Text now | Fix |

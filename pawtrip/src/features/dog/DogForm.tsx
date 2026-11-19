@@ -23,6 +23,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 import { dogScales } from '@/constants/options';
+import { BENTO_GAP, BentoCard } from '@/features/circle/Bento';
 import { RingButton } from '@/components/ui/RingButton';
 
 const LB_PER_KG = 2.20462;
@@ -119,7 +120,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
   }
 
   const identity = (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 16, marginTop: 4 }}>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 16 }}>
       {editing === 'identity' ? <AvatarEditor kind="dog" name={name} url={photo} size={wide ? 128 : 84} onChange={setPhoto} /> : <DogAvatar url={photo} size={wide ? 128 : 84} />}
       <View style={{ flex: 1, minWidth: 0 }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
@@ -144,38 +145,20 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
   );
 
   const body = (
-    <>
-      {identity}
-
-      <View style={{ flexDirection: wide ? 'row' : 'column', gap: wide ? 32 : 0, alignItems: 'flex-start' }}>
-      <View style={{ marginTop: 28, flex: wide ? 1 : undefined, width: wide ? undefined : '100%', minWidth: 0 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <Text weight={800} size={20} style={{ flexShrink: 1 }}>{t('dog.preferences', { name: init.name })}</Text>
-          <View style={{ flex: 1, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line }} />
-          {editActions('preferences', t('dog.preferences', { name: init.name }))}
-        </View>
-        <View style={{ gap: 10 }}>
-          {Array.from({ length: Math.ceil(DOG_SCALES.length / 2) }, (_, row) => (
-            <View key={row} style={{ flexDirection: 'row', gap: 10, alignItems: 'stretch' }}>
-              {DOG_SCALES.slice(row * 2, row * 2 + 2).map((f, k) => (
-                <ScaleInput key={f} index={row * 2 + k} compact iconSize={28} field={f} value={scales[f]}
-                  description={t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} readOnly={editing !== 'preferences'}
-                  onChange={(v) => setScales((current) => ({ ...current, [f]: v }))} />
-              ))}
-              {DOG_SCALES.slice(row * 2, row * 2 + 2).length === 1 ? <View style={{ width: '48%', flexGrow: 1 }} /> : null}
-            </View>
+    <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
+      <BentoCard index={0}>{identity}</BentoCard>
+      <BentoCard index={1} title={t('dog.preferences', { name: init.name })} right={editActions('preferences', t('dog.preferences', { name: init.name }))}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
+          {DOG_SCALES.map((f, n) => (
+            <ScaleInput key={f} index={n} compact inset iconSize={28} field={f} value={scales[f]}
+              description={t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} readOnly={editing !== 'preferences'}
+              onChange={(v) => setScales((current) => ({ ...current, [f]: v }))} />
           ))}
         </View>
-      </View>
-      <View style={{ marginTop: 28, flex: wide ? 1 : undefined, width: wide ? undefined : '100%', minWidth: 0 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-          <Text weight={800} size={20} style={{ flexShrink: 1 }}>{t('dog.interests', { name: init.name })}</Text>
-          <View style={{ flex: 1, borderTopWidth: 2, borderStyle: 'dashed', borderColor: th.line }} />
-          {editActions('interests', t('dog.interests', { name: init.name }))}
-        </View>
+      </BentoCard>
+      <BentoCard index={2} title={t('dog.interests', { name: init.name })} right={editActions('interests', t('dog.interests', { name: init.name }))}>
         <DogInterests values={interests} onChange={editing === 'interests' ? setInterests : undefined} />
-      </View>
-      </View>
+      </BentoCard>
 
       <ConfirmSheet
         visible={askDelete}
@@ -187,7 +170,7 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
         onConfirm={remove}
         onClose={() => setAskDelete(false)}
       />
-    </>
+    </View>
   );
   const footer = null;
   return <>{children({ body, footer })}</>;

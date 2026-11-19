@@ -17,6 +17,7 @@ import { ITEM_CATS, catEmoji, typeOfCat } from './model';
 import { CatIcon } from './CatIcon';
 import { WhenFields, type When } from './TimeFields';
 import { useTripCtx, type AddRequest } from '../trip/TripContext';
+import { InfoTip } from '@/components/ui/InfoTip';
 
 /** Sheet for adding an idea or a timed plan entry. New entries start as ideas; the leader confirms later. */
 export function AddItemSheet() {
@@ -140,9 +141,7 @@ function AddForm({ req }: { req: AddRequest }) {
 
       <Field label={`${t('add.notes')} ${t('add.optional')}`} value={notes} onChangeText={setNotes} placeholder={t('add.notesPh')} multiline style={{ minHeight: 72, textAlignVertical: 'top' }} />
 
-      <Text size={13} color="muted" style={{ marginTop: 14 }}>
-        {t('add.leaderConfirms')}
-      </Text>
+      <View style={{ marginTop: 14, flexDirection: 'row' }}><InfoTip align="left" tip={t('add.leaderConfirms')} /></View>
       <Button label={t(fromPlan ? 'add.add' : 'add.saveIdea')} block loading={create.isPending} onPress={submit} style={{ marginTop: 14 }} />
     </View>
   );

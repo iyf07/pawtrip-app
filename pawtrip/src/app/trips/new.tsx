@@ -52,7 +52,6 @@ export default function NewTrip() {
     {
       key: 'name',
       title: t('nt.name.q'),
-      hint: t('nt.name.hint'),
       canContinue: name.trim().length > 0,
       content: ({ next }) => (
         <View style={{ marginTop: -14 }}>
@@ -63,14 +62,12 @@ export default function NewTrip() {
     {
       key: 'dest',
       title: t('nt.dest.q'),
-      hint: t('nt.dest.hint'),
       canContinue: !!picked,
       content: <DestinationField value={dest} onChangeText={setDest} picked={picked} onPick={setPicked} placeholder={t('new.destPh')} autoFocus />,
     },
     {
       key: 'dates',
       title: t('nt.dates.q'),
-      hint: t('nt.dates.hint'),
       canContinue: !!start && !!end,
       content: (
         <View>
@@ -95,7 +92,6 @@ export default function NewTrip() {
     {
       key: 'interests',
       title: t('nt.interests.q'),
-      hint: t('nt.interests.hint'),
       optional: true,
       content: (
         <InterestPicker value={interests} onToggle={(i) => setInterests((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]))} />
@@ -104,7 +100,6 @@ export default function NewTrip() {
     {
       key: 'dogs',
       title: t('nt.dogs.q'),
-      hint: t('nt.dogs.hint'),
       optional: true,
       content: (
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
@@ -146,7 +141,6 @@ export default function NewTrip() {
     {
       key: 'done',
       title: t('nt.done.title'),
-      hint: t('nt.done.body'),
       content: (
         <View style={{ alignItems: 'center', gap: 14 }}>
           <DogIllo size={120} />

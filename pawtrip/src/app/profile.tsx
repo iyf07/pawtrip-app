@@ -17,9 +17,7 @@ import { ScaleInput } from "@/components/ScaleInput";
 import { Avatar } from "@/components/ui/Avatar";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
-import { BottomTabBar } from "@/components/BottomTabBar";
 import {
   BackButton,
   Header,
@@ -35,6 +33,7 @@ import { goBack } from "@/lib/nav";
 import { deletePhotoByUrl } from "@/lib/photos";
 import { Reveal } from '@/components/ui/Reveal';
 import { ConfirmSheet } from '@/components/ui/Sheet';
+import { BENTO_GAP, BentoCard } from '@/features/circle/Bento';
 import { RingButton } from '@/components/ui/RingButton';
 import { ShareSheet } from '@/components/ShareSheet';
 
@@ -54,7 +53,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const update = useUpdateProfile();
   const { wide } = useLayout();
   // everything is read-only until the pencil is tapped; Save / Cancel then end the edit
-  const [profileTab, setProfileTab] = useState<'style' | 'interests' | 'diet' | 'account'>('style');
   const [editing, setEditing] = useState<"identity" | "style" | "interests" | "diet" | null>(null);
   const [name, setName] = useState(profile.display_name);
   const [handle, setHandle] = useState(profile.handle);
@@ -144,7 +142,7 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   const sharePublicId = () => setSharingId(true);
 
   const identityBlock = (
-    <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 16, marginTop: 4 }}>
+    <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 16 }}>
       {editing === "identity" ? (
         <AvatarEditor name={profile.display_name} url={profile.avatar_url} size={wide ? 128 : 84} onChange={changeAvatar} />
       ) : (
@@ -178,16 +176,6 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
     </View>
   );
 
-  function sectionHeading(title: string, section: "style" | "interests" | "diet") {
-    return (
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 10, marginBottom: 12 }}>
-        <Text weight={800} size={20} style={{ flexShrink: 1 }}>{title}</Text>
-        <View style={{ flex: 1, borderTopWidth: 2, borderStyle: "dashed", borderColor: th.line }} />
-        {editActions(section, title)}
-      </View>
-    );
-  }
-
   function customDietCode() {
     const text = customDiet.trim();
     return DIETS.find((d) => t(`diet.${d}` as Key).toLocaleLowerCase() === text.toLocaleLowerCase()) ?? text;
@@ -199,43 +187,34 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
   }
 
   const styleBlock = (
-    <>
-      {sectionHeading(t("profile.travelStyle"), "style")}
-      <View style={!wide ? { flexDirection: "row", flexWrap: "wrap", gap: 10 } : undefined}>
-      {PERSON_SCALES.map((f, n) => (
-        <ScaleInput
-          key={f}
-          index={n}
-          field={f}
-          compact={!wide}
-          iconSize={28}
-          value={scales[f]}
-          description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
-          readOnly={editing !== "style"}
-          onChange={(v) => setScales((s) => ({ ...s, [f]: v }))}
-        />
-      ))}
+    <BentoCard index={1} title={t("profile.travelStyle")} right={editActions("style", t("profile.travelStyle"))}>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+        {PERSON_SCALES.map((f, n) => (
+          <ScaleInput
+            key={f}
+            index={n}
+            field={f}
+            compact
+            inset
+            iconSize={28}
+            value={scales[f]}
+            description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)}
+            readOnly={editing !== "style"}
+            onChange={(v) => setScales((s) => ({ ...s, [f]: v }))}
+          />
+        ))}
       </View>
-    </>
+    </BentoCard>
   );
 
   const interestsBlock = (
-    <>
-      {sectionHeading(t("profile.interests"), "interests")}
-      <View>
-        <InterestPicker
-          value={interests}
-          readOnly={editing !== "interests"}
-          onToggle={(i) => setInterests((c) => toggle(c, i))}
-        />
-      </View>
-
-    </>
+    <BentoCard index={2} title={t("profile.interests")} right={editActions("interests", t("profile.interests"))}>
+      <InterestPicker value={interests} readOnly={editing !== "interests"} onToggle={(i) => setInterests((c) => toggle(c, i))} />
+    </BentoCard>
   );
 
   const dietBlock = (
-    <>
-      {sectionHeading(t("profile.diet"), "diet")}
+    <BentoCard index={3} title={t("profile.diet")} right={editActions("diet", t("profile.diet"))}>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {[...DIETS, ...diet.filter((d) => !(DIETS as readonly string[]).includes(d))].map((d, n) => (
           <Reveal key={d} index={n}><Chip
@@ -256,56 +235,31 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
           <Button label={t("pf.addDiet")} onPress={addCustomDiet} disabled={!customDiet.trim()} />
         </View></Reveal>
       ) : null}
-    </>
+    </BentoCard>
   );
 
   const accountBlock = (
-    <>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: 10, minHeight: 40, marginBottom: 12 }}>
-        <Text weight={800} size={20}>{t("pf.account")}</Text>
-        <View style={{ flex: 1, borderTopWidth: 2, borderStyle: "dashed", borderColor: th.line }} />
-      </View>
-
-      <Text weight={800} size={14} color="muted" style={{ marginBottom: 8 }}>
-        {t("set.methods")}
-      </Text>
-      <Card>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Icon name="ui-note" size={24} />
-          <View style={{ flex: 1 }}>
-            <Text weight={800}>{t("set.methodEmail")}</Text>
-            <Meta numberOfLines={1}>{email}</Meta>
-          </View>
+    <BentoCard index={4} title={t("pf.account")}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+        <Icon name="ui-note" size={24} />
+        <View style={{ flex: 1 }}>
+          <Text weight={800}>{t("set.methodEmail")}</Text>
+          <Meta numberOfLines={1}>{email}</Meta>
         </View>
-      </Card>
-    </>
+      </View>
+    </BentoCard>
   );
 
   const signOutBlock = (
-    <>
-      <Button
-        label={t("profile.signout")}
-        variant="danger"
-        block
-        onPress={() => setAskSignOut(true)}
-        style={{ marginTop: 28 }}
-      />
-    </>
+    <BentoCard index={5}>
+      <Button label={t("profile.signout")} variant="danger" block onPress={() => setAskSignOut(true)} />
+    </BentoCard>
   );
 
   return (
     <Screen
       nav
-      size={wide ? "wide" : "narrow"}
-      bottom={wide ? undefined : <BottomTabBar value={profileTab} tabs={[
-        { value: 'style', label: t('pf.tab.style'), icon: 'scale-walk-4' },
-        { value: 'interests', label: t('pf.tab.interests'), icon: 'cat-fun' },
-        { value: 'diet', label: t('pf.tab.diet'), icon: 'diet-vegetarian' },
-        { value: 'account', label: t('pf.tab.account'), icon: 'ui-key' },
-      ]} onChange={(next) => {
-        if (editing && next !== profileTab) { toast(t('pf.finishSection')); return; }
-        setProfileTab(next);
-      }} />}
+      size="narrow"
       top={
         <Header
           title={t("profile.title")}
@@ -313,30 +267,14 @@ function ProfileForm({ profile }: { profile: ProfileRow }) {
         />
       }
     >
-      {identityBlock}
-      <View style={{ marginTop: 28 }}>
-        {wide ? (
-          <>
-            <View style={{ flexDirection: "row", gap: 32, alignItems: "flex-start" }}>
-              <View style={{ flex: 1, minWidth: 0 }}>{styleBlock}</View>
-              <View style={{ flex: 1, minWidth: 0 }}>
-                {interestsBlock}
-                <View style={{ marginTop: 28 }}>{dietBlock}</View>
-              </View>
-            </View>
-          </>
-        ) : (
-          <>
-            <View style={{ marginTop: 8 }}>
-              {profileTab === 'style' ? styleBlock : profileTab === 'interests' ? interestsBlock : profileTab === 'diet' ? dietBlock : <>{accountBlock}{signOutBlock}</>}
-            </View>
-          </>
-        )}
-      </View>
-      {wide ? <View style={{ marginTop: 28, maxWidth: 500 }}>
+      <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
+        <BentoCard index={0}>{identityBlock}</BentoCard>
+        {styleBlock}
+        {interestsBlock}
+        {dietBlock}
         {accountBlock}
         {signOutBlock}
-      </View> : null}
+      </View>
       <ShareSheet visible={sharingId} onClose={() => setSharingId(false)} message={t("pf.shareIdMessage", { name: profile.display_name, id: profile.handle })} />
       <ConfirmSheet visible={askSignOut} title={t('profile.signout')} body={t('profile.signoutBody')} confirmLabel={t('profile.signout')} danger
         onConfirm={() => { setAskSignOut(false); signOut(); }} onClose={() => setAskSignOut(false)} />

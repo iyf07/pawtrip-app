@@ -15,6 +15,7 @@ import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 import { goBack } from '@/lib/nav';
+import { Button } from '@/components/ui/Button';
 
 /** Join a trip, one question at a time: invite code, is this the trip, which dogs. Also opened from an invite link (/join?code=...). */
 export default function Join() {
@@ -61,7 +62,6 @@ export default function Join() {
     {
       key: 'code',
       title: t('jn.code.q'),
-      hint: t('jn.code.hint'),
       canContinue: clean.length > 0,
       onNext: find,
       content: ({ next }) => (
@@ -109,12 +109,11 @@ export default function Join() {
     {
       key: 'dogs',
       title: t('jn.dogs.q'),
-      hint: preview?.already_member ? undefined : t('jn.dogs.hint'),
       optional: true,
       content: preview?.already_member ? (
         <Meta>{t('join.already')}</Meta>
       ) : dogs.length === 0 ? (
-        <Meta>{t('jn.noDogs')}</Meta>
+        <Button label={t('profile.addDog')} icon="nav-dogs" variant="ghost" onPress={() => router.push('/dogs/new')} />
       ) : (
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
           {dogs.map((d) => (

@@ -42,6 +42,7 @@ import { Icon, type IconName } from '@/components/ui/Icon';
 
 import { CatIcon } from './CatIcon';
 import { WhenFields, type When } from './TimeFields';
+import { InfoTip } from '@/components/ui/InfoTip';
 
 /** Item detail: fields save when you leave them; RSVP, dog arrangements, comments; the leader confirms. */
 export function ItemDetailSheet() {
@@ -362,7 +363,7 @@ function Detail({ item }: { item: ItemView }) {
             'mood-yay',
             t('fb.title'),
             <View style={{ gap: 10 }}>
-              <Meta>{t('fb.why')}</Meta>
+              <View style={{ alignItems: 'flex-end' }}><InfoTip tip={t('fb.why')} /></View>
               {went.map((d) => (
                 <View key={d.id} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
                   <Text weight={800}>{d.name}</Text>
@@ -425,7 +426,6 @@ function Detail({ item }: { item: ItemView }) {
             <View>
               {!ready.ok ? (
                 <View style={{ marginBottom: 10 }}>
-                  <Meta weight={700}>{t('item.notReady')}</Meta>
                   {ready.time ? <Meta>• {t('chk.time')}</Meta> : null}
                   {ready.addr ? <Meta>• {t('chk.addr')}</Meta> : null}
                   {ready.peoplePending ? <Meta>• {t('chk.people', { n: ready.peoplePending })}</Meta> : null}
@@ -435,7 +435,7 @@ function Detail({ item }: { item: ItemView }) {
               <Button label={t('item.confirm')} block disabled={!ready.ok} loading={patch.isPending} onPress={() => confirmIt(true)} />
             </View>
           ) : (
-            <Meta>{t('item.leaderDecides', { name: leaderName })}</Meta>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="ui-crown" size={26} /><Text weight={800}>{leaderName}</Text><InfoTip align="left" tip={t('item.leaderDecides', { name: leaderName })} /></View>
           )
         ) : isLeader ? (
           <Button label={t('item.toIdea')} variant="ghost" block onPress={() => confirmIt(false)} />

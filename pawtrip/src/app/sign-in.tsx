@@ -75,9 +75,6 @@ export default function SignIn() {
         <Text weight={800} size={38}>
           PawTrip
         </Text>
-        <Text color="muted" style={{ marginTop: 6, textAlign: 'center' }}>
-          {t('signin.tagline')}
-        </Text>
         <View style={{ marginTop: 28 }}>
           <DogIllo size={150} />
         </View>
@@ -106,9 +103,7 @@ export default function SignIn() {
             <Text weight={800} size={20}>
               {t('auth.sentTitle')}
             </Text>
-            <Text color="muted" style={{ marginTop: 6 }}>
-              {parseLoginIdentifier(email)?.kind === 'handle' ? t('auth.sentIdBody') : t('auth.sentBody', { email: email.trim() })}
-            </Text>
+            {parseLoginIdentifier(email)?.kind === 'handle' ? null : <Text color="muted" style={{ marginTop: 6 }}>{email.trim()}</Text>}
             <Field
               label={t('auth.codeLabel')}
               value={code}

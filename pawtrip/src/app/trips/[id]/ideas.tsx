@@ -65,9 +65,6 @@ export default function Ideas() {
           <Text weight={800} size={20} style={{ marginTop: 18 }}>
             {t('ideas.empty.title')}
           </Text>
-          <Text color="muted" style={{ marginTop: 4, textAlign: 'center' }}>
-            {t('ideas.empty.body')}
-          </Text>
         </View>
       ) : (
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: grid.gap, marginTop: 12 }}>

@@ -249,7 +249,6 @@ export const zhExtra = {
   'scale.recall.5.description': '随叫随到',
   'auth.identifierLabel': '邮箱或 ID',
   'auth.errIdentifier': '请输入有效的邮箱或 ID',
-  'auth.sentIdBody': '若此 ID 已注册，验证码会发送至绑定邮箱。',
   'auth.changeIdentifier': '换个邮箱或 ID',
   'auth.sendCode': '发送验证码',
 
@@ -289,7 +288,6 @@ export const zhExtra = {
   'interest.fun': '活动体验',
 
   // overrides of prototype copy that no longer matches the interaction
-  'item.notReady': '加入计划前还差：',
   'dog.scaleHint': '点一下选择，再点一下取消，都是可选的',
 
   'settings.unit': '体重单位',
@@ -299,7 +297,7 @@ export const zhExtra = {
   'pf.name': '用户名',
   'map.hide': '收起地图',
   'map.show': '展开地图',
-  'group.expiresIn': '还剩 {min} 分钟过期（邀请码有效期 1 小时）',
+  'group.expiresIn': '{min} 分钟内有效',
   'plan.drag': '拖动调整时间',
   'plan.closeDetail': '关闭',
   'int.parks': '公园',
@@ -342,7 +340,6 @@ export const zhExtra = {
   'bd.addMine': '添加我的好友',
   'bd.addBtn': '添加到行程',
   'bd.addedToTrip': '已添加到行程',
-  'bd.none': '没有可添加的好友。先在「我的好友」里添加。',
   'nt.buddies.q': '带上好友一起去吗？',
   'nt.buddies.dogs': '带上他们的狗狗',
   'archive.title': '归档行程',
@@ -469,7 +466,6 @@ export const zhExtra = {
   'pf.avatar.remove': '移除头像',
   'pf.account': '我的账号',
   'ob.handle.q': '给你起个唯一 ID',
-  'ob.handle.hint': '全局唯一，好友可以用它找到你。3–20 位，只能用小写字母、数字和下划线，之后也可以修改。',
   'new.tzHint': '· 根据目的地自动判断',
 
   'plan.showAll': '全部',
@@ -482,26 +478,17 @@ export const zhExtra = {
   'wiz.finish': '完成',
 
   'ob.name.q': '你想让好友怎么称呼你？',
-  'ob.name.hint': '好友会在行程里看到这个名字，之后可以随时修改。',
   'ob.photo.q': '来张头像吧',
-  'ob.photo.hint': '可选。好友会更容易认出你。',
   'ob.interests.q': '你们平时喜欢玩什么？',
-  'ob.interests.hint': '可以多选，之后的推荐会更贴心。',
   'ob.diet.q': '有什么饮食需求吗？',
-  'ob.diet.hint': '没有的话直接继续就好。',
-  'ob.done.title': '都准备好啦 🐾',
-  'ob.done.body': '现在可以去建行程，也可以先给毛孩子建个档案。',
+  'ob.done.title': '完成',
   'ob.done.addDog': '添加我的狗狗',
   'ob.done.start': '开始使用',
 
   'dw.name.q': '你的狗狗叫什么名字？',
-  'dw.name.hint': '之后可以随时修改。',
   'dw.photo.q': '来张它的照片吧',
-  'dw.photo.hint': '可选。大家在行程里会看到它。',
   'dw.weight.q': '它有多重？',
-  'dw.weight.hint': '估个大概就行，用来判断它适合哪些活动。',
-  'dw.done.title': '{name}的档案准备好了',
-  'dw.done.body': '随时可以在「我的狗狗」里修改。',
+  'dw.done.title': '{name}',
   'dw.save': '保存档案',
 
   'set.title': '设置',
@@ -517,24 +504,15 @@ export const zhExtra = {
 
 
   'nt.name.q': '给这次旅行起个名字吧',
-  'nt.name.hint': '比如：蓝岭周末。之后可以修改。',
   'nt.dest.q': '去哪里玩？',
-  'nt.dest.hint': '搜索城市或邮编，我们会据此判断时区和天气。',
   'nt.dates.q': '什么时候出发？',
-  'nt.dates.hint': '先点开始日期，再点结束日期，最长 14 天。',
   'nt.interests.q': '这趟大家想玩什么？',
-  'nt.interests.hint': '可选，之后可以在成员页修改。',
   'nt.dogs.q': '哪些狗狗一起去？',
-  'nt.dogs.hint': '可以之后在成员页再调整。',
-  'nt.done.title': '准备好了，出发！',
-  'nt.done.body': '建好后就可以邀请好友一起规划。',
+  'nt.done.title': '完成',
 
   'jn.code.q': '你的邀请码是？',
-  'jn.code.hint': '粘贴好友发给你的邀请码。',
   'jn.confirm.q': '是这个行程吗？',
   'jn.dogs.q': '带哪些狗狗一起去？',
-  'jn.dogs.hint': '可以之后在成员页再调整。',
-  'jn.noDogs': '你还没有狗狗档案，加入后可以在成员页添加。',
 
 
   'fdbk.button': '反馈',
@@ -568,7 +546,6 @@ export const zhExtra = {
   'auth.errSend': '发送失败，请稍后再试。',
   'auth.errRate': '发送太频繁了，请一分钟后再试。',
   'auth.sentTitle': '请查收邮件',
-  'auth.sentBody': '我们给 {email} 发了一封登录邮件。点击邮件里的链接即可登录，或在下面输入邮件里的验证码。',
   'auth.codeLabel': '验证码',
   'auth.verify': '登录',
   'auth.errCode': '验证码不对或已过期，请重试。',
@@ -837,7 +814,6 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'scale.recall.5.description': 'Returns when called',
   'auth.identifierLabel': 'Email or ID',
   'auth.errIdentifier': 'Enter a valid email or ID',
-  'auth.sentIdBody': 'If this ID is registered, a code will be sent to its linked email.',
   'auth.changeIdentifier': 'Use another email or ID',
   'auth.sendCode': 'Send code',
 
@@ -875,8 +851,6 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'interest.drinks': 'Drinks',
   'interest.shopping': 'Shopping',
   'interest.fun': 'Experiences',
-
-  'item.notReady': 'Before it can go in the plan:',
   'dog.scaleHint': 'Tap to choose, tap again to clear. All optional.',
 
   'settings.unit': 'Weight unit',
@@ -886,7 +860,7 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'map.show': 'Show the map',
   'wx.noteWhen': '(Estimate: 5-year average, live forecast from {date})',
   'pf.name': 'Username',
-  'group.expiresIn': 'Expires in {min} min (invite codes last 1 hour)',
+  'group.expiresIn': 'Valid for {min} min',
   'plan.drag': 'Drag to change the time',
   'plan.closeDetail': 'Close',
   'int.parks': 'Parks',
@@ -929,7 +903,6 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'bd.addMine': 'Add my friends',
   'bd.addBtn': 'Add to trip',
   'bd.addedToTrip': 'Added to the trip',
-  'bd.none': 'No friends to add. Add some under My friends first.',
   'nt.buddies.q': 'Bring your friends?',
   'nt.buddies.dogs': 'Bring their dogs',
   'archive.title': 'Archive trip',
@@ -1056,7 +1029,6 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'pf.avatar.remove': 'Remove photo',
   'pf.account': 'My account',
   'ob.handle.q': 'Pick your unique ID',
-  'ob.handle.hint': 'Globally unique, and friends can find you with it. 3–20 characters: lowercase letters, numbers and underscores. You can change it later.',
   'new.tzHint': '· set from the destination',
 
   'plan.showAll': 'All',
@@ -1069,26 +1041,17 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'wiz.finish': 'Done',
 
   'ob.name.q': 'What should your friends call you?',
-  'ob.name.hint': 'Friends see this name on trips. You can change it any time.',
   'ob.photo.q': 'Add a profile photo',
-  'ob.photo.hint': 'Optional. It helps friends recognise you.',
   'ob.interests.q': 'What do you like to do on trips?',
-  'ob.interests.hint': 'Pick as many as you like. Suggestions get better.',
   'ob.diet.q': 'Any dietary needs?',
-  'ob.diet.hint': 'Nothing to add? Just continue.',
-  'ob.done.title': "You're all set 🐾",
-  'ob.done.body': 'Plan a trip now, or set up a profile for your dog first.',
+  'ob.done.title': 'Done',
   'ob.done.addDog': 'Add my dog',
   'ob.done.start': 'Get started',
 
   'dw.name.q': "What's your dog's name?",
-  'dw.name.hint': 'You can change it any time.',
   'dw.photo.q': 'Add a photo of them',
-  'dw.photo.hint': 'Optional. Everyone on the trip will see it.',
   'dw.weight.q': 'How much do they weigh?',
-  'dw.weight.hint': 'A rough number is fine. It helps judge which activities suit them.',
-  'dw.done.title': "{name}'s profile is ready",
-  'dw.done.body': 'You can edit it any time under "My dogs".',
+  'dw.done.title': '{name}',
   'dw.save': 'Save profile',
 
   'set.title': 'Settings',
@@ -1104,24 +1067,15 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
 
 
   'nt.name.q': 'What should we call this trip?',
-  'nt.name.hint': 'For example: Blue Ridge Weekend. You can change it later.',
   'nt.dest.q': 'Where are you going?',
-  'nt.dest.hint': 'Search a city or ZIP code. We use it for the time zone and weather.',
   'nt.dates.q': 'When are you going?',
-  'nt.dates.hint': 'Tap the start date, then the end date. Up to 14 days.',
   'nt.interests.q': 'What does everyone want to do?',
-  'nt.interests.hint': 'Optional. You can change it later on the Group tab.',
   'nt.dogs.q': 'Which dogs are coming?',
-  'nt.dogs.hint': 'You can adjust this later on the Group tab.',
-  'nt.done.title': "Ready to go!",
-  'nt.done.body': 'Once it is created you can invite friends to plan it together.',
+  'nt.done.title': 'Done',
 
   'jn.code.q': "What's your invite code?",
-  'jn.code.hint': 'Paste the code your friend sent you.',
   'jn.confirm.q': 'Is this the trip?',
   'jn.dogs.q': 'Which dogs are you bringing?',
-  'jn.dogs.hint': 'You can adjust this later on the Group tab.',
-  'jn.noDogs': "You don't have a dog profile yet. You can add one on the Group tab after joining.",
 
 
   'fdbk.button': 'Feedback',
@@ -1155,7 +1109,6 @@ export const enExtra: Record<keyof typeof zhExtra, string> = {
   'auth.errSend': "Couldn't send the email. Try again in a bit.",
   'auth.errRate': 'Too many requests. Try again in a minute.',
   'auth.sentTitle': 'Check your email',
-  'auth.sentBody': 'We sent a sign-in email to {email}. Tap the link in it, or enter the code from the email below.',
   'auth.codeLabel': 'Code',
   'auth.verify': 'Sign in',
   'auth.errCode': 'That code is wrong or expired. Try again.',

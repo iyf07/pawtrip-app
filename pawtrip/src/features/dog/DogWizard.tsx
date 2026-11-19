@@ -43,7 +43,6 @@ export function DogWizard() {
     {
       key: 'name',
       title: t('dw.name.q'),
-      hint: t('dw.name.hint'),
       canContinue: name.trim().length > 0,
       content: ({ next }) => (
         <Field value={name} onChangeText={setName} maxLength={40} placeholder={t('dog.namePh')} autoFocus returnKeyType="next" onSubmitEditing={() => name.trim() && next()} style={{ fontSize: 22 }} />
@@ -52,14 +51,12 @@ export function DogWizard() {
     {
       key: 'photo',
       title: t('dw.photo.q'),
-      hint: t('dw.photo.hint'),
       optional: true,
       content: <PhotoField kind="dog" url={photo} onChange={setPhoto} />,
     },
     {
       key: 'weight',
       title: t('dw.weight.q'),
-      hint: t('dw.weight.hint'),
       canContinue: weightOk,
       content: ({ next }) => (
         <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
@@ -94,7 +91,6 @@ export function DogWizard() {
     {
       key: 'done',
       title: t('dw.done.title', { name: name.trim() }),
-      hint: t('dw.done.body'),
       content: (
         <View style={{ alignItems: 'center', gap: 10, marginTop: 8 }}>
           <DogAvatar url={photo} size={120} />

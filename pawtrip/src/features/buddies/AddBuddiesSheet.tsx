@@ -11,6 +11,7 @@ import { Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT } from '@/i18n';
+import { router } from 'expo-router';
 
 /** "Add my buddies": pick accepted buddies who are not on the trip yet (and whether their dogs come too). */
 export function AddBuddiesSheet({ visible, onClose, trip }: { visible: boolean; onClose: () => void; trip: TripDetail }) {
@@ -42,7 +43,7 @@ export function AddBuddiesSheet({ visible, onClose, trip }: { visible: boolean; 
       </Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
         {buddies.isPending ? <PageSkeleton cards={1} /> : buddies.isError && !buddies.data ? <Button label={t('common.retry')} onPress={() => buddies.refetch()} /> : free.length === 0 ? (
-          <Text color="muted">{t('bd.none')}</Text>
+          <Button label={t('bd.addTitle')} icon="tab-members" variant="ghost" onPress={() => { onClose(); router.push({ pathname: '/friends', params: { add: '1' } }); }} />
         ) : (
           free.map((b) => (
             <FriendChoice

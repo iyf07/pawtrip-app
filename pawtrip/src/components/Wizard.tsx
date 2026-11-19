@@ -14,7 +14,6 @@ export type WizardStep = {
   key: string;
   /** the question */
   title: string;
-  hint?: string;
   /** optional steps get a "skip" action */
   optional?: boolean;
   /** disables "continue" while false (required answers) */

@@ -36,12 +36,33 @@ export function TileHeader({ title, onAdd, addLabel }: { title: string; onAdd?: 
   const th = useTheme();
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 32 }}>
-      <Text weight={800} size={16} numberOfLines={1} style={{ flex: 1 }}>{title}</Text>
+      <Text weight={800} size={18} numberOfLines={1} style={{ flex: 1 }}>{title}</Text>
       {onAdd ? (
         <PressScale onPress={onAdd} accessibilityRole="button" accessibilityLabel={addLabel ?? title} hitSlop={6} style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: th.gold, borderWidth: 2.5, borderColor: th.sticker, alignItems: 'center', justifyContent: 'center' }}>
           <Text plain size={20} weight={800} color="onGold" style={{ lineHeight: 22 }}>+</Text>
         </PressScale>
       ) : null}
     </View>
+  );
+}
+
+/**
+ * A bento card of any height (cards that hold a list or a form): 24 px corners, a title row in the display font with the
+ * card's actions at its right end. Stack them with a 12 px gap; the card enters with the list stagger.
+ */
+export function BentoCard({ index = 0, title, right, children, style }: { index?: number; title?: string; right?: ReactNode; children?: ReactNode; style?: StyleProp<ViewStyle> }) {
+  const th = useTheme();
+  return (
+    <Reveal index={index} style={{ width: '100%' }}>
+      <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, padding: 14, gap: 10 }, style]}>
+        {title || right ? (
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, minHeight: 40 }}>
+            {title ? <Text weight={800} size={18} numberOfLines={1} style={{ flex: 1 }}>{title}</Text> : <View style={{ flex: 1 }} />}
+            {right}
+          </View>
+        ) : null}
+        {children}
+      </View>
+    </Reveal>
   );
 }

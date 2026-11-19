@@ -57,7 +57,6 @@ function Onboarding({ profile }: { profile: Profile }) {
     {
       key: 'name',
       title: t('ob.name.q'),
-      hint: t('ob.name.hint'),
       canContinue: name.trim().length > 0,
       onNext: () => save({ display_name: name.trim() }),
       content: ({ next }) => (
@@ -67,7 +66,6 @@ function Onboarding({ profile }: { profile: Profile }) {
     {
       key: 'handle',
       title: t('ob.handle.q'),
-      hint: t('ob.handle.hint'),
       canContinue: handleOk && handle.length >= 3,
       onNext: () => (handle === profile.handle ? undefined : save({ handle })),
       content: ({ next }) => (
@@ -77,7 +75,6 @@ function Onboarding({ profile }: { profile: Profile }) {
     {
       key: 'photo',
       title: t('ob.photo.q'),
-      hint: t('ob.photo.hint'),
       optional: true,
       content: (
         <PhotoField
@@ -100,7 +97,6 @@ function Onboarding({ profile }: { profile: Profile }) {
     {
       key: 'interests',
       title: t('ob.interests.q'),
-      hint: t('ob.interests.hint'),
       optional: true,
       onNext: () => save({ interests }),
       content: (
@@ -110,7 +106,6 @@ function Onboarding({ profile }: { profile: Profile }) {
     {
       key: 'diet',
       title: t('ob.diet.q'),
-      hint: t('ob.diet.hint'),
       optional: true,
       onNext: () => save({ diet }),
       content: (
@@ -133,7 +128,6 @@ function Onboarding({ profile }: { profile: Profile }) {
     {
       key: 'done',
       title: t('ob.done.title'),
-      hint: t('ob.done.body'),
       content: (
         <View style={{ alignItems: 'center', gap: 16, marginTop: 8 }}>
           <DogIllo size={140} />

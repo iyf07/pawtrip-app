@@ -61,7 +61,6 @@ function HeroLayer({ dog, w, h, first, onLoaded }: { dog: Dog; w: number; h: num
   return (
     <View style={{ position: 'absolute', top: 0, left: 0, width: w, height: h, backgroundColor: dogColor(dog.id), overflow: 'hidden' }}>
       {photo ? (first ? <CenterReveal uri={dog.photo_url!} w={w} h={h} ms={REVEAL_FIRST_MS} /> : <Image source={{ uri: dog.photo_url! }} onLoad={onLoaded} style={{ width: w, height: h }} contentFit="cover" cachePolicy="memory-disk" />) : <View style={{ position: 'absolute', top: 64, left: 0, right: 0, alignItems: 'center' }}><DogAvatar url={null} size={72} border={0} /></View>}
-      {photo ? <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '55%', backgroundColor: 'rgba(40,28,20,0.4)' }} /> : null}
     </View>
   );
 }
@@ -113,7 +112,7 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
 
   const photo = !!dog.photo_url;
   const ink = photo ? '#FFFFFF' : th.text;
-  const shadow = photo ? { textShadowColor: 'rgba(0,0,0,0.65)', textShadowRadius: 4 } : null;
+  const shadow = photo ? { textShadowColor: 'rgba(0,0,0,0.5)', textShadowRadius: 6 } : null;
   const weight = dogWeightLabel(dog);
   const tags = dogTraitKeys(dog).map((k) => t(k as Key)).join(' · ');
   const W = size.w;

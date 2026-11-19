@@ -748,3 +748,6 @@ Circle dog switch is now a slideshow (user's second option): pop-out text (100 m
 
 ### later 62 (Claude)
 Circle dog switch changed again (user): from the slideshow to a **cross-fade** — old text pops out (100 ms) → new photo fully loaded → it fades in over the old one (560 ms ease-in-out) → new text pops in. Slide/shrink/spring code removed from `DogAccordion.tsx`; `FADE_MS` is the knob.
+
+### later 63 (Claude)
+Dog photos: the dark scrim behind the text is removed everywhere (circle hero `HeroLayer`, page `Hero`). Text on a photo is pure white with only a soft text shadow (radius 6, 50 % black) for legibility; photo-less dogs keep dark text on their soft colour. Shape reasoning given to the user: people = circle, dogs/objects = rounded square.

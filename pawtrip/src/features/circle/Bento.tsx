@@ -84,12 +84,11 @@ export function BentoCard({ index = 0, title, right, tone = 'card', children, st
 export function Hero({ index = 0, color, photoUrl, avatar, title, subtitle, right, children, minHeight = 220 }: { index?: number; color: string; photoUrl?: string | null; avatar?: ReactNode; title: string; subtitle?: string; right?: ReactNode; children?: ReactNode; minHeight?: number }) {
   const th = useTheme();
   const ink = photoUrl ? '#FFFFFF' : th.onGold;
-  const shadow = photoUrl ? { textShadowColor: 'rgba(0,0,0,0.55)', textShadowRadius: 4 } : null;
+  const shadow = photoUrl ? { textShadowColor: 'rgba(0,0,0,0.5)', textShadowRadius: 6 } : null;
   return (
     <Reveal index={index} style={{ width: '100%' }}>
       <View style={{ borderRadius: BENTO_RADIUS, backgroundColor: color, minHeight, overflow: 'hidden', justifyContent: 'flex-end', padding: 18, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
         {photoUrl ? <Image source={{ uri: photoUrl }} transition={600} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : null}
-        {photoUrl ? <View pointerEvents="none" style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '65%', backgroundColor: 'rgba(40,28,20,0.4)' }} /> : null}
         {right ? <View style={{ position: 'absolute', top: 14, right: 14, zIndex: 2 }}>{right}</View> : null}
         {!photoUrl && avatar ? <View style={{ position: 'absolute', top: 18, left: 18 }}>{avatar}</View> : null}
         <Text weight={800} size={32} numberOfLines={1} style={{ color: ink, ...shadow }}>{title}</Text>

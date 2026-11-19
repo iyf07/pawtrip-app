@@ -12,12 +12,13 @@ const FAMILY = {
 
 export type TextWeight = keyof typeof FAMILY;
 
-/** Titles (extra-bold text from 18px up) use a playful rounded face; Latin letters from Fredoka, Chinese from ZCOOL KuaiLe. */
+/**
+ * Titles (extra-bold text from 18px up) use the same refined face as the body, a little tighter. The playful display
+ * face (Fredoka / ZCOOL KuaiLe) was dropped: it clashed with the calmer bento look.
+ */
 const BODY = (weight: TextWeight) => Platform.OS === 'web'
   ? `${FAMILY[weight]}, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif`
   : FAMILY[weight];
-
-const DISPLAY = Platform.OS === 'web' ? 'Fredoka_700Bold, ZCOOLKuaiLe_400Regular, Nunito_800ExtraBold' : 'Fredoka_700Bold';
 
 export type AppTextProps = TextProps & {
   weight?: TextWeight;
@@ -33,7 +34,7 @@ export function Text({ weight = 600, size = 16, color = 'text', plain, style, ..
   return (
     <RNText
       {...rest}
-      style={[{ fontFamily: weight === 800 && size >= 18 && !plain ? DISPLAY : BODY(weight), fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color] }, style]}
+      style={[{ fontFamily: BODY(weight), fontSize: size, lineHeight: Math.round(size * 1.4), color: t[color], letterSpacing: weight === 800 && size >= 22 && !plain ? -0.3 : undefined }, style]}
     />
   );
 }

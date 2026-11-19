@@ -30,7 +30,7 @@ export function Avatar({ id, name, url, size = 32, border = 3 }: PersonProps) {
         overflow: 'hidden',
       }}>
       {url ? (
-        <Image source={{ uri: url }} style={{ width: '100%', height: '100%' }} contentFit="cover" />
+        <Image source={{ uri: url }} style={{ width: '100%', height: '100%' }} contentFit="cover" transition={350} cachePolicy="memory-disk" />
       ) : (
         <Text weight={800} size={Math.round(size * 0.42)} style={{ color: '#4A3628' }}>
           {(name?.trim()[0] ?? '?').toUpperCase()}
@@ -70,7 +70,7 @@ export function DogAvatar({ url, size = 44, border = 3 }: { url?: string | null;
         overflow: 'hidden',
       }}>
       {url ? (
-        <Image source={{ uri: url }} style={{ width: '100%', height: '100%' }} contentFit="cover" />
+        <Image source={{ uri: url }} style={{ width: '100%', height: '100%' }} contentFit="cover" transition={350} cachePolicy="memory-disk" />
       ) : (
         <Icon name="nav-dogs" size={Math.round(size * 0.8)} />
       )}

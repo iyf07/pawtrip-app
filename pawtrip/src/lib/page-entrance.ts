@@ -2,6 +2,8 @@ import { usePathname, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 
+import { consumeExpand } from '@/lib/expand';
+
 /** Pages one level below the circle hub. Moving between the hub and these slides the page in from the side it came from. */
 const CHILD = /^\/(dogs|friends|family)(\/|$)/;
 let last: string | null = null;
@@ -19,7 +21,8 @@ export function usePageEntrance() {
     useCallback(() => {
       const prev = last;
       last = path;
-      const dir = !prev ? 0 : path === '/circle' && CHILD.test(prev) ? -1 : CHILD.test(path) && prev === '/circle' ? 1 : 0;
+      const expanded = consumeExpand(); // an expand transition already carries the user in
+      const dir = expanded || !prev ? 0 : path === '/circle' && CHILD.test(prev) ? -1 : CHILD.test(path) && prev === '/circle' ? 1 : 0;
       if (!dir) return;
       from.setValue(dir * 40);
       v.setValue(0);

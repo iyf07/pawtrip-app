@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Animated, Easing, Platform, View } from 'react-native';
 
+import { ExpandOverlay } from '@/components/ExpandOverlay';
 import { Icon } from '@/components/ui/Icon';
 
 const SIZE = 44;
@@ -48,6 +49,7 @@ export function PawTap({ children }: { children: ReactNode }) {
   return (
     <View style={{ flex: 1 }} onTouchStartCapture={Platform.OS === 'web' ? undefined : (e) => add(e.nativeEvent.pageX, e.nativeEvent.pageY)}>
       {children}
+      <ExpandOverlay />
       <View pointerEvents="none" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
         {taps.map((t) => <Paw key={t.id} tap={t} done={done} />)}
       </View>

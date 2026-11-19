@@ -19,6 +19,8 @@
 | 13 | 顶部导航栏图标 | 当前页的图标变宽并放大，其他变窄并缩小，和标签一样 | 0.5 s；宽度 选中 60 px / 其他 32 px；缩放同 #2；每个页面各自画导航栏，所以用 `useTabGrow` 的记忆（key `nav:<icon>`）让切换页面时也能看到过渡 | `pawtrip/src/components/NavBar.tsx`（`NavButton`）。电脑左侧竖向导航栏（`DesktopShell`）暂未加 |
 | 14 | 圈子 → 下一层页面 | 从圈子点进狗狗/家庭/好友页，新页面从右侧滑入并淡入；返回圈子则从左侧滑入 | 320 ms 缓出；位移 40 px；透明度 0.2→1；只看"从哪来"，所以浏览器返回键也有效 | `pawtrip/src/lib/page-entrance.ts`（`CHILD` 列出圈子下一层的路径），由 `ui/Screen.tsx` 使用 |
 | 15 | 圈子狗狗手风琴 | 每只狗一条竖条，名字竖着显示；点窄条横向展开变宽，其余同步变窄；宽度变完之后，名字、体重、标签才淡入（没有白底框，照片上用半透明深色衬底，白字） | 宽度 500 ms 缓出，展开宽度权重 5 / 其他 1；内容延迟 500 ms 后淡入 260 ms；收起时内容 120 ms 先淡出；竖排名字在宽度进度 0→20% 淡出；内容按展开后的最终宽度排版，不会被挤变形 | `pawtrip/src/features/circle/DogAccordion.tsx`（`OPEN`、`WIDEN_MS`、`FADE_MS`）| `pawtrip/src/features/circle/DogAccordion.tsx`（`OPEN`、`MS`） |
+| 16 | 圈子卡片展开全屏 | 点家庭/好友卡片或展开的狗狗条，卡片的颜色从原位置放大到全屏，下面打开新页面，颜色再淡出；新页面这时不再做滑入 | 放大 380 ms（cubic ease-in-out，圆角 24→0）；新页面在下面渲染 160 ms；淡出 260 ms | `pawtrip/src/lib/expand.ts`（`expandThen`、`consumeExpand`）、`components/ExpandOverlay.tsx`（`GROW_MS`、`HOLD_MS`、`FADE_MS`），由 `features/circle/Bento.tsx` 的 `Tile` 和 `DogAccordion` 触发。返回圈子仍是 #14 的滑入 |
+| 17 | 图片淡入 | 头像、狗狗照片加载完成时淡入，不再一闪 | 350 ms；底下先显示底色/占位 | `ui/Avatar.tsx`、`DogAccordion.tsx` 的 `transition={350}` |
 
 ## 列表入场已覆盖的页面
 行程列表、狗狗列表、想法卡片、好友列表和好友申请、家庭的成员和狗狗、行程成员页的成员和狗狗、个人/好友/狗狗的偏好（`ScaleInput` 的 `index`）、兴趣（`InterestPicker`、`DogInterests`）、忌口标签、狗狗表单的偏好卡片、计划时间轴块、设置页。

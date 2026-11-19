@@ -1,10 +1,11 @@
-import type { ReactNode } from 'react';
+import { useRef, type ComponentRef, type ReactNode } from 'react';
 import { View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { PressScale } from '@/components/ui/PressScale';
 import { Text } from '@/components/ui/Text';
 import { Reveal } from '@/components/ui/Reveal';
 import { useTheme } from '@/hooks/use-theme';
+import { expandThen } from '@/lib/expand';
 
 export const BENTO_GAP = 12; // the seam between cards
 export const BENTO_RADIUS = 24; // every card's corner
@@ -24,12 +25,20 @@ export type Tone = 'card' | 'gold' | 'tint';
 export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
   const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : th.card; // calm tints, never a loud fill
+  const ref = useRef<ComponentRef<typeof View>>(null);
+  // tapping a card grows it to full screen, and the page it opens appears from there
+  const open = () => {
+    if (!onPress) return;
+    const node = ref.current;
+    if (!node) return onPress();
+    node.measureInWindow((x, y, w, h) => expandThen(w > 0 ? { x, y, w, h } : null, bg, BENTO_RADIUS, onPress));
+  };
   const body = (
-    <View style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>
+    <View ref={ref} collapsable={false} style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>
   );
   return (
     <Reveal index={index} style={{ width, height }}>
-      {onPress ? <PressScale onPress={onPress} accessibilityLabel={accessibilityLabel} style={{ flex: 1 }}>{body}</PressScale> : body}
+      {onPress ? <PressScale onPress={open} accessibilityLabel={accessibilityLabel} style={{ flex: 1 }}>{body}</PressScale> : body}
     </Reveal>
   );
 }

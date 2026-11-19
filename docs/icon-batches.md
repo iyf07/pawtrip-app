@@ -755,3 +755,6 @@ One icon per relationship label in the friend page 关系 tab (`rel-<key>.png`, 
 - `rel-colleague.png` (同事): a chubby cartoon briefcase with a small id badge hanging on the handle.
 - `rel-neighbor.png` (邻居): two chubby cartoon houses side by side with a tiny fence and a wave between them.
 After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI 512 into `assets/icons`), register `rel-<key>` in `src/components/ui/Icon.tsx`, and show it on the relation Chips in `FriendSheet.tsx` and in `NotificationBell.tsx`.
+# 2026-11-19 — independent stay, level 5 (v2)
+
+`scale-alone-5`: a quiet dog bed and folded paw-print blanket, without a character, halo, angel or wings. Generated against `docs/icon-redesign/style-study-draft.png` in the approved flat pastel style. Transparent 1024px master and 512px UI asset replace the previous halo icon. Other levels have not yet been redesigned.

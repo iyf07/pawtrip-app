@@ -112,6 +112,10 @@ Collections are plural, one item adds `[id]`: `/` (trip list), `/trips/new`, `/t
 
 ## 5. Decisions (append; never silently rewrite — mark old ones "superseded by …")
 
+- 2026-11-19: User corrected the paw requirement: the paw must be integrated into the icon itself, not applied as a lower-right badge. Initial `LineIcon` implementation with a corner paw is withdrawn and must not be re-enabled.
+
+- 2026-11-19: User firmly prohibits angel imagery or a halo over the dog's head for calm, non-destructive independent time. Depict calm resting instead; apply to all relevant icons.
+
 - 2026-11-19: User explicitly requires a dog paw print in every redesigned icon, including monochrome controls; deploy verified batches directly without further approval. Mascot-specific art remains excluded until the mascot reference is available.
 
 - **Popup rule (user, firm): NO cancel / close / ✕ button in any bottom popup (Sheet), including ConfirmSheet.** Tapping the scrim (or swiping down) already closes it. Do not add one to new sheets; if you see one, remove it. The user is annoyed when popups default to a cancel button.
@@ -173,7 +177,9 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
-- 2026-11-19: User approved the two icon direction studies. First batch: 21 mono-line action/navigation symbols use shared `LineIcon.tsx` paths through `Icon.tsx`, with theme-aware stroke; existing PNGs are retained. `ui-dog-warning` and mascot/dog-related illustrations remain unchanged pending mascot. Content and scale icons are not yet redesigned.
+- 2026-11-19: Replaced `scale-alone-5`'s angel/halo dog with a calm dog bed and paw blanket, per explicit prohibition. 1024px master and 512px UI PNG supplied; further non-mascot icon redesign is in progress.
+
+- 2026-11-19: User approved the two icon direction studies. The first 21-icon mono-line batch was withdrawn after the user clarified that corner paw badges are unacceptable; original icons are restored until properly integrated replacements are ready. `ui-dog-warning` and mascot/dog-related illustrations remain unchanged pending mascot. Content and scale icons are not yet redesigned except `scale-alone-5`.
 
 - 2026-11-19: Icon redesign started with two unapproved reference studies in `docs/icon-redesign/` (content and monochrome controls). These are drafts, not production assets; content study needs simplification/less colour and tier-A symbols remain separate. Mascot-dependent icons await user photos and approval of the mascot character sheet. No app icons replaced or deployed.
 
@@ -834,3 +840,9 @@ Created content and mono-line control reference-sheet drafts in `docs/icon-redes
 
 ### 2026-11-19 (Codex) — first mono-line icon batch
 The user approved both direction studies and requested paw prints in every icon. Added 21 theme-aware line icons with a paw detail through `LineIcon.tsx` / `Icon.tsx`; source PNGs remain in place. The first batch excludes dog-warning pending mascot and all duotone and scale assets. Browser checks: circle navigation and feedback on mobile, and desktop navigation. Continue with content icon batches and scale sets; mascot-dependent assets await photos and character approval. No backend changes.
+
+### 2026-11-19 (Codex) — no halo
+User expressly prohibited angels or halos for calm hotel independence. The previous `scale-alone-5` had a halo; replaced it with a paw-print blanket on a quiet dog bed, no character or halo. Other non-mascot icon generation remains in progress. First paw-accented line icon batch was deployed as Expo `p15v7a822a`, commit `4de0b90`.
+
+### 2026-11-19 (Codex) — integrated paws only
+User corrected that corner paw badges are unacceptable. Removed `LineIcon.tsx` and restored previous action images until each can be redesigned with its paw in the object itself. Never reintroduce the corner badge implementation. Deploy this correction with the halo removal. User wants all non-mascot icons finished and deployed without approval.

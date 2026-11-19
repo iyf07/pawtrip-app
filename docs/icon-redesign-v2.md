@@ -2,6 +2,10 @@
 
 **2026-11-19 user update:** Every icon must include a dog paw print, including mono-line actions; integrate it into the design while retaining legibility. User approved the two draft style studies and authorized direct deployment without per-batch approval. Mascot-specific assets remain deferred.
 
+**Correction:** The paw must be integrated into the icon's subject or shape. A paw stuck at the lower-right corner as a generic badge is explicitly unacceptable. The initial `LineIcon.tsx` corner-badge implementation was withdrawn and must not be enabled.
+
+**Firm user rule:** Never depict quiet, non-destructive independent time as an angel or place a halo above a dog's head. Show calm resting or another appropriate visual instead. This applies to every relevant scale level and illustration.
+
 **Status: TODO. The user will regenerate icons with ChatGPT. Until they are delivered the app keeps the old sticker icons. Which icons get which treatment is in "Triage" below (decided with the user's input 2026-11-18).**
 Supersedes the look in `docs/icon-style-brief.md` (white die-cut sticker border, thick outline). The delivery pipeline described there
 (flat white background → `scripts/clean-icons-white.py` → 1024 master + 512 UI file in `assets/icons`, then register in

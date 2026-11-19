@@ -2,24 +2,21 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { RELATIONS, useRespondBuddyRelation, useSetBuddyRelation, useWithdrawBuddyRelation, type Buddy, type FriendDog } from '@/api/buddies';
-import { DogInterests } from '@/components/DogInterests';
-import { InterestPicker } from '@/components/InterestPicker';
+import { DietBlock, DogInterestsBlock, InterestsBlock, ScaleBlock } from '@/components/TraitBlocks';
 import { PersonTraits } from '@/components/PersonTraits';
 import { DogTraits } from '@/components/DogTraits';
-import { ScaleInput, scaleStem } from '@/components/ScaleInput';
+import { scaleStem } from '@/components/ScaleInput';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
-import { dietIcon } from '@/components/DietIcon';
 import { Chip } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { useSettings } from '@/api/profile';
 import { weightIn } from '@/lib/dog-weight';
 import { useTheme } from '@/hooks/use-theme';
-import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
+import { DOG_SCALES, dogScales, PERSON_SCALES } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
-import { Reveal } from '@/components/ui/Reveal';
 import { BENTO_GAP, BentoCard, BentoColumns, PersonHeader } from '@/features/circle/Bento';
 
 function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
@@ -33,10 +30,8 @@ function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
         <DogAvatar url={dog.photo_url} size={60} />
         <View style={{ flex: 1, minWidth: 0 }}>{weight ? <Meta>{weight}</Meta> : null}<DogTraits dog={dog} /></View>
       </View>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-        {DOG_SCALES.map((f, n) => <ScaleInput key={f} index={n} compact inset field={f} value={scales[f]} description={t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} readOnly onChange={() => {}} />)}
-      </View>
-      <DogInterests values={dog.interests} />
+      <ScaleBlock fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
+      <DogInterestsBlock values={dog.interests} />
     </BentoCard>
   );
 }
@@ -61,17 +56,15 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
         left={<>
       {buddy.dogs.map((dog, i) => <DogCard key={dog.id} dog={dog} index={1 + i} />)}
       <BentoCard index={1 + dogCount} title={t('profile.travelStyle')}>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-          {PERSON_SCALES.map((f, n) => <ScaleInput key={f} index={n} compact inset field={f} value={buddy.traits[f]} readOnly description={t(`scale.${f}.${buddy.traits[f] ?? 3}.description` as Key)} onChange={() => {}} />)}
-        </View>
+        <ScaleBlock fields={PERSON_SCALES} values={buddy.traits} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
       </BentoCard>
         </>}
         right={<>
       <BentoCard index={2 + dogCount} tone="tint" title={t('profile.interests')}>
-        {buddy.interests.length ? <InterestPicker value={buddy.interests} readOnly selectedOnly /> : <Chip icon={<Icon name="empty-discover" size={28} />} label={t('friend.emptyInterests')} />}
+        <InterestsBlock value={buddy.interests} empty={t('friend.emptyInterests')} />
       </BentoCard>
       <BentoCard index={3 + dogCount} title={t('profile.diet')}>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{buddy.diet.length ? buddy.diet.map((d, n) => <Reveal key={d} index={n}><Chip icon={dietIcon(d, 28)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} /></Reveal>) : <Chip icon={<Icon name="cat-food" size={28} />} label={t('friend.emptyDiet')} />}</View>
+        <DietBlock value={buddy.diet} empty={t('friend.emptyDiet')} />
       </BentoCard>
       <BentoCard index={4 + dogCount} tone="gold" title={t('friend.relationship')}>
         {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 6 }}>

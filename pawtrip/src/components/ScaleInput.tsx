@@ -34,6 +34,13 @@ type Props = {
   inset?: boolean;
 };
 
+/** Icon name of a scale's answer, e.g. scale-energy-4 (undefined when there is no such icon). */
+export const scaleIconName = (field: string, value: number | null) => {
+  const stem = scaleStem(field);
+  const name = `scale-${ICON_KEY[stem] ?? stem}-${value ?? 3}`;
+  return hasIcon(name) ? (name as IconName) : undefined;
+};
+
 /** One 1-5 personality scale: question, five steps, and the label of the chosen step. Defaults to the middle (3). */
 export function ScaleInput({ field, value, onChange, hideTitle, description, readOnly, iconSize = 28, compact, compactWidth, index, inset }: Props) {
   const { t } = useT();

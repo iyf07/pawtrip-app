@@ -7,21 +7,17 @@ import type { Profile as ProfileRow } from "@/api/types";
 import { useAuth } from "@/auth/AuthProvider";
 import { Icon } from "@/components/ui/Icon";
 import { PersonTraits } from "@/components/PersonTraits";
-import { InterestPicker } from "@/components/InterestPicker";
-import { ScaleInput } from "@/components/ScaleInput";
-import { dietIcon } from "@/components/DietIcon";
+import { DietBlock, InterestsBlock, ScaleBlock } from "@/components/TraitBlocks";
 import { Avatar } from "@/components/ui/Avatar";
 import { PageSkeleton } from "@/components/ui/Skeleton";
-import { Chip } from "@/components/ui/Chip";
 import { BackButton, Header, Screen } from "@/components/ui/Screen";
 import { Meta, Text } from "@/components/ui/Text";
 import { useToast } from "@/components/ui/Toast";
-import { DIETS, PERSON_SCALES, personScales } from "@/constants/options";
+import { PERSON_SCALES, personScales } from "@/constants/options";
 import { useLayout } from "@/hooks/use-layout";
 import { useTheme } from "@/hooks/use-theme";
 import { useT, type Key } from "@/i18n";
 import { goBack } from "@/lib/nav";
-import { Reveal } from '@/components/ui/Reveal';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { BENTO_GAP, BentoAction, BentoCard, BentoColumns, PersonHeader } from '@/features/circle/Bento';
 import { ProfileEditSheet } from '@/features/profile/ProfileEditSheet';
@@ -66,11 +62,7 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
         <BentoColumns
           left={<>
             <BentoCard index={1} title={t("profile.travelStyle")}>
-              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-                {PERSON_SCALES.map((f, n) => (
-                  <ScaleInput key={f} index={n} field={f} compact inset readOnly iconSize={28} value={scales[f]} description={scales[f] == null ? undefined : t(`scale.${f}.${scales[f]}.description` as Key)} onChange={() => {}} />
-                ))}
-              </View>
+              <ScaleBlock fields={PERSON_SCALES} values={scales} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
             </BentoCard>
             <BentoCard index={4} title={t("pf.account")}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
@@ -84,14 +76,10 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
           </>}
           right={<>
             <BentoCard index={2} tone="tint" title={t("profile.interests")}>
-              <InterestPicker value={profile.interests} readOnly />
+              <InterestsBlock value={profile.interests} empty={t("friend.emptyInterests")} />
             </BentoCard>
             <BentoCard index={3} title={t("profile.diet")}>
-              <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-                {[...DIETS, ...profile.diet.filter((d) => !(DIETS as readonly string[]).includes(d))].map((d, n) => (
-                  <Reveal key={d} index={n}><Chip icon={dietIcon(d)} label={(DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d} on={profile.diet.includes(d)} style={!profile.diet.includes(d) ? { opacity: 0.45 } : undefined} /></Reveal>
-                ))}
-              </View>
+              <DietBlock value={profile.diet} empty={t("friend.emptyDiet")} />
             </BentoCard>
           </>}
         />

@@ -7,6 +7,7 @@ import type { Dog } from '@/api/types';
 import { DogInterests } from '@/components/DogInterests';
 import { normalizeDogInterests } from '@/constants/dog-interests';
 import { DogTraits } from '@/components/DogTraits';
+import { DogInterestsBlock, ScaleBlock } from '@/components/TraitBlocks';
 import { AvatarEditor } from '@/components/AvatarEditor';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
@@ -45,17 +46,12 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       <BentoColumns
         left={
           <BentoCard index={1} title={t('dog.preferences', { name: dog.name })}>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-              {DOG_SCALES.map((f, n) => (
-                <ScaleInput key={f} index={n} compact inset readOnly iconSize={28} field={f} value={scales[f]}
-                  description={t(`scale.${scaleStem(f)}.${scales[f]}.description` as Key)} onChange={() => {}} />
-              ))}
-            </View>
+            <ScaleBlock fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
           </BentoCard>
         }
         right={
           <BentoCard index={2} tone="tint" title={t('dog.interests', { name: dog.name })}>
-            <DogInterests values={dog.interests} />
+            <DogInterestsBlock values={dog.interests} />
           </BentoCard>
         }
       />

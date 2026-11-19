@@ -75,7 +75,15 @@ export default function Circle() {
   );
   const openFamily = () => {
     if (wide || !familyRef.current) return router.push('/family');
-    familyRef.current.measureInWindow((x, y, w, h) => runContainerTransform({ x, y, width: w, height: h, color: th.softMint, radius: 24 }, () => router.push('/family')));
+    // if the measurement never answers (some phones), just go
+    let answered = false;
+    const fallback = setTimeout(() => { if (!answered) { answered = true; router.push('/family'); } }, 250);
+    familyRef.current.measureInWindow((x, y, w, h) => {
+      if (answered) return;
+      answered = true;
+      clearTimeout(fallback);
+      runContainerTransform({ x, y, width: w, height: h, color: th.softMint, radius: 24 }, () => router.push('/family'));
+    });
   };
   const familyTile = (
     <View ref={familyRef} collapsable={false} style={{ width: sideW, height: row }}>

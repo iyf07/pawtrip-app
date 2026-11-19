@@ -864,3 +864,6 @@ Edge Function `recommend` is now DEPLOYED (without `GEMINI_API_KEY` it answers `
 
 ### later 76 (Claude) — icon-first trait cards
 Scales (出发时间…), interests, dietary needs and dog interests are now **icon-only until tapped** (`components/ExpandCard.tsx` `ExpandBlock`/`IconGrid`, `components/TraitBlocks.tsx` `ScaleBlock`/`InterestsBlock`/`DietBlock`/`DogInterestsBlock`): 52 px icons in 68 px cream cells; a tap swaps in the full view (labels, answer, description; icons 40 px) with a ⌄/⌃ at the end, another tap folds it. Only chosen interests/diets are shown; unchosen ones appear only in the edit sheet. Used on: my profile, dog page, friend page (person + each dog), family interests card. Empty states are one icon tile (placeholders `empty-discover` / `cat-food`, a11y label 兴趣待探索 / 无忌口). **For the icon agent: dedicated "no interests" and "no dietary restrictions" icons are wanted** (swap them in `TraitBlocks.tsx`). `scaleIconName()` exported from `ScaleInput.tsx`. `features/buddies/FriendDetails.tsx` (trip group page) still uses the old chip/scale views.
+
+### later 77 (Claude) — family page layout
+Family page: actions (邀请好友 | 编辑家庭, or 退出 for non-admins) moved up directly under the name hero, the members+dogs card is content-height (no 360 px min-height), interests last (desktop: left = actions + members, right = interests). Checked on a phone width only.

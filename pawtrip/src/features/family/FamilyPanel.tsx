@@ -118,8 +118,18 @@ export function FamilyPanel() {
         </Pressable>
       ) : <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />}
       <BentoColumns
-        left={
-          <BentoCard index={1} style={{ minHeight: 360, gap: 22 }}>
+        left={<>
+          {state.isAdmin ? (
+            <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
+              <BentoAction index={1} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
+              <BentoAction index={2} icon={<Icon name={editMode ? 'ui-save' : 'ui-pencil'} size={56} />} label={editMode ? t('family.done') : t('family.edit')} onPress={() => setEditMode((v) => !v)} />
+            </View>
+          ) : (
+            <View style={{ flexDirection: 'row' }}>
+              <BentoAction index={1} danger label={t('family.leave')} onPress={() => setAskLeave(true)} />
+            </View>
+          )}
+          <BentoCard index={2} style={{ gap: 22 }}>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
               {state.members.map((m) => (
                 <View key={m.userId} style={{ width: 88, alignItems: 'center', gap: 6 }}>
@@ -150,20 +160,8 @@ export function FamilyPanel() {
               </View>
             ) : null}
           </BentoCard>
-        }
-        right={<>
-          <FamilyInterests index={2} members={state.members} />
-          {state.isAdmin ? (
-            <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
-              <BentoAction index={3} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
-              <BentoAction index={4} icon={<Icon name={editMode ? 'ui-save' : 'ui-pencil'} size={56} />} label={editMode ? t('family.done') : t('family.edit')} onPress={() => setEditMode((v) => !v)} />
-            </View>
-          ) : (
-            <View style={{ flexDirection: 'row' }}>
-              <BentoAction index={3} danger label={t('family.leave')} onPress={() => setAskLeave(true)} />
-            </View>
-          )}
         </>}
+        right={<FamilyInterests index={3} members={state.members} />}
       />
 
       <FamilyInviteSheet visible={inviting} onClose={() => setInviting(false)} />

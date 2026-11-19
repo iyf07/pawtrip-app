@@ -1,4 +1,4 @@
-import { useRef, useState, type ComponentRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentRef, type ReactNode } from 'react';
 import { Pressable, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -8,9 +8,27 @@ import { COLUMN, type ColumnSize } from '@/constants/theme';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 
+import { NoRevealContext } from './Reveal';
 import { RefreshScroll } from './RefreshScroll';
 import { ScrollTopButton, scrollToTopSmooth } from './ScrollTopButton';
 import { Text } from './Text';
+
+const APP_START = Date.now();
+
+/**
+ * A page that slides in (a tab switch, a push) brings its cards with it: for the first moments after it mounts they appear
+ * at once, because cards fading in one by one while the page is still moving read as flicker. Cards that arrive later (data
+ * loading) and the very first screen after launch still do the staggered entrance.
+ */
+function Settling({ children }: { children: ReactNode }) {
+  const [settling, setSettling] = useState(() => Date.now() - APP_START > 2500);
+  useEffect(() => {
+    if (!settling) return;
+    const id = setTimeout(() => setSettling(false), 450);
+    return () => clearTimeout(id);
+  }, [settling]);
+  return <NoRevealContext.Provider value={settling}>{children}</NoRevealContext.Provider>;
+}
 
 type ScreenProps = {
   children: ReactNode;
@@ -61,12 +79,12 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
             contentContainerStyle={[{ paddingHorizontal: 16, paddingBottom: bottomPad + insets.bottom }, contentStyle]}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}>
-            {children}
+            <Settling>{children}</Settling>
           </RefreshScroll>
           <ScrollTopButton visible={past} bottom={16} onPress={() => scrollToTopSmooth((to) => scrollRef.current?.scrollTo({ y: to, animated: false }), y.current)} />
           </View>
         ) : (
-          <View style={[{ flex: 1, paddingHorizontal: 16 }, contentStyle]}>{children}</View>
+          <View style={[{ flex: 1, paddingHorizontal: 16 }, contentStyle]}><Settling>{children}</Settling></View>
         )}
         {bottom}
       </View>

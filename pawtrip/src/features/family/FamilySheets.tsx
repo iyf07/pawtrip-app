@@ -11,6 +11,7 @@ import { Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useT } from '@/i18n';
+import { FamilyCodeSheet } from './FamilyCodeSheets';
 
 /** Pick friends and invite them to my family. Used on the family page and straight from the circle. */
 export function FamilyInviteSheet({ visible, onClose }: { visible: boolean; onClose: () => void }) {
@@ -20,6 +21,7 @@ export function FamilyInviteSheet({ visible, onClose }: { visible: boolean; onCl
   const buddies = useBuddies();
   const invite = useInviteToFamily();
   const [picked, setPicked] = useState<string[]>([]);
+  const [codeOpen, setCodeOpen] = useState(false);
   const memberIds = new Set((fam.data?.members ?? []).map((m) => m.userId));
   const invitable = (buddies.data ?? []).filter((b) => b.status === 'accepted' && !memberIds.has(b.userId));
 
@@ -43,27 +45,30 @@ export function FamilyInviteSheet({ visible, onClose }: { visible: boolean; onCl
   }
 
   return (
-    <Sheet visible={visible} onClose={() => { onClose(); setPicked([]); }}>
-      <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.inviteTitle')}</Text>
-      {invitable.length === 0 ? (
-        <Text color="muted" weight={700} style={{ marginTop: 14, textAlign: 'center' }}>{t('family.noFriends')}</Text>
-      ) : (
-        <>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
-            {invitable.map((b) => (
-              <Chip
-                key={b.userId}
-                icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={26} border={2} />}
-                label={b.name}
-                on={picked.includes(b.userId)}
-                onPress={() => setPicked((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
-              />
-            ))}
-          </View>
-          <Button label={t('family.inviteBtn')} block disabled={picked.length === 0} loading={invite.isPending} onPress={send} style={{ marginTop: 12 }} />
-        </>
-      )}
-    </Sheet>
+    <>
+      <Sheet visible={visible} onClose={() => { onClose(); setPicked([]); }}>
+        <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.inviteTitle')}</Text>
+        {invitable.length > 0 ? (
+          <>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
+              {invitable.map((b) => (
+                <Chip
+                  key={b.userId}
+                  icon={<Avatar id={b.userId} name={b.name} url={b.avatar} size={26} border={2} />}
+                  label={b.name}
+                  on={picked.includes(b.userId)}
+                  onPress={() => setPicked((cur) => (cur.includes(b.userId) ? cur.filter((x) => x !== b.userId) : [...cur, b.userId]))}
+                />
+              ))}
+            </View>
+            <Button label={t('family.inviteBtn')} block disabled={picked.length === 0} loading={invite.isPending} onPress={send} style={{ marginTop: 12 }} />
+          </>
+        ) : null}
+        {/* the second way in: a one-hour code anyone can type; whoever joins with it becomes the admin's friend */}
+        <Button label={t('family.inviteCode')} icon="ui-key" variant="ghost" block onPress={() => { onClose(); setPicked([]); setCodeOpen(true); }} style={{ marginTop: invitable.length > 0 ? 8 : 16 }} />
+      </Sheet>
+      <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={fam.data?.family?.name ?? ''} />
+    </>
   );
 }
 

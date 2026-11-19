@@ -10,11 +10,15 @@ import {
   useRespondFamilyInvite,
   useRemoveFamilyMember,
   useRenameFamily,
+  type FamilyMember,
 } from '@/api/family';
-import { FamilyCodeSheet, JoinFamilySheet } from './FamilyCodeSheets';
+import { JoinFamilySheet } from './FamilyCodeSheets';
 import { FamilyCreateSheet, FamilyInviteSheet } from './FamilySheets';
 import { Image } from 'expo-image';
-import { BENTO_GAP, BentoAction, BentoCard, Hero } from '@/features/circle/Bento';
+import { InterestIcon } from '@/components/InterestIcon';
+import { Chip } from '@/components/ui/Chip';
+import { normalizeInterests } from '@/constants/options';
+import { BENTO_GAP, BentoAction, BentoCard, BentoColumns, Hero } from '@/features/circle/Bento';
 import { dogColor } from '@/features/circle/dogColor';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -27,7 +31,24 @@ import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useAuth } from '@/auth/AuthProvider';
 import { useTheme } from '@/hooks/use-theme';
-import { useT } from '@/i18n';
+import { useT, type Key } from '@/i18n';
+
+/** The members' interests added together: the ones several people share come first, with how many share them. */
+function FamilyInterests({ index, members }: { index: number; members: FamilyMember[] }) {
+  const { t } = useT();
+  const counts = new Map<string, number>();
+  for (const m of members.filter((x) => x.status === 'accepted')) for (const i of normalizeInterests(m.interests)) counts.set(i, (counts.get(i) ?? 0) + 1);
+  const list = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+  return (
+    <BentoCard index={index} tone="tint" title={t('family.interests')}>
+      {list.length === 0 ? <Icon name="empty-discover" size={56} style={{ alignSelf: 'center' }} /> : (
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          {list.map(([i, n]) => <Chip key={i} icon={<InterestIcon interest={i} size={28} />} label={n > 1 ? `${t(`interest.${i}` as Key)} ×${n}` : t(`interest.${i}` as Key)} on={n > 1} />)}
+        </View>
+      )}
+    </BentoCard>
+  );
+}
 
 /** The family tab on the friends page: create a family, invite friends, see members, leave. Members share all their dogs. */
 export function FamilyPanel() {
@@ -45,7 +66,6 @@ export function FamilyPanel() {
   const params = useLocalSearchParams<{ invite?: string; create?: string }>(); // the circle's "+" opens these
   const [creating, setCreating] = useState(params.create === '1');
   const [joining, setJoining] = useState(false);
-  const [codeOpen, setCodeOpen] = useState(false);
   const [inviting, setInviting] = useState(params.invite === '1');
   // pencil edit mode (admin): rename, remove members, disband
   const [editName, setEditName] = useState<string | null>(null);
@@ -89,48 +109,54 @@ export function FamilyPanel() {
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
       <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />
-      <BentoCard index={1} title={t('family.members')}>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
-          {state.members.map((m) => (
-            <View key={m.userId} style={{ width: 76, alignItems: 'center', gap: 6 }}>
-              <View>
-                <Avatar id={m.userId} name={m.name} url={m.avatar} size={64} />
-                {m.role === 'admin' ? <View accessible accessibilityLabel={t('family.adminBadge')} style={{ position: 'absolute', top: -8, right: -6 }}><Icon name="nav-admin" size={28} /></View> : null}
-                {state.isAdmin && m.userId !== userId ? (
-                  <Pressable accessibilityRole="button" accessibilityLabel={t('family.remove')} hitSlop={8} onPress={() => setAskRemove({ id: m.userId, name: m.name })} style={{ position: 'absolute', top: -6, right: -6, width: 26, height: 26, borderRadius: 13, backgroundColor: th.danger, borderWidth: 2, borderColor: th.card, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text plain weight={800} size={14} style={{ color: '#FFFFFF', lineHeight: 16 }}>✕</Text>
-                  </Pressable>
-                ) : null}
-              </View>
-              <Text weight={700} size={13} numberOfLines={1} style={{ maxWidth: 76, textAlign: 'center' }}>{m.name}</Text>
-              {m.status === 'pending' ? <Meta weight={700} size={11}>{t('family.pending')}</Meta> : null}
-            </View>
-          ))}
-        </View>
-      </BentoCard>
-      <BentoCard index={2} tone="tint" title={t('family.dogs')}>
-        {(dogs.data ?? []).length === 0 ? <Icon name="nav-dogs" size={56} style={{ alignSelf: 'center' }} /> : (
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
-            {(dogs.data ?? []).map((d) => (
-              <Pressable key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" accessibilityLabel={d.name} style={{ width: 76, alignItems: 'center', gap: 6 }}>
-                <View style={{ width: 72, height: 72, borderRadius: 18, overflow: 'hidden', backgroundColor: dogColor(d.id), alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: th.blue }}>
-                  {d.photo_url ? <Image source={{ uri: d.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={36} border={0} />}
+      <BentoColumns
+        left={
+          <BentoCard index={1} style={{ minHeight: 360, gap: 22 }}>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
+              {state.members.map((m) => (
+                <View key={m.userId} style={{ width: 88, alignItems: 'center', gap: 6 }}>
+                  <View>
+                    <Avatar id={m.userId} name={m.name} url={m.avatar} size={76} />
+                    {m.role === 'admin' ? <View accessible accessibilityLabel={t('family.adminBadge')} style={{ position: 'absolute', top: -8, right: -6 }}><Icon name="nav-admin" size={30} /></View> : null}
+                    {state.isAdmin && m.userId !== userId ? (
+                      <Pressable accessibilityRole="button" accessibilityLabel={t('family.remove')} hitSlop={8} onPress={() => setAskRemove({ id: m.userId, name: m.name })} style={{ position: 'absolute', top: -6, right: -6, width: 26, height: 26, borderRadius: 13, backgroundColor: th.danger, borderWidth: 2, borderColor: th.card, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text plain weight={800} size={14} style={{ color: '#FFFFFF', lineHeight: 16 }}>✕</Text>
+                      </Pressable>
+                    ) : null}
+                  </View>
+                  <Text weight={700} size={14} numberOfLines={1} style={{ maxWidth: 88, textAlign: 'center' }}>{m.name}</Text>
+                  {m.status === 'pending' ? <Meta weight={700} size={11}>{t('family.pending')}</Meta> : null}
                 </View>
-                <Text weight={700} size={13} numberOfLines={1} style={{ maxWidth: 76, textAlign: 'center' }}>{d.name}</Text>
-              </Pressable>
-            ))}
-          </View>
-        )}
-      </BentoCard>
-      {state.isAdmin ? (
-        <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
-          <BentoAction index={3} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
-          <BentoAction index={4} icon={<Icon name="ui-key" size={56} />} label={t('family.inviteCode')} onPress={() => setCodeOpen(true)} />
-          <BentoAction index={5} icon={<Icon name="ui-pencil" size={56} />} label={t('family.edit')} onPress={() => setEditName(state.family!.name)} />
-        </View>
-      ) : null}
-      <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
-      {state.isAdmin ? null : <BentoCard index={3}><Button label={t('family.leave')} variant="danger" block onPress={() => setAskLeave(true)} /></BentoCard>}
+              ))}
+            </View>
+            {(dogs.data ?? []).length > 0 ? (
+              <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20, paddingTop: 22, borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
+                {(dogs.data ?? []).map((d) => (
+                  <Pressable key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" accessibilityLabel={d.name} style={{ width: 88, alignItems: 'center', gap: 6 }}>
+                    <View style={{ width: 76, height: 76, borderRadius: 21, overflow: 'hidden', backgroundColor: dogColor(d.id), alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: th.blue }}>
+                      {d.photo_url ? <Image source={{ uri: d.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={40} border={0} />}
+                    </View>
+                    <Text weight={700} size={14} numberOfLines={1} style={{ maxWidth: 88, textAlign: 'center' }}>{d.name}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            ) : null}
+          </BentoCard>
+        }
+        right={<>
+          <FamilyInterests index={2} members={state.members} />
+          {state.isAdmin ? (
+            <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
+              <BentoAction index={3} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
+              <BentoAction index={4} icon={<Icon name="ui-pencil" size={56} />} label={t('family.edit')} onPress={() => setEditName(state.family!.name)} />
+            </View>
+          ) : (
+            <View style={{ flexDirection: 'row' }}>
+              <BentoAction index={3} danger label={t('family.leave')} onPress={() => setAskLeave(true)} />
+            </View>
+          )}
+        </>}
+      />
 
       <FamilyInviteSheet visible={inviting} onClose={() => setInviting(false)} />
 

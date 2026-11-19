@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@/auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
 
-export type FamilyMember = { userId: string; name: string; avatar: string | null; handle: string; role: 'admin' | 'member'; status: 'pending' | 'accepted' };
+export type FamilyMember = { userId: string; name: string; avatar: string | null; handle: string; interests: string[]; role: 'admin' | 'member'; status: 'pending' | 'accepted' };
 export type FamilyInvite = { familyId: string; familyName: string; inviterName: string };
 export type FamilyState = {
   /** the family I belong to (accepted), if any */
@@ -26,7 +26,7 @@ export function useFamily() {
       if (!rows.length) return { family: null, members: [], isAdmin: false, invites: [] };
       const [{ data: fams, error: e1 }, { data: profs, error: e2 }] = await Promise.all([
         supabase.from('families').select('id, name').in('id', [...new Set(rows.map((r) => r.family_id))]),
-        supabase.from('profiles').select('id, display_name, avatar_url, handle').in('id', [...new Set(rows.flatMap((r) => [r.user_id, r.invited_by].filter((x): x is string => !!x)))]),
+        supabase.from('profiles').select('id, display_name, avatar_url, handle, interests').in('id', [...new Set(rows.flatMap((r) => [r.user_id, r.invited_by].filter((x): x is string => !!x)))]),
       ]);
       if (e1) throw e1;
       if (e2) throw e2;
@@ -39,7 +39,7 @@ export function useFamily() {
       const members = mine
         ? rows
             .filter((r) => r.family_id === mine.family_id)
-            .map((r): FamilyMember => ({ userId: r.user_id, name: prof.get(r.user_id)?.display_name ?? '?', avatar: prof.get(r.user_id)?.avatar_url ?? null, handle: prof.get(r.user_id)?.handle ?? '', role: r.role as FamilyMember['role'], status: r.status as FamilyMember['status'] }))
+            .map((r): FamilyMember => ({ userId: r.user_id, name: prof.get(r.user_id)?.display_name ?? '?', avatar: prof.get(r.user_id)?.avatar_url ?? null, handle: prof.get(r.user_id)?.handle ?? '', interests: prof.get(r.user_id)?.interests ?? [], role: r.role as FamilyMember['role'], status: r.status as FamilyMember['status'] }))
             .sort((a, b) => Number(a.status === 'pending') - Number(b.status === 'pending'))
         : [];
       return { family: mine ? { id: mine.family_id, name: fam.get(mine.family_id)?.name ?? '' } : null, members, isAdmin: mine?.role === 'admin', invites };

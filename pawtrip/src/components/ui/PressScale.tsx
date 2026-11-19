@@ -2,7 +2,7 @@ import { useRef, useState, type ReactNode } from 'react';
 import { Animated, Easing, Platform, Pressable, type PressableProps, type StyleProp, type ViewStyle } from 'react-native';
 
 export const PRESS_SCALE = 0.94;
-export const LONG_PRESS_MS = 200; // held longer than this = not a click
+export const LONG_PRESS_MS = 500; // held longer than this = not a click (200 ms swallowed ordinary phone taps, which last longer)
 const SPRING = { stiffness: 260, damping: 12, mass: 1 }; // a little overshoot on release
 
 type Props = Omit<PressableProps, 'style' | 'children'> & {

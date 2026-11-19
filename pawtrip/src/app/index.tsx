@@ -69,12 +69,12 @@ export default function Home() {
     <Tile index={0} width={width} height={heroH} tone="lavender" onPress={() => router.push({ pathname: '/trips/[id]/plan', params: { id: trip.id } })} accessibilityLabel={trip.name}>
       <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 18, padding: 18 }}>
         <View style={{ alignItems: 'center', minWidth: 64 }}>
-          <Text weight={800} size={52} style={{ color: th.onGold, lineHeight: 56 }}>{underway ? dayIdx + 1 : daysBetween(today, trip.start_date)}</Text>
-          <Text weight={800} size={11} style={{ color: th.onGold, letterSpacing: 1.3, textTransform: 'uppercase' }}>{underway ? t('home.dayOf', { n: days.length }) : t('home.daysTo')}</Text>
+          <Text weight={800} size={52} style={{ color: th.onTint, lineHeight: 56 }}>{underway ? dayIdx + 1 : daysBetween(today, trip.start_date)}</Text>
+          <Text weight={800} size={11} style={{ color: th.onTint, letterSpacing: 1.3, textTransform: 'uppercase' }}>{underway ? t('home.dayOf', { n: days.length }) : t('home.daysTo')}</Text>
         </View>
         <View style={{ flex: 1, minWidth: 0, gap: 8 }}>
-          <Text weight={800} size={11} numberOfLines={1} style={{ color: th.onGold, opacity: 0.8, letterSpacing: 1.3, textTransform: 'uppercase' }}>{[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join(' · ')}</Text>
-          <Text weight={800} size={22} numberOfLines={2} style={{ color: th.onGold, lineHeight: 26 }}>{trip.name}</Text>
+          <Text weight={800} size={11} numberOfLines={1} style={{ color: th.onTint, opacity: 0.8, letterSpacing: 1.3, textTransform: 'uppercase' }}>{[datesLabel(trip.start_date, trip.end_date, locale), cityState(trip.place)].filter(Boolean).join(' · ')}</Text>
+          <Text weight={800} size={22} numberOfLines={2} style={{ color: th.onTint, lineHeight: 26 }}>{trip.name}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <AvatarStack people={people} max={5} size={28} />
             <View style={{ flexDirection: 'row', gap: 4 }}>
@@ -93,13 +93,13 @@ export default function Home() {
   const weatherTile = (
     <Tile index={1} width={small} height={row} tone="tint">
       <View style={pad}>
-        <TileHeader ink={th.onGold} title={t('home.weather')} />
+        <TileHeader ink={th.onTint} title={t('home.weather')} />
         {wx ? (
           <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <WeatherIcon icon={wx.icon} size={44} />
             <View>
-              <Text weight={800} size={30} style={{ color: th.onGold, lineHeight: 34 }}>{tempOut(wx.hi, unit)}°</Text>
-              <Text weight={700} size={13} style={{ color: th.onGold, opacity: 0.7 }}>{tempOut(wx.lo, unit)}°</Text>
+              <Text weight={800} size={30} style={{ color: th.onTint, lineHeight: 34 }}>{tempOut(wx.hi, unit)}°</Text>
+              <Text weight={700} size={13} style={{ color: th.onTint, opacity: 0.7 }}>{tempOut(wx.lo, unit)}°</Text>
             </View>
           </View>
         ) : <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><WeatherIcon icon="partly" size={48} /></View>}
@@ -141,7 +141,7 @@ export default function Home() {
         <View key={s.title} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line, opacity: rec.refresh.isPending ? 0.5 : 1 }}>
           <CatIcon cat={s.cat as CatKey} size={28} />
           <View style={{ flex: 1, minWidth: 0 }}>
-            <Text weight={800} size={15} numberOfLines={1} style={{ color: th.onGold }}>{s.title}</Text>
+            <Text weight={800} size={15} numberOfLines={1} style={{ color: th.onTint }}>{s.title}</Text>
             <Text size={13} numberOfLines={2} color="muted">{s.why}</Text>
           </View>
           {added.includes(s.title) ? <Text weight={800} size={16} color="muted">✓</Text> : <AddButton label={t('add.newIdea')} onPress={() => addIdea(s)} />}

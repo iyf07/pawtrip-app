@@ -46,10 +46,10 @@ export default function Trips() {
       <SwipeRow key={trip.id} radius={BENTO_RADIUS} onTrigger={() => setAskTrip(trip)}>
         <Tile index={i} width={w} height={h} tone={tone(trip.status)} onPress={() => router.push({ pathname: '/trips/[id]/plan', params: { id: trip.id } })} accessibilityLabel={trip.name}>
           <View style={{ flex: 1, padding: 16, justifyContent: 'space-between', opacity: done ? 0.75 : 1 }}>
-            <Text weight={800} size={11} numberOfLines={1} style={{ color: th.onGold, letterSpacing: 1.3, textTransform: 'uppercase' }}>{datesLabel(trip.start_date, trip.end_date, locale)}</Text>
+            <Text weight={800} size={11} numberOfLines={1} style={{ color: th.onTint, letterSpacing: 1.3, textTransform: 'uppercase' }}>{datesLabel(trip.start_date, trip.end_date, locale)}</Text>
             <View style={{ gap: 4 }}>
-              <Text weight={800} size={22} numberOfLines={2} style={{ color: th.onGold }}>{trip.name}</Text>
-              {cityState(trip.place) ? <Text weight={700} size={12} numberOfLines={1} style={{ color: th.onGold, opacity: 0.7 }}>{cityState(trip.place)}</Text> : null}
+              <Text weight={800} size={22} numberOfLines={2} style={{ color: th.onTint }}>{trip.name}</Text>
+              {cityState(trip.place) ? <Text weight={700} size={12} numberOfLines={1} style={{ color: th.onTint, opacity: 0.7 }}>{cityState(trip.place)}</Text> : null}
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
               <AvatarStack people={people} max={3} size={26} />

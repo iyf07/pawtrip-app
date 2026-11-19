@@ -4,6 +4,7 @@
 const light = {
   gold: '#FFC72C',
   onGold: '#4A3628',
+  onTint: '#4A3628', // text on the soft card tones (blue, mint, butter, lavender, cream); onGold is only for text on the gold fill
   link: '#8A5D00',
   blue: '#3D7590',
   blueBg: '#CDE7F0',
@@ -37,6 +38,7 @@ const light = {
 const dark: typeof light = {
   gold: '#FFC72C',
   onGold: '#4A3628',
+  onTint: '#F1E2CC',
   link: '#FFD15C',
   blue: '#8EC5DD',
   blueBg: '#1F3E4B',

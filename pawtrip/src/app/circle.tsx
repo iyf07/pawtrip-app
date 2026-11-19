@@ -65,7 +65,7 @@ export default function Circle() {
               )}
               <View pointerEvents="box-none" style={{ position: 'absolute', top: 0, left: 0, right: 0, padding: 14, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <View style={{ backgroundColor: 'rgba(255,255,255,0.7)', borderRadius: 12, paddingHorizontal: 10, paddingVertical: 4 }}>
-                  <Text weight={800} size={12} style={{ color: th.onGold, letterSpacing: 1.4, textTransform: 'uppercase' }}>{t('shell.dogs')}{list.length ? ` · ${list.length}` : ''}</Text>
+                  <Text weight={800} size={12} style={{ color: th.onTint, letterSpacing: 1.4, textTransform: 'uppercase' }}>{t('shell.dogs')}{list.length ? ` · ${list.length}` : ''}</Text>
                 </View>
                 {plus(() => router.push('/dogs/new'), t('profile.addDog'))}
               </View>
@@ -74,11 +74,11 @@ export default function Circle() {
   const familyTile = (
             <Tile index={1} width={sideW} height={row} tone="mint" onPress={() => router.push('/family')} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
-                <TileHeader ink={th.onGold} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => (family ? setInviting(true) : setCreating(true))} />
+                <TileHeader ink={th.onTint} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => (family ? setInviting(true) : setCreating(true))} />
                 {family ? (
                   <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{ flex: 1 }}>
-                      <PeopleRow ink={th.onGold} groups={[
+                      <PeopleRow ink={th.onTint} groups={[
                         members.map((m) => ({ key: m.userId, name: m.name, avatar: <Avatar id={m.userId} name={m.name} url={m.avatar} size={34} /> })),
                         list.map((d) => ({ key: d.id, name: d.name, avatar: <DogAvatar url={d.photo_url} size={34} /> })),
                       ]} />
@@ -91,11 +91,11 @@ export default function Circle() {
   const friendsTile = (
             <Tile index={2} width={small} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
               <View style={pad}>
-                <TileHeader ink={th.onGold} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => setAddingFriend(true)} />
+                <TileHeader ink={th.onTint} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => setAddingFriend(true)} />
                 {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (
                   <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{ flex: 1 }}>
-                      <PeopleRow ink={th.onGold} groups={[friends.map((b) => ({ key: b.userId, name: b.name, avatar: <Avatar id={b.userId} name={b.name} url={b.avatar} size={34} /> }))]} />
+                      <PeopleRow ink={th.onTint} groups={[friends.map((b) => ({ key: b.userId, name: b.name, avatar: <Avatar id={b.userId} name={b.name} url={b.avatar} size={34} /> }))]} />
                     </View>
                   </View>
                 )}

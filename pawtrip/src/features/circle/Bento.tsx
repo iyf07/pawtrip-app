@@ -84,7 +84,7 @@ export function BentoCard({ index = 0, title, right, tone = 'card', children, st
  */
 export function Hero({ index = 0, color, photoUrl, avatar, title, subtitle, right, children, minHeight = 220 }: { index?: number; color: string; photoUrl?: string | null; avatar?: ReactNode; title: string; subtitle?: string; right?: ReactNode; children?: ReactNode; minHeight?: number }) {
   const th = useTheme();
-  const ink = photoUrl ? '#FFFFFF' : th.onGold;
+  const ink = photoUrl ? '#FFFFFF' : th.onTint;
   const shadow = photoUrl ? { textShadowColor: 'rgba(0,0,0,0.5)', textShadowRadius: 6 } : null;
   return (
     <Reveal index={index} style={{ width: '100%' }}>
@@ -105,7 +105,7 @@ export function AddButton({ onPress, label, glyph = '+' }: { onPress: () => void
   const th = useTheme();
   return (
     <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.goldBg, alignItems: 'center', justifyContent: 'center' }}>
-      <Text plain size={22} weight={800} style={{ color: th.onGold, lineHeight: 24 }}>{glyph}</Text>
+      <Text plain size={22} weight={800} style={{ color: th.onTint, lineHeight: 24 }}>{glyph}</Text>
     </PressScale>
   );
 }
@@ -143,8 +143,8 @@ export function PersonHeader({ index = 0, color, avatar, title, subtitle, childr
       <View style={{ borderRadius: BENTO_RADIUS, backgroundColor: color, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
         {avatar}
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text weight={800} size={28} numberOfLines={1} style={{ color: th.onGold }}>{title}</Text>
-          {subtitle ? <Text weight={800} size={12} numberOfLines={1} style={{ color: th.onGold, opacity: 0.8, letterSpacing: 1.4, textTransform: 'uppercase', marginTop: 2 }}>{subtitle}</Text> : null}
+          <Text weight={800} size={28} numberOfLines={1} style={{ color: th.onTint }}>{title}</Text>
+          {subtitle ? <Text weight={800} size={12} numberOfLines={1} style={{ color: th.onTint, opacity: 0.8, letterSpacing: 1.4, textTransform: 'uppercase', marginTop: 2 }}>{subtitle}</Text> : null}
           {children}
         </View>
       </View>

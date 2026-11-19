@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { router, useLocalSearchParams } from 'expo-router';
@@ -19,7 +19,8 @@ import { InterestIcon } from '@/components/InterestIcon';
 import { Chip } from '@/components/ui/Chip';
 import { ExpandBlock } from '@/components/ExpandCard';
 import { normalizeInterests } from '@/constants/options';
-import { BENTO_GAP, BentoAction, BentoCard, BentoColumns, Hero } from '@/features/circle/Bento';
+import { isTransforming, setContainerTransformTarget } from '@/lib/container-transform';
+import { BENTO_GAP, BentoAction, BentoCard, BentoColumns } from '@/features/circle/Bento';
 import { dogColor } from '@/features/circle/dogColor';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
@@ -58,6 +59,18 @@ export function FamilyPanel() {
   const { userId } = useAuth();
   const fam = useFamily();
   const dogs = useMyDogs();
+  const cardRef = useRef<ComponentRef<typeof View>>(null);
+  // arriving through a container transform: tell it where the name + members block sits so the shape can settle onto it
+  useEffect(() => {
+    if (!isTransforming()) return;
+    let tries = 0;
+    const id = setInterval(() => {
+      tries += 1;
+      if (cardRef.current) cardRef.current.measureInWindow((x, y, w, h) => { if (w > 0) { setContainerTransformTarget({ x, y, width: w, height: h }); clearInterval(id); } });
+      if (tries > 8) clearInterval(id);
+    }, 60);
+    return () => clearInterval(id);
+  }, []);
   const rename = useRenameFamily();
   const remove = useRemoveFamilyMember();
   const leave = useLeaveFamily();
@@ -109,24 +122,16 @@ export function FamilyPanel() {
 
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
-      {state.isAdmin && editMode ? (
-        <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)}>
-          <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} right={<Icon name="ui-pencil" size={28} />} />
-        </Pressable>
-      ) : <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />}
       <BentoColumns
         left={<>
-          {state.isAdmin ? (
-            <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
-              <BentoAction index={1} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
-              <BentoAction index={2} icon={<Icon name={editMode ? 'ui-save' : 'ui-pencil'} size={56} />} label={editMode ? t('family.done') : t('family.edit')} onPress={() => setEditMode((v) => !v)} />
-            </View>
-          ) : (
-            <View style={{ flexDirection: 'row' }}>
-              <BentoAction index={1} danger label={t('family.leave')} onPress={() => setAskLeave(true)} />
-            </View>
-          )}
-          <BentoCard index={2} tone="mint" style={{ gap: 22 }}>
+          <View ref={cardRef} collapsable={false}>
+          <BentoCard index={0} tone="mint" style={{ gap: 22 }}>
+            {state.isAdmin && editMode ? (
+              <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                <Text weight={800} size={32} numberOfLines={1} style={{ flex: 1, color: th.onTint }}>{state.family.name}</Text>
+                <Icon name="ui-pencil" size={28} />
+              </Pressable>
+            ) : <Text weight={800} size={32} numberOfLines={1} style={{ color: th.onTint }}>{state.family.name}</Text>}
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
               {state.members.map((m) => (
                 <View key={m.userId} style={{ width: 88, alignItems: 'center', gap: 6 }}>
@@ -157,6 +162,17 @@ export function FamilyPanel() {
               </View>
             ) : null}
           </BentoCard>
+          </View>
+          {state.isAdmin ? (
+            <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
+              <BentoAction index={1} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
+              <BentoAction index={2} icon={<Icon name={editMode ? 'ui-save' : 'ui-pencil'} size={56} />} label={editMode ? t('family.done') : t('family.edit')} onPress={() => setEditMode((v) => !v)} />
+            </View>
+          ) : (
+            <View style={{ flexDirection: 'row' }}>
+              <BentoAction index={1} danger label={t('family.leave')} onPress={() => setAskLeave(true)} />
+            </View>
+          )}
         </>}
         right={<FamilyInterests index={3} members={state.members} />}
       />

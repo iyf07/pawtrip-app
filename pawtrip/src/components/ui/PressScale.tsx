@@ -9,8 +9,10 @@ type Props = Omit<PressableProps, 'style' | 'children'> & {
   children?: ReactNode;
 };
 
-// Press, then move off the button and let go = cancelled. React Native's default tolerates 20 px outside the button.
-const NO_SLACK = { top: 0, left: 0, right: 0, bottom: 0 };
+// The button shrinks to 94 % while held and the browser measures the shrunk box, so with no slack a finger that lands near
+// the edge counted as "moved off" and the tap was cancelled (pressed, but no navigation). 16 px of slack covers the shrink
+// and ordinary finger jitter; moving clearly off the button and letting go still cancels.
+const NO_SLACK = { top: 16, left: 16, right: 16, bottom: 16 };
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 /**

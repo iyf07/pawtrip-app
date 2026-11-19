@@ -22,6 +22,7 @@ import { useT } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
 import { SwipeRow } from '@/components/ui/SwipeRow';
 import { ConfirmSheet } from '@/components/ui/Sheet';
+import { goBackTo } from '@/lib/nav';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
@@ -54,14 +55,14 @@ export function BuddiesScreen() {
   }
 
   if (friend && !selected) return (
-    <Screen nav size="narrow" top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
+    <Screen nav size="narrow" top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/friends')} />} />}>
       {buddies.isPending ? <PageSkeleton cards={3} /> : <View style={{ gap: 12, marginTop: 20 }}><Text>{t('common.loadFailed')}</Text><Button label={t('common.retry')} onPress={() => buddies.refetch()} /></View>}
     </Screen>
   );
 
   if (friend && selected) return (
-    <Screen nav size="narrow" top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} />} />}>
-      <FriendSheet buddy={selected} onClose={() => { router.setParams({ friend: undefined, add: undefined }); router.replace('/friends'); }} onRemove={(b) => remove.mutate(b.userId)} />
+    <Screen nav size="narrow" top={<Header title={t('friend.home', { name: selected.name })} titleSize={width < 360 ? 20 : undefined} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/friends')} />} />}>
+      <FriendSheet buddy={selected} onClose={() => goBackTo('/friends')} onRemove={(b) => remove.mutate(b.userId)} />
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />
       <ConfirmSheet visible={askRemove !== null} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: askRemove?.name ?? '' })} confirmLabel={t('bd.removeFriend')} danger
         onConfirm={() => { const b = askRemove; setAskRemove(null); if (b) remove.mutate(b.userId); }} onClose={() => setAskRemove(null)} />
@@ -69,7 +70,7 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => router.navigate('/circle')} />} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+    <Screen nav top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/circle')} />} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (

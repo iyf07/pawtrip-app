@@ -19,6 +19,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SwipeRow } from '@/components/ui/SwipeRow';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { useState } from 'react';
+import { goBackTo } from '@/lib/nav';
 
 /** All sizes start with the collection; selecting a dog opens its profile. */
 export default function Dogs() {
@@ -31,7 +32,7 @@ export default function Dogs() {
   const ownerName = (id: string) => (id === userId ? null : fam.data?.members.find((m) => m.userId === id)?.name ?? null);
 
   return (
-    <Screen nav top={<Header title={t('profile.myDogs')} left={<BackButton label={t('nav.back')} onPress={() => router.navigate('/circle')} />} right={<AddAction icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
+    <Screen nav top={<Header title={t('profile.myDogs')} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/circle')} />} right={<AddAction icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
       {dogs.isPending ? (
         <PageSkeleton cards={3} />
       ) : (

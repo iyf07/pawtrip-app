@@ -706,3 +706,6 @@ The user found the full-screen expand "odd". Reasons and fixes: it was a content
 
 ### later 50 (Claude)
 The push transition did not show on the web: Expo Router's JS stack defaults `animation` to 'none' on web (CardStack `getDefaultAnimation`). Fixed with `animation: 'default'` in the root Stack `screenOptions` (`app/_layout.tsx`). Verified by sampling card positions during a circle → family push in the browser: the new card starts at x=1024 and the old card moves left. Rule: keep `animation: 'default'` or every transition silently disappears on web.
+
+### later 51 (Claude)
+Back now plays the push in reverse: the back buttons on the dogs list, family and friends pages and the friend detail page call `goBackTo(fallback)` (`lib/nav.ts`: `router.back()` when there is history, else `replace`) instead of `navigate/replace`, which pushed a new copy of the previous page forward. Verified with history.back() on /family → /circle: the leaving card moves right while the circle card returns. Rule: use `goBack`/`goBackTo`, never `navigate`/`replace`, for a back button.

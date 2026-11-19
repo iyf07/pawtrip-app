@@ -1,3 +1,4 @@
+import { goTab } from '@/lib/nav';
 import { router, useGlobalSearchParams, usePathname } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -101,16 +102,16 @@ function Rail({ section }: { section: Section }) {
 
   return (
     <View style={{ width: RAIL_W, backgroundColor: th.card, borderRightWidth: 2, borderStyle: 'dashed', borderColor: th.line, alignItems: 'center', paddingVertical: 14, gap: 8 }}>
-      <Pressable onPress={() => router.navigate('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
+      <Pressable onPress={() => goTab('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
         <Icon name="logo-paw" size={56} />
       </Pressable>
-      {item('home', 'logo-paw', t('shell.home'), () => router.navigate('/'))}
-      {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/trips'))}
-      {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/circle'); })}
+      {item('home', 'logo-paw', t('shell.home'), () => goTab('/'))}
+      {item('trips', 'nav-trips', t('shell.trips'), () => goTab('/trips'))}
+      {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); goTab('/circle'); })}
       <View style={{ flex: 1 }} />
-      {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
+      {item('settings', 'nav-settings', t('shell.settings'), () => goTab('/settings'))}
       <Pressable
-        onPress={() => router.navigate('/profile')}
+        onPress={() => goTab('/profile')}
         accessibilityRole="button"
         accessibilityLabel={t('profile.title')}
         style={{ padding: 3, borderRadius: 24, borderWidth: 3, borderColor: section === 'profile' ? th.gold : 'transparent', marginTop: 2 }}>
@@ -194,7 +195,7 @@ function DogList({ selected }: { selected: string | null }) {
   return (
     <ListFrame title={t('profile.myDogs')}>
       {(dogs.data ?? []).map((d) => (
-        <Row key={d.id} on={d.id === selected} onPress={() => router.navigate({ pathname: '/dogs/[id]', params: { id: d.id } })}>
+        <Row key={d.id} on={d.id === selected} onPress={() => goTab({ pathname: '/dogs/[id]', params: { id: d.id } })}>
           <DogAvatar url={d.photo_url} />
           <View style={{ flex: 1, minWidth: 0 }}>
             <Text weight={800} numberOfLines={1}>{d.name}</Text>
@@ -249,7 +250,7 @@ function TripSections({ tripId, tab }: { tripId: string; tab: 'plan' | 'ideas' |
           label={t(s.label)}
           on={tab === s.key}
           onPress={() => {
-            if (tab !== s.key) router.navigate({ pathname: `/trips/[id]/${s.key}`, params: { id: tripId } });
+            if (tab !== s.key) goTab({ pathname: `/trips/[id]/${s.key}`, params: { id: tripId } });
           }}>
           <Icon name={s.icon} size={34} />
           <Text weight={800} size={15} color={tab === s.key ? 'text' : 'muted'}>

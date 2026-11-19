@@ -54,6 +54,9 @@ function enableBrowserPullToReload() {
   document.head.appendChild(style);
 }
 
+// one copy per top-level page: going to a page that is already in the stack moves it to the top instead of stacking a new one (the js-stack typings omit this expo-router prop)
+const SINGULAR = { dangerouslySingular: true } as object;
+
 export default function RootLayout() {
   useEffect(enableBrowserPullToReload, []);
   // web gets Manrope + Noto Sans SC from the Google Fonts <link> below; only native loads the font files
@@ -140,17 +143,17 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
           <Stack.Screen name="onboarding" />
         </Stack.Protected>
         <Stack.Protected guard={!!session && !needsOnboarding}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="trips/index" />
+          <Stack.Screen name="index" {...SINGULAR} />
+          <Stack.Screen name="trips/index" {...SINGULAR} />
           <Stack.Screen name="calendar" />
-          <Stack.Screen name="circle" />
+          <Stack.Screen name="circle" {...SINGULAR} />
           <Stack.Screen name="friends" />
           <Stack.Screen name="family" />
           <Stack.Screen name="dogs/index" />
-          <Stack.Screen name="settings" />
+          <Stack.Screen name="settings" {...SINGULAR} />
           <Stack.Screen name="trips/new" options={{ ...TransitionPresets.ModalSlideFromBottomIOS }} />
           <Stack.Screen name="join" options={{ ...TransitionPresets.ModalSlideFromBottomIOS }} />
-          <Stack.Screen name="profile" />
+          <Stack.Screen name="profile" {...SINGULAR} />
           <Stack.Screen name="dogs/[id]" />
           <Stack.Screen name="trips/[id]" />
           {/* old URLs redirect to the new ones; they must be guarded too, otherwise a signed-out visitor is sent to the first unguarded route (/buddies) instead of the sign-in page */}

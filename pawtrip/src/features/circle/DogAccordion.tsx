@@ -51,7 +51,9 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
 }
 
 const OUT_MS = 150; // the old name and tags pop out
-const SLIDE_MS = 380; // the new photo slides in from the side
+const SLIDE_SPRING = { stiffness: 200, damping: 24, mass: 1 }; // the new photo slides in from the side on a damped spring: it settles with a hint of give
+const spring = (v: Animated.Value, to: number) =>
+  new Promise<void>((resolve) => Animated.spring(v, { toValue: to, ...SLIDE_SPRING, useNativeDriver: false }).start(() => resolve()));
 const anim = (v: Animated.Value, to: number, duration: number, easing = Easing.out(Easing.cubic)) =>
   new Promise<void>((resolve) => Animated.timing(v, { toValue: to, duration, easing, useNativeDriver: false }).start(() => resolve()));
 
@@ -104,7 +106,7 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
     setInc(i);
     if (!dogs[i].photo_url) loaded.current?.();
     await ready; // 2. the new photo has fully loaded
-    await anim(slide, 1, SLIDE_MS); // 3. it slides in from the side
+    await spring(slide, 1); // 3. it slides in from the side, damped
     setFirst(false);
     setCur(i);
     setInc(null);

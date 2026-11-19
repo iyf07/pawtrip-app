@@ -730,3 +730,6 @@ Circle dogs: the accordion strips were replaced by a **big photo of the chosen d
 ### later 56 (Claude)
 - **Circle dog switch sequence** (user's spec): old text pops out → new photo fully loaded → it slides in from the side the dog sits on (old photo slides out the other way) → new text pops in on a spring. First load: photo opens from the middle, text pops in at ~60 % of that. Verified end state with three dogs (Mochi selected, text visible); mid-motion not watched.
 - **Family page restyled to match the circle**: cream `Hero` with the family name in the big serif and stacked member avatars (pencil top-right; edit mode = cream card with name field, save/discard rings, disband), 家庭成员 card = avatar grid with names and the admin crown (red remove under each in edit mode), 家庭狗狗 card (pale blue) = square rounded dog thumbnails with names, bigger invite / code action cards. Checked at 375 px.
+
+### later 57 (Claude)
+Circle dog photo slide-in now uses a damped spring (stiffness 200, damping 24, mass 1) instead of a 380 ms timing curve (user: "add a bit of damping"). Constant `SLIDE_SPRING` in `DogAccordion.tsx`; raise `damping` for a firmer stop, lower it for more bounce.

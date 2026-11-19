@@ -4,6 +4,8 @@ import { useTheme } from '@/hooks/use-theme';
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
   'empty-discover': require('../../../assets/icons/empty-discover.png'),
+  'empty-interest': require('../../../assets/icons/empty-interest.png'),
+  'empty-diet': require('../../../assets/icons/empty-diet.png'),
   'dog-int-swimming': require('../../../assets/icons/dog-int-swimming.png'),
   'dog-int-fetch': require('../../../assets/icons/dog-int-fetch.png'),
   'int-chinese': require('../../../assets/icons/int-chinese.png'),
@@ -50,15 +52,13 @@ const SOURCES = {
   'int-lakes': require('../../../assets/icons/int-lakes.png'),
   'int-dessert': require('../../../assets/icons/int-dessert.png'),
   'logo-paw': require('../../../assets/icons/logo-paw.png'),
+  'nav-home': require('../../../assets/icons/nav-home.png'),
   'nav-trips': require('../../../assets/icons/nav-trips.png'),
   'nav-dogs': require('../../../assets/icons/nav-dogs.png'),
   'nav-settings': require('../../../assets/icons/nav-settings.png'),
-  // placeholder until the admin badge (docs/icon-batches.md Batch 20) is delivered
-  'nav-admin': require('../../../assets/icons/ui-crown.png'),
-  // placeholder until the family sticker (docs/icon-batches.md Batch 19) is delivered
-  'nav-family': require('../../../assets/icons/nav-profile.png'),
-  // placeholder until the bell sticker (docs/icon-batches.md Batch 18) is delivered
-  'nav-notifications': require('../../../assets/icons/ui-invite.png'),
+  'nav-admin': require('../../../assets/icons/nav-admin.png'),
+  'nav-family': require('../../../assets/icons/nav-family.png'),
+  'nav-notifications': require('../../../assets/icons/nav-notifications.png'),
   'nav-profile': require('../../../assets/icons/nav-profile.png'),
   'tab-plan': require('../../../assets/icons/tab-plan.png'),
   'tab-ideas': require('../../../assets/icons/tab-ideas.png'),
@@ -177,7 +177,7 @@ export type IconName = keyof typeof SOURCES;
 /** Whether an icon with this name exists yet (some icon sets are added batch by batch). */
 export const hasIcon = (name: string): name is IconName => name in SOURCES;
 
-const LINE_ICONS = new Set<IconName>(['ui-camera', 'ui-pencil', 'ui-trash', 'ui-copy', 'ui-share', 'ui-key', 'ui-note']);
+const LINE_ICONS = new Set<IconName>(['ui-camera', 'ui-pencil', 'ui-trash', 'ui-copy', 'ui-share', 'ui-key', 'ui-note', 'ui-archive', 'ui-clock', 'ui-chat', 'ui-zoom', 'ui-warning', 'ui-crown', 'ui-discard', 'ui-save', 'ui-invite', 'ui-dog-warning', 'nav-settings', 'nav-notifications', 'tab-plan', 'tab-ideas', 'tab-members']);
 
 export function Icon({ name, size = 32, style }: { name: IconName; size?: number; style?: StyleProp<ImageStyle> }) {
   const th = useTheme();

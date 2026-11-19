@@ -782,3 +782,11 @@ Thirty `scale-{morning,noise,walk,temperature,pace,spending}-{1..5}` images and 
 # 2026-11-19 — outdoor and activity interests (v2)
 
 Fifteen `int-*` assets for outdoors, sights, activities, dessert and breweries were regenerated with integrated paws; transparent 1024px masters and 512px UI files.
+
+# 2026-11-19 — controls and empty states (local work in progress)
+
+`ui-archive`, `ui-clock`, `ui-chat`, `ui-zoom`, `ui-warning`, `ui-crown`, `nav-settings`, `nav-notifications`, `tab-plan`, `tab-ideas`, `tab-members`: monochrome integrated-paw line artwork with theme tint. `nav-admin` is a distinct shield. `empty-interest` and `empty-diet` use a paw-cutout notebook and paw plate; wired into person and dog trait blocks. Transparent 1024px masters and 512px UI assets.
+
+Also prepared `nav-trips`, six `dog-*` assets and `trait-recall` / `trait-runner`, using integrated paws.
+
+Dog scales: `scale-{energy,temp,withdogs,withpeople,alone,car,recall}-{1..5}`. Energy uses an integrated paw battery; `temp` reuses the human temperature set; independent-stay uses doors/beds with no dog, halo or angel. Recall uses leash, fence and return-whistle concepts. `nav-home`, `nav-family`, `nav-profile`, `pin-{stop,stay,idea}`, `ui-{save,discard,invite,dog-warning}` are included.

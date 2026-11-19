@@ -105,7 +105,7 @@ function Rail({ section }: { section: Section }) {
       <Pressable onPress={() => goTab('/')} accessibilityRole="link" accessibilityLabel="PawTrip" style={{ marginBottom: 4 }}>
         <Icon name="logo-paw" size={56} />
       </Pressable>
-      {item('home', 'logo-paw', t('shell.home'), () => goTab('/'))}
+      {item('home', 'nav-home', t('shell.home'), () => goTab('/'))}
       {item('trips', 'nav-trips', t('shell.trips'), () => goTab('/trips'))}
       {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); goTab('/circle'); })}
       <View style={{ flex: 1 }} />

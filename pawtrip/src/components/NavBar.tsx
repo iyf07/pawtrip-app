@@ -31,7 +31,7 @@ export function NavBar() {
   const path = usePathname();
   // the same entries as the desktop rail; settings sit next to the avatar
   const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
-    { key: 'home', icon: 'logo-paw', label: t('shell.home'), go: () => goTab('/'), match: (p) => p === '/' },
+    { key: 'home', icon: 'nav-home', label: t('shell.home'), go: () => goTab('/'), match: (p) => p === '/' },
     { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => goTab('/trips'), match: (p) => p.startsWith('/trips') || p.startsWith('/calendar') },
     { key: 'circle', icon: 'tab-members', label: t('shell.circle'), go: () => goTab('/circle'), match: (p) => p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => goTab('/settings'), match: (p) => p.startsWith('/settings') },

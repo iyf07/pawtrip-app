@@ -177,6 +177,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Integrated-paw icon work covers mono-line controls, navigation, map pins, dedicated interest/diet empty states, dog activity/trait icons and dog-scale sets (including legacy recall). Masters and UI files are in `pawtrip/assets/icons`; `TraitBlocks` and `Icon` register the new empty states and controls. Typecheck and lint pass; profile and dog profile checked on desktop and phone. Earlier dog-scale candidates in `/private/tmp/pawtrip-dog-scales` are superseded. Mascot-dependent `empty-*`, `mood-*`, `nav-dogs` and `logo-paw` remain deferred.
+
 - 2026-11-19: Fifteen outdoor, sight, activity and dessert interest icons replaced with integrated-paw illustrations. Human scales and diet icons deployed as Expo `3j1xa7y017`, commit `c311163`. Remaining non-mascot icons in progress.
 
 - 2026-11-19: All six human preference scales (30 images) and seven dietary icons redesigned with integrated paws. Cuisine interests deployed as Expo `2fnqolnci2`, commit `e12fab9`. Remaining non-mascot icon work continues; do not use corner paw badges or halos.
@@ -319,7 +321,6 @@ dogs (list page on phone, profile view/edit); my profile (view/edit); settings; 
 ### 8.2 Active work (claims) — add a row when you start, delete it when you finish
 | Since | Agent | What | Files / area | Status |
 |---|---|---|---|---|
-| 2026-11-19 | Codex | Redesign all icons except mascot assets; deploy batches | icons, icon components, design docs | In progress |
 
 
 
@@ -907,3 +908,6 @@ User saw no transform and, on a phone, a press with feedback but no navigation. 
 
 ### later 88 (Claude) — colour assignment (user's decision, supersedes the colour maps in earlier entries)
 New light tokens in `constants/theme.ts` (each with a dark version): `peach #FDE6DC` (actions: new / join / edit / invite / save cards, the "+" buttons, notifications), `aqua #DDF1F0` (every travel preference, interest and dietary-need card, for people, dogs and the family), `apricot #FFE7C7` (family + family members), `periwinkle #E4E9F7` (friends), `sand #F2EBE0` (finished trips), `lime #EEF5D5` (Home recommendations), `dogRing #F4DC73` (ring around every dog avatar; dog avatar background is `softButter`). Rules now: **soft blue is only for weather**; dogs (hero, strip, dog cards in a friend's page) = `softButter`; my profile header = `softButter`; trips: planning lavender, under way butter, finished sand; Home hero stays lavender. `toneBg(th, tone)` in `features/circle/Bento.tsx` maps a `Tone` to its colour (new tones: peach, aqua, apricot, periwinkle, sand, lime). `dogColor(id, th)` now returns `th.softButter` (per-dog colours are gone). The container transform colour for the family tile is `th.apricot`. Checked: circle, profile (phone). Not re-checked: friend page, dog page, family page, trips list, desktop, dark mode.
+
+### 2026-11-19 (Codex) — integrated-paw icon continuation
+Read the latest agent instructions, handoff and commits through `ff65f16`, preserving Claude's layout, navigation and colour changes. Continued generating integrated-paw icons locally: controls, navigation, map pins, empty trait states, dog interests and dog scales. No angel or halo is used for independent-stay. Typecheck and eslint passed; desktop/phone profile and dog pages were checked. Work remains uncommitted and undeployed: automatic approval review for production deployment failed due to the account usage limit, so the next agent should inspect the working tree, re-run checks and browser QA, confirm the latest remote head and deployed build, then commit/push/deploy once approval is available. Mascot-dependent artwork remains deferred. Claim released.

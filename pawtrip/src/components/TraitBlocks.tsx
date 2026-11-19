@@ -55,7 +55,7 @@ export function InterestsBlock({ id, value, empty }: { id: string; value: string
       </View>
     </View>
   ));
-  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-discover" size={BIG} />, label: empty }]} />} />;
+  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-interest" size={BIG} />, label: empty }]} />} />;
 }
 
 /** Dietary needs: icons until tapped (a custom need has no icon of its own), then one row each. */
@@ -65,7 +65,7 @@ export function DietBlock({ id, value, empty }: { id: string; value: string[]; e
   const node = (d: string, size: number) => dietIcon(d, size) ?? <Icon name="cat-food" size={size} />;
   const icons: IconItem[] = value.map((d) => ({ key: d, node: node(d, BIG), label: label(d) }));
   const rows = value.map((d) => <Row key={d} icon={node(d, ROW)} answer={label(d)} />);
-  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="cat-food" size={BIG} />, label: empty }]} />} />;
+  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-diet" size={BIG} />, label: empty }]} />} />;
 }
 
 /** A dog's interests: icons until tapped, then the labelled chips. */
@@ -75,5 +75,5 @@ export function DogInterestsBlock({ id, values }: { id: string; values?: readonl
   const list = DOG_INTERESTS.filter((i) => picked.includes(i.value));
   const icons: IconItem[] = list.map((i) => ({ key: i.value, node: <Icon name={i.icon} size={BIG} />, label: t(`dogInterest.${i.value}` as Key) }));
   const rows = [<View key="all" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{list.map((i) => <Chip key={i.value} icon={<Icon name={i.icon} size={32} />} label={t(`dogInterest.${i.value}` as Key)} on />)}</View>];
-  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-discover" size={BIG} />, label: t('dog.emptyInterests') }]} />} />;
+  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-interest" size={BIG} />, label: t('dog.emptyInterests') }]} />} />;
 }

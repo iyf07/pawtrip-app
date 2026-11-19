@@ -661,3 +661,10 @@ Design agreed with the user (see chat): 3 tabs eventually — 行程 (left), 主
 - Navigation: the top NavBar and the desktop rail now have one 圈子 entry instead of 狗狗 + 好友. `/dogs`, `/friends`, `/family` are one level below the circle and show a back button to `/circle`. Rail section 'circle' covers /circle,/dog*,/friends,/family; the master-detail list column on desktop still keys off the path.
 - Hierarchy animation: `lib/page-entrance.ts` (used by `Screen`) slides the new page in from the right when going circle → child and from the left when coming back (also for browser back). Listed in `docs/animations.md` #14, #15.
 - Not done yet (user wants these later): bento versions of 我的主页, 狗狗主页, 家庭, 好友 pages; 主页 and 行程 tabs; 3-tab bottom bar. Verified at 375 px locally (tiles render, family tile → /family, back → /circle); desktop width and multi-dog accordion not looked at.
+
+### later 41 (Claude) — Circle revision
+- Every circle card has a small title and a **"+" at the right end of its title row** (`TileHeader`; the same gold plus everywhere, no per-card icon): 狗狗 + (add dog), 家庭 + (invite; create when there is no family; opens `/family?invite=1` / `?create=1`, read in `FamilyPanel`), 好友 + (add friend, `/friends?add=1`). Naming decision: titles are plain (狗狗, 家庭, 好友), not "我的…"; "我的" is reserved for personal pages (我的主页).
+- Removed from the circle: 我的通知 tile (notifications will live on the 主页 with trip notifications; the bell stays in the nav), 添加好友 tile, 用邀请码加入 tile, the add-dog strip.
+- Accordion redesign (`DogAccordion`): no add strip; every dog is a vertical strip with its name running up it; tapping a narrow strip widens it while the others narrow, and the name + weight + trait tags fade in after the widening; tapping the open strip opens the dog page.
+- Row height unit is now 0.85 × column width so a title row + content fits. The friends card is 1×1; the cell to its right and the whole row below are intentionally empty until the user picks what goes there (recommendations were given in chat).
+- Nested-button DOM warning fixed: `Tile` pressable no longer has role=button (the "+" is a real button inside it).

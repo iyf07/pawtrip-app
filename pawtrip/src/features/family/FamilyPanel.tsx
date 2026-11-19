@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useBuddies } from '@/api/buddies';
 import { useMyDogs } from '@/api/dogs';
 import {
@@ -50,10 +50,11 @@ export function FamilyPanel() {
   const disband = useDisbandFamily();
   const respond = useRespondFamilyInvite();
   const [name, setName] = useState('');
-  const [creating, setCreating] = useState(false);
+  const params = useLocalSearchParams<{ invite?: string; create?: string }>(); // the circle's "+" opens these
+  const [creating, setCreating] = useState(params.create === '1');
   const [joining, setJoining] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
-  const [inviting, setInviting] = useState(false);
+  const [inviting, setInviting] = useState(params.invite === '1');
   // pencil edit mode (admin): rename, remove members, disband
   const [editName, setEditName] = useState<string | null>(null);
   const [askLeave, setAskLeave] = useState(false);

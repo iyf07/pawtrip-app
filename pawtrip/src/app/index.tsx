@@ -136,7 +136,7 @@ export default function Home() {
     }
   }
   const recommendTile = ideas.length > 0 ? (
-    <BentoCard index={4} title={t('home.recommend')} tone="butter" right={<AddButton label={t('home.recommendRefresh')} glyph="↻" onPress={() => rec.refresh.mutate()} />}>
+    <BentoCard index={4} title={t('home.recommend')} tone="lime" right={<AddButton label={t('home.recommendRefresh')} glyph="↻" onPress={() => rec.refresh.mutate()} />}>
       {ideas.map((s, i) => (
         <View key={s.title} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 8, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line, opacity: rec.refresh.isPending ? 0.5 : 1 }}>
           <CatIcon cat={s.cat as CatKey} size={28} />

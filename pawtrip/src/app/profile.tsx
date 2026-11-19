@@ -53,7 +53,7 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
   return (
     <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t("profile.title")} left={<BackButton label={t("nav.back")} onPress={goBack} />} />}>
       <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-        <PersonHeader index={0} color={th.goldBg} avatar={<Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={84} />} title={profile.display_name} subtitle={`@${profile.handle}`}>
+        <PersonHeader index={0} color={th.softButter} avatar={<Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={84} />} title={profile.display_name} subtitle={`@${profile.handle}`}>
           <PersonTraits size={12} profile={profile} />
           <View style={{ flexDirection: "row", alignItems: "center", gap: 2, marginTop: 2, marginLeft: -6 }}>
             <Pressable accessibilityRole="button" accessibilityLabel={t('pf.copyPublicId')} onPress={copyPublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Icon name="ui-copy" size={24} /></Pressable>
@@ -61,14 +61,14 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
           </View>
         </PersonHeader>
         <ExpandGroup>
-          <BentoCard index={1} tone="gold" title={t("profile.travelStyle")}>
+          <BentoCard index={1} tone="aqua" title={t("profile.travelStyle")}>
             <ScaleBlock id="scales" fields={PERSON_SCALES} values={scales} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
           </BentoCard>
           <BentoColumns
-            left={<BentoCard index={2} tone="tint" title={t("profile.interests")}>
+            left={<BentoCard index={2} tone="aqua" title={t("profile.interests")}>
               <InterestsBlock id="interests" value={profile.interests} empty={t("friend.emptyInterests")} />
             </BentoCard>}
-            right={<BentoCard index={3} tone="butter" title={t("profile.diet")}>
+            right={<BentoCard index={3} tone="aqua" title={t("profile.diet")}>
               <DietBlock id="diet" value={profile.diet} empty={t("friend.emptyDiet")} />
             </BentoCard>}
           />

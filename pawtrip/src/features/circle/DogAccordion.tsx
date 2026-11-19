@@ -43,7 +43,7 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
   return (
     <Animated.View style={{ width: p.interpolate({ inputRange: [0, 1], outputRange: [THUMB, THUMB_WIDE] }), height: p.interpolate({ inputRange: [0, 1], outputRange: [THUMB, THUMB_WIDE] }) }}>
       <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={dog.name} accessibilityState={{ selected: on }}
-        style={{ flex: 1, borderRadius: 40, overflow: 'hidden', backgroundColor: dogColor(dog.id), alignItems: 'center', justifyContent: 'center', borderWidth: on ? 4 : 2.5, borderColor: th.blue }}>
+        style={{ flex: 1, borderRadius: 40, overflow: 'hidden', backgroundColor: dogColor(dog.id, th), alignItems: 'center', justifyContent: 'center', borderWidth: on ? 4 : 2.5, borderColor: th.dogRing }}>
         {dog.photo_url ? <Image source={{ uri: dog.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={30} border={0} />}
       </Pressable>
     </Animated.View>
@@ -57,9 +57,10 @@ const anim = (v: Animated.Value, to: number, duration: number, easing = Easing.o
 
 /** One full-size dog layer: soft colour, the photo (reports when it has loaded), or the sticker. */
 function HeroLayer({ dog, w, h, first, onLoaded }: { dog: Dog; w: number; h: number; first?: boolean; onLoaded?: () => void }) {
+  const th = useTheme();
   const photo = !!dog.photo_url;
   return (
-    <View style={{ position: 'absolute', top: 0, left: 0, width: w, height: h, backgroundColor: dogColor(dog.id), overflow: 'hidden' }}>
+    <View style={{ position: 'absolute', top: 0, left: 0, width: w, height: h, backgroundColor: dogColor(dog.id, th), overflow: 'hidden' }}>
       {photo ? (first ? <CenterReveal uri={dog.photo_url!} w={w} h={h} ms={REVEAL_FIRST_MS} /> : <Image source={{ uri: dog.photo_url! }} onLoad={onLoaded} style={{ width: w, height: h }} contentFit="cover" cachePolicy="memory-disk" />) : <View style={{ position: 'absolute', top: 64, left: 0, right: 0, alignItems: 'center' }}><DogAvatar url={null} size={72} border={0} /></View>}
     </View>
   );

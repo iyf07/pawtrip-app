@@ -12,6 +12,13 @@ const light = {
   softMint: '#E2F3E9',
   softButter: '#FFF3B8',
   softLavender: '#EDE6F8',
+  peach: '#FDE6DC', // actions: new, join, edit, notifications
+  aqua: '#DDF1F0', // preferences, interests, dietary needs
+  apricot: '#FFE7C7', // family
+  periwinkle: '#E4E9F7', // friends
+  sand: '#F2EBE0', // finished trips
+  lime: '#EEF5D5', // recommendations
+  dogRing: '#F4DC73', // the ring around a dog
   bg: '#FCF8F0', // light warm white (was #F6EBD9)
   card: '#FFFFFF',
   line: '#EBDDC3',
@@ -46,6 +53,13 @@ const dark: typeof light = {
   softMint: '#21392D',
   softButter: '#4A4220',
   softLavender: '#2E2940',
+  peach: '#4A2E26',
+  aqua: '#1F3A3A',
+  apricot: '#4A3519',
+  periwinkle: '#28304A',
+  sand: '#3A3128',
+  lime: '#36401F',
+  dogRing: '#A58F3C',
   bg: '#231B15',
   card: '#2F251D',
   line: '#5A4633',

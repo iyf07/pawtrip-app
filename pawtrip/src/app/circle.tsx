@@ -61,7 +61,7 @@ export default function Circle() {
   const heroTile = (
             <Tile index={0} width={heroW} height={heroH}>
               {list.length === 0 ? (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: th.goldBg }}><Icon name="nav-dogs" size={96} /></View>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: th.softButter }}><Icon name="nav-dogs" size={96} /></View>
               ) : (
                 <DogAccordion dogs={list} onOpenDog={(id) => router.push({ pathname: '/dogs/[id]', params: { id } })} />
               )}
@@ -82,12 +82,12 @@ export default function Circle() {
       if (answered) return;
       answered = true;
       clearTimeout(fallback);
-      runContainerTransform({ x, y, width: w, height: h, color: th.softMint, radius: 24 }, () => router.push('/family'));
+      runContainerTransform({ x, y, width: w, height: h, color: th.apricot, radius: 24 }, () => router.push('/family'));
     });
   };
   const familyTile = (
     <View ref={familyRef} collapsable={false} style={{ width: sideW, height: row }}>
-            <Tile index={1} width={sideW} height={row} tone="mint" onPress={openFamily} accessibilityLabel={t('family.tab')}>
+            <Tile index={1} width={sideW} height={row} tone="apricot" onPress={openFamily} accessibilityLabel={t('family.tab')}>
               <View style={pad}>
                 <TileHeader ink={th.onTint} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => (family ? setInviting(true) : setCreating(true))} />
                 {family ? (
@@ -105,7 +105,7 @@ export default function Circle() {
     </View>
   );
   const friendsTile = (
-            <Tile index={2} width={small} height={row} tone="tint" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
+            <Tile index={2} width={small} height={row} tone="periwinkle" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
               <View style={pad}>
                 <TileHeader ink={th.onTint} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => setAddingFriend(true)} />
                 {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (

@@ -26,7 +26,7 @@ function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
   const scales = dogScales(dog);
   const weight = weightIn(dog.weight_lb, unit);
   return (
-    <BentoCard index={index} title={dog.name}>
+    <BentoCard index={index} tone="butter" title={dog.name}>
       <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
         <DogAvatar url={dog.photo_url} size={60} />
         <View style={{ flex: 1, minWidth: 0 }}>{weight ? <Meta>{weight}</Meta> : null}<DogTraits dog={dog} /></View>
@@ -50,24 +50,24 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
   const dogCount = buddy.dogs.length;
   return (
     <ExpandGroup><View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-      <PersonHeader index={0} color={th.softBlue} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={84} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
+      <PersonHeader index={0} color={th.periwinkle} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={84} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
         <PersonTraits size={12} profile={buddy.traits} />
       </PersonHeader>
       <BentoColumns
         left={<>
       {buddy.dogs.map((dog, i) => <DogCard key={dog.id} dog={dog} index={1 + i} />)}
-      <BentoCard index={1 + dogCount} title={t('profile.travelStyle')}>
+      <BentoCard index={1 + dogCount} tone="aqua" title={t('profile.travelStyle')}>
         <ScaleBlock id="scales" fields={PERSON_SCALES} values={buddy.traits} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
       </BentoCard>
         </>}
         right={<>
-      <BentoCard index={2 + dogCount} tone="tint" title={t('profile.interests')}>
+      <BentoCard index={2 + dogCount} tone="aqua" title={t('profile.interests')}>
         <InterestsBlock id="interests" value={buddy.interests} empty={t('friend.emptyInterests')} />
       </BentoCard>
-      <BentoCard index={3 + dogCount} title={t('profile.diet')}>
+      <BentoCard index={3 + dogCount} tone="aqua" title={t('profile.diet')}>
         <DietBlock id="diet" value={buddy.diet} empty={t('friend.emptyDiet')} />
       </BentoCard>
-      <BentoCard index={4 + dogCount} tone="gold" title={t('friend.relationship')}>
+      <BentoCard index={4 + dogCount} tone="periwinkle" title={t('friend.relationship')}>
         {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 6 }}>
           <Icon name="tab-members" size={56} />
           <Text weight={800} size={18} style={{ textAlign: 'center' }}>{t('friend.since', { date: new Date(buddy.since).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' }) })}</Text>

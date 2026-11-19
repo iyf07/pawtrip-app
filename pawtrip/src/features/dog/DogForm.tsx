@@ -19,6 +19,7 @@ import { Field } from '@/components/ui/Field';
 import { ConfirmSheet, Sheet } from '@/components/ui/Sheet';
 import { Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
+import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 import { deletePhotoByUrl } from '@/lib/photos';
 import { dogScales } from '@/constants/options';
@@ -35,23 +36,24 @@ const round1 = (x: number) => Math.round(x * 10) / 10;
  */
 export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => void; children: (parts: { body: ReactNode; footer: ReactNode }) => ReactNode }) {
   const { t } = useT();
+  const th = useTheme();
   const [editing, setEditing] = useState(false);
   const scales = dogScales(dog);
   const weight = dogWeightLabel(dog);
 
   const body = (
     <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-      <Hero index={0} minHeight={260} color={dogColor(dog.id)} photoUrl={dog.photo_url} avatar={<DogAvatar url={null} size={92} />} title={dog.name} subtitle={weight ?? undefined}>
+      <Hero index={0} minHeight={260} color={dogColor(dog.id, th)} photoUrl={dog.photo_url} avatar={<DogAvatar url={null} size={92} />} title={dog.name} subtitle={weight ?? undefined}>
         <DogTraits dog={scales} />
       </Hero>
       <ExpandGroup><BentoColumns
         left={
-          <BentoCard index={1} title={t('dog.preferences', { name: dog.name })}>
+          <BentoCard index={1} tone="aqua" title={t('dog.preferences', { name: dog.name })}>
             <ScaleBlock id="scales" fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
           </BentoCard>
         }
         right={
-          <BentoCard index={2} tone="tint" title={t('dog.interests', { name: dog.name })}>
+          <BentoCard index={2} tone="aqua" title={t('dog.interests', { name: dog.name })}>
             <DogInterestsBlock id="interests" values={dog.interests} />
           </BentoCard>
         }

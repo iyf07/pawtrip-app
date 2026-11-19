@@ -20,7 +20,7 @@ import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 
-const tone = (status: string): Tone => (status === 'active' ? 'butter' : status === 'completed' ? 'card' : 'lavender');
+const tone = (status: string): Tone => (status === 'active' ? 'butter' : status === 'completed' ? 'sand' : 'lavender');
 
 /** The trips page, a bento box: every trip a card coloured by its state, the month calendar beside or below them. */
 export default function Trips() {

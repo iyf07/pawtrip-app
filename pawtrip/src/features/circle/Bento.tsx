@@ -17,7 +17,13 @@ export function bentoUnits(width: number) {
   return { col, row: Math.round(col * 0.85) };
 }
 
-export type Tone = 'card' | 'gold' | 'tint' | 'mint' | 'butter' | 'lavender';
+export type Tone = 'card' | 'gold' | 'tint' | 'mint' | 'butter' | 'lavender' | 'peach' | 'aqua' | 'apricot' | 'periwinkle' | 'sand' | 'lime';
+
+/** The card colour of a tone. */
+export function toneBg(th: ReturnType<typeof useTheme>, tone: Tone) {
+  const map = { card: th.card, gold: th.goldBg, tint: th.softBlue, mint: th.softMint, butter: th.softButter, lavender: th.softLavender, peach: th.peach, aqua: th.aqua, apricot: th.apricot, periwinkle: th.periwinkle, sand: th.sand, lime: th.lime } as const;
+  return map[tone]; // calm tints, never a loud fill
+}
 
 /**
  * One bento card: 24 px corners, no outline, a soft shadow; sits flush in the grid (the grid supplies the 12 px
@@ -25,7 +31,7 @@ export type Tone = 'card' | 'gold' | 'tint' | 'mint' | 'butter' | 'lavender';
  */
 export function Tile({ index, width, height, onPress, dashed, tone = 'card', accessibilityLabel, children, style }: { index: number; width: number; height: number; onPress?: () => void; dashed?: boolean; tone?: Tone; accessibilityLabel?: string; children: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
-  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : tone === 'mint' ? th.softMint : tone === 'butter' ? th.softButter : tone === 'lavender' ? th.softLavender : th.card; // calm tints, never a loud fill
+  const bg = toneBg(th, tone);
   const body = (
     <View style={[{ flex: 1, borderRadius: BENTO_RADIUS, overflow: 'hidden', backgroundColor: dashed ? 'transparent' : bg, borderWidth: dashed ? 2.5 : 0, borderStyle: dashed ? 'dashed' : 'solid', borderColor: th.line, boxShadow: dashed ? undefined : `0 10px 24px -14px ${th.shadow}` }, style]}>{children}</View>
   );
@@ -62,7 +68,7 @@ export function TileHeader({ title, onAdd, addLabel, ink }: { title: string; onA
  */
 export function BentoCard({ index = 0, title, right, tone = 'card', children, style }: { index?: number; title?: string; right?: ReactNode; tone?: Tone; children?: ReactNode; style?: StyleProp<ViewStyle> }) {
   const th = useTheme();
-  const bg = tone === 'gold' ? th.goldBg : tone === 'tint' ? th.softBlue : tone === 'mint' ? th.softMint : tone === 'butter' ? th.softButter : tone === 'lavender' ? th.softLavender : th.card;
+  const bg = toneBg(th, tone);
   return (
     <Reveal index={index} style={{ width: '100%' }}>
       <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: bg, padding: 16, gap: 10, boxShadow: `0 10px 24px -14px ${th.shadow}` }, style]}>
@@ -104,7 +110,7 @@ export function Hero({ index = 0, color, photoUrl, avatar, title, subtitle, righ
 export function AddButton({ onPress, label, glyph = '+' }: { onPress: () => void; label: string; glyph?: string }) {
   const th = useTheme();
   return (
-    <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.goldBg, alignItems: 'center', justifyContent: 'center' }}>
+    <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.peach, alignItems: 'center', justifyContent: 'center' }}>
       <Text plain size={22} weight={800} style={{ color: th.onTint, lineHeight: 24 }}>{glyph}</Text>
     </PressScale>
   );
@@ -115,7 +121,7 @@ export function BentoAction({ index = 0, icon, label, onPress, danger }: { index
   const th = useTheme();
   return (
     <Reveal index={index} style={{ flex: 1 }}>
-      <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, paddingVertical: 18, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', gap: 8, flexGrow: 1, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
+      <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={{ borderRadius: BENTO_RADIUS, backgroundColor: th.peach, paddingVertical: 18, paddingHorizontal: 12, alignItems: 'center', justifyContent: 'center', gap: 8, flexGrow: 1, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
         {icon}
         <Text weight={700} size={14} numberOfLines={1} color={danger ? 'danger' : 'text'}>{label}</Text>
       </PressScale>

@@ -42,7 +42,7 @@ function FamilyInterests({ index, members }: { index: number; members: FamilyMem
   for (const m of members.filter((x) => x.status === 'accepted')) for (const i of normalizeInterests(m.interests)) counts.set(i, (counts.get(i) ?? 0) + 1);
   const list = [...counts.entries()].sort((a, b) => b[1] - a[1]);
   return (
-    <BentoCard index={index} tone="tint" title={t('family.interests')}>
+    <BentoCard index={index} tone="aqua" title={t('family.interests')}>
       {list.length === 0 ? <Icon name="empty-discover" size={56} style={{ alignSelf: 'center' }} /> : (
         <ExpandBlock id="family-interests" max={3} icons={list.map(([i]) => ({ key: i, node: <InterestIcon interest={i} size={52} />, label: t(`interest.${i}` as Key) }))}
           rows={[<View key="all" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{list.map(([i, n]) => <Chip key={i} icon={<InterestIcon interest={i} size={32} />} label={n > 1 ? `${t(`interest.${i}` as Key)} ×${n}` : t(`interest.${i}` as Key)} on={n > 1} />)}</View>]} />
@@ -125,7 +125,7 @@ export function FamilyPanel() {
       <BentoColumns
         left={<>
           <View ref={cardRef} collapsable={false}>
-          <BentoCard index={0} tone="mint" style={{ gap: 22 }}>
+          <BentoCard index={0} tone="apricot" style={{ gap: 22 }}>
             {state.isAdmin && editMode ? (
               <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                 <Text weight={800} size={32} numberOfLines={1} style={{ flex: 1, color: th.onTint }}>{state.family.name}</Text>
@@ -153,7 +153,7 @@ export function FamilyPanel() {
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20, paddingTop: 22, borderTopWidth: 1.5, borderStyle: 'dashed', borderColor: th.line }}>
                 {(dogs.data ?? []).map((d) => (
                   <Pressable key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" accessibilityLabel={d.name} style={{ width: 88, alignItems: 'center', gap: 6 }}>
-                    <View style={{ width: 76, height: 76, borderRadius: 38, overflow: 'hidden', backgroundColor: dogColor(d.id), alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: th.blue }}>
+                    <View style={{ width: 76, height: 76, borderRadius: 38, overflow: 'hidden', backgroundColor: dogColor(d.id, th), alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: th.dogRing }}>
                       {d.photo_url ? <Image source={{ uri: d.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={40} border={0} />}
                     </View>
                     <Text weight={700} size={14} numberOfLines={1} style={{ maxWidth: 88, textAlign: 'center' }}>{d.name}</Text>

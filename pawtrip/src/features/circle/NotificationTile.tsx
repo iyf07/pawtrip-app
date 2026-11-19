@@ -15,7 +15,7 @@ export function NotificationTile({ index, width, height }: { index: number; widt
   const th = useTheme();
   return (
     <NotificationBell size={28} box={28} radius={14} renderTrigger={({ count, open, items }) => (
-      <Tile index={index} width={width} height={height} tone="butter" onPress={open} accessibilityLabel={t('notif.title')}>
+      <Tile index={index} width={width} height={height} tone="peach" onPress={open} accessibilityLabel={t('notif.title')}>
         <View style={{ flex: 1, padding: 18, gap: 6 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', minHeight: 30 }}>
             <Text weight={800} size={12} numberOfLines={1} style={{ flex: 1, color: th.onTint, letterSpacing: 1.4, textTransform: 'uppercase' }}>{t('notif.short')}</Text>

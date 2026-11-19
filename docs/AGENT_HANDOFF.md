@@ -739,3 +739,6 @@ Circle dog slide made slower and silkier: spring stiffness 110 / damping 21 (nea
 
 ### later 59 (Claude)
 Family page hero no longer shows member avatars (the 家庭成员 card right below already does); hero is shorter (150 px). Shape rule agreed in discussion: people = circle avatars, dogs = rounded squares.
+
+### later 60 (Claude)
+Family page: the pencil on the hero is gone; **编辑家庭** is now its own bento action card next to 邀请好友 and 邀请码邀请 (admin only, hidden while editing). It switches the hero into the edit card (name field, save/discard rings, disband).

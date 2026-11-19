@@ -51,7 +51,6 @@ export function FamilyPanel() {
   // pencil edit mode (admin): rename, remove members, disband
   const [editName, setEditName] = useState<string | null>(null);
   const [askLeave, setAskLeave] = useState(false);
-  const actionStyle = { width: 40, height: 40, borderRadius: 20, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, alignItems: 'center' as const, justifyContent: 'center' as const };
   const [askRemove, setAskRemove] = useState<{ id: string; name: string } | null>(null);
 
   async function run(fn: () => Promise<unknown>, done?: string) {
@@ -102,12 +101,7 @@ export function FamilyPanel() {
           <View style={{ alignItems: 'center' }}><Button label={t('family.disband')} variant="danger" onPress={() => setAskLeave(true)} /></View>
         </BentoCard>
       ) : (
-        <Hero index={0} minHeight={150} color={th.goldBg} title={state.family.name} subtitle={t('family.tab')}
-          right={state.isAdmin ? (
-            <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={actionStyle}>
-              <Icon name="ui-pencil" size={24} />
-            </Pressable>
-          ) : undefined} />
+        <Hero index={0} minHeight={150} color={th.goldBg} title={state.family.name} subtitle={t('family.tab')} />
       )}
       <BentoCard index={1} title={t('family.members')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
@@ -142,6 +136,7 @@ export function FamilyPanel() {
         <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
           <BentoAction index={3} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
           <BentoAction index={4} icon={<Icon name="ui-key" size={56} />} label={t('family.inviteCode')} onPress={() => setCodeOpen(true)} />
+          {editing ? null : <BentoAction index={5} icon={<Icon name="ui-pencil" size={56} />} label={t('family.edit')} onPress={() => setEditName(state.family!.name)} />}
         </View>
       ) : null}
       <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />

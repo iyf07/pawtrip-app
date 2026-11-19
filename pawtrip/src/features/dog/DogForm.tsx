@@ -8,6 +8,7 @@ import { DogInterests } from '@/components/DogInterests';
 import { normalizeDogInterests } from '@/constants/dog-interests';
 import { DogTraits } from '@/components/DogTraits';
 import { DogInterestsBlock, ScaleBlock } from '@/components/TraitBlocks';
+import { ExpandGroup } from '@/components/ExpandCard';
 import { AvatarEditor } from '@/components/AvatarEditor';
 import { ScaleInput, scaleStem } from '@/components/ScaleInput';
 import { Button } from '@/components/ui/Button';
@@ -43,18 +44,18 @@ export function DogForm({ dog, onClose, children }: { dog: Dog; onClose: () => v
       <Hero index={0} minHeight={260} color={dogColor(dog.id)} photoUrl={dog.photo_url} avatar={<DogAvatar url={null} size={92} />} title={dog.name} subtitle={weight ?? undefined}>
         <DogTraits dog={scales} />
       </Hero>
-      <BentoColumns
+      <ExpandGroup><BentoColumns
         left={
           <BentoCard index={1} title={t('dog.preferences', { name: dog.name })}>
-            <ScaleBlock fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
+            <ScaleBlock id="scales" fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
           </BentoCard>
         }
         right={
           <BentoCard index={2} tone="tint" title={t('dog.interests', { name: dog.name })}>
-            <DogInterestsBlock values={dog.interests} />
+            <DogInterestsBlock id="interests" values={dog.interests} />
           </BentoCard>
         }
-      />
+      /></ExpandGroup>
       <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
         <BentoAction index={3} icon={<Icon name="ui-pencil" size={56} />} label={t('dog.edit')} onPress={() => setEditing(true)} />
       </View>

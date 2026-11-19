@@ -43,11 +43,8 @@ function FamilyInterests({ index, members }: { index: number; members: FamilyMem
   return (
     <BentoCard index={index} tone="tint" title={t('family.interests')}>
       {list.length === 0 ? <Icon name="empty-discover" size={56} style={{ alignSelf: 'center' }} /> : (
-        <ExpandBlock icons={list.map(([i, n]) => ({ key: i, node: <InterestIcon interest={i} size={52} />, label: t(`interest.${i}` as Key) }))}>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-            {list.map(([i, n]) => <Chip key={i} icon={<InterestIcon interest={i} size={40} />} label={n > 1 ? `${t(`interest.${i}` as Key)} ×${n}` : t(`interest.${i}` as Key)} on={n > 1} />)}
-          </View>
-        </ExpandBlock>
+        <ExpandBlock id="family-interests" max={3} icons={list.map(([i]) => ({ key: i, node: <InterestIcon interest={i} size={52} />, label: t(`interest.${i}` as Key) }))}
+          rows={[<View key="all" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{list.map(([i, n]) => <Chip key={i} icon={<InterestIcon interest={i} size={32} />} label={n > 1 ? `${t(`interest.${i}` as Key)} ×${n}` : t(`interest.${i}` as Key)} on={n > 1} />)}</View>]} />
       )}
     </BentoCard>
   );

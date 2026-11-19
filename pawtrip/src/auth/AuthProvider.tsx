@@ -33,7 +33,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setReady(true);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
-      setSession(s);
+      // the library repeats SIGNED_IN whenever the tab regains focus: keep the same object so the whole app does not re-render
+      setSession((cur) => (cur && s && cur.access_token === s.access_token && cur.user.id === s.user.id ? cur : s));
       setReady(true);
     });
     return () => {

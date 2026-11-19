@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View } from 'react-native';
 
 import { RELATIONS, useRespondBuddyRelation, useSetBuddyRelation, useWithdrawBuddyRelation, type Buddy, type FriendDog } from '@/api/buddies';
+import { ExpandGroup } from '@/components/ExpandCard';
 import { DietBlock, DogInterestsBlock, InterestsBlock, ScaleBlock } from '@/components/TraitBlocks';
 import { PersonTraits } from '@/components/PersonTraits';
 import { DogTraits } from '@/components/DogTraits';
@@ -30,8 +31,8 @@ function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
         <DogAvatar url={dog.photo_url} size={60} />
         <View style={{ flex: 1, minWidth: 0 }}>{weight ? <Meta>{weight}</Meta> : null}<DogTraits dog={dog} /></View>
       </View>
-      <ScaleBlock fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
-      <DogInterestsBlock values={dog.interests} />
+      <ScaleBlock id={`${dog.id}-scales`} fields={DOG_SCALES} values={scales} describe={(f, v) => t(`scale.${scaleStem(f)}.${v}.description` as Key)} />
+      <DogInterestsBlock id={`${dog.id}-interests`} values={dog.interests} />
     </BentoCard>
   );
 }
@@ -48,7 +49,7 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
   const days = Math.max(0, Math.floor((now - new Date(buddy.since).getTime()) / 86400000));
   const dogCount = buddy.dogs.length;
   return (
-    <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
+    <ExpandGroup><View style={{ gap: BENTO_GAP, marginTop: 8 }}>
       <PersonHeader index={0} color={th.softBlue} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={84} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
         <PersonTraits size={12} profile={buddy.traits} />
       </PersonHeader>
@@ -56,15 +57,15 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
         left={<>
       {buddy.dogs.map((dog, i) => <DogCard key={dog.id} dog={dog} index={1 + i} />)}
       <BentoCard index={1 + dogCount} title={t('profile.travelStyle')}>
-        <ScaleBlock fields={PERSON_SCALES} values={buddy.traits} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
+        <ScaleBlock id="scales" fields={PERSON_SCALES} values={buddy.traits} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
       </BentoCard>
         </>}
         right={<>
       <BentoCard index={2 + dogCount} tone="tint" title={t('profile.interests')}>
-        <InterestsBlock value={buddy.interests} empty={t('friend.emptyInterests')} />
+        <InterestsBlock id="interests" value={buddy.interests} empty={t('friend.emptyInterests')} />
       </BentoCard>
       <BentoCard index={3 + dogCount} title={t('profile.diet')}>
-        <DietBlock value={buddy.diet} empty={t('friend.emptyDiet')} />
+        <DietBlock id="diet" value={buddy.diet} empty={t('friend.emptyDiet')} />
       </BentoCard>
       <BentoCard index={4 + dogCount} tone="gold" title={t('friend.relationship')}>
         {buddy.status === 'accepted' ? <View style={{ alignItems: 'center', gap: 6 }}>
@@ -94,6 +95,6 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
         </>}
       />
       <ConfirmSheet visible={confirm} title={t('friend.removeConfirm')} body={t('friend.removeBody', { name: buddy.name })} confirmLabel={t('bd.removeFriend')} danger onConfirm={() => { setConfirm(false); onRemove?.(buddy); onClose(); }} onClose={() => setConfirm(false)} />
-    </View>
+    </View></ExpandGroup>
   );
 }

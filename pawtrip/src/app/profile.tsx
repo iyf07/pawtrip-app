@@ -8,6 +8,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { Icon } from "@/components/ui/Icon";
 import { PersonTraits } from "@/components/PersonTraits";
 import { DietBlock, InterestsBlock, ScaleBlock } from "@/components/TraitBlocks";
+import { ExpandGroup } from "@/components/ExpandCard";
 import { Avatar } from "@/components/ui/Avatar";
 import { PageSkeleton } from "@/components/ui/Skeleton";
 import { BackButton, Header, Screen } from "@/components/ui/Screen";
@@ -59,30 +60,28 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
             <Pressable accessibilityRole="button" accessibilityLabel={t('pf.sharePublicId')} onPress={() => setSharingId(true)} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Icon name="ui-share" size={24} /></Pressable>
           </View>
         </PersonHeader>
-        <BentoColumns
-          left={<>
-            <BentoCard index={1} title={t("profile.travelStyle")}>
-              <ScaleBlock fields={PERSON_SCALES} values={scales} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
-            </BentoCard>
-            <BentoCard index={4} title={t("pf.account")}>
-              <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-                <Icon name="ui-note" size={24} />
-                <View style={{ flex: 1 }}>
-                  <Text weight={800}>{t("set.methodEmail")}</Text>
-                  <Meta numberOfLines={1}>{email}</Meta>
-                </View>
-              </View>
-            </BentoCard>
-          </>}
-          right={<>
-            <BentoCard index={2} tone="tint" title={t("profile.interests")}>
-              <InterestsBlock value={profile.interests} empty={t("friend.emptyInterests")} />
-            </BentoCard>
-            <BentoCard index={3} title={t("profile.diet")}>
-              <DietBlock value={profile.diet} empty={t("friend.emptyDiet")} />
-            </BentoCard>
-          </>}
-        />
+        <ExpandGroup>
+          <BentoCard index={1} tone="gold" title={t("profile.travelStyle")}>
+            <ScaleBlock id="scales" fields={PERSON_SCALES} values={scales} describe={(f, v) => t(`scale.${f}.${v}.description` as Key)} />
+          </BentoCard>
+          <BentoColumns
+            left={<BentoCard index={2} tone="tint" title={t("profile.interests")}>
+              <InterestsBlock id="interests" value={profile.interests} empty={t("friend.emptyInterests")} />
+            </BentoCard>}
+            right={<BentoCard index={3} tone="butter" title={t("profile.diet")}>
+              <DietBlock id="diet" value={profile.diet} empty={t("friend.emptyDiet")} />
+            </BentoCard>}
+          />
+        </ExpandGroup>
+        <BentoCard index={4} title={t("pf.account")}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Icon name="ui-note" size={24} />
+            <View style={{ flex: 1 }}>
+              <Text weight={800}>{t("set.methodEmail")}</Text>
+              <Meta numberOfLines={1}>{email}</Meta>
+            </View>
+          </View>
+        </BentoCard>
         <View style={{ flexDirection: "row", gap: BENTO_GAP }}>
           <BentoAction index={5} icon={<Icon name="ui-pencil" size={56} />} label={t("pf.edit")} onPress={() => setEditing(true)} />
           <BentoAction index={6} danger label={t("profile.signout")} onPress={() => setAskSignOut(true)} />

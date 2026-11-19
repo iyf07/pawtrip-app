@@ -1,72 +1,79 @@
 import { View } from 'react-native';
 
 import { DOG_INTERESTS, normalizeDogInterests } from '@/constants/dog-interests';
-import { DIETS, normalizeInterests } from '@/constants/options';
+import { DIETS, normalizeInterests, selectedInterestSections } from '@/constants/options';
 import { dietIcon } from '@/components/DietIcon';
-import { DogInterests } from '@/components/DogInterests';
 import { ExpandBlock, IconGrid, type IconItem } from '@/components/ExpandCard';
 import { InterestIcon } from '@/components/InterestIcon';
-import { InterestPicker } from '@/components/InterestPicker';
-import { ScaleInput, scaleIconName, scaleStem } from '@/components/ScaleInput';
+import { scaleIconName, scaleStem } from '@/components/ScaleInput';
 import { Chip } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
+import { Text } from '@/components/ui/Text';
+import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 
 const BIG = 52; // icon size while folded
-const FULL = 40; // icon size in the opened view
+const ROW = 44; // icon size in an opened row
 
-/** The 1-5 scales of a person or a dog: six big icons until tapped, then every scale with its answer and description. */
-export function ScaleBlock({ fields, values, describe }: { fields: readonly string[]; values: Record<string, number | null | undefined>; describe?: (f: string, v: number) => string }) {
-  const { t } = useT();
-  const icons: IconItem[] = fields.flatMap((f) => {
-    const name = scaleIconName(f, values[f] ?? null);
-    return name ? [{ key: f, node: <Icon name={name} size={BIG} />, label: `${t(`scale.${scaleStem(f)}` as Key)}: ${t(`scale.${scaleStem(f)}.${values[f] ?? 3}` as Key)}` }] : [];
-  });
+/** One opened row: a big icon, the name in small caps, the answer, then (muted) the description. */
+function Row({ icon, title, answer, note }: { icon: React.ReactNode; title?: string; answer: string; note?: string }) {
+  const th = useTheme();
   return (
-    <ExpandBlock icons={icons}>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10 }}>
-        {fields.map((f) => (
-          <ScaleInput key={f} compact inset readOnly iconSize={FULL} field={f} value={values[f] ?? null} description={describe?.(f, values[f] ?? 3)} onChange={() => {}} />
-        ))}
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
+      <View style={{ width: 60, height: 60, borderRadius: 18, backgroundColor: th.bg, alignItems: 'center', justifyContent: 'center' }}>{icon}</View>
+      <View style={{ flex: 1, minWidth: 0, gap: 1 }}>
+        {title ? <Text weight={800} size={11} color="muted" numberOfLines={1} style={{ letterSpacing: 1.2, textTransform: 'uppercase' }}>{title}</Text> : null}
+        <Text weight={800} size={17}>{answer}</Text>
+        {note ? <Text size={13} color="muted">{note}</Text> : null}
       </View>
-    </ExpandBlock>
+    </View>
   );
 }
 
-/** Chosen interests: icons until tapped, then the labelled sections. */
-export function InterestsBlock({ value, empty }: { value: string[]; empty: string }) {
+/** The 1-5 scales of a person or a dog: big icons until tapped, then one row per scale with its answer and description. */
+export function ScaleBlock({ id, fields, values, describe }: { id: string; fields: readonly string[]; values: Record<string, number | null | undefined>; describe?: (f: string, v: number) => string }) {
   const { t } = useT();
-  const icons: IconItem[] = normalizeInterests(value).flatMap((i) => (InterestIcon({ interest: i }) ? [{ key: i, node: <InterestIcon interest={i} size={BIG} />, label: t(`interest.${i}` as Key) }] : []));
-  return (
-    <ExpandBlock icons={icons} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-discover" size={BIG} />, label: empty }]} />}>
-      <InterestPicker value={value} readOnly selectedOnly />
-    </ExpandBlock>
-  );
+  const withIcon = fields.filter((f) => scaleIconName(f, values[f] ?? null));
+  const icons: IconItem[] = withIcon.map((f) => ({ key: f, node: <Icon name={scaleIconName(f, values[f] ?? null)!} size={BIG} />, label: `${t(`scale.${scaleStem(f)}` as Key)}: ${t(`scale.${scaleStem(f)}.${values[f] ?? 3}` as Key)}` }));
+  const rows = withIcon.map((f) => {
+    const v = values[f] ?? 3;
+    return <Row key={f} icon={<Icon name={scaleIconName(f, v)!} size={ROW} />} title={t(`scale.${scaleStem(f)}` as Key)} answer={describe?.(f, v) ?? t(`scale.${scaleStem(f)}.${v}` as Key)} note={t(`scale.${scaleStem(f)}.${v}` as Key)} />;
+  });
+  return <ExpandBlock id={id} icons={icons} rows={rows} />;
 }
 
-/** Dietary needs: icons until tapped (a custom need has no icon, so it stays a labelled chip), then the labelled list. */
-export function DietBlock({ value, empty }: { value: string[]; empty: string }) {
+/** Chosen interests: icons until tapped, then a labelled row per group. */
+export function InterestsBlock({ id, value, empty }: { id: string; value: string[]; empty: string }) {
+  const { t } = useT();
+  const picked = normalizeInterests(value);
+  const icons: IconItem[] = picked.flatMap((i) => (InterestIcon({ interest: i }) ? [{ key: i, node: <InterestIcon interest={i} size={BIG} />, label: t(`interest.${i}` as Key) }] : []));
+  const rows = selectedInterestSections(value).map((s) => (
+    <View key={s.key} style={{ gap: 8 }}>
+      <Text size={12} weight={800} color="muted" style={{ letterSpacing: 1.2, textTransform: 'uppercase' }}>{t(`interest.group.${s.key}` as Key)}</Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        {s.items.map((i) => <Chip key={i} icon={<InterestIcon interest={i} size={32} />} label={t(`interest.${i}` as Key)} on />)}
+      </View>
+    </View>
+  ));
+  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-discover" size={BIG} />, label: empty }]} />} />;
+}
+
+/** Dietary needs: icons until tapped (a custom need has no icon of its own), then one row each. */
+export function DietBlock({ id, value, empty }: { id: string; value: string[]; empty: string }) {
   const { t } = useT();
   const label = (d: string) => ((DIETS as readonly string[]).includes(d) ? t(`diet.${d}` as Key) : d);
-  const icons: IconItem[] = value.flatMap((d) => { const n = dietIcon(d, BIG); return n ? [{ key: d, node: n, label: label(d) }] : []; });
-  const custom = value.filter((d) => !dietIcon(d));
-  return (
-    <ExpandBlock icons={[...icons, ...custom.map((d) => ({ key: d, node: <Icon name="cat-food" size={BIG} />, label: d }))]} empty={<IconGrid items={[{ key: 'none', node: <Icon name="cat-food" size={BIG} />, label: empty }]} />}>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
-        {value.map((d) => <Chip key={d} icon={dietIcon(d, FULL)} label={label(d)} on />)}
-      </View>
-    </ExpandBlock>
-  );
+  const node = (d: string, size: number) => dietIcon(d, size) ?? <Icon name="cat-food" size={size} />;
+  const icons: IconItem[] = value.map((d) => ({ key: d, node: node(d, BIG), label: label(d) }));
+  const rows = value.map((d) => <Row key={d} icon={node(d, ROW)} answer={label(d)} />);
+  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="cat-food" size={BIG} />, label: empty }]} />} />;
 }
 
 /** A dog's interests: icons until tapped, then the labelled chips. */
-export function DogInterestsBlock({ values }: { values?: readonly string[] | null }) {
+export function DogInterestsBlock({ id, values }: { id: string; values?: readonly string[] | null }) {
   const { t } = useT();
   const picked = normalizeDogInterests(values);
-  const icons: IconItem[] = DOG_INTERESTS.filter((i) => picked.includes(i.value)).map((i) => ({ key: i.value, node: <Icon name={i.icon} size={BIG} />, label: t(`dogInterest.${i.value}` as Key) }));
-  return (
-    <ExpandBlock icons={icons} empty={<DogInterests values={values} />}>
-      <DogInterests values={values} />
-    </ExpandBlock>
-  );
+  const list = DOG_INTERESTS.filter((i) => picked.includes(i.value));
+  const icons: IconItem[] = list.map((i) => ({ key: i.value, node: <Icon name={i.icon} size={BIG} />, label: t(`dogInterest.${i.value}` as Key) }));
+  const rows = [<View key="all" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{list.map((i) => <Chip key={i.value} icon={<Icon name={i.icon} size={32} />} label={t(`dogInterest.${i.value}` as Key)} on />)}</View>];
+  return <ExpandBlock id={id} icons={icons} rows={rows} max={3} empty={<IconGrid items={[{ key: 'none', node: <Icon name="empty-discover" size={BIG} />, label: t('dog.emptyInterests') }]} />} />;
 }

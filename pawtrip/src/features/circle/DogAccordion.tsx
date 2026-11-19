@@ -51,7 +51,7 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
 }
 
 const OUT_MS = 150; // the old name and tags pop out
-const SLIDE_SPRING = { stiffness: 200, damping: 24, mass: 1 }; // the new photo slides in from the side on a damped spring: it settles with a hint of give
+const SLIDE_SPRING = { stiffness: 110, damping: 21, mass: 1 }; // the new photo slides in from the side on a damped spring: it settles with a hint of give
 const spring = (v: Animated.Value, to: number) =>
   new Promise<void>((resolve) => Animated.spring(v, { toValue: to, ...SLIDE_SPRING, useNativeDriver: false }).start(() => resolve()));
 const anim = (v: Animated.Value, to: number, duration: number, easing = Easing.out(Easing.cubic)) =>
@@ -127,7 +127,7 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
         style={{ flex: 1, overflow: 'hidden', backgroundColor: dogColor(dog.id) }}>
         {W > 0 ? (
           <>
-            <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [0, -dir * W] }) }] }}>
+            <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [0, -dir * W * 0.35] }) }] }}> {/* the old photo only drifts: the new one slides over it */}
               <HeroLayer dog={dog} w={W} h={size.h} first={first} />
             </Animated.View>
             {inc !== null ? (

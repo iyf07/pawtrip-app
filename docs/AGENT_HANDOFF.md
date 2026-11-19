@@ -733,3 +733,6 @@ Circle dogs: the accordion strips were replaced by a **big photo of the chosen d
 
 ### later 57 (Claude)
 Circle dog photo slide-in now uses a damped spring (stiffness 200, damping 24, mass 1) instead of a 380 ms timing curve (user: "add a bit of damping"). Constant `SLIDE_SPRING` in `DogAccordion.tsx`; raise `damping` for a firmer stop, lower it for more bounce.
+
+### later 58 (Claude)
+Circle dog slide made slower and silkier: spring stiffness 110 / damping 21 (near critical, ~0.6–0.7 s, no visible bounce) and a parallax on the old photo (it drifts only 35 % of the width while the new one slides over it). Tune `SLIDE_SPRING` / the `0.35` in `DogAccordion.tsx`.

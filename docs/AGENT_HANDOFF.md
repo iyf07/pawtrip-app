@@ -703,3 +703,6 @@ The user found the full-screen expand "odd". Reasons and fixes: it was a content
 - **Adding from the circle stays on the circle**: `FamilyInviteSheet` / `FamilyCreateSheet` (new `features/family/FamilySheets.tsx`, also used by `FamilyPanel`) and `AddFriendSheet` open as sheets on `/circle`.
 - **Bottom sheet**: `ui/Sheet.tsx` rises on a spring (260/24) on phones, scrim to 0.45, slides down on close; see `docs/animations.md` #19. All sheets must use `Sheet`.
 - Verified on desktop width: circle renders, friends "+" opens the sheet in place, family card pushes to /family.
+
+### later 50 (Claude)
+The push transition did not show on the web: Expo Router's JS stack defaults `animation` to 'none' on web (CardStack `getDefaultAnimation`). Fixed with `animation: 'default'` in the root Stack `screenOptions` (`app/_layout.tsx`). Verified by sampling card positions during a circle → family push in the browser: the new card starts at x=1024 and the old card moves left. Rule: keep `animation: 'default'` or every transition silently disappears on web.

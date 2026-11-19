@@ -128,7 +128,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
   return (
     <ThemeProvider value={{ ...base, colors: { ...base.colors, background: colors.bg, card: colors.bg, text: colors.text, border: colors.line } }}>
       <DesktopShell enabled={!!session && !needsOnboarding}>
-      <Stack screenOptions={{ headerShown: false, cardStyle: { backgroundColor: colors.bg }, cardOverlayEnabled: true, cardShadowEnabled: false, cardStyleInterpolator: pushInterpolator, transitionSpec: pushSpec, gestureEnabled: true, gestureDirection: 'horizontal', gestureResponseDistance: 40, gestureVelocityImpact: 0 }}>
+      <Stack screenOptions={{ headerShown: false, cardStyle: { backgroundColor: colors.bg }, cardOverlayEnabled: true, cardShadowEnabled: false, animation: 'default', cardStyleInterpolator: pushInterpolator, transitionSpec: pushSpec, gestureEnabled: true, gestureDirection: 'horizontal', gestureResponseDistance: 40, gestureVelocityImpact: 0 }}>
         <Stack.Protected guard={!session}>
           <Stack.Screen name="sign-in" />
         </Stack.Protected>

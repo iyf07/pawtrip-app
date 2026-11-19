@@ -745,3 +745,6 @@ Family page: the pencil on the hero is gone; **编辑家庭** is now its own ben
 
 ### later 61 (Claude)
 Circle dog switch is now a slideshow (user's second option): pop-out text (100 ms, 50 ms quicker) → both photos shrink to 80 % centred → old slides off one side while the new one slides in from the other (damped spring) → new grows back to 100 % → text pops in (spring 320/19). The card behind is white. End state checked at 375 px; the motion itself not watched (pane throttles animation). Constants in `DogAccordion.tsx`.
+
+### later 62 (Claude)
+Circle dog switch changed again (user): from the slideshow to a **cross-fade** — old text pops out (100 ms) → new photo fully loaded → it fades in over the old one (560 ms ease-in-out) → new text pops in. Slide/shrink/spring code removed from `DogAccordion.tsx`; `FADE_MS` is the knob.

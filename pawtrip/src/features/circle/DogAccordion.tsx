@@ -51,11 +51,7 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
 }
 
 const OUT_MS = 100; // the old name and tags pop out (50 ms quicker than before)
-const SHRINK = 0.8; // slideshow: the photo shrinks to this size, centred, before it moves
-const GAP_F = 0.85; // …and the cards travel this fraction of the width so they pass side by side
-const SLIDE_SPRING = { stiffness: 110, damping: 21, mass: 1 }; // the new photo slides in from the side on a damped spring: it settles with a hint of give
-const spring = (v: Animated.Value, to: number) =>
-  new Promise<void>((resolve) => Animated.spring(v, { toValue: to, ...SLIDE_SPRING, useNativeDriver: false }).start(() => resolve()));
+const FADE_MS = 560; // the new photo dissolves over the old one
 const anim = (v: Animated.Value, to: number, duration: number, easing = Easing.out(Easing.cubic)) =>
   new Promise<void>((resolve) => Animated.timing(v, { toValue: to, duration, easing, useNativeDriver: false }).start(() => resolve()));
 
@@ -72,7 +68,7 @@ function HeroLayer({ dog, w, h, first, onLoaded }: { dog: Dog; w: number; h: num
 
 /**
  * All dogs: the chosen dog as a big photo, and under it one whole little photo per dog. Switching dogs: the name and
- * tags pop out, the new photo slides in from the side the dog sits on (once it has fully loaded), then the name, weight
+ * tags pop out, the new photo cross-fades over the old one (once it has fully loaded), then the name, weight
  * and tags pop in. Tap the big photo to open the dog's page.
  */
 export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id: string) => void }) {
@@ -80,10 +76,8 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
   const { t } = useT();
   const [cur, setCur] = useState(0);
   const [inc, setInc] = useState<number | null>(null);
-  const [dir, setDir] = useState(1);
   const [size, setSize] = useState({ w: 0, h: 0 });
-  const [slide] = useState(() => new Animated.Value(0));
-  const [scale] = useState(() => new Animated.Value(1)); // shared by both photos: 1 → shrunk → 1
+  const [fade] = useState(() => new Animated.Value(0)); // opacity of the incoming photo
   const [text] = useState(() => new Animated.Value(0));
   const busy = useRef(false);
   const loaded = useRef<(() => void) | null>(null);
@@ -103,19 +97,16 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
   const go = async (i: number) => {
     if (busy.current || i === idx || size.w === 0) return;
     busy.current = true;
-    setDir(i > idx ? 1 : -1);
     await anim(text, 0, OUT_MS, Easing.in(Easing.quad)); // 1. the old text pops out
     const ready = new Promise<void>((resolve) => { loaded.current = resolve; });
     setInc(i);
     if (!dogs[i].photo_url) loaded.current?.();
     await ready; // 2. the new photo has fully loaded
-    await anim(scale, SHRINK, 200, Easing.inOut(Easing.cubic)); // 2b. both photos shrink, centred
-    await spring(slide, 1); // 3. old slides off to one side, new comes in from the other, damped
-    await anim(scale, 1, 240, Easing.inOut(Easing.cubic)); // 3b. the new photo grows back to full size
+    await anim(fade, 1, FADE_MS, Easing.inOut(Easing.cubic)); // 3. the two photos cross-fade
     setFirst(false);
     setCur(i);
     setInc(null);
-    slide.setValue(0);
+    fade.setValue(0);
     Animated.spring(text, { toValue: 1, stiffness: 320, damping: 19, mass: 1, useNativeDriver: false }).start(); // 4. the new text pops in
     busy.current = false;
   };
@@ -126,18 +117,17 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
   const weight = dogWeightLabel(dog);
   const tags = dogTraitKeys(dog).map((k) => t(k as Key)).join(' · ');
   const W = size.w;
-  const radius = scale.interpolate({ inputRange: [SHRINK, 1], outputRange: [28, 0], extrapolate: 'clamp' }); // rounded while shrunk
   return (
     <View style={{ flex: 1 }}>
       <Pressable onPress={() => onOpenDog(dog.id)} accessibilityRole="button" accessibilityLabel={dog.name} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
         style={{ flex: 1, overflow: 'hidden', backgroundColor: th.card }}>
         {W > 0 ? (
           <>
-            <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, borderRadius: radius, overflow: 'hidden', transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [0, -dir * W * GAP_F] }) }, { scale }] }}>
+            <View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h }}>
               <HeroLayer dog={dog} w={W} h={size.h} first={first} />
-            </Animated.View>
+            </View>
             {inc !== null ? (
-              <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, borderRadius: radius, overflow: 'hidden', transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [dir * W * GAP_F, 0] }) }, { scale }] }}>
+              <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, opacity: fade }}>
                 <HeroLayer dog={dogs[inc]} w={W} h={size.h} onLoaded={() => loaded.current?.()} />
               </Animated.View>
             ) : null}

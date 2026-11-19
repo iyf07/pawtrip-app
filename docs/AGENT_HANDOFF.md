@@ -177,6 +177,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Seven `ui-*` monochrome actions now use individually generated integrated-paw artwork and theme tint: camera, pencil, trash, copy, share, key and note. `ui-archive` and `ui-clock` generated drafts were rejected (ambiguous / illegible) and need regeneration. Remaining actions and non-mascot icons are in progress. Weather deployed as Expo `0d4ght3gwr`, commit `dd53b63`.
+
 - 2026-11-19: Nine `wx-*` weather images redesigned with paw prints inside the sun or cloud. The nine `cat-*` category images were deployed as Expo `s1ytc6wv2v` (commit `3f6d283`). Remaining non-mascot icon batches are in progress.
 
 - 2026-11-19: Nine `cat-*` travel category icons redesigned individually in the approved pastel style, each with its paw integrated into its object, normalized to the same optical box with 1024px masters and 512px UI images. Remaining non-mascot icons still in progress.

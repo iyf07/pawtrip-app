@@ -1,4 +1,5 @@
 import { Image, type ImageStyle, type StyleProp } from 'react-native';
+import { useTheme } from '@/hooks/use-theme';
 
 /** The custom sticker icon set (assets/icons). Names match the file names. */
 const SOURCES = {
@@ -176,6 +177,9 @@ export type IconName = keyof typeof SOURCES;
 /** Whether an icon with this name exists yet (some icon sets are added batch by batch). */
 export const hasIcon = (name: string): name is IconName => name in SOURCES;
 
+const LINE_ICONS = new Set<IconName>(['ui-camera', 'ui-pencil', 'ui-trash', 'ui-copy', 'ui-share', 'ui-key', 'ui-note']);
+
 export function Icon({ name, size = 32, style }: { name: IconName; size?: number; style?: StyleProp<ImageStyle> }) {
-  return <Image source={SOURCES[name]} accessibilityElementsHidden style={[{ width: size, height: size }, style]} resizeMode="contain" />;
+  const th = useTheme();
+  return <Image source={SOURCES[name]} accessibilityElementsHidden style={[{ width: size, height: size }, LINE_ICONS.has(name) && { tintColor: th.text }, style]} resizeMode="contain" />;
 }

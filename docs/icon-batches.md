@@ -766,3 +766,7 @@ After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI
 # 2026-11-19 — weather (v2)
 
 `wx-sun`, `wx-partly`, `wx-cloud`, `wx-fog`, `wx-rain`, `wx-snow`, `wx-storm`, `wx-sunrise`, `wx-sunset`: generated individually against the approved study, paw integrated into the weather shape, normalized transparent masters and UI PNGs.
+
+# 2026-11-19 — integrated-paw actions, batch 1
+
+`ui-camera`, `ui-pencil`, `ui-trash`, `ui-copy`, `ui-share`, `ui-key`, `ui-note`: generated individually from the mono-line study with the paw integrated into the main object. Transparent masters and 512px UI PNGs; render tinted to the active theme. The generated line drawings occupied only a small part of the originals, so they were scaled to the common icon canvas; source detail is lower resolution than the 1024px output.

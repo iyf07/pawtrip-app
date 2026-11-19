@@ -5,13 +5,21 @@ type Rect = { x: number; y: number; width: number; height: number; color: string
 let listener: ((r: Rect, go: () => void) => void) | null = null;
 let active = false;
 let target: { x: number; y: number; width: number; height: number } | null = null;
+type TransformKey = 'family' | 'friends';
+const origins: Partial<Record<TransformKey, Rect>> = {};
+const destinations: Partial<Record<TransformKey, Rect>> = {};
+let currentKey: TransformKey | undefined;
+let generation = 0;
 
 /** True while a container transform runs: the page transition stays still so the two do not fight. */
 export const isTransforming = () => active;
 
 /** The page we are going to reports where the block that matches the shape sits, so the shape can settle onto it. */
 export function setContainerTransformTarget(r: { x: number; y: number; width: number; height: number }) {
-  if (active) target = r;
+  if (active) {
+    target = r;
+    if (currentKey && origins[currentKey]) destinations[currentKey] = { ...r, color: origins[currentKey]!.color, radius: origins[currentKey]!.radius };
+  }
 }
 
 /**
@@ -20,11 +28,14 @@ export function setContainerTransformTarget(r: { x: number; y: number; width: nu
  * with nothing else happening (mounting the next page at the same moment starved the animation of frames, and it jumped to
  * its end). Only then `go` runs, the page mounts behind the shape, and the shape fades away to reveal it.
  */
-export function runContainerTransform(rect: Rect, go: () => void) {
+export function runContainerTransform(rect: Rect, go: () => void, key?: TransformKey) {
   if (!listener) return go();
   if (active) return; // a second tap while one transform runs
   active = true;
+  const thisGeneration = ++generation;
   target = null;
+  currentKey = key;
+  if (key) origins[key] = rect;
   // the navigation must happen exactly once, even if the animation never finishes (frames starved, page hidden)
   let gone = false;
   const once = () => {
@@ -33,8 +44,18 @@ export function runContainerTransform(rect: Rect, go: () => void) {
     go();
   };
   setTimeout(once, 900);
-  setTimeout(() => { active = false; }, 4000);
+  setTimeout(() => { if (generation === thisGeneration) active = false; }, 4000);
   listener(rect, once);
+}
+
+/** Reverse the same expansion using the last measured destination and source cards. */
+export function runContainerReturn(key: TransformKey, go: () => void) {
+  const origin = origins[key];
+  const destination = destinations[key];
+  if (active) return;
+  if (!origin || !destination || !listener) return go();
+  runContainerTransform(destination, go);
+  target = origin;
 }
 
 export function ContainerTransformHost() {

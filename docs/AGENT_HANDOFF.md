@@ -112,6 +112,8 @@ Collections are plural, one item adds `[id]`: `/` (trip list), `/trips/new`, `/t
 
 ## 5. Decisions (append; never silently rewrite — mark old ones "superseded by …")
 
+- 2026-11-19: Circle navigation uses a coloured integrated-paw `nav-circle` icon. Family and friends cards use matching expand/settle transitions into their pages and reverse on the page back button, on mobile and desktop; friend list uses the same periwinkle as its circle card.
+
 - 2026-11-19: User corrected the paw requirement: the paw must be integrated into the icon itself, not applied as a lower-right badge. Initial `LineIcon` implementation with a corner paw is withdrawn and must not be re-enabled.
 
 - 2026-11-19: User firmly prohibits angel imagery or a halo over the dog's head for calm, non-destructive independent time. Depict calm resting instead; apply to all relevant icons.
@@ -176,6 +178,8 @@ Process
 - Replies in Simplified Chinese; auto commit/push/deploy after verification (until "停止自动化"); "处理反馈" = run the feedback workflow; prompts for ChatGPT are always self-contained (no attachments), one icon per file; every icon problem found → update the prompt in `docs/icon-batches.md`.
 
 ## 6. State of the project (update whenever it changes)
+
+- 2026-11-19: Added circle-to-friends and reverse family/friends container transitions, a periwinkle friend list, and matching circle nav icon. The transform falls back to ordinary navigation when measurement is unavailable. Family/friends list headers expose their back button on desktop.
 
 - 2026-11-19: Integrated-paw icon batch deployed to Expo production as `13fecs04eu`, app commit `f2a10d7`; TypeScript and ESLint passed, and desktop/mobile profile was checked. No backend changes.
 
@@ -916,3 +920,6 @@ Read the latest agent instructions, handoff and commits through `ff65f16`, prese
 
 ### 2026-11-19 (Codex) — icon batch deployment
 User requested retry. Confirmed remote `main`, reran typecheck and ESLint, checked desktop/mobile profile, committed and pushed app commit `f2a10d7`, and deployed Expo production `13fecs04eu`. No backend changes. Mascot-dependent assets remain deferred; claim released.
+
+### 2026-11-19 (Codex) — circle transitions and friend list
+Added a coloured integrated-paw circle navigation icon, periwinkle friend list, and matching expand/settle transitions for family and friends in both directions. Added explicit desktop back controls on those two pages; ordinary navigation remains the fallback when measurements are unavailable. Checked the mobile family and friend entry/back paths and desktop friend entry; typecheck and lint run before release. Frontend only; no database changes. Claim released.

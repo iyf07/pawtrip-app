@@ -53,6 +53,7 @@ const SOURCES = {
   'int-dessert': require('../../../assets/icons/int-dessert.png'),
   'logo-paw': require('../../../assets/icons/logo-paw.png'),
   'nav-home': require('../../../assets/icons/nav-home.png'),
+  'nav-circle': require('../../../assets/icons/nav-circle.png'),
   'nav-trips': require('../../../assets/icons/nav-trips.png'),
   'nav-dogs': require('../../../assets/icons/nav-dogs.png'),
   'nav-settings': require('../../../assets/icons/nav-settings.png'),

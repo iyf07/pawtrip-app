@@ -790,3 +790,7 @@ Fifteen `int-*` assets for outdoors, sights, activities, dessert and breweries w
 Also prepared `nav-trips`, six `dog-*` assets and `trait-recall` / `trait-runner`, using integrated paws.
 
 Dog scales: `scale-{energy,temp,withdogs,withpeople,alone,car,recall}-{1..5}`. Energy uses an integrated paw battery; `temp` reuses the human temperature set; independent-stay uses doors/beds with no dog, halo or angel. Recall uses leash, fence and return-whistle concepts. `nav-home`, `nav-family`, `nav-profile`, `pin-{stop,stay,idea}`, `ui-{save,discard,invite,dog-warning}` are included.
+
+# 2026-11-19 — circle navigation
+
+`nav-circle`: coloured connected-people circle with a central paw, generated against `nav-home` and `nav-trips`, with transparent 1024px master and 512px UI asset. Used in desktop and mobile navigation.

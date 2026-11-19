@@ -107,7 +107,7 @@ function Rail({ section }: { section: Section }) {
       </Pressable>
       {item('home', 'nav-home', t('shell.home'), () => goTab('/'))}
       {item('trips', 'nav-trips', t('shell.trips'), () => goTab('/trips'))}
-      {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); goTab('/circle'); })}
+      {item('circle', 'nav-circle', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); goTab('/circle'); })}
       <View style={{ flex: 1 }} />
       {item('settings', 'nav-settings', t('shell.settings'), () => goTab('/settings'))}
       <Pressable

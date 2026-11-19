@@ -39,6 +39,7 @@ export default function Circle() {
   const [addingFriend, setAddingFriend] = useState(false);
   const { wide } = useLayout();
   const familyRef = useRef<ComponentRef<typeof View>>(null);
+  const friendsRef = useRef<ComponentRef<typeof View>>(null);
   const { col, row: phoneRow } = bentoUnits(width);
   // phone: everything stacked, full width. Wide: the dogs hero on the left, family and friends stacked on the right.
   const half = Math.max(0, (width - BENTO_GAP) / 2);
@@ -74,7 +75,7 @@ export default function Circle() {
             </Tile>
   );
   const openFamily = () => {
-    if (wide || !familyRef.current) return router.push('/family');
+    if (!familyRef.current) return router.push('/family');
     // if the measurement never answers (some phones), just go
     let answered = false;
     const fallback = setTimeout(() => { if (!answered) { answered = true; router.push('/family'); } }, 250);
@@ -82,7 +83,8 @@ export default function Circle() {
       if (answered) return;
       answered = true;
       clearTimeout(fallback);
-      runContainerTransform({ x, y, width: w, height: h, color: th.apricot, radius: 24 }, () => router.push('/family'));
+      if (!w || !h) return router.push('/family');
+      runContainerTransform({ x, y, width: w, height: h, color: th.apricot, radius: 24 }, () => router.push('/family'), 'family');
     });
   };
   const familyTile = (
@@ -104,8 +106,21 @@ export default function Circle() {
             </Tile>
     </View>
   );
+  const openFriends = () => {
+    if (!friendsRef.current) return router.push('/friends');
+    let answered = false;
+    const fallback = setTimeout(() => { if (!answered) { answered = true; router.push('/friends'); } }, 250);
+    friendsRef.current.measureInWindow((x, y, w, h) => {
+      if (answered) return;
+      answered = true;
+      clearTimeout(fallback);
+      if (!w || !h) return router.push('/friends');
+      runContainerTransform({ x, y, width: w, height: h, color: th.periwinkle, radius: 24 }, () => router.push('/friends'), 'friends');
+    });
+  };
   const friendsTile = (
-            <Tile index={2} width={small} height={row} tone="periwinkle" onPress={() => router.push('/friends')} accessibilityLabel={t('family.friends')}>
+    <View ref={friendsRef} collapsable={false} style={{ width: small, height: row }}>
+            <Tile index={2} width={small} height={row} tone="periwinkle" onPress={openFriends} accessibilityLabel={t('family.friends')}>
               <View style={pad}>
                 <TileHeader ink={th.onTint} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => setAddingFriend(true)} />
                 {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (
@@ -117,6 +132,7 @@ export default function Circle() {
                 )}
               </View>
             </Tile>
+    </View>
   );
 
   const notifyTile = <NotificationTile index={3} width={small} height={row} />;

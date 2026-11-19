@@ -102,11 +102,12 @@ type HeaderProps = {
   /** replaces the subtitle text (e.g. a row of avatars) */
   subtitleNode?: ReactNode;
   left?: ReactNode;
+  showLeftInShell?: boolean;
   right?: ReactNode;
 };
 
 /** 3-column header: left action, centred title, right action. */
-export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAccessibilityLabel, subtitle, subtitleNode, left, right }: HeaderProps) {
+export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAccessibilityLabel, subtitle, subtitleNode, left, showLeftInShell = false, right }: HeaderProps) {
   const t = useTheme();
   const inShell = useInShell(); // no back links beside the rail
   const { wide } = useLayout();
@@ -121,7 +122,7 @@ export function Header({ title, titleSize, sideWidth = 64, onTitlePress, titleAc
         paddingBottom: 4,
         backgroundColor: t.bg,
       }}>
-      <View style={{ minWidth: sideWidth, alignItems: 'flex-start' }}>{inShell ? null : left}</View>
+      <View style={{ minWidth: sideWidth, alignItems: 'flex-start' }}>{inShell && !showLeftInShell ? null : left}</View>
       <View style={{ flex: 1, alignItems: 'center' }}>
         {title ? (
           onTitlePress ? <Pressable onPress={onTitlePress} accessibilityRole="button" accessibilityLabel={titleAccessibilityLabel ?? title} style={{ maxWidth: '100%' }}>

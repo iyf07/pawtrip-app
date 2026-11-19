@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useLayout } from '@/hooks/use-layout';
-import { useState } from 'react';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRemoveBuddy, useRespondBuddy, type Buddy } from '@/api/buddies';
@@ -22,6 +22,7 @@ import { SwipeRow } from '@/components/ui/SwipeRow';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { goBackTo } from '@/lib/nav';
 import { AddButton, BentoAction, BentoCard } from '@/features/circle/Bento';
+import { isTransforming, runContainerReturn, setContainerTransformTarget } from '@/lib/container-transform';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
@@ -39,6 +40,20 @@ export function BuddiesScreen() {
   const respond = useRespondBuddy();
   const remove = useRemoveBuddy();
   const [askRemove, setAskRemove] = useState<Buddy | null>(null);
+  const listRef = useRef<ComponentRef<typeof View>>(null);
+
+  useEffect(() => {
+    if (friend || buddies.isPending || !isTransforming()) return;
+    let tries = 0;
+    const id = setInterval(() => {
+      tries += 1;
+      listRef.current?.measureInWindow((x, y, width, height) => {
+        if (width > 0 && height > 0) { setContainerTransformTarget({ x, y, width, height }); clearInterval(id); }
+      });
+      if (tries > 8) clearInterval(id);
+    }, 60);
+    return () => clearInterval(id);
+  }, [friend, buddies.isPending]);
 
   const all = buddies.data ?? [];
   const incoming = all.filter((b) => b.status === 'pending' && b.incoming);
@@ -69,7 +84,7 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/circle')} />} />} size="narrow">
+    <Screen nav top={<Header title={t('bd.title')} showLeftInShell left={<BackButton label={t('nav.back')} onPress={() => runContainerReturn('friends', () => goBackTo('/circle'))} />} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (
@@ -78,9 +93,9 @@ export function BuddiesScreen() {
           <Button label={t('common.retry')} onPress={() => buddies.refetch()} />
         </View>
       ) : (
-        <View style={{ gap: 12, marginTop: 8 }}>
+        <View ref={listRef} collapsable={false} style={{ gap: 12, marginTop: 8 }}>
           {incoming.map((b, n) => (
-            <BentoCard key={b.userId} index={n}>
+            <BentoCard key={b.userId} index={n} tone="periwinkle">
               <Pressable onPress={() => openBuddy(b)} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
                 <View style={{ flex: 1, minWidth: 0 }}>
@@ -101,9 +116,9 @@ export function BuddiesScreen() {
           {all.length === 0 ? (
             <EmptyState icon="tab-members" title={t('bd.emptyTitle')} />
           ) : null}
-          {mine.length > 0 ? <BentoCard index={incoming.length} title={t('family.friends')} right={<AddButton label={t('bd.addTitle')} onPress={() => setAdding(true)} />}>
+          {mine.length > 0 ? <BentoCard index={incoming.length} tone="periwinkle" title={t('family.friends')} right={<AddButton label={t('bd.addTitle')} onPress={() => setAdding(true)} />}>
             {mine.map((b, i) => (
-              <Reveal key={b.userId} index={incoming.length + i}><SwipeRow enabled={b.status === 'accepted'} radius={0} onTrigger={() => setAskRemove(b)}><View style={{ backgroundColor: th.card }}><Pressable
+              <Reveal key={b.userId} index={incoming.length + i}><SwipeRow enabled={b.status === 'accepted'} radius={0} onTrigger={() => setAskRemove(b)}><View style={{ backgroundColor: th.periwinkle }}><Pressable
                 onPress={() => openBuddy(b)}
                 accessibilityRole="button"
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 10, borderTopWidth: i ? 1.5 : 0, borderStyle: 'dashed', borderColor: th.line }}>

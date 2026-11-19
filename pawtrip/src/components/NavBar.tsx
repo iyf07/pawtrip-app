@@ -33,7 +33,7 @@ export function NavBar() {
   const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
     { key: 'home', icon: 'nav-home', label: t('shell.home'), go: () => goTab('/'), match: (p) => p === '/' },
     { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => goTab('/trips'), match: (p) => p.startsWith('/trips') || p.startsWith('/calendar') },
-    { key: 'circle', icon: 'tab-members', label: t('shell.circle'), go: () => goTab('/circle'), match: (p) => p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family') },
+    { key: 'circle', icon: 'nav-circle', label: t('shell.circle'), go: () => goTab('/circle'), match: (p) => p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => goTab('/settings'), match: (p) => p.startsWith('/settings') },
   ];
   const btn = (it: (typeof items)[number]) => <NavButton key={it.key} icon={it.icon} label={it.label} on={it.match(path)} onPress={it.go} />;

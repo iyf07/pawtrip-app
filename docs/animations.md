@@ -23,6 +23,7 @@
 | 18 | 左边缘右滑返回 | 从屏幕左边缘右滑，当前页跟手移动，上一页带视差并逐渐变亮；过半宽度松手返回，否则弹回 | 响应边缘宽度 40 px；`gestureVelocityImpact: 0`（只看位置：超过一半宽度才返回）；弹回/返回用同一 350 ms 过渡；视差距离 = #16 的 90 px（你最近写的是 60 px，和之前的 90 px 不一致，要改只改 `PUSH_BACK_PX`） | `app/_layout.tsx` 的 `screenOptions`（`gestureEnabled`、`gestureResponseDistance`、`gestureVelocityImpact`） |
 | 19 | 底部弹层（统一） | 手机上所有弹层（`ui/Sheet.tsx`）：面板从底部用弹簧升起；遮罩淡入到 0.45；关闭时面板下滑、遮罩淡出。电脑上的居中弹窗仍用 #8 的弹簧放大 | 升起：弹簧 刚度 260、阻尼 24；遮罩淡入 280 ms 到 0.45；关闭：面板 240 ms 下滑，遮罩 200 ms 淡出。以后新增的弹层都用 `Sheet`，不要自己写 | `pawtrip/src/components/ui/Sheet.tsx` |
 | 17 | 图片淡入 | 头像、狗狗照片加载完成时淡入，不再一闪 | 350 ms；底下先显示底色/占位 | `ui/Avatar.tsx`、`DogAccordion.tsx` 的 `transition={350}` |
+| 20 | 狗狗照片从中间扩散出现 | 照片加载完成后，从中间一个圆角小窗往外扩散到铺满整条狗狗条，照片本身不动 | 1100 ms，缓出（cubic out）；窗口宽高 0→满，圆角 随之变小；加载完成才开始 | `features/circle/DogAccordion.tsx`（`REVEAL_MS`、`CenterReveal`） |
 
 ## 列表入场已覆盖的页面
 行程列表、狗狗列表、想法卡片、好友列表和好友申请、家庭的成员和狗狗、行程成员页的成员和狗狗、个人/好友/狗狗的偏好（`ScaleInput` 的 `index`）、兴趣（`InterestPicker`、`DogInterests`）、忌口标签、狗狗表单的偏好卡片、计划时间轴块、设置页。

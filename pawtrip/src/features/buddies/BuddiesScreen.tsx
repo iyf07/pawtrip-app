@@ -1,6 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useLayout } from '@/hooks/use-layout';
-import { AddAction } from '@/components/ui/AddAction';
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
@@ -11,7 +10,6 @@ import { AddFriendSheet } from './AddFriendSheet';
 import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
-import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageSkeleton } from '@/components/ui/Skeleton';
 import { BackButton, Header, Screen } from '@/components/ui/Screen';
@@ -23,6 +21,7 @@ import { Reveal } from '@/components/ui/Reveal';
 import { SwipeRow } from '@/components/ui/SwipeRow';
 import { ConfirmSheet } from '@/components/ui/Sheet';
 import { goBackTo } from '@/lib/nav';
+import { AddButton, BentoAction, BentoCard } from '@/features/circle/Bento';
 
 /** 我的伙伴: people you often travel with. Adding one needs their yes. */
 export function BuddiesScreen() {
@@ -70,7 +69,7 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/circle')} />} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+    <Screen nav top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => goBackTo('/circle')} />} />} size="narrow">
       {buddies.isPending ? (
         <PageSkeleton cards={3} />
       ) : buddies.isError && !buddies.data ? (
@@ -81,7 +80,7 @@ export function BuddiesScreen() {
       ) : (
         <View style={{ gap: 12, marginTop: 8 }}>
           {incoming.map((b, n) => (
-            <Reveal key={b.userId} index={n}><Card>
+            <BentoCard key={b.userId} index={n}>
               <Pressable onPress={() => openBuddy(b)} accessibilityRole="button" style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
                 <Avatar id={b.userId} name={b.name} url={b.avatar} size={44} />
                 <View style={{ flex: 1, minWidth: 0 }}>
@@ -97,12 +96,12 @@ export function BuddiesScreen() {
                 <Button label={t('bd.accept')} small onPress={() => answer(b, true)} loading={respond.isPending} />
                 <Button label={t('bd.decline')} small variant="ghost" onPress={() => answer(b, false)} />
               </View>
-            </Card></Reveal>
+            </BentoCard>
           ))}
           {all.length === 0 ? (
             <EmptyState icon="tab-members" title={t('bd.emptyTitle')} />
           ) : null}
-          {mine.length > 0 ? <Card>
+          {mine.length > 0 ? <BentoCard index={incoming.length} title={t('family.friends')} right={<AddButton label={t('bd.addTitle')} onPress={() => setAdding(true)} />}>
             {mine.map((b, i) => (
               <Reveal key={b.userId} index={incoming.length + i}><SwipeRow enabled={b.status === 'accepted'} radius={0} onTrigger={() => setAskRemove(b)}><View style={{ backgroundColor: th.card }}><Pressable
                 onPress={() => openBuddy(b)}
@@ -129,10 +128,8 @@ export function BuddiesScreen() {
                 <Text plain color="muted" size={22} weight={800}>›</Text>
               </Pressable></View></SwipeRow></Reveal>
             ))}
-          </Card> : null}
-          <Card dashed onPress={() => setAdding(true)} style={{ alignItems: 'center' }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Icon name="tab-members" size={28} /><Text weight={800} color="link">{t('bd.addTitle')}</Text></View>
-          </Card>
+          </BentoCard> : null}
+          {mine.length === 0 ? <BentoAction icon={<Icon name="tab-members" size={40} />} label={t('bd.addTitle')} onPress={() => setAdding(true)} /> : null}
         </View>
       )}
       <AddFriendSheet visible={addingVisible} onClose={closeAdd} />

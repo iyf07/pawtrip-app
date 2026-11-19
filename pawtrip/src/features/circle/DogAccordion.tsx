@@ -17,6 +17,22 @@ const hash = (x: string) => [...x].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >
 const WIDEN_MS = 500; // the strips change width first …
 const FADE_MS = 260; // … and only then does the content fade in
 
+const REVEAL_MS = 1100; // the photo spreads out from the middle, slowly
+
+/** A dog photo that appears as a rounded window opening from the centre outward once the image has loaded. */
+function CenterReveal({ uri, w, h }: { uri: string; w: number; h: number }) {
+  const [p] = useState(() => new Animated.Value(0));
+  const start = () => Animated.timing(p, { toValue: 1, duration: REVEAL_MS, easing: Easing.out(Easing.cubic), useNativeDriver: false }).start();
+  const lerp = (a: number, b: number) => p.interpolate({ inputRange: [0, 1], outputRange: [a, b] });
+  return (
+    <Animated.View pointerEvents="none" style={{ position: 'absolute', left: lerp(w / 2, 0), top: lerp(h / 2, 0), width: lerp(0, w), height: lerp(0, h), borderRadius: lerp(Math.min(w, h) / 2, 0), overflow: 'hidden' }}>
+      <Animated.View style={{ position: 'absolute', left: lerp(-w / 2, 0), top: lerp(-h / 2, 0), width: w, height: h }}>
+        <Image source={{ uri }} onLoad={start} style={{ width: w, height: h }} contentFit="cover" cachePolicy="memory-disk" />
+      </Animated.View>
+    </Animated.View>
+  );
+}
+
 function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: boolean; openWidth: number; onPress: () => void; onOpenDog: () => void }) {
   const th = useTheme();
   const { t } = useT();
@@ -49,7 +65,7 @@ function Strip({ dog, open, openWidth, onPress, onOpenDog }: { dog: Dog; open: b
     <Animated.View style={{ flex: p.interpolate({ inputRange: [0, 1], outputRange: [1, OPEN] }), minWidth: 0 }}>
       <Pressable onPress={() => (open ? onOpenDog() : onPress())} accessibilityRole="button" accessibilityLabel={dog.name} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
         style={{ flex: 1, overflow: 'hidden', backgroundColor: bgColor }}>
-        {photo ? <Image source={{ uri: dog.photo_url! }} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} contentFit="cover" transition={350} cachePolicy="memory-disk" /> : null}
+        {photo && size.w > 0 ? <CenterReveal key={dog.photo_url} uri={dog.photo_url!} w={size.w} h={size.h} /> : null}
         {/* no photo: the sticker sits at the top and never squeezes */}
         {photo ? null : <View style={{ position: 'absolute', top: 56, left: 0, right: 0, alignItems: 'center' }}><DogAvatar url={null} size={36} border={0} /></View>}
         {/* narrow: the name runs up the strip at a fixed size; it fades out right as the strip starts to open */}

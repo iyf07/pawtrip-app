@@ -712,3 +712,8 @@ Back now plays the push in reverse: the back buttons on the dogs list, family an
 
 ### later 52 (Claude) — typeface pair
 All text now uses **Manrope (Latin) + Noto Sans SC (Chinese)**, a matched neutral pair, weights 400/600/700/800. Web: loaded from Google Fonts via the <link> in `app/_layout.tsx` (unicode-range slices keep the Chinese download small; this contacts Google's font servers); native: Manrope from `@expo-google-fonts/manrope`, system Chinese face (PingFang SC / Noto Sans CJK). `ui/Text.tsx` exports `fontStyle(weight)` for text not drawn by `Text` (inputs use it). Nunito was removed. Why: the user found the big page title (圈子) in the old fallback face not premium while the small card labels looked fine; with a real heavy Chinese face everything matches. To swap the pair, change `FAMILY`, `WEB_STACK` and the <link>.
+
+### later 53 (Claude)
+- **Friends list page and family page are bento now**: `BentoCard` was restyled (no outline, soft shadow, 16 px padding, 24 px corners) so profile/dog/friend pages share the premium look; new `AddButton` (cream "+" for white cards) and `BentoAction` (icon-over-label action card, two per row) in `features/circle/Bento.tsx`. Friends page: request cards, one 好友 card with the swipe-to-delete rows and a "+" in its title row (the header "+" is gone), an add tile when empty. Family page: name card (pencil/ring buttons; disband in edit mode), 家庭成员 card, 家庭狗狗 card, 邀请好友 | 邀请码邀请 actions, red leave card for members; no-family: create | join actions.
+- **Dog photos** now open from the centre outward over 1.1 s once loaded (`CenterReveal`, `docs/animations.md` #20).
+- Push transition length: discussed with the user; 350 ms kept (standard iOS push length; longer feels slow on repeated use).

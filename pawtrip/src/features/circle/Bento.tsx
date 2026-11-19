@@ -61,7 +61,7 @@ export function BentoCard({ index = 0, title, right, children, style }: { index?
   const th = useTheme();
   return (
     <Reveal index={index} style={{ width: '100%' }}>
-      <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, borderWidth: 2, borderColor: th.line, padding: 14, gap: 10 }, style]}>
+      <View style={[{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, padding: 16, gap: 10, boxShadow: `0 10px 24px -14px ${th.shadow}` }, style]}>
         {title || right ? (
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8, minHeight: 40 }}>
             {title ? <Text weight={800} size={18} numberOfLines={1} style={{ flex: 1 }}>{title}</Text> : <View style={{ flex: 1 }} />}
@@ -70,6 +70,29 @@ export function BentoCard({ index = 0, title, right, children, style }: { index?
         ) : null}
         {children}
       </View>
+    </Reveal>
+  );
+}
+
+/** The "+" for a white card's title row: a small cream circle (the Tile "+" is translucent white, for coloured cards). */
+export function AddButton({ onPress, label }: { onPress: () => void; label: string }) {
+  const th = useTheme();
+  return (
+    <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} hitSlop={6} style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: th.goldBg, alignItems: 'center', justifyContent: 'center' }}>
+      <Text plain size={22} weight={800} style={{ color: th.onGold, lineHeight: 24 }}>+</Text>
+    </PressScale>
+  );
+}
+
+/** A tappable bento card for one action: icon over a short label. Put two side by side in a row (`flex: 1` each). */
+export function BentoAction({ index = 0, icon, label, onPress }: { index?: number; icon: ReactNode; label: string; onPress: () => void }) {
+  const th = useTheme();
+  return (
+    <Reveal index={index} style={{ flex: 1 }}>
+      <PressScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} style={{ borderRadius: BENTO_RADIUS, backgroundColor: th.card, paddingVertical: 18, paddingHorizontal: 12, alignItems: 'center', gap: 8, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
+        {icon}
+        <Text weight={700} size={14} numberOfLines={1}>{label}</Text>
+      </PressScale>
     </Reveal>
   );
 }

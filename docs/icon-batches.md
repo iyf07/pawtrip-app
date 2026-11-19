@@ -770,3 +770,7 @@ After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI
 # 2026-11-19 — integrated-paw actions, batch 1
 
 `ui-camera`, `ui-pencil`, `ui-trash`, `ui-copy`, `ui-share`, `ui-key`, `ui-note`: generated individually from the mono-line study with the paw integrated into the main object. Transparent masters and 512px UI PNGs; render tinted to the active theme. The generated line drawings occupied only a small part of the originals, so they were scaled to the common icon canvas; source detail is lower resolution than the 1024px output.
+
+# 2026-11-19 — cuisine interests (v2)
+
+`int-chinese`, `int-japanese`, `int-korean`, `int-thai`, `int-vietnamese`, `int-indian`, `int-italian`, `int-pizza`, `int-american`, `int-mexican`, `int-mediterranean`: individual transparent illustrations with integrated paw patterns, normalized to consistent 1024px masters and 512px UI assets.

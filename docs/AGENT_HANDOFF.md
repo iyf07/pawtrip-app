@@ -177,6 +177,8 @@ Process
 
 ## 6. State of the project (update whenever it changes)
 
+- 2026-11-19: Nine `cat-*` travel category icons redesigned individually in the approved pastel style, each with its paw integrated into its object, normalized to the same optical box with 1024px masters and 512px UI images. Remaining non-mascot icons still in progress.
+
 - 2026-11-19: Replaced `scale-alone-5`'s angel/halo dog with a calm dog bed and paw blanket, per explicit prohibition. 1024px master and 512px UI PNG supplied; further non-mascot icon redesign is in progress.
 
 - 2026-11-19: User approved the two icon direction studies. The first 21-icon mono-line batch was withdrawn after the user clarified that corner paw badges are unacceptable; original icons are restored until properly integrated replacements are ready. `ui-dog-warning` and mascot/dog-related illustrations remain unchanged pending mascot. Content and scale icons are not yet redesigned except `scale-alone-5`.

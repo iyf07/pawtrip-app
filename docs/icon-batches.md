@@ -758,3 +758,7 @@ After delivery: clean each with `scripts/clean-icons-white.py` (master 1024 + UI
 # 2026-11-19 — independent stay, level 5 (v2)
 
 `scale-alone-5`: a quiet dog bed and folded paw-print blanket, without a character, halo, angel or wings. Generated against `docs/icon-redesign/style-study-draft.png` in the approved flat pastel style. Transparent 1024px master and 512px UI asset replace the previous halo icon. Other levels have not yet been redesigned.
+
+# 2026-11-19 — travel categories (v2)
+
+`cat-outdoors`, `cat-food`, `cat-coffee`, `cat-sights`, `cat-shopping`, `cat-fun`, `cat-drinks`, `cat-stay`, `cat-transit`: generated individually from the approved style study, transparent background, paw integrated into the subject. Normalized to a common optical box, with 1024px masters and 512px UI files.

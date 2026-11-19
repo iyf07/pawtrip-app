@@ -801,3 +801,6 @@ Family editing reworked (user): **编辑家庭 opens a bottom Sheet** (name fiel
 - **Trips page**: title is now 行程 (not 我的行程). Only the first five trips are cards (first wide, four 1×1); more sit behind one **更多行程 · N** card that opens a sheet list, so 新建行程 / 邀请码加入 / the calendar always stay near the top.
 - **Home hero** is a slim strip (countdown on the left, name, dates/place, avatars on the right; height ≈ 1.1 rows) instead of a 2-row poster; on wide screens the timeline is left, weather + notifications + recommendations right.
 - Not checked: the wizard in the browser (type-checked only), the trips "more" sheet, desktop width of Home.
+
+### later 73 (Claude)
+**Google sign-in (web)**: `signInWithGoogle` in `auth/AuthProvider.tsx` (Supabase OAuth, redirectTo = origin) and a "用 Google 继续" ghost button on the sign-in page (web only). Requires the Google provider enabled in Supabase with the OAuth client the user created (Client ID/secret stay in the Supabase dashboard, never in the repo). Not tried end-to-end yet; native Google sign-in is a later task. Gemini planning notes (for the home page recommendations) are in the chat: Flash-Lite ≈ $0.002 per recommendation; cache per trip-day; Maps grounding is paid-tier only for Gemini 3+.

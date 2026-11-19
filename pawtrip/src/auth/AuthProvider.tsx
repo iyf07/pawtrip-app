@@ -14,6 +14,8 @@ type AuthCtx = {
   /** Request an email OTP using an email address or public ID. */
   sendCode: (identifier: string) => Promise<void>;
   verifyCode: (identifier: string, code: string) => Promise<void>;
+  /** Web: continue with a Google account (Supabase OAuth); the page navigates to Google and comes back signed in. */
+  signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
 };
 
@@ -67,6 +69,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const signInWithGoogle = useCallback(async () => {
+    if (Platform.OS !== 'web') throw new Error('google_web_only');
+    const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.origin } });
+    if (error) throw error;
+  }, []);
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
   }, []);
@@ -79,9 +87,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: session?.user.email ?? null,
       sendCode,
       verifyCode,
+      signInWithGoogle,
       signOut,
     }),
-    [session, ready, sendCode, verifyCode, signOut],
+    [session, ready, sendCode, verifyCode, signInWithGoogle, signOut],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

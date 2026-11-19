@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { useAuth } from '@/auth/AuthProvider';
 import { Button } from '@/components/ui/Button';
@@ -15,7 +15,7 @@ const COOLDOWN = 60;
 
 export default function SignIn() {
   const { t, lang, setLang } = useT();
-  const { sendCode, verifyCode } = useAuth();
+  const { sendCode, verifyCode, signInWithGoogle } = useAuth();
   const [stage, setStage] = useState<'email' | 'code'>('email');
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
@@ -97,6 +97,7 @@ export default function SignIn() {
               error={error}
             />
             <Button label={t('auth.sendCode')} block loading={busy} onPress={send} style={{ marginTop: 16 }} />
+            {Platform.OS === 'web' ? <Button label={t('auth.google')} variant="ghost" block onPress={() => signInWithGoogle().catch(() => setError(t('auth.errSend')))} style={{ marginTop: 10 }} /> : null}
           </>
         ) : (
           <>

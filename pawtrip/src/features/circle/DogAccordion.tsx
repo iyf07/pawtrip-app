@@ -50,7 +50,9 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
   );
 }
 
-const OUT_MS = 150; // the old name and tags pop out
+const OUT_MS = 100; // the old name and tags pop out (50 ms quicker than before)
+const SHRINK = 0.8; // slideshow: the photo shrinks to this size, centred, before it moves
+const GAP_F = 0.85; // …and the cards travel this fraction of the width so they pass side by side
 const SLIDE_SPRING = { stiffness: 110, damping: 21, mass: 1 }; // the new photo slides in from the side on a damped spring: it settles with a hint of give
 const spring = (v: Animated.Value, to: number) =>
   new Promise<void>((resolve) => Animated.spring(v, { toValue: to, ...SLIDE_SPRING, useNativeDriver: false }).start(() => resolve()));
@@ -81,6 +83,7 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
   const [dir, setDir] = useState(1);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [slide] = useState(() => new Animated.Value(0));
+  const [scale] = useState(() => new Animated.Value(1)); // shared by both photos: 1 → shrunk → 1
   const [text] = useState(() => new Animated.Value(0));
   const busy = useRef(false);
   const loaded = useRef<(() => void) | null>(null);
@@ -106,12 +109,14 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
     setInc(i);
     if (!dogs[i].photo_url) loaded.current?.();
     await ready; // 2. the new photo has fully loaded
-    await spring(slide, 1); // 3. it slides in from the side, damped
+    await anim(scale, SHRINK, 200, Easing.inOut(Easing.cubic)); // 2b. both photos shrink, centred
+    await spring(slide, 1); // 3. old slides off to one side, new comes in from the other, damped
+    await anim(scale, 1, 240, Easing.inOut(Easing.cubic)); // 3b. the new photo grows back to full size
     setFirst(false);
     setCur(i);
     setInc(null);
     slide.setValue(0);
-    Animated.spring(text, { toValue: 1, stiffness: 260, damping: 18, mass: 1, useNativeDriver: false }).start(); // 4. the new text pops in
+    Animated.spring(text, { toValue: 1, stiffness: 320, damping: 19, mass: 1, useNativeDriver: false }).start(); // 4. the new text pops in
     busy.current = false;
   };
 
@@ -121,17 +126,18 @@ export function DogAccordion({ dogs, onOpenDog }: { dogs: Dog[]; onOpenDog: (id:
   const weight = dogWeightLabel(dog);
   const tags = dogTraitKeys(dog).map((k) => t(k as Key)).join(' · ');
   const W = size.w;
+  const radius = scale.interpolate({ inputRange: [SHRINK, 1], outputRange: [28, 0], extrapolate: 'clamp' }); // rounded while shrunk
   return (
     <View style={{ flex: 1 }}>
       <Pressable onPress={() => onOpenDog(dog.id)} accessibilityRole="button" accessibilityLabel={dog.name} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}
-        style={{ flex: 1, overflow: 'hidden', backgroundColor: dogColor(dog.id) }}>
+        style={{ flex: 1, overflow: 'hidden', backgroundColor: th.card }}>
         {W > 0 ? (
           <>
-            <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [0, -dir * W * 0.35] }) }] }}> {/* the old photo only drifts: the new one slides over it */}
+            <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, borderRadius: radius, overflow: 'hidden', transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [0, -dir * W * GAP_F] }) }, { scale }] }}>
               <HeroLayer dog={dog} w={W} h={size.h} first={first} />
             </Animated.View>
             {inc !== null ? (
-              <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [dir * W, 0] }) }] }}>
+              <Animated.View style={{ position: 'absolute', top: 0, left: 0, width: W, height: size.h, borderRadius: radius, overflow: 'hidden', transform: [{ translateX: slide.interpolate({ inputRange: [0, 1], outputRange: [dir * W * GAP_F, 0] }) }, { scale }] }}>
                 <HeroLayer dog={dogs[inc]} w={W} h={size.h} onLoaded={() => loaded.current?.()} />
               </Animated.View>
             ) : null}

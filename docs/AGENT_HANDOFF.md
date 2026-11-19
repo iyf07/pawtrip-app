@@ -742,3 +742,6 @@ Family page hero no longer shows member avatars (the 家庭成员 card right bel
 
 ### later 60 (Claude)
 Family page: the pencil on the hero is gone; **编辑家庭** is now its own bento action card next to 邀请好友 and 邀请码邀请 (admin only, hidden while editing). It switches the hero into the edit card (name field, save/discard rings, disband).
+
+### later 61 (Claude)
+Circle dog switch is now a slideshow (user's second option): pop-out text (100 ms, 50 ms quicker) → both photos shrink to 80 % centred → old slides off one side while the new one slides in from the other (damped spring) → new grows back to 100 % → text pops in (spring 320/19). The card behind is white. End state checked at 375 px; the motion itself not watched (pane throttles animation). Constants in `DogAccordion.tsx`.

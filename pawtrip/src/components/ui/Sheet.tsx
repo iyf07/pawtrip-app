@@ -7,6 +7,7 @@ import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 
 import { Button } from './Button';
+import { NoRevealContext } from './Reveal';
 import { Text } from './Text';
 
 type SheetProps = {
@@ -119,7 +120,7 @@ export function Sheet({ visible, onClose, children, footer, tall }: SheetProps) 
             }}>
             <View style={{ width: 44, height: 5, borderRadius: 3, backgroundColor: t.line, alignSelf: 'center', marginBottom: 14 }} />
             <ScrollView style={{ flexShrink: 1 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: footer ? 20 : 36 + insets.bottom }} keyboardShouldPersistTaps="handled">
-              {children}
+              <NoRevealContext.Provider value>{children}</NoRevealContext.Provider>
             </ScrollView>
             {footer}
           </Pressable>

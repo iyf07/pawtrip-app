@@ -20,7 +20,6 @@ import { useT } from '@/i18n';
 import { datesLabel } from '@/lib/dates';
 import { cityState } from '@/lib/place';
 
-import { NotificationBell } from '@/components/NotificationBell';
 import { NavBar } from '@/components/NavBar';
 import { NavProvidedContext, ShellContext } from './ShellContext';
 
@@ -109,7 +108,6 @@ function Rail({ section }: { section: Section }) {
       {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
       {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/circle'); })}
       <View style={{ flex: 1 }} />
-      <NotificationBell size={40} box={52} radius={16} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}
       <Pressable
         onPress={() => router.navigate('/profile')}

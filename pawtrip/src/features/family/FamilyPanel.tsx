@@ -68,7 +68,8 @@ export function FamilyPanel() {
   const [joining, setJoining] = useState(false);
   const [inviting, setInviting] = useState(params.invite === '1');
   // pencil edit mode (admin): rename, remove members, disband
-  const [editName, setEditName] = useState<string | null>(null);
+  const [editName, setEditName] = useState<string | null>(null); // the rename sheet
+  const [editMode, setEditMode] = useState(false); // edit mode: members can be removed, the name can be changed
   const [askLeave, setAskLeave] = useState(false);
   const [askRemove, setAskRemove] = useState<{ id: string; name: string } | null>(null);
 
@@ -108,7 +109,11 @@ export function FamilyPanel() {
 
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
-      <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />
+      {state.isAdmin && editMode ? (
+        <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)}>
+          <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} right={<Icon name="ui-pencil" size={28} />} />
+        </Pressable>
+      ) : <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />}
       <BentoColumns
         left={
           <BentoCard index={1} style={{ minHeight: 360, gap: 22 }}>
@@ -118,7 +123,7 @@ export function FamilyPanel() {
                   <View>
                     <Avatar id={m.userId} name={m.name} url={m.avatar} size={76} />
                     {m.role === 'admin' ? <View accessible accessibilityLabel={t('family.adminBadge')} style={{ position: 'absolute', top: -8, right: -6 }}><Icon name="nav-admin" size={30} /></View> : null}
-                    {state.isAdmin && m.userId !== userId ? (
+                    {state.isAdmin && editMode && m.userId !== userId ? (
                       <Pressable accessibilityRole="button" accessibilityLabel={t('family.remove')} hitSlop={8} onPress={() => setAskRemove({ id: m.userId, name: m.name })} style={{ position: 'absolute', top: -6, right: -6, width: 26, height: 26, borderRadius: 13, backgroundColor: th.danger, borderWidth: 2, borderColor: th.card, alignItems: 'center', justifyContent: 'center' }}>
                         <Text plain weight={800} size={14} style={{ color: '#FFFFFF', lineHeight: 16 }}>✕</Text>
                       </Pressable>
@@ -148,7 +153,7 @@ export function FamilyPanel() {
           {state.isAdmin ? (
             <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
               <BentoAction index={3} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
-              <BentoAction index={4} icon={<Icon name="ui-pencil" size={56} />} label={t('family.edit')} onPress={() => setEditName(state.family!.name)} />
+              <BentoAction index={4} icon={<Icon name={editMode ? 'ui-save' : 'ui-pencil'} size={56} />} label={editMode ? t('family.done') : t('family.edit')} onPress={() => setEditMode((v) => !v)} />
             </View>
           ) : (
             <View style={{ flexDirection: 'row' }}>

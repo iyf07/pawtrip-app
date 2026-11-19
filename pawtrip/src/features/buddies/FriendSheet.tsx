@@ -16,12 +16,11 @@ import { Chip } from '@/components/ui/Chip';
 import { Icon } from '@/components/ui/Icon';
 import { useSettings } from '@/api/profile';
 import { weightIn } from '@/lib/dog-weight';
-import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 import { DOG_SCALES, dogScales, PERSON_SCALES, DIETS } from '@/constants/options';
 import { useT, type Key } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
-import { BENTO_GAP, BentoCard, BentoColumns, Hero } from '@/features/circle/Bento';
+import { BENTO_GAP, BentoCard, BentoColumns, PersonHeader } from '@/features/circle/Bento';
 
 function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
   const { t } = useT();
@@ -44,7 +43,6 @@ function DogCard({ dog, index }: { dog: FriendDog; index: number }) {
 
 export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null; onClose: () => void; onRemove?: (b: Buddy) => void }) {
   const { t, locale } = useT();
-  const { wide } = useLayout();
   const th = useTheme();
   const setRelation = useSetBuddyRelation();
   const respondRelation = useRespondBuddyRelation();
@@ -56,9 +54,9 @@ export function FriendSheet({ buddy, onClose, onRemove }: { buddy: Buddy | null;
   const dogCount = buddy.dogs.length;
   return (
     <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-      <Hero index={0} minHeight={wide ? 260 : 240} color={th.softBlue} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={92} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
-        <PersonTraits size={13} profile={buddy.traits} />
-      </Hero>
+      <PersonHeader index={0} color={th.softBlue} avatar={<Avatar id={buddy.userId} name={buddy.name} url={buddy.avatar} size={84} />} title={buddy.name} subtitle={`@${buddy.handle}`}>
+        <PersonTraits size={12} profile={buddy.traits} />
+      </PersonHeader>
       <BentoColumns
         left={<>
       {buddy.dogs.map((dog, i) => <DogCard key={dog.id} dog={dog} index={1 + i} />)}

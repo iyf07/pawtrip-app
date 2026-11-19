@@ -134,3 +134,20 @@ export function BentoColumns({ left, right }: { left: ReactNode; right: ReactNod
     </View>
   );
 }
+
+/** A compact page header for a person: avatar on the left, name / ID / tags / small actions to its right. */
+export function PersonHeader({ index = 0, color, avatar, title, subtitle, children }: { index?: number; color: string; avatar: ReactNode; title: string; subtitle?: string; children?: ReactNode }) {
+  const th = useTheme();
+  return (
+    <Reveal index={index} style={{ width: '100%' }}>
+      <View style={{ borderRadius: BENTO_RADIUS, backgroundColor: color, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16, boxShadow: `0 10px 24px -14px ${th.shadow}` }}>
+        {avatar}
+        <View style={{ flex: 1, minWidth: 0 }}>
+          <Text weight={800} size={28} numberOfLines={1} style={{ color: th.onGold }}>{title}</Text>
+          {subtitle ? <Text weight={800} size={12} numberOfLines={1} style={{ color: th.onGold, opacity: 0.8, letterSpacing: 1.4, textTransform: 'uppercase', marginTop: 2 }}>{subtitle}</Text> : null}
+          {children}
+        </View>
+      </View>
+    </Reveal>
+  );
+}

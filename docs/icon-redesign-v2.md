@@ -1,6 +1,6 @@
 # Icon redesign v2 — "premium, still cute" (decided 2026-11-18)
 
-**Status: TODO. The user will regenerate ALL icons (161 files) with ChatGPT. Until they are delivered the app keeps the old sticker icons.**
+**Status: TODO. The user will regenerate icons with ChatGPT. Until they are delivered the app keeps the old sticker icons. Which icons get which treatment is in "Triage" below (decided with the user's input 2026-11-18).**
 Supersedes the look in `docs/icon-style-brief.md` (white die-cut sticker border, thick outline). The delivery pipeline described there
 (flat white background → `scripts/clean-icons-white.py` → 1024 master + 512 UI file in `assets/icons`, then register in
 `src/components/ui/Icon.tsx`) stays. **Keep every file name exactly as it is today**, so the swap needs no code change.
@@ -109,3 +109,19 @@ Reply only with the images. I will name the batch and list the icons next.
 - New icons always follow this brief, not the old sticker brief.
 - Never put a white sticker border or a heavy outline on a new icon.
 - Colour = meaning: a category keeps its colour everywhere (see the Palette table and the page colour mapping in the handoff).
+
+## Triage: which icons change, how, and in what order
+
+Two looks live side by side, chosen by what the icon *is*:
+
+| Tier | Look | Which icons | Why |
+|---|---|---|---|
+| **A. Minimal mono-line** (premium, quiet) | One colour (the page's ink `#5B4636`), uniform 1.75–2 px rounded line, no fill, no face, no outline-plus-fill. Optionally ONE soft accent (gold dot) on the active state. 24–28 px on a 40 px soft round plate. Draw as SVG/line, or ask ChatGPT for single-colour line art on white. | **`ui-*` (17)**: copy, share, pencil, save (✓), discard (✗), trash, archive, camera, chat, clock, key, note, warning, zoom, invite, crown, dog-warning. **`tab-*` (3)**: plan (calendar), ideas (bulb), members. **`nav-settings`, `nav-notifications`**. | These are *actions and controls*. They must be calm, tiny and identical in weight; stickers make them heavy (the family page action cards were the example). |
+| **B. Duotone cute** (v2 "premium but cute") | Flat 2 tones + 1 accent, thin soft outline `#6B4F3A`, chubby forms, tiny details, no white sticker border (see "The look" above). | **`nav-trips`, `nav-dogs`, `nav-family`, `nav-profile`, `nav-admin`** (identity of the sections); **`empty-*` (5)** (the most illustrative, with the mascot); **`logo-paw`**; **`dog-*` (6)**; **`mood-*` (3)**; **`pin-*` (3)**; **`trait-*` (2)**; **`cat-*` (9)** (category hues); **`int-*` (24)** (interests); **`diet-*` (7)**; **`wx-*` (9)**. | Content and identity: this is where PawTrip's personality lives, so they stay colourful and cute, just calmer and consistent. |
+| **C. Keep as they are for now** | Current sticker look. | **`scale-*` (65)**: 13 scales × 5 levels. | Highest cost, small on screen (28 px inside cards), a progression that must stay consistent as a set. Regenerate LAST, in v2 style, after the mascot and tier A/B are done; until then they sit acceptably inside the tonal cards. |
+
+**Order of work**: (1) mascot + character sheet (`docs/mascot-brief.md`) → (2) tier A (`ui-*`, `tab-*`, two nav icons) — quickest visible win → (3) tier B nav + empty states + `logo-paw` + `dog-*` + `mood-*` + `pin-*` → (4) `cat-*`, `int-*`, `diet-*`, `wx-*`, `trait-*` → (5) `scale-*`.
+
+**Rule of thumb**: an icon that *does* something (button, control, tab) = tier A. An icon that *means* something (a thing, a place, a food, a dog) = tier B. Anything with a person/dog character uses the mascot's face and proportions.
+
+**Where the code sits** (for the swap): all icons are registered in `src/components/ui/Icon.tsx` (`SOURCES`). Tier A icons are used at 24–28 px in buttons, cards' action tiles (`BentoAction`, 56 px today → should become ~28 px on a soft plate), `Tile`/`BentoCard` headers; keep file names so no code changes are needed, but when tier A arrives also shrink the 56 px action-card icons in `features/circle/Bento.tsx` (`BentoAction`) and in `FamilyPanel.tsx` / `profile.tsx` / `DogForm.tsx`.

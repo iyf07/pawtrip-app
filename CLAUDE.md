@@ -27,3 +27,4 @@ Related rules already in force: no cancel button in popups (tap outside closes),
 ## Icons
 
 Icons are being redesigned ("premium, but still cute"). Before creating or changing any icon, read `docs/icon-redesign-v2.md`. Do not use the old sticker style for anything new.
+The mascot dog is specified in `docs/mascot-brief.md`; icon tiers (mono-line vs duotone cute) are in `docs/icon-redesign-v2.md`.

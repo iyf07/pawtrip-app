@@ -23,7 +23,7 @@ import { useT, type Key } from "@/i18n";
 import { goBack } from "@/lib/nav";
 import { Reveal } from '@/components/ui/Reveal';
 import { ConfirmSheet } from '@/components/ui/Sheet';
-import { BENTO_GAP, BentoAction, BentoCard, BentoColumns, Hero } from '@/features/circle/Bento';
+import { BENTO_GAP, BentoAction, BentoCard, BentoColumns, PersonHeader } from '@/features/circle/Bento';
 import { ProfileEditSheet } from '@/features/profile/ProfileEditSheet';
 import { ShareSheet } from '@/components/ShareSheet';
 
@@ -56,13 +56,13 @@ function ProfileView({ profile }: { profile: ProfileRow }) {
   return (
     <Screen nav size={wide ? "wide" : "narrow"} top={<Header title={t("profile.title")} left={<BackButton label={t("nav.back")} onPress={goBack} />} />}>
       <View style={{ gap: BENTO_GAP, marginTop: 8 }}>
-        <Hero index={0} minHeight={250} color={th.goldBg} avatar={<Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={92} />} title={profile.display_name} subtitle={`@${profile.handle}`}>
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginTop: 4 }}>
+        <PersonHeader index={0} color={th.goldBg} avatar={<Avatar id={profile.id} name={profile.display_name} url={profile.avatar_url} size={84} />} title={profile.display_name} subtitle={`@${profile.handle}`}>
+          <PersonTraits size={12} profile={profile} />
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 2, marginTop: 2, marginLeft: -6 }}>
             <Pressable accessibilityRole="button" accessibilityLabel={t('pf.copyPublicId')} onPress={copyPublicId} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Icon name="ui-copy" size={24} /></Pressable>
             <Pressable accessibilityRole="button" accessibilityLabel={t('pf.sharePublicId')} onPress={() => setSharingId(true)} style={{ width: 36, height: 36, alignItems: 'center', justifyContent: 'center' }}><Icon name="ui-share" size={24} /></Pressable>
-            <View style={{ flex: 1 }}><PersonTraits size={12} profile={profile} /></View>
           </View>
-        </Hero>
+        </PersonHeader>
         <BentoColumns
           left={<>
             <BentoCard index={1} title={t("profile.travelStyle")}>

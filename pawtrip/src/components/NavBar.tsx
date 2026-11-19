@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useMyProfile } from '@/api/profile';
 import { useAuth } from '@/auth/AuthProvider';
-import { NotificationBell } from '@/components/NotificationBell';
 import { Avatar } from '@/components/ui/Avatar';
 import { Icon, type IconName } from '@/components/ui/Icon';
 import { PressScale } from '@/components/ui/PressScale';
@@ -56,7 +55,6 @@ export function NavBar() {
           {left.map(btn)}
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2 }}>
-          <NotificationBell size={28} box={36} radius={12} />
           <Pressable onPress={() => setMenu(true)} accessibilityRole="button" accessibilityState={{ expanded: menu }} accessibilityLabel={t('profile.title')} hitSlop={8} style={{ marginLeft: 6 }}>
             <Avatar id={userId ?? 'me'} name={me.data?.display_name} url={me.data?.avatar_url} size={34} border={onAccount ? 3 : 2} />
           </Pressable>

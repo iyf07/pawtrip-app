@@ -139,6 +139,7 @@ function Gate({ fontsLoaded }: { fontsLoaded: boolean }) {
         <Stack.Protected guard={!!session && !needsOnboarding}>
           <Stack.Screen name="index" />
           <Stack.Screen name="calendar" />
+          <Stack.Screen name="circle" />
           <Stack.Screen name="friends" />
           <Stack.Screen name="family" />
           <Stack.Screen name="dogs/index" />

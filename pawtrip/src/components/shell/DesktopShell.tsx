@@ -23,7 +23,7 @@ import { cityState } from '@/lib/place';
 import { NotificationBell } from '@/components/NotificationBell';
 import { ShellContext } from './ShellContext';
 
-type Section = 'calendar' | 'trips' | 'dogs' | 'buddies' | 'profile' | 'settings';
+type Section = 'calendar' | 'trips' | 'circle' | 'profile' | 'settings';
 
 const RAIL_W = 76;
 const LIST_W = 232;
@@ -31,7 +31,7 @@ const LIST_W = 232;
 /** Full-screen flows (sign-in, onboarding, new trip, join, the new-dog wizard) never show the shell. */
 const isFlow = (p: string) => /^\/(sign-in|onboarding|join)(\/|$)/.test(p) || p === '/trips/new' || p === '/dogs/new';
 
-const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : p.startsWith('/dog') ? 'dogs' : (p.startsWith('/friends') || p.startsWith('/family')) ? 'buddies' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
+const sectionOf = (p: string): Section => (p.startsWith('/calendar') ? 'calendar' : (p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family')) ? 'circle' : p.startsWith('/profile') ? 'profile' : p.startsWith('/settings') ? 'settings' : 'trips');
 
 /**
  * Desktop web layout (TickTick style): a narrow rail (profile, trips, dogs, settings), a list column for the
@@ -53,7 +53,7 @@ export function DesktopShell({ enabled, children }: { enabled: boolean; children
     <ShellContext.Provider value={active}>
       <View style={{ flex: 1, flexDirection: 'row' }}>
         {active ? <Rail section={section} /> : null}
-        {showList ? section === 'dogs' ? <DogList selected={dogId} /> : section === 'buddies' ? <FriendList selected={friend} /> : <TripList selected={tripId} /> : null}
+        {showList ? path.startsWith('/dog') ? <DogList selected={dogId} /> : path.startsWith('/friends') ? <FriendList selected={friend} /> : <TripList selected={tripId} /> : null}
         {showList && detail ? <CollapseList home={detail.home} /> : null}
         {active && section === 'trips' && tripId ? <TripSections tripId={tripId} tab={tab} /> : null}
         <View style={{ flex: 1, minWidth: 0 }}>{children}</View>
@@ -100,8 +100,7 @@ function Rail({ section }: { section: Section }) {
       </Pressable>
       {item('calendar', 'tab-plan', t('shell.calendar'), () => router.navigate('/calendar'))}
       {item('trips', 'nav-trips', t('shell.trips'), () => router.navigate('/'))}
-      {item('dogs', 'nav-dogs', t('shell.dogs'), () => router.navigate('/dogs'))}
-      {item('buddies', 'tab-members', t('shell.buddies'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/friends'); })}
+      {item('circle', 'tab-members', t('shell.circle'), () => { router.setParams({ friend: undefined, add: undefined }); router.navigate('/circle'); })}
       <View style={{ flex: 1 }} />
       <NotificationBell size={40} box={52} radius={16} />
       {item('settings', 'nav-settings', t('shell.settings'), () => router.navigate('/settings'))}

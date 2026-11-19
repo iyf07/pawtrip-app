@@ -17,6 +17,8 @@
 | 11 | 保存/撤销按钮 | 点击后描边画出，再扩散一圈淡出的光晕，颜色随对勾/叉 | 描边 350 ms 画满一圈（从顶部顺时针）；光晕 300 ms，放大到 1.9 倍并淡出；光晕放完后才执行保存/撤销（共约 650 ms）；保存 = 绿色（th.ok），撤销 = 红色（th.danger） | `pawtrip/src/components/ui/RingButton.tsx`（`RING_DRAW_MS`、`RING_HALO_MS`）；用于个人主页、狗狗页、家庭名字的保存/撤销 |
 | 12 | 点击小狗 | 全站任意位置点击/触摸，在点击处冒出一个小狗图标并淡出 | 600 ms，缓出；缩放 0.5→1.25；上飘 10 px；随机倾斜 ±25°；图标 44 px（`nav-dogs` 小狗图标，要换图标改 `PawTap.tsx` 里的 `Icon name`）；同时最多 6 个；不拦截点击 | `pawtrip/src/components/PawTap.tsx`（挂在 `app/_layout.tsx` 最外层；网页用 window pointerdown，手机用触摸捕获） |
 | 13 | 顶部导航栏图标 | 当前页的图标变宽并放大，其他变窄并缩小，和标签一样 | 0.5 s；宽度 选中 60 px / 其他 32 px；缩放同 #2；每个页面各自画导航栏，所以用 `useTabGrow` 的记忆（key `nav:<icon>`）让切换页面时也能看到过渡 | `pawtrip/src/components/NavBar.tsx`（`NavButton`）。电脑左侧竖向导航栏（`DesktopShell`）暂未加 |
+| 14 | 圈子 → 下一层页面 | 从圈子点进狗狗/家庭/好友页，新页面从右侧滑入并淡入；返回圈子则从左侧滑入 | 320 ms 缓出；位移 40 px；透明度 0.2→1；只看"从哪来"，所以浏览器返回键也有效 | `pawtrip/src/lib/page-entrance.ts`（`CHILD` 列出圈子下一层的路径），由 `ui/Screen.tsx` 使用 |
+| 15 | 圈子狗狗手风琴 | 点窄条展开该狗狗，其余变窄；点已展开的进入狗狗页 | 500 ms 缓出；展开宽度权重 5 / 其他 1 | `pawtrip/src/features/circle/DogAccordion.tsx`（`OPEN`、`MS`） |
 
 ## 列表入场已覆盖的页面
 行程列表、狗狗列表、想法卡片、好友列表和好友申请、家庭的成员和狗狗、行程成员页的成员和狗狗、个人/好友/狗狗的偏好（`ScaleInput` 的 `index`）、兴趣（`InterestPicker`、`DogInterests`）、忌口标签、狗狗表单的偏好卡片、计划时间轴块、设置页。

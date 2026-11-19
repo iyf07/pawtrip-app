@@ -74,7 +74,7 @@ export function BuddiesScreen() {
   );
 
   return (
-    <Screen nav bottom={people.bottom} top={<Header title={t('bd.title')} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
+    <Screen nav bottom={people.bottom} top={<Header title={t('bd.title')} left={<BackButton label={t('nav.back')} onPress={() => router.navigate('/circle')} />} right={<AddAction icon="tab-members" label={t('bd.addTitle')} onPress={() => setAdding(true)} />} />} size="narrow">
       {people.top ? <View style={{ marginTop: 4 }}>{people.top}</View> : null}
       {buddies.isPending ? (
         <PageSkeleton cards={3} />

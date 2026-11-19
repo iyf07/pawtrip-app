@@ -32,14 +32,7 @@ export function NavBar() {
   const items: { key: string; icon: IconName; label: string; go: () => void; match: (p: string) => boolean }[] = [
     { key: 'cal', icon: 'tab-plan', label: t('shell.calendar'), go: () => router.navigate('/calendar'), match: (p) => p.startsWith('/calendar') },
     { key: 'trips', icon: 'nav-trips', label: t('shell.trips'), go: () => router.navigate('/'), match: (p) => p === '/' || p.startsWith('/trips') },
-    {
-      key: 'dogs',
-      icon: 'nav-dogs',
-      label: t('shell.dogs'),
-      go: () => router.navigate('/dogs'),
-      match: (p) => p.startsWith('/dog'),
-    },
-    { key: 'friends', icon: 'tab-members', label: t('shell.buddies'), go: () => router.navigate('/friends'), match: (p) => p.startsWith('/friends') || p.startsWith('/family') },
+    { key: 'circle', icon: 'tab-members', label: t('shell.circle'), go: () => router.navigate('/circle'), match: (p) => p.startsWith('/circle') || p.startsWith('/dog') || p.startsWith('/friends') || p.startsWith('/family') },
     { key: 'settings', icon: 'nav-settings', label: t('shell.settings'), go: () => router.navigate('/settings'), match: (p) => p.startsWith('/settings') },
   ];
   const btn = (it: (typeof items)[number]) => <NavButton key={it.key} icon={it.icon} label={it.label} on={it.match(path)} onPress={it.go} />;

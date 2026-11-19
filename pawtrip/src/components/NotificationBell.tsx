@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
 
 import { useBuddies, useRespondBuddy, useRespondBuddyRelation, type Buddy } from '@/api/buddies';
@@ -14,7 +14,7 @@ import { useTheme } from '@/hooks/use-theme';
 import { useT, type Key } from '@/i18n';
 
 /** Notifications above settings in the nav. For now: friend requests waiting for my answer. */
-export function NotificationBell({ size, box, radius }: { size: number; box: number; radius: number }) {
+export function NotificationBell({ size, box, radius, renderTrigger }: { size: number; box: number; radius: number; /** draw your own opener (a bento tile) instead of the bell */ renderTrigger?: (count: number, open: () => void) => ReactNode }) {
   const { t } = useT();
   const th = useTheme();
   const toast = useToast();
@@ -63,7 +63,7 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
 
   return (
     <>
-      <Pressable
+      {renderTrigger ? renderTrigger(count, () => setOpen(true)) : <Pressable
         onPress={() => setOpen(true)}
         accessibilityRole="button"
         accessibilityLabel={t('notif.title')}
@@ -75,7 +75,7 @@ export function NotificationBell({ size, box, radius }: { size: number; box: num
             <Text plain weight={800} size={11} style={{ color: '#FFFFFF' }}>{count}</Text>
           </View>
         ) : null}
-      </Pressable>
+      </Pressable>}
       <Sheet visible={open} onClose={() => setOpen(false)}>
         <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('notif.title')}</Text>
         <View style={{ marginTop: 12 }}>

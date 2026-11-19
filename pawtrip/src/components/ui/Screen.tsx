@@ -1,10 +1,11 @@
 import { useRef, useState, type ComponentRef, type ReactNode } from 'react';
-import { Pressable, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Animated, Pressable, ScrollView, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { NavBar } from '@/components/NavBar';
 import { useInShell } from '@/components/shell/ShellContext';
 import { COLUMN, type ColumnSize } from '@/constants/theme';
+import { usePageEntrance } from '@/lib/page-entrance';
 import { useLayout } from '@/hooks/use-layout';
 import { useTheme } from '@/hooks/use-theme';
 
@@ -37,13 +38,14 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
   const insets = useSafeAreaInsets();
   const inShell = useInShell();
   const nav2 = nav && !inShell; // the desktop shell already has the rail
+  const entrance = usePageEntrance();
   const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const [past, setPast] = useState(false); // scrolled past one screen
   const y = useRef(0);
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
       {nav2 ? <NavBar /> : null}
-      <View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 ? 0 : insets.top }}>
+      <Animated.View style={{ flex: 1, width: '100%', maxWidth: COLUMN[size], alignSelf: 'center', paddingTop: noTopInset || nav2 ? 0 : insets.top, opacity: entrance.opacity, transform: [{ translateX: entrance.translateX }] }}>
         {top}
         {scroll ? (
           <View style={{ flex: 1 }}>
@@ -68,7 +70,7 @@ export function Screen({ children, top, bottom, scroll = true, bottomPad = 40, n
           <View style={[{ flex: 1, paddingHorizontal: 16 }, contentStyle]}>{children}</View>
         )}
         {bottom}
-      </View>
+      </Animated.View>
     </View>
   );
 }

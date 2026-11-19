@@ -654,3 +654,10 @@ List entrance (`Reveal`) no longer caps the stagger: item N waits N×100 ms, no 
 ### later 39 (Claude)
 - `RingButton` calls its action immediately on press (the backend request goes out at once, measured ~2 ms after the click) and hands the caller an `animationDone` promise; the profile, dog and family edit modes await both the save and `animationDone` before closing, so the ring animation is never cut off.
 - Click effect now shows the dog icon (`nav-dogs`) instead of the paw print.
+
+### later 40 (Claude) — Circle tab (first bento page)
+Design agreed with the user (see chat): 3 tabs eventually — 行程 (left), 主页 (middle), 圈子 (right); profile and settings stay in the avatar dropdown. Only the Circle tab is built so far.
+- New route `/circle` (`src/app/circle.tsx`, guarded in `_layout.tsx`). Bento rules: 2 columns, flush, **12 px gap, 24 px corners, one card says one thing** (`features/circle/Bento.tsx`: `Tile`, `BENTO_GAP`, `BENTO_RADIUS`, `bentoUnits`). Layout: dogs 2×2 (horizontal accordion of ALL dogs, `DogAccordion`; no dogs → dashed 添加狗狗 tile), family 2×1 (no family → dashed 创建家庭), 好友 | 我的通知 (opens the bell sheet via `NotificationBell renderTrigger`), 添加好友 | 用邀请码加入 (family code sheet).
+- Navigation: the top NavBar and the desktop rail now have one 圈子 entry instead of 狗狗 + 好友. `/dogs`, `/friends`, `/family` are one level below the circle and show a back button to `/circle`. Rail section 'circle' covers /circle,/dog*,/friends,/family; the master-detail list column on desktop still keys off the path.
+- Hierarchy animation: `lib/page-entrance.ts` (used by `Screen`) slides the new page in from the right when going circle → child and from the left when coming back (also for browser back). Listed in `docs/animations.md` #14, #15.
+- Not done yet (user wants these later): bento versions of 我的主页, 狗狗主页, 家庭, 好友 pages; 主页 and 行程 tabs; 3-tab bottom bar. Verified at 375 px locally (tiles render, family tile → /family, back → /circle); desktop width and multi-dog accordion not looked at.

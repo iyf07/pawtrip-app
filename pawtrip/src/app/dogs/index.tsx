@@ -12,7 +12,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Card } from '@/components/ui/Card';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { PageSkeleton } from '@/components/ui/Skeleton';
-import { Header, Screen } from '@/components/ui/Screen';
+import { BackButton, Header, Screen } from '@/components/ui/Screen';
 import { Meta, Text } from '@/components/ui/Text';
 import { useT } from '@/i18n';
 import { Reveal } from '@/components/ui/Reveal';
@@ -31,7 +31,7 @@ export default function Dogs() {
   const ownerName = (id: string) => (id === userId ? null : fam.data?.members.find((m) => m.userId === id)?.name ?? null);
 
   return (
-    <Screen nav top={<Header title={t('profile.myDogs')} right={<AddAction icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
+    <Screen nav top={<Header title={t('profile.myDogs')} left={<BackButton label={t('nav.back')} onPress={() => router.navigate('/circle')} />} right={<AddAction icon="nav-dogs" label={t('profile.addDog')} onPress={() => router.push('/dogs/new')} />} />} size="narrow">
       {dogs.isPending ? (
         <PageSkeleton cards={3} />
       ) : (

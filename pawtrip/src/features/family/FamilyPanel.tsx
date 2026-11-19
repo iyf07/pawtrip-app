@@ -22,13 +22,12 @@ import { Field } from '@/components/ui/Field';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Icon } from '@/components/ui/Icon';
 import { PageSkeleton } from '@/components/ui/Skeleton';
-import { ConfirmSheet } from '@/components/ui/Sheet';
+import { ConfirmSheet, Sheet } from '@/components/ui/Sheet';
 import { Meta, Text } from '@/components/ui/Text';
 import { useToast } from '@/components/ui/Toast';
 import { useAuth } from '@/auth/AuthProvider';
 import { useTheme } from '@/hooks/use-theme';
 import { useT } from '@/i18n';
-import { RingButton } from '@/components/ui/RingButton';
 
 /** The family tab on the friends page: create a family, invite friends, see members, leave. Members share all their dogs. */
 export function FamilyPanel() {
@@ -87,22 +86,9 @@ export function FamilyPanel() {
     );
   }
 
-  const editing = editName !== null && state.isAdmin;
-
   return (
     <View style={{ gap: 12, marginTop: 8 }}>
-      {editing ? (
-        <BentoCard index={0} tone="mint" right={
-          <View style={{ flexDirection: 'row', gap: 8 }}>
-            <RingButton kind="save" label={t('nav.save')} disabled={!editName?.trim()} loading={rename.isPending} onPress={(done) => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); await done; setEditName(null); })} />
-            <RingButton kind="discard" label={t('pf.discardSection', { section: state.family.name })} onPress={async (done) => { await done; setEditName(null); }} />
-          </View>}>
-          <Field accessibilityLabel={t('family.namePh')} value={editName ?? ''} onChangeText={setEditName} placeholder={t('family.namePh')} maxLength={40} containerStyle={{ marginTop: 0 }} />
-          <View style={{ alignItems: 'center' }}><Button label={t('family.disband')} variant="danger" onPress={() => setAskLeave(true)} /></View>
-        </BentoCard>
-      ) : (
-        <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />
-      )}
+      <Hero index={0} minHeight={96} color={th.softMint} title={state.family.name} />
       <BentoCard index={1} title={t('family.members')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
           {state.members.map((m) => (
@@ -110,10 +96,14 @@ export function FamilyPanel() {
               <View>
                 <Avatar id={m.userId} name={m.name} url={m.avatar} size={64} />
                 {m.role === 'admin' ? <View accessible accessibilityLabel={t('family.adminBadge')} style={{ position: 'absolute', top: -8, right: -6 }}><Icon name="nav-admin" size={28} /></View> : null}
+                {state.isAdmin && m.userId !== userId ? (
+                  <Pressable accessibilityRole="button" accessibilityLabel={t('family.remove')} hitSlop={8} onPress={() => setAskRemove({ id: m.userId, name: m.name })} style={{ position: 'absolute', top: -6, right: -6, width: 26, height: 26, borderRadius: 13, backgroundColor: th.danger, borderWidth: 2, borderColor: th.card, alignItems: 'center', justifyContent: 'center' }}>
+                    <Text plain weight={800} size={14} style={{ color: '#FFFFFF', lineHeight: 16 }}>✕</Text>
+                  </Pressable>
+                ) : null}
               </View>
               <Text weight={700} size={13} numberOfLines={1} style={{ maxWidth: 76, textAlign: 'center' }}>{m.name}</Text>
               {m.status === 'pending' ? <Meta weight={700} size={11}>{t('family.pending')}</Meta> : null}
-              {editing && m.userId !== userId ? <Button label={t('family.remove')} small variant="danger" onPress={() => setAskRemove({ id: m.userId, name: m.name })} /> : null}
             </View>
           ))}
         </View>
@@ -136,7 +126,7 @@ export function FamilyPanel() {
         <View style={{ flexDirection: 'row', gap: BENTO_GAP }}>
           <BentoAction index={3} icon={<Icon name="tab-members" size={56} />} label={t('family.invite')} onPress={() => setInviting(true)} />
           <BentoAction index={4} icon={<Icon name="ui-key" size={56} />} label={t('family.inviteCode')} onPress={() => setCodeOpen(true)} />
-          {editing ? null : <BentoAction index={5} icon={<Icon name="ui-pencil" size={56} />} label={t('family.edit')} onPress={() => setEditName(state.family!.name)} />}
+          <BentoAction index={5} icon={<Icon name="ui-pencil" size={56} />} label={t('family.edit')} onPress={() => setEditName(state.family!.name)} />
         </View>
       ) : null}
       <FamilyCodeSheet visible={codeOpen} onClose={() => setCodeOpen(false)} familyName={state.family.name} />
@@ -144,6 +134,13 @@ export function FamilyPanel() {
 
       <FamilyInviteSheet visible={inviting} onClose={() => setInviting(false)} />
 
+      <Sheet visible={editName !== null} onClose={() => setEditName(null)}>
+        <Text weight={800} size={22} style={{ textAlign: 'center' }}>{t('family.edit')}</Text>
+        <Field accessibilityLabel={t('family.namePh')} value={editName ?? ''} onChangeText={setEditName} placeholder={t('family.namePh')} maxLength={40} autoFocus />
+        <Button label={t('nav.save')} block disabled={!editName?.trim()} loading={rename.isPending} style={{ marginTop: 12 }}
+          onPress={() => run(async () => { const n = (editName ?? '').trim(); if (n && n !== state.family!.name) await rename.mutateAsync(n); setEditName(null); }, t('toast.saved'))} />
+        <Button label={t('family.disband')} variant="danger" block style={{ marginTop: 8 }} onPress={() => { setEditName(null); setAskLeave(true); }} />
+      </Sheet>
       <ConfirmSheet
         visible={askLeave}
         title={t(state.isAdmin ? 'family.disbandTitle' : 'family.leaveTitle')}

@@ -767,3 +767,6 @@ The user will regenerate **all 161 icons** with ChatGPT in a new look: **"premiu
 - **Suggested split of the work**: (1) the user generates and delivers batch by batch, (2) the agent cleans, registers and checks them in the browser, (3) after the final batch remove the old files and update `docs/icon-batches.md`.
 - Related decisions in force: shapes (people circle + gold border, dogs rounded square + blue border), tonal colour per category (family mint, friends blue, dogs cream proposed), UI principle (layout speaks, words do not).
 
+
+### later 67 (Claude)
+Family editing reworked (user): **编辑家庭 opens a bottom Sheet** (name field, 保存, red 解散家庭); there is no inline edit mode any more. Members: the admin sees a red ✕ at the top right of every other member's avatar (→ confirm → remove). Dogs have no remove control because a dog belongs to its owner (leaving/removal takes the member's dogs with them). Checked the sheet at 375 px; the ✕ badge not seen (local family has one member).

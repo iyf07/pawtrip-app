@@ -736,3 +736,6 @@ Circle dog photo slide-in now uses a damped spring (stiffness 200, damping 24, m
 
 ### later 58 (Claude)
 Circle dog slide made slower and silkier: spring stiffness 110 / damping 21 (near critical, ~0.6–0.7 s, no visible bounce) and a parallax on the old photo (it drifts only 35 % of the width while the new one slides over it). Tune `SLIDE_SPRING` / the `0.35` in `DogAccordion.tsx`.
+
+### later 59 (Claude)
+Family page hero no longer shows member avatars (the 家庭成员 card right below already does); hero is shorter (150 px). Shape rule agreed in discussion: people = circle avatars, dogs = rounded squares.

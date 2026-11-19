@@ -16,7 +16,7 @@ import { FamilyCreateSheet, FamilyInviteSheet } from './FamilySheets';
 import { Image } from 'expo-image';
 import { BENTO_GAP, BentoAction, BentoCard, Hero } from '@/features/circle/Bento';
 import { dogColor } from '@/features/circle/dogColor';
-import { Avatar, AvatarStack, DogAvatar } from '@/components/ui/Avatar';
+import { Avatar, DogAvatar } from '@/components/ui/Avatar';
 import { Button } from '@/components/ui/Button';
 import { Field } from '@/components/ui/Field';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -102,13 +102,12 @@ export function FamilyPanel() {
           <View style={{ alignItems: 'center' }}><Button label={t('family.disband')} variant="danger" onPress={() => setAskLeave(true)} /></View>
         </BentoCard>
       ) : (
-        <Hero index={0} minHeight={210} color={th.goldBg} title={state.family.name} subtitle={t('family.tab')}
+        <Hero index={0} minHeight={150} color={th.goldBg} title={state.family.name} subtitle={t('family.tab')}
           right={state.isAdmin ? (
             <Pressable accessibilityRole="button" accessibilityLabel={t('family.rename')} onPress={() => setEditName(state.family!.name)} style={actionStyle}>
               <Icon name="ui-pencil" size={24} />
             </Pressable>
-          ) : undefined}
-          avatar={<AvatarStack people={state.members.map((m) => ({ id: m.userId, name: m.name, url: m.avatar }))} max={6} size={52} />} />
+          ) : undefined} />
       )}
       <BentoCard index={1} title={t('family.members')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>

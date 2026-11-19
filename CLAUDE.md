@@ -23,3 +23,7 @@ Every agent must follow this when building or rewriting any screen:
 8. Always allowed (they carry state, not explanation): validation errors, confirmations, counts, empty states, toasts.
 
 Related rules already in force: no cancel button in popups (tap outside closes), confirm-popup titles have no question mark, one plus button per card in bento layouts.
+
+## Icons
+
+Icons are being redesigned ("premium, but still cute"). Before creating or changing any icon, read `docs/icon-redesign-v2.md`. Do not use the old sticker style for anything new.

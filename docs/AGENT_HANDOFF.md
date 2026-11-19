@@ -759,3 +759,11 @@ Dog photos: the dark scrim behind the text is removed everywhere (circle hero `H
 
 ### later 65 (Claude)
 Colour: **family = soft mint** (new token `softMint` #E2F3E9, dark #21392D, Tile/BentoCard tone 'mint'), friends = pale blue (`softBlue`), dogs hero still per-dog pastel (user liked beige for dogs; mapping not finalised). Proposed system (not yet agreed): dogs cream, family mint, friends blue, me peach, trips lavender, notifications butter.
+
+### later 66 (Claude) — icon redesign v2 (TODO for the user + ChatGPT)
+The user will regenerate **all 161 icons** with ChatGPT in a new look: **"premium, but cute is not lost"** (refined children's-book illustration: restrained 2-tone flat colour, thin soft outline, no white sticker border, no gloss). Full brief, palette, grouped list, working method and master prompt: **`docs/icon-redesign-v2.md`** (supersedes the look in `docs/icon-style-brief.md`; the cleaning/delivery pipeline stays). File names must stay identical so the swap needs no code change.
+- **Why now**: the pages became calm and tonal; the old glossy stickers with thick outlines clash with them (the invite / code / edit cards on the family page were the example).
+- **Until delivered**: keep the old icons; do not draw new icons in the old sticker style; keep icon sizes in cards modest (the 56 px action icons look heavy).
+- **Suggested split of the work**: (1) the user generates and delivers batch by batch, (2) the agent cleans, registers and checks them in the browser, (3) after the final batch remove the old files and update `docs/icon-batches.md`.
+- Related decisions in force: shapes (people circle + gold border, dogs rounded square + blue border), tonal colour per category (family mint, friends blue, dogs cream proposed), UI principle (layout speaks, words do not).
+

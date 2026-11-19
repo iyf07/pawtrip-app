@@ -690,3 +690,6 @@ Circle follow-up: family and friends cards now use calm tints (`goldBg` cream an
 - **Title font**: the playful display face (Fredoka + ZCOOL KuaiLe) is gone. All text, titles included, uses Nunito + the system CJK face; extra-bold text from 22 px gets letter-spacing −0.3. The fonts are no longer loaded in `_layout.tsx`. (The user said the cute font clashed with the new look; if they want a specific premium face, swap `BODY` in `ui/Text.tsx`.)
 - **Card expand transition**: tapping a circle card (family, friends, or the open dog strip) grows its colour to full screen and opens the page underneath (`lib/expand.ts`, `components/ExpandOverlay.tsx`); `docs/animations.md` #16. Verified that navigation happens; the grow itself was not watched (the browser pane throttles animation).
 - **Image fade-in**: avatars and dog photos fade in over 350 ms (`transition` on expo-image), #17.
+
+### later 47 (Claude)
+Circle: the big member/friend count numerals were removed from the family and friends cards (user: no head counts there). The dogs pill still says "狗狗 · N".

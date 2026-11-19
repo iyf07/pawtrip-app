@@ -69,8 +69,7 @@ export default function Circle() {
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={family ? `${t('family.tab')} · ${family.name}` : t('family.tab')} addLabel={family ? t('family.invite') : t('family.createTitle')} onAdd={() => router.push({ pathname: '/family', params: family ? { invite: '1' } : { create: '1' } })} />
                 {family ? (
-                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-                    <Text weight={800} size={46} style={{ color: th.onGold }}>{members.length}</Text>
+                  <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{ flex: 1 }}>
                       <PeopleRow ink={th.onGold} groups={[
                         members.map((m) => ({ key: m.userId, name: m.name, avatar: <Avatar id={m.userId} name={m.name} url={m.avatar} size={34} /> })),
@@ -87,8 +86,7 @@ export default function Circle() {
               <View style={pad}>
                 <TileHeader ink={th.onGold} title={t('family.friends')} addLabel={t('bd.addTitle')} onAdd={() => router.push({ pathname: '/friends', params: { add: '1' } })} />
                 {friends.length === 0 ? <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Icon name="tab-members" size={56} /></View> : (
-                  <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', gap: 14 }}>
-                    <Text weight={800} size={46} style={{ color: th.onGold }}>{friends.length}</Text>
+                  <View style={{ flex: 1, justifyContent: 'center' }}>
                     <View style={{ flex: 1 }}>
                       <PeopleRow ink={th.onGold} groups={[friends.map((b) => ({ key: b.userId, name: b.name, avatar: <Avatar id={b.userId} name={b.name} url={b.avatar} size={34} /> }))]} />
                     </View>

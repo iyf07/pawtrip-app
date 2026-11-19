@@ -340,7 +340,7 @@ export const zh = {
   "scale.budget.4": "偶尔犒劳",
   "scale.budget.5": "享受至上",
   "profile.save": "保存偏好",
-  "profile.myDogs": "我的狗狗",
+  "profile.myDogs": "狗狗",
   "profile.noTemp": "还没填小档案",
   "profile.addDog": "添加狗狗",
   "profile.settings": "设置",

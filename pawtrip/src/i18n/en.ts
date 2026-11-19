@@ -340,7 +340,7 @@ export const en: Partial<Dict> = {
   "scale.budget.4": "Treat ourselves",
   "scale.budget.5": "Go all out",
   "profile.save": "Save preferences",
-  "profile.myDogs": "My dogs",
+  "profile.myDogs": "Dogs",
   "profile.noTemp": "Personality not set yet",
   "profile.addDog": "Add a dog",
   "profile.settings": "Settings",

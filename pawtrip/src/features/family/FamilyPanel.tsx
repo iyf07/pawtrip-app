@@ -101,7 +101,7 @@ export function FamilyPanel() {
           <View style={{ alignItems: 'center' }}><Button label={t('family.disband')} variant="danger" onPress={() => setAskLeave(true)} /></View>
         </BentoCard>
       ) : (
-        <Hero index={0} minHeight={150} color={th.goldBg} title={state.family.name} subtitle={t('family.tab')} />
+        <Hero index={0} minHeight={96} color={th.goldBg} title={state.family.name} />
       )}
       <BentoCard index={1} title={t('family.members')}>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
@@ -123,7 +123,7 @@ export function FamilyPanel() {
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16 }}>
             {(dogs.data ?? []).map((d) => (
               <Pressable key={d.id} onPress={() => router.push({ pathname: '/dogs/[id]', params: { id: d.id } })} accessibilityRole="button" accessibilityLabel={d.name} style={{ width: 76, alignItems: 'center', gap: 6 }}>
-                <View style={{ width: 72, height: 72, borderRadius: 18, overflow: 'hidden', backgroundColor: dogColor(d.id), alignItems: 'center', justifyContent: 'center' }}>
+                <View style={{ width: 72, height: 72, borderRadius: 18, overflow: 'hidden', backgroundColor: dogColor(d.id), alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: th.blue }}>
                   {d.photo_url ? <Image source={{ uri: d.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={36} border={0} />}
                 </View>
                 <Text weight={700} size={13} numberOfLines={1} style={{ maxWidth: 76, textAlign: 'center' }}>{d.name}</Text>

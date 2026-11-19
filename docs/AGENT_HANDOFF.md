@@ -751,3 +751,8 @@ Circle dog switch changed again (user): from the slideshow to a **cross-fade** �
 
 ### later 63 (Claude)
 Dog photos: the dark scrim behind the text is removed everywhere (circle hero `HeroLayer`, page `Hero`). Text on a photo is pure white with only a soft text shadow (radius 6, 50 % black) for legibility; photo-less dogs keep dark text on their soft colour. Shape reasoning given to the user: people = circle, dogs/objects = rounded square.
+
+### later 64 (Claude)
+- **Shapes and borders (rule)**: people = circle avatar with a gold border; **dogs = rounded square (radius 28 % of the size) with a blue border (`th.blue`)** everywhere (`DogAvatar`, circle thumbnails, family dog thumbnails). Thumbnails: blue border 2.5 px, chosen one 4 px and wider.
+- Page titles are plain names without "我的" for the circle's children: 家庭, 好友, 狗狗 ("我的主页" stays). The family name card is a one-line compact card (96 px) with no "家庭" subtitle, since the header already says it.
+- Colour system: discussed with the user, mapping not decided yet (see chat); nothing changed except these shapes.

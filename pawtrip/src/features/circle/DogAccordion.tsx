@@ -43,7 +43,7 @@ function Thumb({ dog, on, onPress }: { dog: Dog; on: boolean; onPress: () => voi
   return (
     <Animated.View style={{ width: p.interpolate({ inputRange: [0, 1], outputRange: [THUMB, THUMB_WIDE] }), height: THUMB }}>
       <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={dog.name} accessibilityState={{ selected: on }}
-        style={{ flex: 1, borderRadius: 16, overflow: 'hidden', backgroundColor: dogColor(dog.id), alignItems: 'center', justifyContent: 'center', borderWidth: 2.5, borderColor: on ? th.gold : 'transparent' }}>
+        style={{ flex: 1, borderRadius: 16, overflow: 'hidden', backgroundColor: dogColor(dog.id), alignItems: 'center', justifyContent: 'center', borderWidth: on ? 4 : 2.5, borderColor: th.blue }}>
         {dog.photo_url ? <Image source={{ uri: dog.photo_url }} transition={300} cachePolicy="memory-disk" contentFit="cover" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} /> : <DogAvatar url={null} size={30} border={0} />}
       </Pressable>
     </Animated.View>
